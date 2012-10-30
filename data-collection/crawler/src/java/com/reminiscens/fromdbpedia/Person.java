@@ -27,6 +27,19 @@ public class Person {
     private String creator_type;
     private String locale;
 
+    public static String formatLocation(String locationUrl) {
+
+        if (locationUrl!=null) {
+        String location=locationUrl.substring(28);
+        location.replaceFirst("_", " ");
+                return location;
+        }
+        else {
+            return null;
+        }
+        
+    }
+
     public Person() {
     }
 

@@ -6,6 +6,7 @@ package com.reminiscens.imagewrapper;
 
 import com.reminiscens.fromdbpedia.City;
 import com.reminiscens.fromdbpedia.Event;
+import com.reminiscens.fromdbpedia.Person;
 import java.sql.*;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
@@ -46,15 +47,6 @@ public class Database {
         } catch (Exception ex) {
             System.err.println(ex);
         }
-    }
-
-    public synchronized ResultSet eseguiQuery(String query) throws SQLException {
-        /*
-         * almenoUnAccesso=true;
-         */
-        ResultSet rs = null;
-        rs = st.executeQuery(query);
-        return rs;
     }
 
     public Integer addEvent(Event event) {
@@ -121,7 +113,7 @@ public class Database {
         Integer cityID = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("SELECT city_id FROM City WHERE city_name = :name");
+            Query query = session.createQuery("SELECT event_id FROM City WHERE city_name = :name");
             query.setParameter("name", city.getCity_name());
             if (!(query.list().isEmpty())) {
                 city.setCity_id((Integer) (query.list().get(0)));
@@ -140,5 +132,34 @@ public class Database {
             session.close();
         }
         return cityID;
+    }
+
+    public Integer addPerson(Person person) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Integer personID = null;
+        try {
+            tx = session.beginTransaction();
+            Timestamp now = new Timestamp(System.currentTimeMillis());
+            person.setLast_update(now);
+            Query query = session.createQuery("SELECT person_id FROM Person WHERE source_url = :url");
+            query.setParameter("url", person.getSource_url());
+            if (!(query.list().isEmpty())) {
+                person.setPerson_id((Integer) (query.list().get(0)));
+                session.update(person);
+            } else {
+                session.saveOrUpdate(person);
+            }
+            personID = person.getPerson_id();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return personID;
     }
 }

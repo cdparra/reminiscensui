@@ -30,17 +30,27 @@ public class DbpediaManager {
             System.out.println(ex);
         }
 
-        crawler.lookUpEvents("1960-01-01", "1965-12-31", null, true);
-        
-        Iterator i = crawler.events.iterator();
+        int mode = 0; // 0=eventi 1=persone
 
-        Timestamp now = null;
-        Event event = null;
-
-        while (i.hasNext()) {
-            event = (Event) (i.next());
-            int res = db.addEvent(event);
-            System.out.println(event.getSource_url());
+        if (mode == 0) {
+            crawler.lookUpEvents("1960-01-01", "1965-12-31");
+            Iterator i = crawler.events.iterator();
+            Event event = null;
+            while (i.hasNext()) {
+                event = (Event) (i.next());
+                int res = db.addEvent(event);
+                System.out.println(event.getSource_url());
+            }
+        } else if (mode == 1) {
+            crawler.lookUpPeople("Trento");
+            Iterator i = crawler.people.iterator();
+            Person person = null;
+            while (i.hasNext()) {
+                person = (Person) (i.next());
+                int res = db.addPerson(person);
+                System.out.println(person.getSource_url());
+            }
         }
+
     }
 }

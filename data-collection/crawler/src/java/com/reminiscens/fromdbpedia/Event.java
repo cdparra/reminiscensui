@@ -24,7 +24,7 @@ public class Event {
     private Timestamp last_update;
     private Location location;
     private Time_Interval timeInterval;
-    private String locale;
+    private String locale; // da aggiungere al db
 
     public Event(){}
     
@@ -39,7 +39,7 @@ public class Event {
 
     }
 
-    public String formatLocation(String locationUrl) {
+    public static String formatLocation(String locationUrl) {
 
         char[] charArray = locationUrl.toCharArray();
 

@@ -5,6 +5,7 @@
 package com.reminiscens.fromdbpedia;
 
 import com.hp.hpl.jena.query.*;
+import com.hp.hpl.jena.rdf.model.RDFNode;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,26 +18,34 @@ import java.util.HashSet;
 public class Dbpedia {
 
     Collection<Event> events;
+    Collection<Person> people;
     private String sparqlService = "http://dbpedia.org/sparql";
 
     public Dbpedia() {
 
-        events = new HashSet();
+        events = new <Event> HashSet();
+        people = new <Person> HashSet();
     }
 
     /**
      * @param args the command line arguments
      */
     public String formatDate(String date) {
-
-        String formattedDate = date.substring(0, 10);
-        return formattedDate;
+        if (date != null) {
+            String formattedDate = date.substring(0, 10);
+            return formattedDate;
+        } else {
+            return null;
+        }
     }
 
-    public String formatTitle(String title) {
-
-        String formattedTitle = title.substring(0, title.length() - 3);
-        return formattedTitle;
+    public String formatStringLocale(String string) {
+        if (string != null) {
+            String formattedString = string.substring(0, string.length() - 3);
+            return formattedString;
+        } else {
+            return null;
+        }
     }
 
     public String formatLocationToUrl(String location) {
@@ -49,7 +58,7 @@ public class Dbpedia {
     }
 
     // SE LA CHIAMO CON searchEndDate=false, ALLORA NELLA QUERY INSERIRO' NULL
-    public void lookUpEvents(String fromStartDate, String toStartDate, String locationName, boolean searchEndDate) {
+    public void lookUpEvents(String fromStartDate, String toStartDate) {
 
         if (!events.isEmpty()) {
             events.clear();
@@ -61,25 +70,15 @@ public class Dbpedia {
                 + "SELECT *"
                 + "WHERE {"
                 + "?event a <http://dbpedia.org/ontology/Event> ."
-                //+ "?event <http://dbpedia.org/ontology/location> ?location ."
                 + "?event <http://www.w3.org/2000/01/rdf-schema#label> ?title ."
-                + "?event <http://dbpedia.org/ontology/startDate> ?startDate .";
-
-        if (searchEndDate) {
-            sparql += "?event <http://dbpedia.org/ontology/endDate> ?endDate .";
-        }
-
-        //CERCO startDate e title DI EVENTI AVVENUTI A "location" (CHE HANNO ENTRAMBI I CAMPI)
-        if (locationName != null) {
-            sparql += "?event <http://dbpedia.org/ontology/location> <http://dbpedia.org/resource/" + this.formatLocationToUrl(locationName) + "> ."
-                    + "FILTER (lang(?title)='en')";
-        } else {
-            sparql += "FILTER((?startDate >= '" + fromStartDate + "'^^xsd:date) && (?startDate <= '" + toStartDate + "'^^xsd:date)"
-                    + "&& (lang(?title)='en'))";
-        }
-
-
-        sparql += "}";
+                + "?event <http://dbpedia.org/ontology/startDate> ?startDate ."
+                + "OPTIONAL {"
+                + "?event <http://dbpedia.org/ontology/location> ?location ."
+                + "?event <http://dbpedia.org/ontology/endDate> ?endDate ."
+                + "}"
+                + "FILTER((?startDate >= '" + fromStartDate + "'^^xsd:date) && (?startDate <= '" + toStartDate + "'^^xsd:date)"
+                + "&& (lang(?title)='en'))"
+                + "}";
 
         Query query = QueryFactory.create(sparql);
 
@@ -89,18 +88,11 @@ public class Dbpedia {
         String eventAttribute = "event";
         String startDateAttribute = "startDate";
         String titleAttribute = "title";
-        String locationAttribute = null;
-        String endDateAttribute = null;
+        String locationAttribute = "location";
+        String endDateAttribute = "endDate";
         String endDate = null;
         String locationUrl = null;
 
-        if (searchEndDate) {
-            endDateAttribute = "endDate";
-        }
-
-        if (locationName != null) {
-            locationAttribute = "location";
-        }
         String event_url = null;
         String startDate = null;
         String title = null;
@@ -116,53 +108,139 @@ public class Dbpedia {
             startDate = qs.get(startDateAttribute).toString();
             startDate = formatDate(startDate);
             title = qs.get(titleAttribute).toString();
-            if (searchEndDate) {
+            if (qs.get(endDateAttribute) != null) {
                 endDate = qs.get(endDateAttribute).toString();
                 endDate = formatDate(endDate);
             }
-            if (locationName != null) {
+
+            if (qs.get(locationAttribute) != null) {
                 locationUrl = qs.get(locationAttribute).toString();
             }
 
-            if (event_url != null || startDate != null || title != null || (endDate != null && searchEndDate)) {
-                event = new Event();
-                event.setSource("dbpedia");
-                event.setHeadline(formatTitle(title));
-                event.setSource_url(event_url);
+            event = new Event();
+            event.setSource("dbpedia");
+            event.setHeadline(formatStringLocale(title));
+            event.setSource_url(event_url);
 
-                interval = new Time_Interval();
-                interval.setStart_date(startDate);
-                interval.setEnd_date(endDate);
-                interval.setEvent(event);
-                interval.setIs_fuzzy(1);
-                event.setTimeInterval(interval);
+            interval = new Time_Interval();
+            interval.setStart_date(startDate);
+            interval.setEnd_date(endDate);
+            interval.setEvent(event);
+            interval.setIs_fuzzy(1);
+            event.setTimeInterval(interval);
 
-                start = new Fuzzy_Date();
-                start.setExact_date(startDate);
-                start.splitDate(startDate);
-                start.setAccuracy(9);
-                start.setInterval(interval);
-                interval.setStartdate(start);
+            start = new Fuzzy_Date();
+            start.setExact_date(startDate);
+            start.splitDate(startDate);
+            start.setAccuracy(9);
+            start.setInterval(interval);
+            interval.setStartdate(start);
 
-                if (searchEndDate) {
-                    end = new Fuzzy_Date();
-                    end.setExact_date(endDate);
-                    end.splitDate(startDate);
-                    end.setAccuracy(9);
-                    end.setInterval(interval);
-                    interval.setEnddate(end);
-                }
-                if (locationName != null) {
-                    location = new Location();
-                    location.setTextual(locationName);
-                    location.setEvent(event);
-                    location.setAccuracy(3);
-                    event.setLocation(location);
-                }
-                events.add(event);
-                System.out.println("start:    " + startDate);
-                System.out.println("end:    " + endDate);
+            if (endDate != null) {
+                end = new Fuzzy_Date();
+                end.setExact_date(endDate);
+                end.splitDate(startDate);
+                end.setAccuracy(9);
+                end.setInterval(interval);
+                interval.setEnddate(end);
             }
+            if (locationUrl != null) {
+                location = new Location();
+                location.setTextual(Event.formatLocation(locationUrl));
+                location.setEvent(event);
+                location.setAccuracy(3);
+                event.setLocation(location);
+            }
+            events.add(event);
+        }
+        qexec.close();
+    }
+
+    public void lookUpPeople(String locationName) {
+
+        if (!people.isEmpty()) {
+            people.clear();
+        }
+
+        String sparql = "PREFIX foaf: <http://xmlns.com/foaf/0.1/>"
+                + "PREFIX owl: <http://dbpedia.org/ontology/>"
+                + "SELECT ?person ?nome ?cognome ?descr ?birthDate ?birthPlace"
+                + " ?deathDate ?deathPlace" + "WHERE {"
+                + "?person a owl:Person ."
+                + "?person foaf:givenName ?nome ."
+                + "?person foaf:surname ?cognome ."
+                + "?person owl:abstract ?descr ."
+                + "?person owl:birthDate ?birthDate ."
+                + "?person owl:birthPlace ?birthPlace ."
+                + "OPTIONAL {?person owl:deathDate ?deathDate ."
+                + "?person owl:deathPlace ?deathPlace .}"
+                + "?person owl:birthPlace  <http://dbpedia.org/resource/" + this.formatLocationToUrl(locationName) + "> ."
+                + "FILTER (lang(?descr)='en')"
+                + "}";
+
+        Query query = QueryFactory.create(sparql);
+
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlService, query);
+        ResultSet results = qexec.execSelect();
+
+        String personAttribute = "person";
+        String nameAttribute = "nome";
+        String surnameAttribute = "cognome";
+        String descrAttribute = "descr";
+        String birthDateAttribute = "birthDate";
+        String deathDateAttribute = "deathDate";
+        String birthPlaceAttribute = "birthPlace";
+        String deathPlaceAttribute = "deathPlace";
+
+        String person_url = null;
+        String firstname = null;
+        String lastname = null;
+        String description = null;
+        String birthDate = null;
+        String deathDate = null;
+        String birthPlace = null;
+        String deathPlace = null;
+        Location location;
+        Time_Interval interval;
+        Fuzzy_Date start;
+        Fuzzy_Date end;
+
+        Person person = null;
+        while (results.hasNext()) {
+            QuerySolution qs = results.next();
+            person_url = qs.get(personAttribute).toString();
+            firstname = qs.get(nameAttribute).toString();
+            firstname = formatStringLocale(firstname);
+            lastname = qs.get(surnameAttribute).toString();
+            lastname = formatStringLocale(lastname);
+            description = qs.get(descrAttribute).toString();
+            description = formatStringLocale(description);
+            birthDate = qs.get(birthDateAttribute).toString();
+            birthDate = formatDate(birthDate);
+
+            if (qs.get(deathDateAttribute) != null) {
+                deathDate = qs.get(deathDateAttribute).toString();
+                deathDate = formatDate(deathDate);
+            }
+            birthPlace = qs.get(birthPlaceAttribute).toString();
+            birthPlace=Person.formatLocation(birthPlace);
+
+            if (qs.get(deathPlaceAttribute) != null) {
+                deathPlace = qs.get(deathPlaceAttribute).toString();
+                deathPlace=person.formatLocation(deathPlace);
+            }
+
+            person = new Person();
+            person.setFirstName(firstname);
+            person.setLastName(lastname);
+            person.setFamous(true);
+            person.setFamous_for(description);
+            person.setSource("dbpedia");
+            person.setSource_url(person_url);
+            person.setCreator_type("SYSTEM");
+            person.setLocale("en");
+
+            people.add(person);
         }
 
         qexec.close();

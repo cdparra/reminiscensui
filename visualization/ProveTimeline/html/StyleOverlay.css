@@ -1,0 +1,67 @@
+﻿ /*l’overlay ha impostato una trasparenza (se non vi piace potete levarla) cross-browser compatibile anche con IE7.
+
+	- Il box ha i bordi arrotondati con i CSS(3), se non vi piace potete levarlo. Essenziale anche qui, il comando display:none per rendere invisibile il popUp fino a che l’utente non lo apre.
+
+	- i trigger hanno lo stile cursor che permette di impostare che tipo di icona deve apparire al passaggio del mouse sull’elemento.*/
+body{
+margin:0;
+padding:0;
+text-align:justify;
+background-color:#e6e6e6;
+}
+
+#main{
+margin:0 auto;
+padding:0;
+background-color:#f7f7f7;
+
+/*consiglio sempre di specificare le dimensioni del main*/
+width:960px;
+height:100%;
+}
+
+/*#contenuto{ width:100%; height:100%; margin:15px;}
+.testo{ margin:20px; width:90%;}
+
+#torna{ float:right; width:50%; height:120px; font-size:24px; margin-top:30px; }*/
+
+.titolo_box{ margin-left:20px;}
+.testo-box{ margin:15px;}
+
+/*.apri{ font-size:18px; font-family:Verdana, Geneva, sans-serif; float:right; margin-right:50px;}*/
+/*.apri:hover{ font-size:22px; font-family:Verdana, Geneva, sans-serif; cursor:pointer;}*/ /*qui faccio l' effetto "pop-up"*/
+.chiudi{ font-size:18px; color:#000; font-weight:bold; position:absolute; right:1%; top:0%;  cursor:pointer;}
+
+
+
+.overlay{
+    background:#000;
+    position:fixed;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    z-index:100;
+	cursor:pointer;
+/*Trasperenza cross browser*/
+opacity: .7; filter: alpha(opacity=70); 
+-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";	
+	
+}
+
+
+#box{ width:800px; height:450px; background-color:#FFF; display:none; z-index:+300; position:absolute; top:20%; -moz-border-radius: 15px;  -webkit-border-radius: 15px;
+border-radius: 15px;text-align: center;}
+
+/*css sul bordino sotto*/
+hr {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #CCCCCC;
+    border-right: 0 solid #CCCCCC;
+    border-style: solid;
+    border-width: 1px 0 0; 
+	width:60%}

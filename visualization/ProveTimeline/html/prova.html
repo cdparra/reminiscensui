@@ -11,37 +11,24 @@
 	<script src="../src/timemap.js" type="text/javascript"></script>
 	<script src="../src/manipulation.js" type="text/javascript"></script>
 
-	<link href="StyleOverlay.css" rel="stylesheet" />
-	<script type="text/javascript" src="JavaScriptOverlay.js"></script>
+	<link href="css/StyleOverlay.css" rel="stylesheet" />
+	<script type="text/javascript" src="../lib/JavaScriptOverlay.js"></script>
+	<link href="css/index.css" rel="stylesheet" />
 
 	<!--bootstrap-->
 	<link href="../bootstrap/css/bootstrap.css" rel="stylesheet" />
 	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 	<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
-	<style type="text/css">
-		#map img {
-			max-width: none;
-		}
-		div.split_sx {
-			float: left; /*necessario per l' allineamento dei div in orizzontale*/
-			width: 66%;
-			overflow-y:auto; /*imposta scrolling*/
-			/*overflow-x:hidden;*/
-			height:450px;
-		}
-		div.split_dx {
-			float: left; /*necessario per l' allineamento dei div in orizzontale*/
-			width: 30%;
-			overflow:auto; /*imposta scrolling*/
-			height:450px;
-		}
-	</style>
+	<link href="../bootstrap/css/bootstrap-toggle-buttons.css" rel="stylesheet" />
+	<script type="text/javascript" src="../bootstrap/js/jquery.toggle.buttons.js"></script>
 
 	<!--overlapping-->
 	<script type="text/javascript" src="../lib/oms.min.js"></script>
+
+	<!--gestione pagina-->
+	<script type="text/javascript" src="../lib/Gestione.js"></script>
+
 	<script type="text/javascript">
-
-
 		var tm;
 		$(function () {
 			// make a custom map style
@@ -251,8 +238,6 @@
 			//con il secondo parametro faccio in mondo che lo spyderfly rimanga anche dopo il clik (devo cliccare sulla mappa per farlo scomparire)
 			var oms = new OverlappingMarkerSpiderfier(gmap, { markersWontMove: true, keepSpiderfied: true });
 
-			var gm = google.maps;
-
 			oms.addListener('click', function (marker) {
 				tm.getSelected().openInfoWindow();
 			});
@@ -269,134 +254,128 @@
 				a[i].closeInfoWindow();
 				oms.addMarker(a[i].getNativePlacemark());  // <-- here
 			}
-		});
 
-		function CentroOverlay() {
-			//imposto la finestra sempre in mezzo!!!
-			var PosX = ($(window).width() - $("#box").width()) / 2;
-			var percentualeX = PosX / $(window).width() * 100;
-			//alert(percentualeX);
-			$("#box").css({ "left": percentualeX + "%" });
-		}
-
-		//controllo se la finestra è stata ridimensionata con jquery
-		jQuery(window).bind('resize', function () {
-			CentroOverlay();
-		});
-
-		function ApriOverlay(a) {
-			CentroOverlay();
-			//riporto i 2 div nella posizione originale(all' inizio) ad ogni aperture dell' overlay
-			jQuery("div.split_dx").animate({ scrollTop: 0 });
-			jQuery("div.split_sx").animate({ scrollTop: 0 });
-			//alert(tm.getSelected().getTitle());
-			//!!!recupero info titolo con get selected e guardo il suo titolo per creare overlay dinamico
-			$(".titolo_box").text(tm.getSelected().getTitle()); //assegno il titolo appena recuperato all' overlay
-			$(".testo-box").text(tm.getSelected().getTitle());
-			var split = tm.getSelected().getInfoHtml().split("/"); //come fare la split!!
-			var nomeImmOverlay;
-			//alert(a[0]);
-			for (i = 0; i < split.length; i++) {
-				if (split[i] == "imgPersonaggi") {
-					var splitNome = split[i + 1].split(".");
-					nomeImmOverlay = splitNome[0] + "_big" + ".jpg";
-					break;
+			//devo inizializzare i toggle-button!
+			$('.toggle-button-class').toggleButtons({
+				width: 220,
+				label: {
+					enabled: "Show",
+					disabled: "Not Show"
 				}
-			}
-			//da notare che jQuery funziona come i css (#->id, .->classi)
-			$("#img_overlay").attr("src", "../images/imgPersonaggi/" + nomeImmOverlay);
-
-			//ora che ho modificato tutti i campi dinamicamente posso mostrare l' overlay
-			$("#apri").click(
-				function () {
-					$('#overlay').fadeIn('fast');
-					$('#box').fadeIn('slow');
-				});
-		}
-		function CambioScalaTimelineGiorno() {
-			tm.changeTimeIntervals(TimeMap.intervals.day);
-		}
-		function CambioScalaTimelineAnno() {
-			tm.changeTimeIntervals(TimeMap.intervals.yr);
-		}
-		function CambioScalaTimelineMese() {
-			tm.changeTimeIntervals(TimeMap.intervals.mon);
-		}
-		function CambioScalaTimelineDecade() {
-			tm.changeTimeIntervals(TimeMap.intervals.dec);
-		}
-		function toggleDataset(dsid, toggle) {
-			if (toggle) {
-				tm.datasets[dsid].show();
-			} else {
-				tm.datasets[dsid].hide();
-			}
-		}
+			});
+		});
 	</script>
-	<link href="examples.css" type="text/css" rel="stylesheet" />
+	
 </head>
 
 <body>
+	<div id="container" style="width: 1024px; margin-right: auto; margin-left: auto;">
+		<div id="header" style="width: 800px; margin-right: auto; margin-left: auto; padding: 5px; text-align: center;">
+			<img src="../images/layout/cover-flatten.png" />
+		</div>
+		<!--div necessari per l' overlay-->
+		<div class="overlay" id="overlay" style="display: none;"></div>
+		<!--contenuto overlay-->
 
-	<!--div necessari per l' overlay-->
-	<div class="overlay" id="overlay" style="display: none;"></div>
-	<!--contenuto overlay-->
-	<div id="box">
+		<div id="box">
 			<div class="split_sx">
 				<h1 class="titolo_box"></h1>
 				<p class="testo-box"></p>
 				<img id="img_overlay" class="testo-box" src="" />
-<!--				<hr />-->
+				<!--				<hr />-->
 			</div>
 			<div class="split_dx">
-				<h3>Immagini del tempo</h3>
+				<!--<h3>Immagini del tempo</h3>-->
 				<!--<p>Prova</p>-->
-				<img src="../images/imgOverlay/1956_06Congr.jpg" />
-				<br /><br />
-				<img src="../images/imgOverlay/7145486.jpg" />
-				<br /><br />
-				<img src="../images/imgOverlay/955d_35.jpg" />
-				<br /><br />
-				<img src="../images/imgOverlay/inaugurazione.jpg" />				
+				<div class="tabbable">
+					<!-- Only required for left/right tabs -->
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#eventi" data-toggle="tab">Eventi</a></li>
+						<li><a href="#immagini" data-toggle="tab">Immagini</a></li>
+						<li><a href="#video" data-toggle="tab">Video</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="eventi">
+							<p>
+								Il Concilio di Trento o Concilio Tridentino fu il XIX concilio ecumenico della Chiesa cattolica, 
+								aperto da papa Paolo III nel 1545 e chiuso, dopo numerose interruzioni, nel 1563. Con questo 
+								concilio venne definita la riforma della Chiesa cattolica (Controriforma) e la reazione alle 
+								dottrine del calvinismo e luteranesimo (Riforma protestante), con il fine di rafforzare l'autorità papale, 
+								seriamente minacciata dalla diffusione del luteranesimo. Fu un concilio importante per la storia della Chiesa
+								cattolica, tanto che l'aggettivo "tridentino" viene usato ancora oggi per definire alcuni aspetti
+								caratteristici della Chiesa cattolica ereditati da questo concilio e mantenuti per i successivi tre 
+								secoli, fino ai concili Vaticano I e Vaticano II.
+							</p>
+						</div>
+						<div class="tab-pane" id="immagini" style="padding:5px;">
+							<img src="../images/imgOverlay/1956_06Congr.jpg" />
+							<br />
+							<br />
+							<img src="../images/imgOverlay/7145486.jpg" />
+							<br />
+							<br />
+							<img src="../images/imgOverlay/955d_35.jpg" />
+							<br />
+							<br />
+							<img src="../images/imgOverlay/inaugurazione.jpg" />
+						</div>
+						<div class="tab-pane" id="video" style="margin-right: auto; margin-left: auto; padding: 5px; text-align: center;">
+							<p>Breve video sul concilio di Trento</p>
+							<iframe width="350" height="200" src="http://www.youtube.com/embed/4Vhzc4ayx3M" frameborder="0" allowfullscreen></iframe>
+						</div>
+					</div>
+				</div>
 			</div>
-			<p class="chiudi">X</p>
-	</div>
-	<!--fine box-->
+			<!--<p class="chiudi">X</p>-->
+			<img src="../images/layout/X.png" class="chiudi" />
+		</div>
+		<!--fine box-->
 
 
-	<div id="help">
-		<h1>Prova timeline</h1>
-		<p class="lead">Prova timeline</p>
+		<div id="info" style="text-align: center; padding: 5px;">
+			<br />
+			<!--<h1 style="color: white">Prova timeline</h1>-->
+			<!--<p class="lead" style="color: white">Prova timeline</p>-->
 
-		<div class="navbar">
-			<div class="navbar-inner">
-				<ul class="nav">
-					<li><a href="#" onclick="CambioScalaTimelineGiorno()">Giorno-Mese</a></li>
-					<li><a href="#" onclick="CambioScalaTimelineMese()">Mese-Anno</a></li>
-					<li><a href="#" onclick="CambioScalaTimelineAnno()">Anno-Decade</a></li>
-					<li><a href="#" onclick="CambioScalaTimelineDecade()">Decade-Secolo</a></li>
-				</ul>
+			<div>
+				<button class="btn-large btn-primary" onclick="CambioScalaTimelineGiorno()">Giorno-Mese</button>&nbsp&nbsp&nbsp
+				<button class="btn-large btn-primary" onclick="CambioScalaTimelineMese()">Mese-Anno</button>&nbsp&nbsp&nbsp
+				<button class="btn-large btn-primary" onclick="CambioScalaTimelineAnno()">Anno-Decade</button>&nbsp&nbsp&nbsp
+				<button class="btn-large btn-primary" onclick="CambioScalaTimelineDecade()">Decade-Secolo</button>&nbsp&nbsp&nbsp
+				<br />
 			</div>
+
+			<br />
+			<h2 style="color: white;">Fantozzi & Kessler</h2>
+
+			<!--<p style="color: white">Show:</p>-->
+			<div style="float: left; width: 50%;">
+				<!--cambiato il metodo on click con onchange e usato l' attributo for per allineare la label sopra al toggle-button-->
+				<label for="checkbox1" style="color: white">Fantozzi</label>
+				<div class="toggle-button-class">
+					<input id="checkbox1" type="checkbox" onchange="toggleDataset('Fantozzi', this.checked);" checked="checked" />
+				</div>
+			</div>
+			<div style="float: left; width: 50%;">
+				<label for="checkbox1" style="color: white">Kessler</label>
+				<div class="toggle-button-class">
+					<input id="checkbox2" type="checkbox" onchange="toggleDataset('Kessler', this.checked);" checked="checked" />
+				</div>
+			</div>
+
+			<br />
+
 		</div>
 
-		<p>
-			Show:&nbsp;
-			<span id="artbox">
-				<input type="checkbox" onclick="toggleDataset('Fantozzi', this.checked);" checked="checked" />
-				Fantozzi</span> &nbsp;&nbsp;&nbsp;
-			<span id="authbox">
-				<input type="checkbox" onclick="toggleDataset('Kessler', this.checked);" checked="checked" />
-				Kessler</span>
-		</p>
-	</div>
-
-
-	<div id="timemap">
-		<div id="timelinecontainer">
-			<div id="timeline"></div>
-		</div>
-		<div id="mapcontainer">
-			<div id="map"></div>
+		<!--bisogna aggiungere clear:left altrimenti la mappa viene allineata a sx come i div sopra-->
+		<div id="timemap" style="clear: left;">
+			<div id="mapcontainer">
+				<div id="map" style="-moz-border-radius: 10px 10px 0px 0px; -webkit-border-radius: 10px 10px 0px 0px; border-radius: 10px 10px 0px 0px;">
+				</div>
+			</div>
+			<div id="timelinecontainer">
+				<div id="timeline" style="-moz-border-radius: 0px 0px 10px 10px; -webkit-border-radius: 0px 0px 10px 10px; border-radius: 0px 0px 10px 10px;"></div>
+			</div>
 		</div>
 	</div>
 </body>

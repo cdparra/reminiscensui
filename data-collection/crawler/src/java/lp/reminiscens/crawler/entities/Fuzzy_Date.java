@@ -44,26 +44,29 @@ public class Fuzzy_Date {
 
     public void splitDate(String date) {
         year = date.substring(0, 4);
-        decade = date.substring(0, 3) + "0";
-        month = date.substring(5, 7);
-        day = date.substring(8, 10);
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day)));
-        day_name = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
-        if (date.length() > 10) {
-            hour = date.substring(11, 13);
-            minute = date.substring(14, 16);
-            second = date.substring(17, 19);
-            locale = "en";
-            int intHour = Integer.parseInt(hour);
-            if (intHour >= 05 && intHour < 12) {
-                day_part = "morning";
-            } else if (intHour >= 12 && intHour < 19) {
-                day_part = "afternoon";
-            } else if (intHour >= 19 && intHour < 24) {
-                day_part = "evening";
-            } else if (intHour >= 24 && intHour < 05) {
-                day_part = "night";
+        if (date.length() < 5 || date.charAt(4) != '-') {
+
+            decade = date.substring(0, 3) + "0";
+            month = date.substring(5, 7);
+            day = date.substring(8, 10);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day)));
+            day_name = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
+            if (date.length() > 10) {
+                hour = date.substring(11, 13);
+                minute = date.substring(14, 16);
+                second = date.substring(17, 19);
+                locale = "en";
+                int intHour = Integer.parseInt(hour);
+                if (intHour >= 05 && intHour < 12) {
+                    day_part = "morning";
+                } else if (intHour >= 12 && intHour < 19) {
+                    day_part = "afternoon";
+                } else if (intHour >= 19 && intHour < 24) {
+                    day_part = "evening";
+                } else if (intHour >= 24 && intHour < 05) {
+                    day_part = "night";
+                }
             }
         }
     }

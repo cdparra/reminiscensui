@@ -106,12 +106,19 @@ public class CoordSearcher {
         String lon;
         lat = location.getString("lat");
         lon = location.getString("lng");
+        JSONArray components = results.getJSONObject(0).getJSONArray("address_components");
+        String city = components.getJSONObject(2).getString("long_name");
+        String region = components.getJSONObject(3).getString("long_name");
+        String country = components.getJSONObject(4).getString("long_name");
+        photo.getLocation().setCity(city);
+        photo.getLocation().setRegion(region);
+        photo.getLocation().setCountry(country);
         photo.getLocation().setLat(lat);
         photo.getLocation().setLon(lon);
         photo.getLocation().setGoogled(true);
     }
-    
-        public void parseGeoJSON(String json, Event event) throws JSONException {
+
+    public void parseGeoJSON(String json, Event event) throws JSONException {
 
         JSONObject JSONresults = new JSONObject(json);
         JSONArray results = JSONresults.getJSONArray("results");
@@ -121,6 +128,13 @@ public class CoordSearcher {
         String lon;
         lat = location.getString("lat");
         lon = location.getString("lng");
+        JSONArray components = results.getJSONObject(0).getJSONArray("address_components");
+        String city = components.getJSONObject(2).getString("long_name");
+        String region = components.getJSONObject(3).getString("long_name");
+        String country = components.getJSONObject(4).getString("long_name");
+        event.getLocation().setCity(city);
+        event.getLocation().setRegion(region);
+        event.getLocation().setCountry(country);
         event.getLocation().setLat(lat);
         event.getLocation().setLon(lon);
         event.getLocation().setGoogled(true);

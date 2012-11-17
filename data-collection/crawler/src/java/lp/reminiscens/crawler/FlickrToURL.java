@@ -28,10 +28,8 @@ import org.json.JSONObject;
 public class FlickrToURL {
 
     String FlickrSearchQuery_url;
-    //String FlickrGetInfoQuery_url;
     String FlickrGetLocationQuery_url;
     String FlickrGetLocationQuery_id;
-    //String FlickrGetInfoQuery_secret;
     String FlickrQuery_per_page;
     String FlickrExtraQuery;
     String FlickrExtraGeo;
@@ -49,9 +47,6 @@ public class FlickrToURL {
     String FlickrQuery_tag;
     String FlickrQuery_key;
     String FlickrApiKey;
-    //String FlickrQuery_lat;
-    //String FlickrQuery_lon;
-    //String FlickrQuery_radius;
     String FlickrQuery_license;
     Collection<Media> photos;
     String qString;

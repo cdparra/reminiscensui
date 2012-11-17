@@ -17,5 +17,6 @@
     <mapping resource="lp/reminiscens/crawler/entities/Time_Interval.hbm.xml"/>
     <mapping resource="lp/reminiscens/crawler/entities/Fuzzy_Date.hbm.xml"/>
     <mapping resource="lp/reminiscens/crawler/entities/City.hbm.xml"/>
+    <mapping resource="lp/reminiscens/crawler/entities/Media_Metadata.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

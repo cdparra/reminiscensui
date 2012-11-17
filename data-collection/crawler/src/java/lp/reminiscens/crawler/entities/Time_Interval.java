@@ -24,6 +24,7 @@ public class Time_Interval {
     private Fuzzy_Date enddate;
     private Media photo;
     private Event event;
+    private Media_Metadata mediaMD;
 
     public Time_Interval() {
         duration_unit = "days";
@@ -38,6 +39,14 @@ public class Time_Interval {
         System.out.println(System.currentTimeMillis());
     }
 
+    public Media_Metadata getMediaMD() {
+        return mediaMD;
+    }
+
+    public void setMediaMD(Media_Metadata mediaMD) {
+        this.mediaMD = mediaMD;
+    }
+    
     public static String formatDate(String date) {
         return date.substring(0, 10);
     }

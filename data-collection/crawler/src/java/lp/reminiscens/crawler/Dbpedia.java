@@ -6,6 +6,7 @@ import java.util.HashSet;
 import lp.reminiscens.crawler.entities.Event;
 import lp.reminiscens.crawler.entities.Fuzzy_Date;
 import lp.reminiscens.crawler.entities.Location;
+import lp.reminiscens.crawler.entities.Media_Metadata;
 import lp.reminiscens.crawler.entities.Person;
 import lp.reminiscens.crawler.entities.Person_Profile;
 import lp.reminiscens.crawler.entities.Time_Interval;
@@ -14,6 +15,7 @@ public class Dbpedia {
 
     Collection<Event> events;
     Collection<Person> people;
+    Collection<Media_Metadata> mediaMDs;
     private String sparqlService = "http://dbpedia.org/sparql";
     final static String ENGLISH = "en";
     final static String ITALIAN = "it";
@@ -22,6 +24,7 @@ public class Dbpedia {
 
         events = new <Event> HashSet();
         people = new <Person> HashSet();
+        mediaMDs = new <Media_Metadata> HashSet();
     }
 
     public String formatDate(String date) {
@@ -51,6 +54,97 @@ public class Dbpedia {
         }
     }
 
+    public void lookUpMediaMM(String language, String type) {
+
+        if (!mediaMDs.isEmpty()) {
+            mediaMDs.clear();
+        }
+
+        String sparql = null;
+
+        if (type.equals("album")) {
+            sparql = "SELECT *"
+                    + "WHERE {"
+                    + "?work a <http://dbpedia.org/ontology/Album> ."
+                    + "?work <http://www.w3.org/2000/01/rdf-schema#label> ?title ."
+                    + "?work <http://dbpedia.org/ontology/abstract> ?descr ."
+                    + "?work <http://purl.org/dc/terms/subject> <http://dbpedia.org/resource/Category:Italian-language_albums> ."
+                    + "{"
+                    + "?work <http://dbpedia.org/ontology/releaseDate> ?relDate ."
+                    + "}"
+                    + "UNION {"
+                    + "?work <http://dbpedia.org/property/released> ?relDate2_1"
+                    + "FILTER (lang(?title)='" + language + "' && lang(?descr)='" + language + "')"
+                    + "}";
+        }
+
+        ParameterizedSparqlString paramQuery = new ParameterizedSparqlString(sparql);
+
+        Query query = paramQuery.asQuery();
+
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlService, query);
+        ResultSet results = qexec.execSelect();
+
+        String workAttribute = "work";
+        String releaseDateAttribute = "relDate";
+        String releaseDateAttribute_1 = "relDate_1";
+        String titleAttribute = "title";
+        String locationAttribute = "location";
+        String descrAttribute = "desc";
+        String description = null;
+
+        String work_url = null;
+        String releaseDate = null;
+        String title = null;
+        Time_Interval interval;
+        Fuzzy_Date start;
+
+        Media_Metadata mediaMD = null;
+        while (results.hasNext()) {
+            QuerySolution qs = results.next();
+            work_url = qs.get(workAttribute).toString();
+            if (qs.get(releaseDateAttribute) == null) {
+                releaseDate = qs.get(releaseDateAttribute_1).toString();
+            } else {
+                releaseDate = qs.get(releaseDateAttribute).toString();
+            }
+            if (releaseDate.substring(0, 4).matches("^d{4}$")) {
+                releaseDate = formatDate(releaseDate);
+            }
+
+            title = qs.get(titleAttribute).toString();
+            description = qs.get(descrAttribute).toString();
+
+            mediaMD = new Media_Metadata();
+            mediaMD.setSource("dbpedia");
+            mediaMD.setTitle(formatStringLocale(title));
+            mediaMD.setDescription(description);
+            mediaMD.setType("album");
+            mediaMD.setSource_url(work_url);
+
+            interval = new Time_Interval();
+            interval.setStart_date(releaseDate);
+            interval.setMediaMD(mediaMD);
+            interval.setIs_fuzzy(1);
+            mediaMD.setReleaseDate(interval);
+
+            start = new Fuzzy_Date();
+            start.setSeasonLimits();
+            start.setExact_date(releaseDate);
+            start.splitDate(releaseDate);
+            start.setAccuracy(9);
+            start.setInterval(interval);
+            interval.setStartdate(start);
+
+            mediaMD.setLocale(language);
+
+            if (start.getExact_date().substring(0, 4).matches("^d{4}$")) {
+                mediaMDs.add(mediaMD);
+            }
+        }
+        qexec.close();
+    }
+
     public void lookUpEvents(String fromStartDate, String toStartDate, String locationName, String language) {
 
         if (!events.isEmpty()) {
@@ -62,13 +156,14 @@ public class Dbpedia {
                 + "WHERE {"
                 + "?event a <http://dbpedia.org/ontology/Event> ."
                 + "?event <http://www.w3.org/2000/01/rdf-schema#label> ?title ."
+                + "?event <http://dbpedia.org/ontology/abstract> ?desc ."
                 + "?event <http://dbpedia.org/ontology/startDate> ?startDate ."
                 + "OPTIONAL {"
                 + "?event <http://dbpedia.org/ontology/location> ?location ."
                 + "?event <http://dbpedia.org/ontology/endDate> ?endDate ."
                 + "}"
                 + "FILTER((?startDate >= '" + fromStartDate + "'^^xsd:date) && (?startDate <= '" + toStartDate + "'^^xsd:date)"
-                + "&& (lang(?title)='" + language + "'))"
+                + "&& (lang(?title)='" + language + "') && (lang(?desc)='" + language + "'))"
                 + "}";
 
         ParameterizedSparqlString paramQuery = new ParameterizedSparqlString(sparql);
@@ -81,14 +176,15 @@ public class Dbpedia {
         QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlService, query);
         ResultSet results = qexec.execSelect();
 
-
         String eventAttribute = "event";
         String startDateAttribute = "startDate";
         String titleAttribute = "title";
         String locationAttribute = "location";
         String endDateAttribute = "endDate";
+        String descrAttribute = "desc";
         String endDate = null;
         String locationUrl = null;
+        String description = null;
 
         String event_url = null;
         String startDate = null;
@@ -105,6 +201,7 @@ public class Dbpedia {
             startDate = qs.get(startDateAttribute).toString();
             startDate = formatDate(startDate);
             title = qs.get(titleAttribute).toString();
+            description = qs.get(descrAttribute).toString();
             if (qs.get(endDateAttribute) != null) {
                 endDate = qs.get(endDateAttribute).toString();
                 endDate = formatDate(endDate);
@@ -117,6 +214,8 @@ public class Dbpedia {
             event = new Event();
             event.setSource("dbpedia");
             event.setHeadline(formatStringLocale(title));
+            event.setText(description);
+            event.setType("general");
             event.setSource_url(event_url);
 
             interval = new Time_Interval();
@@ -154,6 +253,179 @@ public class Dbpedia {
 
             events.add(event);
         }
+        qexec.close();
+    }
+
+    public void lookUpSpaceMissions(String fromStartDate, String toStartDate, String locationName, String language) {
+
+        if (!events.isEmpty()) {
+            events.clear();
+        }
+
+        String sparql = "SELECT DISTINCT *"
+                + "WHERE {"
+                + "?event a <http://dbpedia.org/ontology/SpaceMission> ."
+                + "?event <http://www.w3.org/2000/01/rdf-schema#label> ?title ."
+                + "?event <http://dbpedia.org/ontology/abstract> ?descr ."
+                + "?event <http://dbpedia.org/ontology/launchDate> ?launchDate ."
+                + "?event <http://dbpedia.org/ontology/landingDate> ?landingDate ."
+                + "FILTER (lang(?title)='" + language + "' && lang(?descr)='" + language + "')"
+                + "}";
+
+        ParameterizedSparqlString paramQuery = new ParameterizedSparqlString(sparql);
+
+        Query query = paramQuery.asQuery();
+
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlService, query);
+        ResultSet results = qexec.execSelect();
+
+        String eventAttribute = "event";
+        String launchDateAttribute = "launchDate";
+        String landingDateAttribute = "landingDate";
+        String titleAttribute = "title";
+        //String locationAttribute = "location";
+        String descrAttribute = "desc";
+        String landingDate = null;
+        String description = null;
+
+        String event_url = null;
+        String launchDate = null;
+        String title = null;
+        Location location;
+        Time_Interval interval;
+        Fuzzy_Date start;
+        Fuzzy_Date end;
+
+        Event event = null;
+        while (results.hasNext()) {
+            QuerySolution qs = results.next();
+            event_url = qs.get(eventAttribute).toString();
+            launchDate = qs.get(launchDateAttribute).toString();
+            launchDate = formatDate(launchDate);
+            landingDate = qs.get(landingDateAttribute).toString();
+            landingDate = formatDate(landingDate);
+            title = qs.get(titleAttribute).toString();
+            description = qs.get(descrAttribute).toString();
+
+            event = new Event();
+            event.setSource("dbpedia");
+            event.setHeadline(formatStringLocale(title));
+            event.setText(description);
+            event.setType("space_mission");
+            event.setSource_url(event_url);
+
+            interval = new Time_Interval();
+            interval.setStart_date(launchDate);
+            interval.setEnd_date(landingDate);
+            interval.setEvent(event);
+            interval.setIs_fuzzy(1);
+            event.setTimeInterval(interval);
+
+            start = new Fuzzy_Date();
+            start.setSeasonLimits();
+            start.setExact_date(launchDate);
+            start.splitDate(launchDate);
+            start.setAccuracy(9);
+            start.setInterval(interval);
+            interval.setStartdate(start);
+
+            end = new Fuzzy_Date();
+            end.setSeasonLimits();
+            end.setExact_date(landingDate);
+            end.splitDate(landingDate);
+            end.setAccuracy(9);
+            end.setInterval(interval);
+            interval.setEnddate(end);
+
+            event.setLocale(language);
+
+            events.add(event);
+        }
+        qexec.close();
+    }
+
+    public void lookUpSportEvents(String fromStartDate, String toStartDate, String locationName, String language) {
+
+        if (!events.isEmpty()) {
+            events.clear();
+        }
+
+        String sparql = "SELECT DISTINCT *"
+                + "WHERE {"
+                + "?event a <http://dbpedia.org/ontology/SportsEvent> ."
+                + "?event <http://www.w3.org/2000/01/rdf-schema#label> ?title ."
+                + "?event <http://dbpedia.org/ontology/abstract> ?descr ."
+                + "?event <http://dbpedia.org/ontology/date> ?date ."
+                + "?event <http://dbpedia.org/ontology/city> ?city."
+                + "FILTER (lang(?title)='" + language + "' && lang(?descr)='" + language + "')"
+                + "}";
+
+        ParameterizedSparqlString paramQuery = new ParameterizedSparqlString(sparql);
+
+        Query query = paramQuery.asQuery();
+
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(sparqlService, query);
+        ResultSet results = qexec.execSelect();
+
+        String eventAttribute = "event";
+        String dateAttribute = "date";
+        String titleAttribute = "title";
+        String cityAttribute = "city";
+        String descrAttribute = "desc";
+        String city = null;
+
+        String event_url = null;
+        String date = null;
+        String title = null;
+        String description = null;
+        Location location;
+        Time_Interval interval;
+        Fuzzy_Date start;
+        Fuzzy_Date end;
+
+        Event event = null;
+        while (results.hasNext()) {
+            QuerySolution qs = results.next();
+            event_url = qs.get(eventAttribute).toString();
+            date = qs.get(dateAttribute).toString();
+            date = formatDate(date);
+            title = qs.get(titleAttribute).toString();
+            description = qs.get(descrAttribute).toString();
+            city = qs.get(cityAttribute).toString();
+        }
+
+        event = new Event();
+        event.setSource("dbpedia");
+        event.setHeadline(formatStringLocale(title));
+        event.setText(description);
+        event.setType("sport_event");
+        event.setSource_url(event_url);
+
+        interval = new Time_Interval();
+        interval.setStart_date(date);
+        interval.setEvent(event);
+        interval.setIs_fuzzy(1);
+        event.setTimeInterval(interval);
+
+        start = new Fuzzy_Date();
+        start.setSeasonLimits();
+        start.setExact_date(date);
+        start.splitDate(date);
+        start.setAccuracy(9);
+        start.setInterval(interval);
+        interval.setStartdate(start);
+
+        location = new Location();
+        location.setTextual(Event.formatLocation(city));
+        location.setEvent(event);
+        location.setAccuracy(3);
+        event.setLocation(location);
+
+        event.setLocale(language);
+
+        events.add(event);
+
+
         qexec.close();
     }
 

@@ -5,9 +5,11 @@
 package lp.reminiscens.crawler;
 
 import java.sql.*;
+import java.util.List;
 import lp.reminiscens.crawler.entities.City;
 import lp.reminiscens.crawler.entities.Event;
 import lp.reminiscens.crawler.entities.Media;
+import lp.reminiscens.crawler.entities.Media_Metadata;
 import lp.reminiscens.crawler.entities.Person;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
@@ -22,12 +24,11 @@ public class Database {
     public int newEvents = 0;
     public int newPeople = 0;
     public int newMedia = 0;
-    
+
     public Database() {
         try {
-            factory=new Configuration().configure().buildSessionFactory();
-        }
-        catch (Throwable ex){
+            factory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
             System.err.println("Failed to create SessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
         }
@@ -150,5 +151,101 @@ public class Database {
             session.close();
         }
         return cityID;
+    }
+
+    public List<Event> getEvents() {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Query query = null;
+        try {
+            tx = session.beginTransaction();
+            query = session.createQuery("FROM Event");
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        if (query == null) {
+            return null;
+        } else {
+            return query.list();
+        }
+    }
+    
+        public List<Media_Metadata> getMDs() {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Query query = null;
+        try {
+            tx = session.beginTransaction();
+            query = session.createQuery("FROM Media_Metadata");
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        if (query == null) {
+            return null;
+        } else {
+            return query.list();
+        }
+    }
+        
+            public List<Person> getPeople() {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Query query = null;
+        try {
+            tx = session.beginTransaction();
+            query = session.createQuery("FROM Person");
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        if (query == null) {
+            return null;
+        } else {
+            return query.list();
+        }
+    }
+            
+                public List<Media> getMedia() {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Query query = null;
+        try {
+            tx = session.beginTransaction();
+            query = session.createQuery("FROM Media");
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        if (query == null) {
+            return null;
+        } else {
+            return query.list();
+        }
     }
 }

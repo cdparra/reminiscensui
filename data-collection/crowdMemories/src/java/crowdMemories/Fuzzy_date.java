@@ -137,7 +137,7 @@ public class Fuzzy_date implements java.io.Serializable {
     }
 
     public void setDate(String date) {
-        this.date = check(date);
+        // this.date = check(date);
         if (date != null) {
             setExact_date(convert_date(date));
         }
@@ -178,7 +178,7 @@ public class Fuzzy_date implements java.io.Serializable {
     }
 
     public String check(String s) {
-        if (s.equals("")) {
+        if (s == null || s.equals("")) {
             return null;
         } else {
             return s;

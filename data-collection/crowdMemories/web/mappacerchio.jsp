@@ -7,27 +7,11 @@
 <%@page errorPage="errorPage.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%
-    if (session.getAttribute("user_name") == null) {
-        response.sendRedirect("index.jsp");
-    }
-%>
+
 <%
 
-    try {
-
-        String url = request.getParameter("url");
-        String title = request.getParameter("title");
-
-        Media media = new Media();
-
-        media.setTitle(title);
-        media.setUrl(url);
-        media.setSource_url(url);
-        session.setAttribute("media", media);
-
-    } catch (Exception e) {
-    }
+    String url = request.getParameter("url");
+    String title = request.getParameter("title");
 
 %>
 
@@ -61,7 +45,7 @@
 
             #sfondo { 
                 width: 940px;
-                height: 830px;
+                padding-bottom: 760px;
                 margin-top: 40px;
                 margin-left: auto;
                 margin-right: auto;
@@ -77,7 +61,15 @@
                 margin-bottom: 100px;
                 resize: none
             }
-
+            #image { 
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                max-height: 500px; 
+                max-width: 750px;
+                margin-bottom: 40px;
+                margin-top: 40px
+            }
         </style>
         <script src="bootstrap/js/jquery-1.8.2.min.js"></script>
         <script type="text/javascript"
@@ -116,8 +108,16 @@
     <body onload="initialize()">
         <div class="container">
             <div id="sfondo" class="hero-unit">
-                <a href="date.jsp"><span class="label pull-right">skip this <i class="icon-forward"></i></span></a>
+                <form method="get" action="date.jsp">
+                    <button class="btn btn-mini pull-right" type="submit" name="submit" value="skip"> Skip this <i class="icon-forward"></i></button>
+                    <div style="display: none;">
+                        <input name="url" value="<%= url%>">
+                        <input name="title" value="<%= title%>">
+                    </div>
+                </form>
                 <h1>Do you remember the location?</h1>
+
+                <img id="image" src="<%=url%>"  class="img-rounded">
 
                 <div class="span7" >
                     <p>If you remember exactly the location just drag the marker on the map over the location or select with a rightclick on the map the area in which you think it was.</p>
@@ -133,6 +133,8 @@
                         <button class="btn btn-success btn-large" type="submit" name="submit" value="map" onclick="return checkLocation()"> Add the location on the map</button>
 
                         <div style="display: none; margin-top: 652px">
+                            <input name="url" value="<%= url%>">
+                            <input name="title" value="<%= title%>">
                             <table class="table" style="margin-top: 40px; width: 700px;">
                                 <thead>
                                 <th>Latitudine</th>
@@ -165,6 +167,12 @@
                         <p> Otherwise you can describe it textually.</p>
                         <textarea id="mytext" name="description" placeholder="Add location textually"></textarea>
                         <button class="btn btn-success btn-large " type="submit" name="submit" value="text" onclick="return checkDescription()"> or add the description </button>
+
+                        <div style="display: none">
+                            <input name="url" value="<%= url%>">
+                            <input name="title" value="<%= title%>">
+                        </div>           
+
                     </form>
                 </div>
 

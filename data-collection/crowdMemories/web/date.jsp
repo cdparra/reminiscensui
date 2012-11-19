@@ -9,56 +9,26 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    if (session.getAttribute("user_name") == null) {
-        response.sendRedirect("index.jsp");
-    }
-%>
 
+    String url = request.getParameter("url");
+    String title = request.getParameter("title");
+    String button = request.getParameter("submit");
+    String lat = null;
+    String lng = null;
+    String radius = null;
+    String indirizzo = null;
+    String description = null;
 
-<%
+    if (button.equals("map")) {
 
-    try {
+        lat = request.getParameter("lat");
+        lng = request.getParameter("lng");
+        radius = request.getParameter("radius");
+        indirizzo = request.getParameter("indirizzo");
 
-        String button = request.getParameter("submit");
-        session.setAttribute("location", new Location());
+    } else if (button.equals("text")) {
 
-        if (button.equals("map")) {
-
-            Location location = new Location();
-
-            location.setHas_location(true);
-
-            location.setLatitude(request.getParameter("lat"));
-            location.setLongitude(request.getParameter("lng"));
-            location.setRadius(request.getParameter("radius"));
-            location.setAddress(request.getParameter("indirizzo"));
-
-            if (location.getRadius().equals("0")) {
-                location.setHas_marker(true);
-                location.setHas_circle(false);
-            } else {
-                location.setHas_circle(true);
-                location.setHas_marker(false);
-            }
-
-            location.setHas_description_loc(false);
-            // location.clear_location_textual();
-
-            session.setAttribute("location", location);
-
-        } else if (button.equals("text")) {
-
-            Location location = new Location();
-
-            location.setHas_location(true);
-            location.setHas_description_loc(true);
-            location.setHas_marker(false);
-            location.setHas_circle(false);
-            //   location.clear_point_on_map();
-
-            session.setAttribute("location", location);
-        }
-    } catch (Exception e) {
+        description = request.getParameter("description");
     }
 
 %>
@@ -105,7 +75,15 @@
                 margin-left: auto;
                 margin-right: auto;
             }
-
+            #image { 
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                max-height: 500px; 
+                max-width: 750px;
+                margin-bottom: 40px;
+                margin-top: 40px
+            }
         </style>
         <script type="text/javascript">
             function check(num){
@@ -119,8 +97,22 @@
     <body>
         <div class="container">
             <div id="sfondo" class="hero-unit">
-                <a href="menu.jsp"><span class="label pull-right">skip this <i class="icon-forward"></i></span></a>
-                <h1>Do you remember exactly the date?</h1>
+                <form method="get" action="menu.jsp">
+                    <button class="btn btn-mini pull-right" type="submit" name="submit" value="skip"> Skip this <i class="icon-forward"></i></button>
+                    <div style="display: none;">
+                        <input name="url" value="<%= url%>">
+                        <input name="title" value="<%= title%>">
+                        <input name="lat" value="<%= lat%>">
+                        <input name="lng" value="<%= lng%>">
+                        <input name="radius" value="<%= radius%>">
+                        <input name="indirizzo" value="<%= indirizzo%>">
+                        <input name="description" value="<%= description%>">
+                        <input name="loctype" value="<%=button%>">
+                    </div>
+                </form>
+                <h1>Do you remember the date?</h1>
+
+                <img id="image" src="<%=url%>"  class="img-rounded">
 
                 <div style="margin-top: 15px">
 
@@ -130,6 +122,38 @@
                         <form action="menu.jsp">
                             <button name="submit" value="yes" class="btn btn-success btn-large pull-right" type="submit" style="margin-left: 540px;"> Submit </button>
                             Date: <input name="datepicker" type="text" id="datepicker" placeholder="click here to view calendar" readonly="readonly"/>
+                            <%
+                                if (button.equals("map")) {
+                            %>
+                            <div style="display:none">
+                                <input name="url" value="<%= url%>">
+                                <input name="title" value="<%= title%>">
+                                <input name="lat" value="<%= lat%>">
+                                <input name="lng" value="<%= lng%>">
+                                <input name="radius" value="<%= radius%>">
+                                <input name="indirizzo" value="<%= indirizzo%>">
+                                <input name="loctype" value="<%=button%>">
+                            </div>
+                            <%
+                            } else if (button.equals("text")) {
+                            %>
+                            <div style="display:none">
+                                <input name="url" value="<%= url%>">
+                                <input name="title" value="<%= title%>">
+                                <input name="description" value="<%= description%>">
+                                <input name="loctype" value="<%=button%>">
+                            </div>
+                            <%
+                            } else if (button.equals("skip")) {
+                            %>
+                            <div style="display:none">
+                                <input name="url" value="<%= url%>">
+                                <input name="title" value="<%= title%>">
+                                <input name="loctype" value="<%=button%>">
+                            </div>
+                            <%
+                                }
+                            %>
                         </form>
                     </div>
 
@@ -413,15 +437,44 @@
                                                         <option value="58">58</option>
                                                         <option value="59">59</option>
                                                     </select> 
-                                                    <!--
-                                                    <input name="time" type="text" placeholder="hh-mm-ss" value=""/>
-                                                    -->
-                                                </td>                            
+                                                                                                    </td>                            
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
-                            </table>             
+                            </table>  
+                            <%
+                                if (button.equals("map")) {
+                            %>
+                            <div style="display:none">
+                                <input name="url" value="<%= url%>">
+                                <input name="title" value="<%= title%>">
+                                <input name="lat" value="<%= lat%>">
+                                <input name="lng" value="<%= lng%>">
+                                <input name="radius" value="<%= radius%>">
+                                <input name="indirizzo" value="<%= indirizzo%>">
+                                <input name="loctype" value="<%=button%>">
+                            </div>
+                            <%
+                            } else if (button.equals("text")) {
+                            %>
+                            <div style="display:none">
+                                <input name="url" value="<%= url%>">
+                                <input name="title" value="<%= title%>">
+                                <input name="description" value="<%= description%>">
+                                <input name="loctype" value="<%=button%>">
+                            </div>
+                             <%
+                            } else if (button.equals("skip")) {
+                            %>
+                            <div style="display:none">
+                                <input name="url" value="<%= url%>">
+                                <input name="title" value="<%= title%>">
+                                <input name="loctype" value="<%=button%>">
+                            </div>
+                            <%
+                                }
+                            %>
                         </form>
                     </div>
 
@@ -431,21 +484,43 @@
                         <form action="menu.jsp" >
                             <textarea id="description" name="description" placeholder="Try to write date textually" ></textarea>
                             <button name="submit" value="no" class="btn btn-danger btn-large pull-right" type="submit"> Submit </button>
+                            <%
+                                if (button.equals("map")) {
+                            %>
+                            <div style="display:none">
+                                <input name="url" value="<%= url%>">
+                                <input name="title" value="<%= title%>">
+                                <input name="lat" value="<%= lat%>">
+                                <input name="lng" value="<%= lng%>">
+                                <input name="radius" value="<%= radius%>">
+                                <input name="indirizzo" value="<%= indirizzo%>">
+                                <input name="loctype" value="<%=button%>">
+                            </div>
+                            <%
+                            } else if (button.equals("text")) {
+                            %>
+                            <div style="display:none">
+                                <input name="url" value="<%= url%>">
+                                <input name="title" value="<%= title%>">
+                                <input name="description" value="<%= description%>">
+                                <input name="loctype" value="<%=button%>">
+                            </div>
+                             <%
+                            } else if (button.equals("skip")) {
+                            %>
+                            <div style="display:none">
+                                <input name="url" value="<%= url%>">
+                                <input name="title" value="<%= title%>">
+                                <input name="loctype" value="<%=button%>">
+                            </div>
+                            <%
+                                }
+                            %>
                         </form>
                     </div>
-                    <!--
-                                        <button id="event" class="btn btn-large btn-warning btn-block" >There was an event?</button>
-                    
-                                        <div id="eventdiv">
-                                            <form action="menu.jsp">
-                                                <p>Here goes the event chooser</p>
-                                                <input name="event" />
-                                                <button name="submit" value="event" class="btn btn-warning btn-large pull-right" type="submit"> Submit </button>
-                                            </form>
-                                        </div>
-                    -->
                 </div>
             </div>
         </div>
     </body>
 </html>
+

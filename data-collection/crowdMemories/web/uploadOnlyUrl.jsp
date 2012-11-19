@@ -7,10 +7,6 @@
 <%@page errorPage="errorPage.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%
-    session.setAttribute("user_name", "user");
-%>
-
 <!DOCTYPE html>
 <html>
     <head>

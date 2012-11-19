@@ -4,70 +4,81 @@
     Author     : francesco
 --%>
 
-
-<%
-    if (session.getAttribute("user_name") == null) {
-        response.sendRedirect("index.jsp");
-    }
-%>
-
 <%@page errorPage="errorPage.jsp"%>
-<%@page import="crowdMemories.Media"%>
-<%@page import="crowdMemories.Fuzzy_date"%>
-<%@page import="crowdMemories.Location" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
+    //setting url e immagine
+    String url = request.getParameter("url");
+    String title = request.getParameter("title");
 
-//<jsp:useBean id="media" scope="session" class="crowdMemories.Media"/>
-//<jsp:useBean id="location" scope="session" class="crowdMemories.Location"/>
-//<jsp:useBean id="date" scope="session" class="crowdMemories.Fuzzy_date"/>
+    //setting location
+    String loctype = request.getParameter("loctype");
+    
+    String lat = null;
+    String lng = null;
+    String radius = null;
+    String indirizzo = null;
+    String description_loc = null;
+    boolean has_marker = false;
+    boolean has_circle = false;
+    boolean loc_desc = false;
 
-    try {
+    if (loctype.equals("map")) {
 
-        String name = request.getParameter("submit");
-        session.setAttribute("date", new Fuzzy_date());
+        lat = request.getParameter("lat");
+        lng = request.getParameter("lng");
+        radius = request.getParameter("radius");
 
-        if (name.equals("yes")) {
-
-            Fuzzy_date date = new Fuzzy_date();
-
-            date.setType_of_date("yes");
-            date.setDate(request.getParameter("datepicker"));
-
-            session.setAttribute("date", date);
-
-        } else if (name.equals("almost")) {
-
-            Fuzzy_date date = new Fuzzy_date();
-
-            date.setType_of_date("almost");
-            date.setDecade(request.getParameter("decade"));
-            date.setYear(request.getParameter("year"));
-            date.setMonth(request.getParameter("month"));
-            date.setDay(request.getParameter("day"));
-            date.setDay_name(request.getParameter("day_name"));
-            date.setDay_part(request.getParameter("day_part"));
-            date.setSeason(request.getParameter("season"));
-            date.setHour(request.getParameter("hour"));
-            date.setMinute(request.getParameter("minute"));
-            date.setSecond(request.getParameter("second"));
-
-            session.setAttribute("date", date);
-
-        } else if (name.equals("no")) {
-
-            Fuzzy_date date = new Fuzzy_date();
-
-            date.setType_of_date("no");
-            date.setDescription_time(request.getParameter("description"));
-
-            session.setAttribute("date", date);
+        if (radius.equals("0")) {
+            has_marker = true;
+        } else {
+            has_circle = true;
         }
-        //quando ci sarà anche event
-        // } else if (name.equals("event")) {
-        //   date.setType_of_date("event"); 
-    } catch (Exception e) {
+
+        indirizzo = request.getParameter("indirizzo");
+
+    } else if (loctype.equals("text")) {
+        loc_desc = true;
+        description_loc = request.getParameter("description");
+    }
+
+    //setting date
+    String datetype = request.getParameter("submit");
+
+    String date = null;
+    String decade = null;
+    String year = null;
+    String season = null;
+    String month = null;
+    String day = null;
+    String day_name = null;
+    String day_part = null;
+    String hour = null;
+    String minute = null;
+    String second = null;
+    String description_time = null;
+
+    if (datetype.equals("yes")) {
+
+        date = request.getParameter("datepicker");
+
+    } else if (datetype.equals("almost")) {
+
+        decade = request.getParameter("decade");
+        year = request.getParameter("year");
+        month = request.getParameter("month");
+        day = request.getParameter("day");
+        day_name = request.getParameter("day_name");
+        day_part = request.getParameter("day_part");
+        season = request.getParameter("season");
+        hour = request.getParameter("hour");
+        minute = request.getParameter("minute");
+        second = request.getParameter("second");
+
+    } else if (datetype.equals("no")) {
+
+        description_time = request.getParameter("description");
     }
 
 %>
@@ -89,8 +100,9 @@
                 margin-left: auto;
                 margin-right: auto;
                 max-height: 500px; 
-                max-width: 750px
-                    /* margin-top: 60px; */
+                max-width: 750px;
+                margin-bottom: 40px;
+                margin-top: 40px
             }
             #sfondo { 
                 width: 940px;
@@ -151,21 +163,20 @@
                 <div>
                     <h1>Summary</h1>
 
-                    <h2 style="text-align: center"><jsp:getProperty name='media' property='title'/></h2>
-                    <img id="image" src="<jsp:getProperty name='media' property='url'/>"  class="img-rounded">
+                    <h2 style="text-align: center"><%=title%></h2>
+                    <img id="image" src="<%=url%>"  class="img-rounded">
 
                     <h1 style="margin-top: 50px;">Location</h1>
 
                     <%
-                        if (((Location) session.getAttribute("location")).getHas_marker()) {
+                        if (has_marker) {
                     %>
                     <div style="display: none">
-                        <input id="lat" value="<jsp:getProperty name='location' property='latitude'/>"/>
-                        <input id="lng" value="<jsp:getProperty name='location' property='longitude'/>"/>
+                        <input id="lat" value="<%=lat%>"/>
+                        <input id="lng" value="<%=lng%>"/>
                     </div>
-                    <a class="btn btn-primary btn-large pull-right" href="mappacerchio.jsp" style="margin-top: 50px"> Edit the location</a>
                     <div class="span2" style="margin-top: 100px">
-                        <p style="text-align: center"><jsp:getProperty name="location" property="address"/></p>
+                        <p style="text-align: center"><%=indirizzo%></p>
                     </div>
                     <div id="map_canvas"></div>
 
@@ -173,14 +184,14 @@
                         loadScriptMapMarker();
                     </script>
 
-                    <%                                } else if (((Location) session.getAttribute("location")).getHas_circle()) {
+                    <%
+                    } else if (has_circle) {
                     %>
                     <div style="display: none">
-                        <input id="lat" value="<jsp:getProperty name='location' property='latitude'/>"/>
-                        <input id="lng" value="<jsp:getProperty name='location' property='longitude'/>"/>
-                        <input id="radius" value="<jsp:getProperty name='location' property='radius'/>"/>
+                        <input id="lat" value="<%=lat%>"/>
+                        <input id="lng" value="<%=lng%>"/>
+                        <input id="radius" value="<%=radius%>"/>
                     </div>
-                    <a class="btn btn-primary btn-large pull-right" href="mappacerchio.jsp" style="margin-top: 50px"> Edit the location</a>
 
                     <div id="map_canvas"></div>
 
@@ -188,21 +199,19 @@
                         loadScriptMapCircle();
                     </script>
 
-                    <%                                } else if (((Location) session.getAttribute("location")).getHas_description_loc()) {
+                    <%                    } else if (loc_desc) {
                     %>
 
                     <div>
-                        <a class="btn btn-primary btn-large pull-right" href="mappacerchio.jsp" > Edit the location</a>
-                        <h3 >Here is your text description</h3>
-                        <p ><jsp:getProperty name="location" property="location_textual"/></p>
+                        <h3>Here is your text description</h3>
+                        <p><%=description_loc%></p>
                     </div>
 
                     <%                                } else {
                     %>
 
                     <div id="loc-not">
-                        <a class="btn btn-primary btn-large pull-right" href="mappacerchio.jsp" > Add a location for your photo</a>
-                        <p>You don't enter a location! Click the button and add it</p>
+                        <p>You don't enter a location!</p>
                     </div>
 
                     <%                                }
@@ -210,25 +219,16 @@
 
                     <h1>Date</h1>
 
-                    <%
-                        if (((Fuzzy_date) session.getAttribute("date")).getType_of_date().equals("none")) {
-                    %>
 
-                    <div id="loc-not">
-                        <a class="btn btn-primary btn-large pull-right" href="date.jsp" >Add photo's date</a>
-                        <p>You don't enter a date! Click the button and add it</p>
-                    </div>
-
-                    <%                    } else if (((Fuzzy_date) session.getAttribute("date")).getType_of_date().equals("yes")) {
+                    <%                if (datetype.equals("yes")) {
                     %>
 
                     <div style="display: none">
-                        <input id="date" value="<jsp:getProperty name='date' property='date'/>"/>
+                        <input id="date" value="<%=date%>"/>
                     </div>
 
                     <div style="margin-top: 30px;">
-                        <a class="btn btn-primary btn-large pull-right" href="date.jsp" >Edit photo's date</a>
-                        <p><jsp:getProperty name='date' property='date'/></p>
+                        <p><%=date%></p>
                         <div class="span3 offset4" style="margin-top: 0px">
                             <div id="datepicker"></div>
                         </div>
@@ -241,98 +241,102 @@
                             defaultDate: date
                         });
                     </script>
-                    <%                                } else if (((Fuzzy_date) session.getAttribute("date")).getType_of_date().equals("no")) {
+                    <%                                } else if (datetype.equals("no")) {
                     %>
 
                     <div>
-                        <a class="btn btn-primary btn-large pull-right" href="date.jsp" >Edit photo's date</a>
                         <h3>Here is your date description</h3>
-                        <p><jsp:getProperty name="date" property="description_time"/></p>
+                        <p><%=description_time%></p>
                     </div>
 
-                    <%                                } else if (((Fuzzy_date) session.getAttribute("date")).getType_of_date().equals("almost")) {
+                    <%                                } else if (datetype.equals("almost")) {
                     %>
                     <div>
-                        <a class="btn btn-primary btn-large pull-right" href="date.jsp" >Edit photo's date</a>
                         <table class="table" style="width: 400px; text-align: center">
                             <%
-                                if (!(((Fuzzy_date) session.getAttribute("date")).getDecade() == null)) {
+                                if (!(decade.equals(""))) {
                             %>
                             <tr>
                                 <td><p>Decade:</p> </td>
-                                <td><p><jsp:getProperty name="date" property="decade"/></p></td>                            
+                                <td><p><%=decade%></p></td>                            
                             </tr>
                             <%                                            }
-                                if (!(((Fuzzy_date) session.getAttribute("date")).getYear() == null)) {
+                                if (!(year.equals(""))) {
                             %>
                             <tr>
                                 <td><p>Year:</p> </td>
-                                <td><p><jsp:getProperty name="date" property="year"/></p></td>                            
+                                <td><p><%=year%></p></td>                            
                             </tr>
                             <%                                            }
-                                if (!(((Fuzzy_date) session.getAttribute("date")).getSeason() == null)) {
+                                if (!(season.equals(""))) {
                             %>
                             <tr>
                                 <td><p>Season:</p> </td>
-                                <td><p><jsp:getProperty name="date" property="season"/></p></td>                            
+                                <td><p><%=season%></p></td>                            
                             </tr>
                             <%                                            }
-                                if (!(((Fuzzy_date) session.getAttribute("date")).getMonth() == null)) {
+                                if (!(month.equals(""))) {
                             %>
                             <tr>
                                 <td><p>Month:</p> </td>
-                                <td><p><jsp:getProperty name="date" property="month"/></p></td>                            
+                                <td><p><%=month%></p></td>                            
                             </tr>
                             <%                                            }
-                                if (!(((Fuzzy_date) session.getAttribute("date")).getDay() == null)) {
+                                if (!(day.equals(""))) {
                             %>
                             <tr>
                                 <td><p>Day:</p> </td>
-                                <td><p><jsp:getProperty name="date" property="day"/></p></td>                            
+                                <td><p><%=day%></p></td>                            
                             </tr>
                             <%                                            }
-                                if (!(((Fuzzy_date) session.getAttribute("date")).getDay_name() == null)) {
+                                if (!(day_name.equals(""))) {
                             %>
                             <tr>
                                 <td><p>Day Name:</p> </td>
-                                <td><p><jsp:getProperty name="date" property="day_name"/></p></td>                            
+                                <td><p><%=day_name%></p></td>                            
                             </tr>
                             <%                                            }
-                                if (!(((Fuzzy_date) session.getAttribute("date")).getDay_part() == null)) {
+                                if (!(day_part.equals(""))) {
                             %>
                             <tr>
                                 <td><p>Day Part:</p> </td>
-                                <td><p><jsp:getProperty name="date" property="day_part"/></p></td>                            
+                                <td><p><%=day_part%></p></td>                            
                             </tr>
                             <%                                            }
-                                if (!(((Fuzzy_date) session.getAttribute("date")).getHour() == null)) {
+                                if (!(hour.equals(""))) {
                             %>
                             <tr>
                                 <td><p>hour:</p> </td>
-                                <td><p><jsp:getProperty name="date" property="hour"/></p></td>                            
+                                <td><p><%=hour%></p></td>                            
                             </tr>
 
                             <%                                            }
-                                if (!(((Fuzzy_date) session.getAttribute("date")).getMinute() == null)) {
+                                if (!(minute.equals(""))) {
                             %>
                             <tr>
                                 <td><p>minute:</p> </td>
-                                <td><p><jsp:getProperty name="date" property="minute"/></p></td>                            
+                                <td><p><%=minute%></p></td>                            
                             </tr>
                             <%                                            }
-                                if (!(((Fuzzy_date) session.getAttribute("date")).getSecond() == null)) {
+                                if (!(second.equals(""))) {
                             %>
                             <tr>
                                 <td><p>second:</p> </td>
-                                <td><p><jsp:getProperty name="date" property="second"/></p></td>                            
+                                <td><p><%=second%></p></td>                            
                             </tr>
                             <%                                           }
-
                             %>
                         </table>
                     </div>
-                    <%                                }
+                    <%
+                    } else {
+                    %>
 
+                    <div id="loc-not">
+                        <p>You don't enter a date!</p>
+                    </div>
+
+                    <%    }
                     %>
                 </div>
 
@@ -341,6 +345,30 @@
                 <form action="Submit" name="submit">
                     <h2>If everything you enter is correct just click Submit</h2>
                     <button class="btn btn-success btn-large" style="width: 300px" type="submit"> Submit </button>
+
+                    <div style="display: none;">
+                        <input name="url" value="<%= url%>">
+                        <input name="title" value="<%= title%>">
+                        <input name="loctype" value="<%=loctype%>">
+                        <input name="lat" value="<%= lat%>">
+                        <input name="lng" value="<%= lng%>">
+                        <input name="radius" value="<%= radius%>">
+                        <input name="indirizzo" value="<%= indirizzo%>">
+                        <input name="description_loc" value="<%=description_loc%>">
+                        <input name="datetype" value="<%=datetype%>">
+                        <input name="date" value="<%=date%>"/>
+                        <input name="decade" value="<%= decade%>">
+                        <input name="year" value="<%= year%>">
+                        <input name="season" value="<%= season%>">
+                        <input name="month" value="<%= month%>">
+                        <input name="day" value="<%= day%>">
+                        <input name="day_name" value="<%= day_name%>">
+                        <input name="day_part" value="<%= day_part%>">
+                        <input name="hour" value="<%=hour%>">
+                        <input name="minute" value="<%=minute%>">
+                        <input name="second" value="<%=second%>"/>
+                        <input name="description_time" value="<%=description_time%>">
+                    </div>
                 </form>
             </div>
         </div>
@@ -355,9 +383,7 @@
                 url
             </td>
             <td>
-                <%
-                    out.println(((Media) session.getAttribute("media")).getUrl());
-                %>
+                <%=url%>
             </td>
         </tr>
         <tr>
@@ -365,19 +391,7 @@
                 title
             </td>
             <td>
-                <%
-                    out.println(((Media) session.getAttribute("media")).getTitle());
-                %>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                has location
-            </td>
-            <td>
-                <%
-                    out.println(((Location) session.getAttribute("location")).getHas_location());
-                %>
+                <%=title%>
             </td>
         </tr>
         <tr>
@@ -385,9 +399,15 @@
                 address
             </td>
             <td>
-                <%
-                    out.println(((Location) session.getAttribute("location")).getAddress());
-                %>
+                <%=indirizzo%>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                type of location
+            </td>
+            <td>
+                <%=loctype%>
             </td>
         </tr>
         <tr>
@@ -395,9 +415,7 @@
                 latitude
             </td>
             <td>
-                <%
-                    out.println(((Location) session.getAttribute("location")).getLatitude());
-                %>
+                <%=lat%>
             </td>
         </tr>
         <tr>
@@ -405,9 +423,7 @@
                 longitude
             </td>
             <td>
-                <%
-                    out.println(((Location) session.getAttribute("location")).getLongitude());
-                %>
+                <%=lng%>
             </td>
         </tr>
         <tr>
@@ -415,19 +431,7 @@
                 radius
             </td>
             <td>
-                <%
-                    out.println(((Location) session.getAttribute("location")).getRadius());
-                %>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                location description boolean
-            </td>
-            <td>
-                <%
-                    out.println(((Location) session.getAttribute("location")).getHas_description_loc());
-                %>
+                <%=radius%>
             </td>
         </tr>
         <tr>
@@ -435,9 +439,7 @@
                 location description text
             </td>
             <td>
-                <%
-                    out.println(((Location) session.getAttribute("location")).getLocation_textual());
-                %>
+                <%=description_loc%>
             </td>
         </tr>
         <tr>
@@ -445,9 +447,7 @@
                 date
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getDate());
-                %>
+                <%=date%>
             </td>
         </tr>
         <tr>
@@ -455,9 +455,7 @@
                 exact-date
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getExact_date());
-                %>
+                <%=date%>
             </td>
         </tr>
         <tr>
@@ -465,9 +463,7 @@
                 decade
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getDecade());
-                %>
+                <%=decade%>
             </td>
         </tr>
         <tr>
@@ -475,9 +471,7 @@
                 year
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getYear());
-                %>
+                <%=year%>
             </td>
         </tr>
         <tr>
@@ -485,9 +479,7 @@
                 season
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getSeason());
-                %>
+                <%=season%>
             </td>
         </tr>
         <tr>
@@ -495,9 +487,7 @@
                 day
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getDay());
-                %>
+                <%=day%>
             </td>
         </tr>
         <tr>
@@ -505,9 +495,7 @@
                 dayname
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getDay_name());
-                %>
+                <%=day_name%>
             </td>
         </tr>
         <tr>
@@ -515,9 +503,7 @@
                 day part
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getDay_part());
-                %>
+                <%=day_part%>
             </td>
         </tr>
         <tr>
@@ -525,9 +511,7 @@
                 hour
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getHour());
-                %>
+                <%=hour%>
             </td>
         </tr>
         <tr>
@@ -535,9 +519,7 @@
                 min
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getMinute());
-                %>
+                <%=minute%>
             </td>
         </tr>
         <tr>
@@ -545,9 +527,7 @@
                 sec
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getSecond());
-                %>
+                <%=second%>
             </td>
         </tr>
         <tr>
@@ -555,29 +535,7 @@
                 time description
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getDescription_time());
-                %>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                has marker
-            </td>
-            <td>
-                <%
-                    out.println(((Location) session.getAttribute("location")).getHas_marker());
-                %>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                has circle
-            </td>
-            <td>
-                <%
-                    out.println(((Location) session.getAttribute("location")).getHas_circle());
-                %>
+                <%=description_loc%>
             </td>
         </tr>
         <tr>
@@ -585,9 +543,7 @@
                 type of date
             </td>
             <td>
-                <%
-                    out.println(((Fuzzy_date) session.getAttribute("date")).getType_of_date());
-                %>
+                <%=datetype%>
             </td>
         </tr>
     </table>

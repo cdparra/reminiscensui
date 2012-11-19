@@ -17,6 +17,8 @@
         <property name="longitude">
             <column name="lon"/>
         </property>
-        
+        <property name="radius">
+            <column name="radius"/>
+        </property>        
     </class>
 </hibernate-mapping>

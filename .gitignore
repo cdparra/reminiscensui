@@ -1,0 +1,10 @@
+
+.DS_Store
+
+data-collection/crowdMemories/build/generated/classes/org/apache/jsp/date_005f1_jsp.class
+
+*.class
+
+*.smap
+
+data-collection/crowdMemories/build/

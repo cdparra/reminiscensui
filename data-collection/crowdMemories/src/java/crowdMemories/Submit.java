@@ -36,31 +36,84 @@ public class Submit extends HttpServlet {
 
             HttpSession session = request.getSession();
 
-            Media media = (Media) session.getAttribute("media");
-            Location loc = (Location) session.getAttribute("location");
-            Fuzzy_date fuzzy_date = (Fuzzy_date) session.getAttribute("date");
+            //setting media
+            Media media = new Media();
 
-            if (loc.getHas_location()) {
+            String url = request.getParameter("url");
+            String title = request.getParameter("title");
+
+            media.setUrl(url);
+            media.setTitle(title);
+            media.setSource_url(url);
+
+            //setting location
+
+            String loctype = request.getParameter("loctype");
+
+
+            Location loc = new Location();
+            if (loctype.equals("map")) {
+                loc.setLatitude(request.getParameter("lat"));
+                loc.setLongitude(request.getParameter("lng"));               
+                loc.setRadius(request.getParameter("radius"));
+                
+                //inutile perchè poi non lo inserisco nel database
+                loc.setAddress(request.getParameter("indirizzo"));
+
+                media.setLocation(loc);
+
+            } else if (loctype.equals("text")) {
+                loc.setLocation_textual(request.getParameter("description_loc"));
+
                 media.setLocation(loc);
             }
-            if (!(fuzzy_date.getType_of_date()).equals("none")) {
-                Time_interval time = new Time_interval();
+
+
+            // setting fuzzu date
+
+            Fuzzy_date fuzzy_date = new Fuzzy_date();
+
+            String datetype = request.getParameter("datetype");
+            Time_interval time = new Time_interval();
+            Fuzzy_date date = new Fuzzy_date();
+
+            if (datetype.equals("yes")) {
+                date.setDate(request.getParameter("datepicker"));
 
                 time.setIs_fuzzy(true);
-                time.setFuzzy_startdate(fuzzy_date);
+                time.setFuzzy_startdate(date);
+                media.setTime_interval(time);
 
+            } else if (datetype.equals("almost")) {
+
+                date.setDecade(request.getParameter("decade"));
+                date.setYear(request.getParameter("year"));
+                date.setMonth(request.getParameter("month"));
+                date.setDay(request.getParameter("day"));
+                date.setDay_name(request.getParameter("day_name"));
+                date.setDay_part(request.getParameter("day_part"));
+                date.setSeason(request.getParameter("season"));
+                date.setHour(request.getParameter("hour"));
+                date.setMinute(request.getParameter("minute"));
+                date.setSecond(request.getParameter("second"));
+
+                time.setIs_fuzzy(true);
+                time.setFuzzy_startdate(date);
+                media.setTime_interval(time);
+
+            } else if (datetype.equals("no")) {
+
+                date.setDescription_time(request.getParameter("description"));
+
+                time.setIs_fuzzy(true);
+                time.setFuzzy_startdate(date);
                 media.setTime_interval(time);
             }
+
 
             NewHibernateUtil hb = new NewHibernateUtil();
             hb.addMedia(media);
 
-            session.setAttribute("media", null);
-            session.setAttribute("location", null);
-            session.setAttribute("date", null);
-            session.setAttribute("user_name", null);
-
-            session.invalidate();
             response.sendRedirect("index.jsp");
 
         } finally {

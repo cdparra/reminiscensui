@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import lp.reminiscens.crawler.entities.Event;
 import lp.reminiscens.crawler.entities.Media;
+import lp.reminiscens.crawler.entities.Media_Metadata;
 import lp.reminiscens.crawler.entities.Person;
 import org.json.JSONException;
 
@@ -22,8 +23,9 @@ import org.json.JSONException;
 public class Manager {
 
     final int PEOPLE = 0;
-    final int MEDIA = 2;
     final int EVENTS = 1;
+    final int MEDIA = 2;
+    final int MEDIAMDS = 3;
     Dbpedia dbpedia;
     FlickrToURL flickr;
     CoordSearcher coord;
@@ -42,16 +44,27 @@ public class Manager {
         switch (target) {
 
             case 0:
-                queryPeople(fromDate, toDate, location, language); break;
+                queryPeople(fromDate, toDate, location, language);
+                break;
 
             case 1:
-                queryEvents(fromDate, toDate, location, language); break;
+                queryEvents(fromDate, toDate, location, language);
+                break;
 
             case 2:
-                askForPhotos(fromDate, toDate, location, language); break;
+                askForPhotos(fromDate, toDate, location, language);
+                break;
+
+            case 3:
+                queryMediaMDs(language, "BOOK");
+                queryMediaMDs(language, "ALBUM");
+                queryMediaMDs(language, "SONG");
+                queryMediaMDs(language, "SONG");
+                break;
 
             default:
-                System.out.println("Impossibile completare la richiesta: scelta non supportata"); break;
+                System.out.println("Impossibile completare la richiesta: scelta non supportata");
+                break;
         }
     }
 
@@ -71,6 +84,8 @@ public class Manager {
     public void queryEvents(String fromStartDate, String toStartDate, String location, String language) {
         dbpedia = new Dbpedia();
         dbpedia.lookUpEvents(fromStartDate, toStartDate, location, language);
+        dbpedia.lookUpSpaceMissions(null, null, null, language);
+        dbpedia.lookUpSportEvents(null, null, null, language);
         iter = dbpedia.events.iterator();
         Event event = null;
         double latitude;
@@ -103,6 +118,20 @@ public class Manager {
             System.out.println(event.getSource_url());
         }
         System.out.println("Sono stati aggiunti " + db.newEvents + " nuovi eventi.");
+    }
+
+    public void queryMediaMDs(String language, String type) {
+        dbpedia = new Dbpedia();
+        dbpedia.lookUpMediaMM(language, type);
+        iter = dbpedia.mediaMDs.iterator();
+        Media_Metadata mediaMD = null;
+        double latitude;
+        while (iter.hasNext()) {
+            mediaMD = (Media_Metadata) (iter.next());
+            int res = db.addWork(mediaMD);
+            System.out.println(mediaMD.getSource_url());
+        }
+        System.out.println("Sono stati aggiunti " + db.newWorks + " nuovi lavori (libri, musica, film).");
     }
 
     public void askForPhotos(String fromTakenDate, String toTakenDate, String tag, String language) {

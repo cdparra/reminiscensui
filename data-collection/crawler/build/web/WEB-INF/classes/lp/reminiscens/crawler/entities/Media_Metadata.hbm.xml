@@ -23,6 +23,6 @@
     <property name="locale">
       <column name="locale"/>
     </property>
-    <many-to-one cascade="all" column="releasedate" name="releaseDate" unique="true"/>
+    <many-to-one cascade="all" column="time_interval_id" name="releaseDate" unique="true"/>
   </class>
 </hibernate-mapping>

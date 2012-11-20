@@ -200,9 +200,7 @@ public class FlickrToURL {
                 if (upload_date.equals(taken_date.substring(0,10))) {
                     startdate.setTimeTrust(false);
                 }
-                
-                startdate.splitDate(taken_date);               
-                startdate.setAccuracy(11);
+                             
                 startdate.setInterval(time);
 
                 if (startdate.getHour() == startdate.getMinute()

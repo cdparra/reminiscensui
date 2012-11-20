@@ -13,6 +13,7 @@ and open the template in the editor.
         <div class="title" style="text-align: center"><h1>Reminiscens Data Viewer</h1></div>
         <div style="text-align: center">
             <form name="data_selector" method="post" action="results.jsp" style="display: block">
+                <label>Nell'ambito della ricerca in Location e Person, la data non viene presa in considerazione</label>
                 <select name="type">
                     <option value="Media">Media</option>
                     <option value="Event">Events</option>
@@ -20,7 +21,9 @@ and open the template in the editor.
                     <option value="Time_Interval">Time Intervals</option>
                     <option value="Fuzzy_Date">Fuzzy Dates</option>
                     <option value="Location">Locations</option>
+                    <option value="Media_Metadata">Media_Metadata</option>
                 </select><br>
+                <label>Start_date</label><input type="date" name="date"><br>
                 <button class="btn btn-primary" type="submit" value="go">Go</button>
             </form>
         </div>

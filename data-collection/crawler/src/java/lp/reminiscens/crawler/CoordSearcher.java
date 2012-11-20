@@ -12,6 +12,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Locale;
 import lp.reminiscens.crawler.entities.City;
 import lp.reminiscens.crawler.entities.Event;
 import lp.reminiscens.crawler.entities.Media;
@@ -44,7 +45,7 @@ public class CoordSearcher {
         CoordSearcher coord = new CoordSearcher();
         coord.db = new Database();
         String out;
-        String path = "C:\\Users\\Nicola.Parrello\\Documents\\NetBeansProjects\\Reminiscens\\files\\provincia-regione-sigla.csv";
+        String path = "C:\\Users\\Nicola\\Documents\\NetBeansProjects\\Reminiscens\\timeline\\data-collection\\crawler\\files\\comune_cap_pr_regione.csv";
         FileReader fr = new FileReader(path);
         BufferedReader reader = new BufferedReader(fr);
         String line;
@@ -144,8 +145,9 @@ public class CoordSearcher {
     public City getCityFromLine(String line) {
         City city = new City();
         String name = line.substring(0, line.indexOf(','));
+        name=name.toLowerCase(Locale.ITALIAN).substring(0, 1).toUpperCase(Locale.ITALIAN);   
         city.setCity_name(name);
-        String region = line.substring(line.indexOf(',') + 1, line.lastIndexOf(','));
+        String region = line.substring(line.indexOf(',') + 1,line.length());
         city.setRegion(region);
         city.setCountry("Italy");
         return city;

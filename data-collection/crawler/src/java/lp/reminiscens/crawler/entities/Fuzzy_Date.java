@@ -44,29 +44,36 @@ public class Fuzzy_Date {
 
     public void splitDate(String date) {
         year = date.substring(0, 4);
-        if (date.length() < 5 || date.charAt(4) != '-') {
+        decade = date.substring(0, 3) + "0";
+        if (date.length() < 5) {
+            accuracy = 4;
+        }
+        if (date.length() >= 10 && date.charAt(4) == '-') {
 
-            decade = date.substring(0, 3) + "0";
+            exact_date = date.substring(0, 10);
             month = date.substring(5, 7);
             day = date.substring(8, 10);
             Calendar cal = Calendar.getInstance();
             cal.setTime(new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day)));
-            day_name = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
+            day_name = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ITALIAN);
+            locale = "it";
             if (date.length() > 10) {
                 hour = date.substring(11, 13);
                 minute = date.substring(14, 16);
                 second = date.substring(17, 19);
-                locale = "en";
+                accuracy = 11;
                 int intHour = Integer.parseInt(hour);
                 if (intHour >= 05 && intHour < 12) {
-                    day_part = "morning";
+                    day_part = "mattina";
                 } else if (intHour >= 12 && intHour < 19) {
-                    day_part = "afternoon";
+                    day_part = "pomeriggio";
                 } else if (intHour >= 19 && intHour < 24) {
-                    day_part = "evening";
+                    day_part = "sera";
                 } else if (intHour >= 24 && intHour < 05) {
-                    day_part = "night";
+                    day_part = "notte";
                 }
+            } else {
+                accuracy = 9;
             }
         }
     }
@@ -81,33 +88,36 @@ public class Fuzzy_Date {
     }
 
     public void calculateSeason(double lat) {
-        date = new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-        if (year != null) {
-            if ((date.after(springStart) && date.before(summerStart)) || date.equals(springStart)) {
-                if (lat >= 0) {
-                    season = "spring";
-                } else {
-                    season = "autumn";
+        if (month != null && day != null) {
+            date = new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+
+            if (year != null) {
+                if ((date.after(springStart) && date.before(summerStart)) || date.equals(springStart)) {
+                    if (lat >= 0) {
+                        season = "primavera";
+                    } else {
+                        season = "autunno";
+                    }
                 }
-            }
-            if ((date.after(summerStart) && date.before(autumnStart)) || date.equals(summerStart)) {
-                if (lat >= 0) {
-                    season = "summer";
-                } else {
-                    season = "winter";
+                if ((date.after(summerStart) && date.before(autumnStart)) || date.equals(summerStart)) {
+                    if (lat >= 0) {
+                        season = "estate";
+                    } else {
+                        season = "inverno";
+                    }
                 }
-            }
-            if ((date.after(autumnStart) && date.before(winterStart)) || date.equals(autumnStart)) {
-                if (lat >= 0) {
-                    season = "autumn";
+                if ((date.after(autumnStart) && date.before(winterStart)) || date.equals(autumnStart)) {
+                    if (lat >= 0) {
+                        season = "autunno";
+                    } else {
+                        season = "primavera";
+                    }
                 } else {
-                    season = "spring";
-                }
-            } else {
-                if (lat >= 0) {
-                    season = "winter";
-                } else {
-                    season = "summer";
+                    if (lat >= 0) {
+                        season = "inverno";
+                    } else {
+                        season = "estate";
+                    }
                 }
             }
         }

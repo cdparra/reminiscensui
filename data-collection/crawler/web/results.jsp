@@ -13,12 +13,23 @@
     final String DB_NAME = "jdbc:mysql://test.lifeparticipation.org:3306/reminiscens";
     final String DB_PASSWORD = "timeline@lp2012";
     String type = request.getParameter("type");
+    String startDate = request.getParameter("date");
+    System.out.println(startDate);
+
     Connection connection = DriverManager.getConnection(
             DB_NAME, DB_USER, DB_PASSWORD);
 
-    Statement statement = connection.createStatement();
-    ResultSet rs =
-            statement.executeQuery("SELECT * FROM reminiscens." + type + ";");
+    Statement st = connection.createStatement();
+    ResultSet rs = null;
+    if (type.equals("Location") || type.equals("Person")) {
+        rs = st.executeQuery("SELECT * FROM reminiscens." + type + ";");
+    } else if (type.equals("Time_Interval")) {
+        rs = st.executeQuery("SELECT * FROM reminiscens." + type + " WHERE startdate > '" + startDate + "' ;");
+    } else if (type.equals("Fuzzy_Date")) {
+        rs = st.executeQuery("SELECT * FROM reminiscens." + type + " WHERE exact_date > '" + startDate + "' ;");
+    } else {
+        rs = st.executeQuery("SELECT * FROM reminiscens." + type + " ta JOIN Time_Interval t ON ta.time_interval_id=t.time_interval_id WHERE t.startdate > '" + startDate + "' ;");
+    }
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -32,6 +43,7 @@
         <div class="title" style="text-align: center"><h1>Reminiscens Data Viewer</h1></div>
         <div style="text-align: center">
             <form name="data_selector" method="post" action="results.jsp" style="display: block">
+                <label>Nell'ambito della ricerca in Location e Person, la data non viene presa in considerazione</label>
                 <select name="type">
                     <option value="Media">Media</option>
                     <option value="Event">Events</option>
@@ -39,7 +51,9 @@
                     <option value="Time_Interval">Time Intervals</option>
                     <option value="Fuzzy_Date">Fuzzy Dates</option>
                     <option value="Location">Locations</option>
+                    <option value="Media_Metadata">Media_Metadata</option>
                 </select><br>
+                <label>Start_date</label><input type="date" name="date"><br>
                 <button class="btn btn-primary" type="submit" value="go">Go</button>
             </form>
         </div>
@@ -482,6 +496,59 @@
                                 <td> <%= minute%> </td>
                                 <td> <%= second%> </td>
                                 <td> <%= accuracy%> </td>
+                                <td> <%= locale%> </td>
+                            </tr>
+                            <%
+                                }
+                            %>
+                        </tbody>
+                    </table>
+                    <%
+                    } else if (type.equals("Media_Metadata")) {
+                        String media_metadata_id;
+                        String title;
+                        String description;
+                        String md_type;
+                        String source;
+                        String source_url;
+                        String relDate;
+                        String locale;
+                    %>
+                    <div><h4>Media_Metadata</h4></div>    
+                    <table class="table table-hover" style="margin: auto">
+                        <thead>
+                            <tr>
+                                <th>ID</th>                           
+                                <th>TITLE</th>
+                                <th>DESCRIPTION</th>
+                                <th>TYPE</th>
+                                <th>SOURCE</th>
+                                <th>SOURCE URL</th>
+                                <th>RELEASE DATE</th>
+                                <th>LOCALE</th>
+                            </tr>
+                        </thead>
+                        <tbody>                          
+                            <%
+                                while (rs.next()) {
+
+                                    media_metadata_id = rs.getString("media_metadata_id");
+                                    title = rs.getString("title");
+                                    description = rs.getString("description");
+                                    md_type = rs.getString("type");
+                                    source = rs.getString("source");
+                                    source_url = rs.getString("source_url");
+                                    relDate = rs.getString("releasedate");
+                                    locale = rs.getString("locale");
+                            %>
+                            <tr>
+                                <td> <%= media_metadata_id%> </td>
+                                <td> <%= title%> </td>
+                                <td> <%= description%> </td>
+                                <td> <%= md_type%> </td>
+                                <td> <%= source%> </td>
+                                <td> <%= source_url%> </td>
+                                <td> <%= relDate%> </td>
                                 <td> <%= locale%> </td>
                             </tr>
                             <%

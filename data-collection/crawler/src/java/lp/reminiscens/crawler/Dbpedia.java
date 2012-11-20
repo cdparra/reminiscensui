@@ -62,7 +62,7 @@ public class Dbpedia {
 
         String sparql = null;
 
-        if (type.equals("album")) {
+        if (type.equals("ALBUM")) {
             sparql = "SELECT *"
                     + "WHERE {"
                     + "?work a <http://dbpedia.org/ontology/Album> ."
@@ -73,7 +73,50 @@ public class Dbpedia {
                     + "?work <http://dbpedia.org/ontology/releaseDate> ?relDate ."
                     + "}"
                     + "UNION {"
-                    + "?work <http://dbpedia.org/property/released> ?relDate2_1"
+                    + "?work <http://dbpedia.org/property/released> ?relDate_1"
+                    + "}"
+                    + "FILTER (lang(?title)='" + language + "' && lang(?descr)='" + language + "')"
+                    + "}";
+        } else if (type.equals("BOOK")) {
+            sparql = "SELECT *"
+                    + "WHERE {"
+                    + "?work a <http://dbpedia.org/ontology/Book> ."
+                    + "?work <http://www.w3.org/2000/01/rdf-schema#label> ?title ."
+                    + "?work <http://dbpedia.org/ontology/abstract> ?descr ."
+                    + "{"
+                    + "?work <http://dbpedia.org/property/pubDate> ?relDate ."
+                    + "}"
+                    + "UNION {"
+                    + "?work <http://dbpedia.org/property/released> ?relDate_1"
+                    + "}"
+                    + "FILTER (lang(?title)='" + language + "' && lang(?descr)='" + language + "')"
+                    + "}";
+        } else if (type.equals("SONG")) {
+            sparql = "SELECT *"
+                    + "WHERE {"
+                    + "?work a <http://dbpedia.org/ontology/Song> ."
+                    + "?work <http://www.w3.org/2000/01/rdf-schema#label> ?title ."
+                    + "?work <http://dbpedia.org/ontology/abstract> ?descr ."
+                    + "{"
+                    + "?work <http://dbpedia.org/ontology/releaseDate> ?relDate ."
+                    + "}"
+                    + "UNION {"
+                    + "?work <http://dbpedia.org/property/released> ?relDate_1"
+                    + "}"
+                    + "FILTER (lang(?title)='" + language + "' && lang(?descr)='" + language + "')"
+                    + "}";
+        } else if (type.equals("FILM")) {
+            sparql = "SELECT *"
+                    + "WHERE {"
+                    + "?work a <http://dbpedia.org/ontology/Film> ."
+                    + "?work <http://www.w3.org/2000/01/rdf-schema#label> ?title ."
+                    + "?work <http://dbpedia.org/ontology/abstract> ?descr ."
+                    + "{"
+                    + "?work <http://dbpedia.org/ontology/releaseDate> ?relDate ."
+                    + "}"
+                    + "UNION {"
+                    + "?work <http://dbpedia.org/property/released> ?relDate_1"
+                    + "}"
                     + "FILTER (lang(?title)='" + language + "' && lang(?descr)='" + language + "')"
                     + "}";
         }
@@ -89,7 +132,6 @@ public class Dbpedia {
         String releaseDateAttribute = "relDate";
         String releaseDateAttribute_1 = "relDate_1";
         String titleAttribute = "title";
-        String locationAttribute = "location";
         String descrAttribute = "desc";
         String description = null;
 
@@ -108,48 +150,46 @@ public class Dbpedia {
             } else {
                 releaseDate = qs.get(releaseDateAttribute).toString();
             }
-            if (releaseDate.substring(0, 4).matches("^d{4}$")) {
+            if (releaseDate.substring(0, 4).matches("^([1-2][0-9][0-9][0-9])") && releaseDate.length() > 4) {
                 releaseDate = formatDate(releaseDate);
             }
 
             title = qs.get(titleAttribute).toString();
             description = qs.get(descrAttribute).toString();
 
-            mediaMD = new Media_Metadata();
-            mediaMD.setSource("dbpedia");
-            mediaMD.setTitle(formatStringLocale(title));
-            mediaMD.setDescription(description);
-            mediaMD.setType("album");
-            mediaMD.setSource_url(work_url);
+            if (releaseDate.substring(0, 4).matches("^([1-2][0-9][0-9][0-9])")) {
 
-            interval = new Time_Interval();
-            interval.setStart_date(releaseDate);
-            interval.setMediaMD(mediaMD);
-            interval.setIs_fuzzy(1);
-            mediaMD.setReleaseDate(interval);
+                if (Integer.parseInt(releaseDate.substring(0, 4)) > 1900) {
+                    
+                    mediaMD = new Media_Metadata();
+                    mediaMD.setSource("dbpedia");
+                    mediaMD.setTitle(formatStringLocale(title));
+                    mediaMD.setDescription(formatStringLocale(description));
+                    mediaMD.setType(type);
+                    mediaMD.setSource_url(work_url);
 
-            start = new Fuzzy_Date();
-            start.setSeasonLimits();
-            start.setExact_date(releaseDate);
-            start.splitDate(releaseDate);
-            start.setAccuracy(9);
-            start.setInterval(interval);
-            interval.setStartdate(start);
+                    interval = new Time_Interval();
+                    interval.setStart_date(releaseDate);
+                    interval.setMediaMD(mediaMD);
+                    interval.setIs_fuzzy(1);
+                    mediaMD.setReleaseDate(interval);
 
-            mediaMD.setLocale(language);
+                    start = new Fuzzy_Date();
+                    start.setSeasonLimits();
+                    start.splitDate(releaseDate);
+                    start.setInterval(interval);
+                    interval.setStartdate(start);
 
-            if (start.getExact_date().substring(0, 4).matches("^d{4}$")) {
-                mediaMDs.add(mediaMD);
+                    mediaMD.setLocale(language);
+
+                    mediaMDs.add(mediaMD);
+                }
             }
         }
         qexec.close();
     }
 
     public void lookUpEvents(String fromStartDate, String toStartDate, String locationName, String language) {
-
-        if (!events.isEmpty()) {
-            events.clear();
-        }
 
         String sparql = "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>"
                 + "SELECT *"
@@ -167,9 +207,6 @@ public class Dbpedia {
                 + "}";
 
         ParameterizedSparqlString paramQuery = new ParameterizedSparqlString(sparql);
-        //paramQuery.setLiteral("start", fromStartDate);
-        //paramQuery.setLiteral("end", toStartDate);
-        //paramQuery.setLiteral("language", language);
 
         Query query = paramQuery.asQuery();
 
@@ -215,7 +252,7 @@ public class Dbpedia {
             event.setSource("dbpedia");
             event.setHeadline(formatStringLocale(title));
             event.setText(description);
-            event.setType("general");
+            event.setType("GENERAL");
             event.setSource_url(event_url);
 
             interval = new Time_Interval();
@@ -227,18 +264,14 @@ public class Dbpedia {
 
             start = new Fuzzy_Date();
             start.setSeasonLimits();
-            start.setExact_date(startDate);
             start.splitDate(startDate);
-            start.setAccuracy(9);
             start.setInterval(interval);
             interval.setStartdate(start);
 
             if (endDate != null) {
                 end = new Fuzzy_Date();
                 end.setSeasonLimits();
-                end.setExact_date(endDate);
                 end.splitDate(endDate);
-                end.setAccuracy(9);
                 end.setInterval(interval);
                 interval.setEnddate(end);
             }
@@ -257,10 +290,6 @@ public class Dbpedia {
     }
 
     public void lookUpSpaceMissions(String fromStartDate, String toStartDate, String locationName, String language) {
-
-        if (!events.isEmpty()) {
-            events.clear();
-        }
 
         String sparql = "SELECT DISTINCT *"
                 + "WHERE {"
@@ -311,7 +340,7 @@ public class Dbpedia {
             event.setSource("dbpedia");
             event.setHeadline(formatStringLocale(title));
             event.setText(description);
-            event.setType("space_mission");
+            event.setType("SPACE_MISSION");
             event.setSource_url(event_url);
 
             interval = new Time_Interval();
@@ -323,17 +352,13 @@ public class Dbpedia {
 
             start = new Fuzzy_Date();
             start.setSeasonLimits();
-            start.setExact_date(launchDate);
             start.splitDate(launchDate);
-            start.setAccuracy(9);
             start.setInterval(interval);
             interval.setStartdate(start);
 
             end = new Fuzzy_Date();
             end.setSeasonLimits();
-            end.setExact_date(landingDate);
             end.splitDate(landingDate);
-            end.setAccuracy(9);
             end.setInterval(interval);
             interval.setEnddate(end);
 
@@ -345,10 +370,6 @@ public class Dbpedia {
     }
 
     public void lookUpSportEvents(String fromStartDate, String toStartDate, String locationName, String language) {
-
-        if (!events.isEmpty()) {
-            events.clear();
-        }
 
         String sparql = "SELECT DISTINCT *"
                 + "WHERE {"
@@ -398,7 +419,7 @@ public class Dbpedia {
         event.setSource("dbpedia");
         event.setHeadline(formatStringLocale(title));
         event.setText(description);
-        event.setType("sport_event");
+        event.setType("SPORT_EVENT");
         event.setSource_url(event_url);
 
         interval = new Time_Interval();
@@ -409,9 +430,7 @@ public class Dbpedia {
 
         start = new Fuzzy_Date();
         start.setSeasonLimits();
-        start.setExact_date(date);
         start.splitDate(date);
-        start.setAccuracy(9);
         start.setInterval(interval);
         interval.setStartdate(start);
 
@@ -439,8 +458,7 @@ public class Dbpedia {
                 + "PREFIX owl: <http://dbpedia.org/ontology/> "
                 + "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
                 + "PREFIX dbprop:  <http://dbpedia.org/property/> "
-                + "SELECT ?person ?nome ?cognome ?descr ?birthDate ?birthPlace "
-                + "?deathDate ?deathPlace ?nationality"
+                + "SELECT *"
                 + "WHERE { "
                 + "?person a owl:Person . "
                 + "?person foaf:givenName ?nome . "
@@ -458,10 +476,6 @@ public class Dbpedia {
                 + "}";
 
         ParameterizedSparqlString paramQuery = new ParameterizedSparqlString(sparql);
-        //paramQuery.setLiteral("from", fromBirthDate);
-        //paramQuery.setLiteral("to", toBirthDate);
-        //paramQuery.setLiteral("location", formatLocationToUrl(locationName));
-        //paramQuery.setLiteral("language", language);
 
         Query query = paramQuery.asQuery();
 

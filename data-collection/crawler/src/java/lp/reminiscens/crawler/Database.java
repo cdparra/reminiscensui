@@ -24,6 +24,7 @@ public class Database {
     public int newEvents = 0;
     public int newPeople = 0;
     public int newMedia = 0;
+    public int newWorks = 0;
 
     public Database() {
         try {
@@ -125,6 +126,34 @@ public class Database {
         return personID;
     }
 
+    public Integer addWork(Media_Metadata mediaMD) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Integer workID = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("SELECT person_id FROM Person WHERE source_url = :url");
+            query.setParameter("url", mediaMD.getSource_url());
+            if (!(query.list().isEmpty())) {
+                mediaMD.setMedia_metadata_id((Integer) (query.list().get(0)));
+                session.update(mediaMD);
+            } else {
+                session.saveOrUpdate(mediaMD);
+                newWorks++;
+            }
+            workID = mediaMD.getMedia_metadata_id();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return workID;
+    }
+
     //USATA SOLO PER PRENDERE LE COORDINATE DELLE CITTà ITALIANE
     public Integer addCity(City city) {
         Session session = factory.openSession();
@@ -176,8 +205,8 @@ public class Database {
             return query.list();
         }
     }
-    
-        public List<Media_Metadata> getMDs() {
+
+    public List<Media_Metadata> getMDs() {
         Session session = factory.openSession();
         Transaction tx = null;
         Query query = null;
@@ -200,8 +229,8 @@ public class Database {
             return query.list();
         }
     }
-        
-            public List<Person> getPeople() {
+
+    public List<Person> getPeople() {
         Session session = factory.openSession();
         Transaction tx = null;
         Query query = null;
@@ -224,8 +253,8 @@ public class Database {
             return query.list();
         }
     }
-            
-                public List<Media> getMedia() {
+
+    public List<Media> getMedia() {
         Session session = factory.openSession();
         Transaction tx = null;
         Query query = null;

@@ -42,7 +42,7 @@ public class CoordSearcher {
     // "main" function used once to add cities to reminiscens.City
     public static void main(String[] args) throws MalformedURLException, UnsupportedEncodingException, IOException, JSONException {
 
-        CoordSearcher coord = new CoordSearcher();
+        /*CoordSearcher coord = new CoordSearcher();
         coord.db = new Database();
         String out;
         String path = "C:\\Users\\Nicola\\Documents\\NetBeansProjects\\Reminiscens\\timeline\\data-collection\\crawler\\files\\comune_cap_pr_regione.csv";
@@ -66,6 +66,7 @@ public class CoordSearcher {
             coord.parseGeoJSON(out, city);
             coord.db.addCity(city);
         }
+        **/
 
 
     }

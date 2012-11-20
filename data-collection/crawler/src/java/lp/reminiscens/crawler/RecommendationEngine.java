@@ -59,7 +59,7 @@ public class RecommendationEngine {
         iter = peopleList.listIterator();
         Person person;
 
-        while (iter.hasNext()) {
+        /*while (iter.hasNext()) {
             int res;
             person = (Person) iter.next();
             if (person.getPerson_Profile.getDeathDate() != null && person.getPerson_Profile.getDeathPlace() != null) {
@@ -72,7 +72,7 @@ public class RecommendationEngine {
                 result.people.add(new RatingCouple<Person, Integer>(person, res));
             }
             peopleList.remove(person);
-        }
+        }*/
 
         List photosList = db.getMedia();
         iter = photosList.listIterator();

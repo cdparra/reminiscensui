@@ -54,7 +54,7 @@ public class Fuzzy_Date {
             month = date.substring(5, 7);
             day = date.substring(8, 10);
             Calendar cal = Calendar.getInstance();
-            cal.setTime(new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day)));
+            cal.set(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
             day_name = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ITALIAN);
             locale = "it";
             if (date.length() > 10) {

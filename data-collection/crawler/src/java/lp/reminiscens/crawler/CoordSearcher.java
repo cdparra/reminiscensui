@@ -35,7 +35,7 @@ public class CoordSearcher {
     public CoordSearcher() {
 
         geocodingString = "http://maps.googleapis.com/maps/api/geocode/json?address=";
-        province = new <String> ArrayList(); // used once to add cities to reminiscens.City
+        province = new ArrayList<String>(); // used once to add cities to reminiscens.City
 
     }
 
@@ -43,32 +43,30 @@ public class CoordSearcher {
     public static void main(String[] args) throws MalformedURLException, UnsupportedEncodingException, IOException, JSONException {
 
         /*CoordSearcher coord = new CoordSearcher();
-        coord.db = new Database();
-        String out;
-        String path = "C:\\Users\\Nicola\\Documents\\NetBeansProjects\\Reminiscens\\timeline\\data-collection\\crawler\\files\\comune_cap_pr_regione.csv";
-        FileReader fr = new FileReader(path);
-        BufferedReader reader = new BufferedReader(fr);
-        String line;
-        String address;
-        City city = null;
-        while (reader.ready()) {
-            line = reader.readLine();
-            coord.province.add(line);
-        }
+         coord.db = new Database();
+         String out;
+         String path = "C:\\Users\\Nicola\\Documents\\NetBeansProjects\\Reminiscens\\timeline\\data-collection\\crawler\\files\\comune_cap_pr_regione.csv";
+         FileReader fr = new FileReader(path);
+         BufferedReader reader = new BufferedReader(fr);
+         String line;
+         String address;
+         City city = null;
+         while (reader.ready()) {
+         line = reader.readLine();
+         coord.province.add(line);
+         }
 
-        Iterator i = coord.province.iterator();
+         Iterator i = coord.province.iterator();
 
-        while (i.hasNext()) {
-            address = (String) (i.next());
-            System.out.println(address + ": ");
-            city = coord.getCityFromLine(address);
-            out = coord.getJSONByGoogle(address);
-            coord.parseGeoJSON(out, city);
-            coord.db.addCity(city);
-        }
-        **/
-
-
+         while (i.hasNext()) {
+         address = (String) (i.next());
+         System.out.println(address + ": ");
+         city = coord.getCityFromLine(address);
+         out = coord.getJSONByGoogle(address);
+         coord.parseGeoJSON(out, city);
+         coord.db.addCity(city);
+         }
+         **/
     }
 
     public String getJSONByGoogle(String address) throws MalformedURLException, UnsupportedEncodingException, IOException {
@@ -146,9 +144,9 @@ public class CoordSearcher {
     public City getCityFromLine(String line) {
         City city = new City();
         String name = line.substring(0, line.indexOf(','));
-        name=name.toLowerCase(Locale.ITALIAN).substring(0, 1).toUpperCase(Locale.ITALIAN);   
+        name = name.toLowerCase(Locale.ITALIAN).substring(0, 1).toUpperCase(Locale.ITALIAN);
         city.setCity_name(name);
-        String region = line.substring(line.indexOf(',') + 1,line.length());
+        String region = line.substring(line.indexOf(',') + 1, line.length());
         city.setRegion(region);
         city.setCountry("Italy");
         return city;

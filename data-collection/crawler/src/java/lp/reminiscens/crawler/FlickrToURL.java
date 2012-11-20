@@ -73,7 +73,7 @@ public class FlickrToURL {
         FlickrQuery_key = "&api_key=";
         FlickrApiKey = "b70a9e175b81d1e4cd19fd652f0af12a";
 
-        photos = new HashSet();
+        photos = new HashSet<Media>();
     }
 
     public String queryFlickr(String id) {

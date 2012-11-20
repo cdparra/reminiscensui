@@ -182,7 +182,7 @@ public class Database {
         return cityID;
     }
 
-    public List<Event> getEvents() {
+    public List getEvents() {
         Session session = factory.openSession();
         Transaction tx = null;
         Query query = null;
@@ -206,7 +206,7 @@ public class Database {
         }
     }
 
-    public List<Media_Metadata> getMDs() {
+    public List getMDs() {
         Session session = factory.openSession();
         Transaction tx = null;
         Query query = null;
@@ -230,7 +230,7 @@ public class Database {
         }
     }
 
-    public List<Person> getPeople() {
+    public List getPeople() {
         Session session = factory.openSession();
         Transaction tx = null;
         Query query = null;
@@ -254,7 +254,7 @@ public class Database {
         }
     }
 
-    public List<Media> getMedia() {
+    public List getMedia() {
         Session session = factory.openSession();
         Transaction tx = null;
         Query query = null;

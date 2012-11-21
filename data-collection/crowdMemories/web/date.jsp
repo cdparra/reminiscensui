@@ -90,7 +90,7 @@
                 var num = input.value;
                 if(isNaN(num)){
                     alert("Please enter a number!");   
-                    num.value = null;
+                    input.value = null;
                 }  
             }
         </script>

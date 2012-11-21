@@ -37,7 +37,7 @@ public class Manager {
         Manager man = new Manager();
         man.coord = new CoordSearcher();
         man.db = new Database();
-        man.search(man.PEOPLE, "1960-01-01", "2010-12-31", "Trento", Dbpedia.ITALIAN);
+        //man.search(man.PEOPLE, "1960-01-01", "2010-12-31", "Trento", Dbpedia.ITALIAN);
     }
 
     public void search(int target, String fromDate, String toDate, String location, String language) {

@@ -22,9 +22,9 @@ public class Dbpedia {
 
     public Dbpedia() {
 
-        events = new <Event> HashSet();
-        people = new <Person> HashSet();
-        mediaMDs = new <Media_Metadata> HashSet();
+        events = new HashSet<Event>();
+        people = new HashSet<Person>();
+        mediaMDs = new HashSet<Media_Metadata>();
     }
 
     public String formatDate(String date) {
@@ -160,7 +160,7 @@ public class Dbpedia {
             if (releaseDate.substring(0, 4).matches("^([1-2][0-9][0-9][0-9])")) {
 
                 if (Integer.parseInt(releaseDate.substring(0, 4)) > 1900) {
-                    
+
                     mediaMD = new Media_Metadata();
                     mediaMD.setSource("dbpedia");
                     mediaMD.setTitle(formatStringLocale(title));

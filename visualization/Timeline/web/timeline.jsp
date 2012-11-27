@@ -18,7 +18,7 @@
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.9&amp;sensor=false"></script>
         <script type="text/javascript" src="lib/jquery-1.6.2.min.js"></script>
         <script type="text/javascript" src="lib/mxn/mxn.js?(googlev3)"></script>
-        <script type="text/javascript" src="lib/timeline-1.2.js"></script>
+        <script type="text/javascript" src="lib/timeline-2.3.0.js"></script>
         <script src="src/timemap.js" type="text/javascript"></script>
         <script src="src/manipulation.js" type="text/javascript"></script>
 
@@ -42,8 +42,7 @@
             //creo l' oggetto stringa a cui farò creare la stringa json
             Stringa stringa = new Stringa();
             //creo la stringa json
-            String s = stringa.creazioneStringa(request.getParameter("id1"),request.getParameter("id2"));
-            //out.println(s);            
+            String[] param = stringa.creazioneStringa(request.getParameter("id1"),request.getParameter("id2"));
         %>
         <script type="text/javascript">
             var tm;
@@ -72,7 +71,7 @@
                 //bottone read more nei bubble delle descrizioni
                 
                 //inizializzazione TimeMap
-                tm = TimeMap.init(<%=s%>);
+                tm = TimeMap.init(<%=param[0]%>);
                 // set the map to our custom style
                 var gmap = tm.getNativeMap();
                 gmap.mapTypes.set("white", styledMapType);
@@ -120,11 +119,11 @@
             <div class="overlay" id="overlay" style="display: none;"></div>
             <!--contenuto overlay-->
 
-            <div id="box">
+            <div id="box">                
                 <div class="split_sx">
                     <h1 class="titolo_box"></h1>
                     <p class="testo_box"></p>
-                    <img id="img_overlay" src="" />
+                    <img id="img_overlay" src="" />                    
                     <!--				<hr />-->
                 </div>
                 <div class="split_dx">
@@ -136,6 +135,7 @@
                             <li class="active"><a href="#eventi" data-toggle="tab">Eventi</a></li>
                             <li><a href="#immagini" data-toggle="tab">Immagini</a></li>
                             <li><a href="#video" data-toggle="tab">Video</a></li>
+                            <li><a href="#confronto" data-toggle="tab">Confronto</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="eventi">
@@ -166,10 +166,22 @@
                                 <p>Breve video sul concilio di Trento</p>
                                 <iframe width="350" height="200" src="http://www.youtube.com/embed/4Vhzc4ayx3M" frameborder="0" allowfullscreen></iframe>
                             </div>
+                            <div class="tab-pane" id="confronto" style="padding:5px;">
+                                <div id="Lista1" class="tabbable tabs-left">
+                                    <h3><%=request.getParameter("id1")%></h3>
+                                     <%=param[1]%>
+                                </div>
+                                <div id="Lista2" class="tabbable tabs-left">
+                                    <h3><%=request.getParameter("id2")%></h3>
+                                     <%=param[2]%>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!--<p class="chiudi">X</p>-->
+                <img src="images/layout/Button_prev.png" class="button_prev" />
+                <img src="images/layout/Button_next.png" class="button_next" />
                 <img src="images/layout/X.png" class="chiudi" />
             </div>
             <!--fine box-->
@@ -196,30 +208,30 @@
                     <!--cambiato il metodo on click con onchange e usato l' attributo for per allineare la label sopra al toggle-button-->
                     <label for="checkbox1" style="color: white"><%=request.getParameter("id1")%></label>
                     <div class="toggle-button-class">
-                        <input id="checkbox1" type="checkbox" onchange="toggleDataset('<%=request.getParameter("id1")%>', this.checked);" checked="checked" />
+                        <input id="checkbox1" type="checkbox" onchange="toggleDataset('Linea temporale <%=request.getParameter("id1")%>','<%=request.getParameter("id1")%>', this.checked);" checked="checked" />
                     </div>
                 </div>
                 <div style="float: left; width: 50%;">
                     <label for="checkbox1" style="color: white"><%=request.getParameter("id2")%></label>
                     <div class="toggle-button-class">
-                        <input id="checkbox2" type="checkbox" onchange="toggleDataset('<%=request.getParameter("id2")%>', this.checked);" checked="checked" />
+                        <input id="checkbox2" type="checkbox" onchange="toggleDataset('Linea temporale <%=request.getParameter("id2")%>','<%=request.getParameter("id2")%>', this.checked);" checked="checked" />
                     </div>
                 </div>
 
-                <br />
-
+                <br />   
             </div>
 
             <!--bisogna aggiungere clear:left altrimenti la mappa viene allineata a sx come i div sopra-->
             <div id="timemap" style="clear: left;">
-                <div id="mapcontainer">
+                <div id="mapcontainer" style="border-width:5px;border-bottom:solid;">
                     <div id="map" style="-moz-border-radius: 10px 10px 0px 0px; -webkit-border-radius: 10px 10px 0px 0px; border-radius: 10px 10px 0px 0px;">
                     </div>
+                    
                 </div>
                 <div id="timelinecontainer">
                     <div id="timeline" style="-moz-border-radius: 0px 0px 10px 10px; -webkit-border-radius: 0px 0px 10px 10px; border-radius: 0px 0px 10px 10px;"></div>
                 </div>
-            </div>
+            </div>            
         </div>
     </body>
 </html>

@@ -39,7 +39,8 @@
                 padding-bottom: 0px
             }
             #title{
-                width: 272px   
+                width: 350px; 
+
             }
             .modal p{
                 text-align: center;
@@ -48,8 +49,22 @@
             form{
                 text-align: center;
             }
-            #text{
-                margin-top: 50px
+            p {
+                margin-top: 40px
+            }
+
+            #fileInput{
+                display: none;
+            }
+            #modal-body-uploaded{
+                display: none
+            }
+            
+            #myModalInfo p{
+                /* background-image: url('bootstrap/img/old_house.jpg');
+                */
+                font-size: 26px;
+                line-height: 1.5;
             }
         </style>
     </head>
@@ -60,12 +75,21 @@
 
                 <form name="upload" method="get" action="mappacerchio.jsp">
                     <h1> Upload your Photo </h1>      
-                    <p id="text">Copy the URL of your image in the following bar and please Insert a Title</p>
+                    <p id="text"><i class="icon-arrow-right"></i> Select a photo from your library or just Copy the URL of the image in the following bar </p>
+                    <input id="submit" type="submit" style="display:none">
+                    <input id="fileInput" type="file" onchange="displayImage(this.files[0])">
+
+                    <button class="btn btn-primary" type="button" onclick="document.getElementById('fileInput').click()">Click here to upload from your library</button>                    
+
                     <input id="url" name="url" autofocus="autofocus" type="text" class="search-query" placeholder="Copy URL here" onchange="readURL();" onblur="readURL();"/>
-                    <input id="title" name="title" type="text" class="search-query" placeholder="Insert Title Here"/>
+
+                    <p> <i class="icon-arrow-right"></i>  And remember to Insert a Title 
+                        <input id="title" name="title" type="text" class="search-query" placeholder="Insert Title Here"/>
+                    </p>
+
                     <img id="img" src="#" alt="image not found"/>
                     <div id="next">
-                        <button class="btn btn-primary btn-large btn-block" type="submit" onclick="return check()"> Submit url</button>
+                        <button class="btn btn-primary btn-large btn-block" type="button" onclick="return checkOrUpload()"> Submit url</button>
                     </div>
                 </form>
             </div>
@@ -76,7 +100,7 @@
                     <h3 id="myModalLabel">Attention</h3>
                 </div>
                 <div class="modal-body">
-                    <p>Please check the url you entered because only  jpg, jpeg or png extension ere supported!</p>
+                    <p>Please check what you entered because only  jpg, jpeg, png or gif extension ere supported!</p>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -95,7 +119,44 @@
                     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
                 </div>
             </div>
-        </div>
 
+            <div id="myModalUpload" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                <div class="modal-header">
+                    <h3 id="myModalLabel">Uploading your photo to <strong>Imgur.com</strong></h3>
+                </div>
+                <div id="modal-body-uploading" class="modal-body">
+                    <p>I'm uploading your photo please wait!</p>
+                    <div class="progress progress-striped active">
+                        <div class="bar" style="width: 100%;"></div>
+                    </div>
+                </div>
+                <div id="modal-body-uploaded" class="modal-body">
+                    <p>The photo was succesfully uploaded!</p>
+                    <div class="alert alert-info">
+                        This is the link of your photo on Imgur.com: <a id="link" target="_blank"></a>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-large btn-block" onclick="submit()"> Continue </button>               
+                </div>
+            </div>
+            <div id="myModalInfo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Hello and welcome to CrowdMemories!</h3>
+                </div>
+                <div class="modal-body">
+                    <img src="bootstrap/img/old_house.jpg">
+                    <p>
+                        We would need photos or images of the world as it was years ago. <br>
+                        We kindly ask you to upload a photo and then, 
+                        based on what you remember, add some simple information such as the date
+                        or the place where it was taken! <br>
+                        Thank you for your help! 
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-block" data-dismiss="modal" aria-hidden="true">Ok continue!</button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

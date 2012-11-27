@@ -62,13 +62,12 @@
                 resize: none
             }
             #image { 
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-                max-height: 500px; 
-                max-width: 750px;
-                margin-bottom: 40px;
-                margin-top: 40px
+                max-height: 250px; 
+                max-width: 250px;
+            }
+            #box{
+                background-color: white;
+                padding: 20px;
             }
         </style>
         <script src="bootstrap/js/jquery-1.8.2.min.js"></script>
@@ -115,15 +114,28 @@
                         <input name="title" value="<%= title%>">
                     </div>
                 </form>
-                <h1>Do you remember the location?</h1>
 
-                <img id="image" src="<%=url%>"  class="img-rounded">
+                <div id="box" class="hero-unit">
+                    <table style="margin-left:auto; margin-right: auto; padding: 10px; width: 70%;">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <img id="image" src="<%=url%>"  class="img-rounded"> 
+                                </td>
+                                <td>
+                                    <h2><%= title%></h2>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
+                <h1 style="margin-bottom: 70px;margin-top: 70px;">Do you remember the location?</h1>
                 <div class="span7" >
-                    <p>If you remember exactly the location just drag the marker on the map over the location or select with a rightclick on the map the area in which you think it was.</p>
+                    <p><i class="icon-arrow-right"></i> If you remember exactly the location just drag the marker on the map over the location or select with a rightclick on the map the area in which you think it was.</p>
                     <div id="map_canvas" ></div>
                     <div id="search">
-                        <p> You can also search a place!  </p>
+                        <p> <i class="icon-arrow-right"></i> You can also search a place!  </p>
                         <input id="address" name="address" class="input-medium search-query" type="text" placeholder="Insert place here" >
                         <input type="button" class="btn btn-primary" value="Search Place" onclick="codeAddress()">
 
@@ -164,7 +176,7 @@
 
                 <div id="right" class="span4" >
                     <form method="get" action="date.jsp">
-                        <p> Otherwise you can describe it textually.</p>
+                        <p> <i class="icon-arrow-right"></i> Otherwise you can describe it textually.</p>
                         <textarea id="mytext" name="description" placeholder="Add location textually"></textarea>
                         <button class="btn btn-success btn-large " type="submit" name="submit" value="text" onclick="return checkDescription()"> or add the description </button>
 

@@ -47,32 +47,12 @@ public final class mappacerchio_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write("\n");
 
-    /*
-     if (session.getAttribute("user_name") == null) {
-     response.sendRedirect("index.jsp");
-     }
-     */
-
-      out.write('\n');
 
     String url = request.getParameter("url");
     String title = request.getParameter("title");
 
-    /*
-     try {
-
-
-     Media media = new Media();
-
-     media.setTitle(title);
-     media.setUrl(url);
-     media.setSource_url(url);
-     session.setAttribute("media", media);
-
-     } catch (Exception e) {
-     }
-     */
 
       out.write("\n");
       out.write("\n");
@@ -106,7 +86,7 @@ public final class mappacerchio_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("\n");
       out.write("            #sfondo { \n");
       out.write("                width: 940px;\n");
-      out.write("                height: 830px;\n");
+      out.write("                padding-bottom: 760px;\n");
       out.write("                margin-top: 40px;\n");
       out.write("                margin-left: auto;\n");
       out.write("                margin-right: auto;\n");
@@ -122,7 +102,13 @@ public final class mappacerchio_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("                margin-bottom: 100px;\n");
       out.write("                resize: none\n");
       out.write("            }\n");
-      out.write("\n");
+      out.write("            #image { \n");
+      out.write("                display: block;\n");
+      out.write("                max-height: 500px; \n");
+      out.write("                max-width: 750px;\n");
+      out.write("                margin-bottom: 40px;\n");
+      out.write("                margin-top: 40px\n");
+      out.write("            }\n");
       out.write("        </style>\n");
       out.write("        <script src=\"bootstrap/js/jquery-1.8.2.min.js\"></script>\n");
       out.write("        <script type=\"text/javascript\"\n");
@@ -161,16 +147,28 @@ public final class mappacerchio_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("    <body onload=\"initialize()\">\n");
       out.write("        <div class=\"container\">\n");
       out.write("            <div id=\"sfondo\" class=\"hero-unit\">\n");
-      out.write("                <a href=\"date.jsp\"><span class=\"label pull-right\">skip this <i class=\"icon-forward\"></i></span></a>\n");
-      out.write("                <h1>Do you remember the location?</h1>\n");
-      out.write("                <div style=\"display: block; text-align: center\">\n");
+      out.write("                <form method=\"get\" action=\"date.jsp\">\n");
+      out.write("                    <button class=\"btn btn-mini pull-right\" type=\"submit\" name=\"submit\" value=\"skip\"> Skip this <i class=\"icon-forward\"></i></button>\n");
+      out.write("                    <div style=\"display: none;\">\n");
+      out.write("                        <input name=\"url\" value=\"");
+      out.print( url);
+      out.write("\">\n");
+      out.write("                        <input name=\"title\" value=\"");
+      out.print( title);
+      out.write("\">\n");
+      out.write("                    </div>\n");
+      out.write("                </form>\n");
+      out.write("                <div>\n");
+      out.write("                    <img id=\"image\" src=\"");
+      out.print(url);
+      out.write("\"  class=\"img-rounded\">\n");
       out.write("                    <h2>");
       out.print( title);
       out.write("</h2>\n");
-      out.write("                    <img id=\"img\" src=\" ");
-      out.print( url);
-      out.write(" \" style=\"max-width: 400px; max-height: 400px\" alt=\"image not found\"/>\n");
       out.write("                </div>\n");
+      out.write("                <h1>Do you remember the location?</h1>\n");
+      out.write("\n");
+      out.write("\n");
       out.write("                <div class=\"span7\" >\n");
       out.write("                    <p>If you remember exactly the location just drag the marker on the map over the location or select with a rightclick on the map the area in which you think it was.</p>\n");
       out.write("                    <div id=\"map_canvas\" ></div>\n");

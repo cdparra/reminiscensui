@@ -44,7 +44,7 @@
             <div id="sfondo" class="hero-unit">
                 <h1> Welcome to CrowdMemories </h1>
                 <img id="image" src="bootstrap/img/upload-fill-submit.jpg" class="img-rounded">
-                <a id="start-now" class="btn btn-success btn-large" href="uploadOnlyUrl.jsp"> 
+                <a id="start-now" class="btn btn-success btn-large" href="upload.jsp"> 
                     Start Now
                 </a>
             </div>

@@ -42,10 +42,11 @@
             //creo l' oggetto stringa a cui farò creare la stringa json
             Stringa stringa = new Stringa();
             //creo la stringa json
-            String[] param = stringa.creazioneStringa(request.getParameter("id1"),request.getParameter("id2"));
+            String[] param = stringa.creazioneStringa(request.getParameter("id1"), request.getParameter("id2"));
         %>
         <script type="text/javascript">
             var tm;
+            ﻿var selected; //elemento selezionato. Lo devo salvare nel caso in cui ci sia overlapping perchè altrimenti lo andrei a perdere.
             var oms;
             $(function () {
                 // make a custom map style
@@ -97,7 +98,7 @@
                     //devo prenderli dentro tutti!!!! con getNativePlacemark() recupero il marker di ogni Item della TimeMap!!!
                     a[i].closeInfoWindow();
                     oms.addMarker(a[i].getNativePlacemark());  // <-- here
-                }
+                }               
 
                 //devo inizializzare i toggle-button!
                 $('.toggle-button-class').toggleButtons({
@@ -111,6 +112,7 @@
         </script>
     </head>
     <body>
+
         <div id="container" style="width: 1024px; margin-right: auto; margin-left: auto;">
             <div id="header" style="width: 800px; margin-right: auto; margin-left: auto; padding: 5px; text-align: center;">
                 <img src="images/layout/cover-flatten.png" />
@@ -169,11 +171,11 @@
                             <div class="tab-pane" id="confronto" style="padding:5px;">
                                 <div id="Lista1" class="tabbable tabs-left">
                                     <h3><%=request.getParameter("id1")%></h3>
-                                     <%=param[1]%>
+                                    <%=param[1]%>                                     
                                 </div>
                                 <div id="Lista2" class="tabbable tabs-left">
                                     <h3><%=request.getParameter("id2")%></h3>
-                                     <%=param[2]%>
+                                    <%=param[2]%>
                                 </div>
                             </div>
                         </div>
@@ -226,9 +228,9 @@
                 <div id="mapcontainer" style="border-width:5px;border-bottom:solid;">
                     <div id="map" style="-moz-border-radius: 10px 10px 0px 0px; -webkit-border-radius: 10px 10px 0px 0px; border-radius: 10px 10px 0px 0px;">
                     </div>
-                    
+
                 </div>
-                <div id="timelinecontainer">
+                <div id="timelinecontainer" onmousedown="raggruppa()">
                     <div id="timeline" style="-moz-border-radius: 0px 0px 10px 10px; -webkit-border-radius: 0px 0px 10px 10px; border-radius: 0px 0px 10px 10px;"></div>
                 </div>
             </div>            

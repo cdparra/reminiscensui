@@ -86,7 +86,8 @@
             }
         </style>
         <script type="text/javascript">
-            function check(num){
+            function check(input){
+                var num = input.value;
                 if(isNaN(num)){
                     alert("Please enter a number!");   
                     num.value = null;

@@ -76,13 +76,12 @@
                 margin-right: auto;
             }
             #image { 
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-                max-height: 500px; 
-                max-width: 750px;
-                margin-bottom: 40px;
-                margin-top: 40px
+                max-height: 250px; 
+                max-width: 250px;
+            }
+            #box{
+                background-color: white;
+                padding: 20px;
             }
         </style>
         <script type="text/javascript">
@@ -90,7 +89,7 @@
                 var num = input.value;
                 if(isNaN(num)){
                     alert("Please enter a number!");   
-                    num.value = null;
+                    input.value = null;
                 }  
             }
         </script>
@@ -111,12 +110,23 @@
                         <input name="loctype" value="<%=button%>">
                     </div>
                 </form>
-                <h1>Do you remember the date?</h1>
 
-                <img id="image" src="<%=url%>"  class="img-rounded">
-
-                <div style="margin-top: 15px">
-
+                <div id="box" class="hero-unit">
+                    <table style="margin-left:auto; margin-right: auto; padding: 10px; width: 70%;">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <img id="image" src="<%=url%>"  class="img-rounded"> 
+                                </td>
+                                <td>
+                                    <h2><%= title%></h2>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h1 style="margin-bottom: 70px;margin-top: 70px;">Do you remember the date?</h1>
+                <div>
                     <button id="yes" class="btn btn-large btn-success btn-block">Yes, sure!</button>
 
                     <div id="yesdiv">
@@ -438,7 +448,7 @@
                                                         <option value="58">58</option>
                                                         <option value="59">59</option>
                                                     </select> 
-                                                                                                    </td>                            
+                                                </td>                            
                                             </tr>
                                         </table>
                                     </td>
@@ -465,7 +475,7 @@
                                 <input name="description" value="<%= description%>">
                                 <input name="loctype" value="<%=button%>">
                             </div>
-                             <%
+                            <%
                             } else if (button.equals("skip")) {
                             %>
                             <div style="display:none">
@@ -506,7 +516,7 @@
                                 <input name="description" value="<%= description%>">
                                 <input name="loctype" value="<%=button%>">
                             </div>
-                             <%
+                            <%
                             } else if (button.equals("skip")) {
                             %>
                             <div style="display:none">

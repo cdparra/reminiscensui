@@ -159,11 +159,10 @@ function getMarkerLocationInfo(location){
         if (status == google.maps.GeocoderStatus.OK) {
             if (results[0]) {                   
               
-                for(var i in results[0].address_components){
-                    // for(var i=0, j = results[0].address_components.length; i < j ; i++){
-                    console.log(i+" : " +results[0].address_components[i].types[0]+" : "+results[0].address_components[i].long_name);   
+                /* for(var i in results[0].address_components){
+                   console.log(i+" : " +results[0].address_components[i].types[0]+" : "+results[0].address_components[i].long_name);   
                 }
-                           
+               */            
                 document.getElementById('indirizzo').value = results[0].formatted_address ;
              
             }

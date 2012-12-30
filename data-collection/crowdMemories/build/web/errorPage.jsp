@@ -6,7 +6,7 @@
 <%@page isErrorPage="true"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    request.getSession().invalidate();
+  //  request.getSession().invalidate();
 %>
 <!DOCTYPE html>
 <html>

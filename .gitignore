@@ -8,3 +8,4 @@ data-collection/crowdMemories/build/generated/classes/org/apache/jsp/date_005f1_
 *.smap
 
 data-collection/crowdMemories/build/
+/visualization/Timeline/dist/

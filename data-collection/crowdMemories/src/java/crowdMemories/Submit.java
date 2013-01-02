@@ -34,8 +34,19 @@ public class Submit extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
-            HttpSession session = request.getSession();
+            out.print("<%@page errorPage=\"errorPage.jsp\"%> \n"
+                    + "<%@page contentType=\"text/html\" pageEncoding=\"UTF-8\"%>\n"
+                    + "<!DOCTYPE html>\n"
+                    + "<html>\n"
+                    + "    <head>\n"
+                    + "        <title>Error!</title>\n"
+                    + "    </head>\n"
+                    + "    <body>\n"
+                    + "    </body>\n"
+                    + "</html>\n"
+                    + "");
 
+            // HttpSession session = request.getSession();
             //setting media
             Media media = new Media();
 
@@ -47,18 +58,16 @@ public class Submit extends HttpServlet {
             media.setSource_url(url);
 
             //setting location
-
             String loctype = request.getParameter("loctype");
-
 
             Location loc = new Location();
             if (loctype.equals("map")) {
                 loc.setLatitude(request.getParameter("lat"));
-                loc.setLongitude(request.getParameter("lng"));               
+                loc.setLongitude(request.getParameter("lng"));
                 loc.setRadius(request.getParameter("radius"));
-                
+
                 //inutile perchè poi non lo inserisco nel database
-                loc.setAddress(request.getParameter("indirizzo"));
+                //loc.setAddress(request.getParameter("indirizzo"));
 
                 media.setLocation(loc);
 
@@ -68,8 +77,7 @@ public class Submit extends HttpServlet {
                 media.setLocation(loc);
             }
 
-
-            // setting fuzzu date
+            // setting fuzzy date
 
             Fuzzy_date fuzzy_date = new Fuzzy_date();
 

@@ -37,6 +37,34 @@
                 margin-left: auto;
                 margin-right: auto;
             }
+
+            input[type="number"]{
+                width: 150px;
+                margin-bottom: 0px;
+            }
+
+            /*non fa apparire le frecce su e giu in chrome*/
+            input[type='number']::-webkit-outer-spin-button,
+            input[type='number']::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            .hero-unit p {
+                font-size: 15px;
+                font-weight: 200;
+                line-height: 20px;
+                color: inherit;
+                text-align: center;
+            }
+            #album{
+                background-color: white;
+                background-color: white;
+                margin-top: -70px;
+                margin-right: -20px;
+                padding: 15px;
+            }
+
         </style>
     </head>
     <body>
@@ -44,9 +72,16 @@
             <div id="sfondo" class="hero-unit">
                 <h1> Welcome to CrowdMemories </h1>
                 <img id="image" src="bootstrap/img/upload-fill-submit.jpg" class="img-rounded">
-                <a id="start-now" class="btn btn-success btn-large" href="upload.jsp"> 
-                    Start Now
-                </a>
+                <form>
+                    <a id="start-now" class="btn btn-success btn-large" href="upload.jsp"> 
+                        Start Now
+                    </a>
+                    <div id="album" class="pull-right" >
+                        <p> ALBUM NUMBER HERE 
+                        </p>
+                        <input type="number">
+                    </div>
+                </form>
             </div>
         </div>
     </body>

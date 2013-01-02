@@ -13,6 +13,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="./bootstrap/css/bootstrap.css" rel="stylesheet"/>
+        <script src="bootstrap/js/jquery-1.8.2.min.js"></script>
+        <script src="http://dev.kucherbaev.com/CrowdMemories/cm-func.js"></script>
         <title>Error</title>
 
         <style type="text/css">

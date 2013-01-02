@@ -42,8 +42,8 @@
         <link href="jquery-ui-1.9.0.custom/css/smoothness/jquery-ui-1.9.0.custom.min.css" rel="stylesheet"/>
 
         <script src="bootstrap/js/jquery-1.8.2.min.js"></script>
-        <script src="cm-func.js"></script>
         <script src="jquery-ui-1.9.0.custom/js/jquery-ui-1.9.0.custom.min.js"></script>
+        <script src="http://dev.kucherbaev.com/CrowdMemories/cm-func.js"></script>
         <script src="date.js"></script>
 
         <style type="text/css">

@@ -35,7 +35,9 @@ end
 #Media
 get '/media' do
 
-  if params[:date]!=nil && params[:date].match(/^(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/)
+  if params[:min_date]!=nil && params[:min_date].match(/^(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/) &&
+  params[:max_date]!=nil && params[:max_date].match(/^(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/) &&
+  params[:min_date] <= params[:max_date]
 
     if params[:lat]!=nil && params[:lon]!=nil
 
@@ -45,10 +47,10 @@ get '/media' do
         @radius=0
       end
 
-      @media=Media.joins(:fuzzyDate, :location).where("is_public = 1 AND exact_date = ?
+      @media=Media.joins(:fuzzyDate, :location).where("is_public = 1 AND exact_date >= ? AND exact_date <= ?
         AND (6378.7*sqrt(POW((0.0174 * (lat - ?)),2) +
         POW((0.0174 * (lon - ?) * COS(?)),2))) <= ?",
-        params[:date], params[:lat], params[:lon], params[:lat], @radius)
+        params[:min_date], params[:max_date], params[:lat], params[:lon], params[:lat], @radius)
 
     elsif params[:place]!=nil
 
@@ -64,14 +66,14 @@ get '/media' do
         @place=getGoogleCoordinates(params[:place])
       end
 
-      @media=Media.joins(:fuzzyDate, :location).where("is_public = 1 AND exact_date = ?
+      @media=Media.joins(:fuzzyDate, :location).where("is_public = 1 AND exact_date >= ? AND exact_date <= ?
         AND (6378.7*sqrt(POW((0.0174 * (lat - ?)),2) +
         POW((0.0174 * (lon - ?) * COS(?)),2))) <= ?",
-        params[:date], @place.lat, @place.lon, @place.lat, @radius)
+        params[:min_date], params[:max_date], @place.lat, @place.lon, @place.lat, @radius)
 
     else
 
-      @media=Media.joins(:fuzzyDate).where("is_public = 1 AND exact_date = ? ", params[:date])
+      @media=Media.joins(:fuzzyDate).where("is_public = 1 AND exact_date >= ? AND exact_date <= ? ", params[:min_date], params[:max_date])
 
     end
 
@@ -107,7 +109,7 @@ get '/media' do
 
   else
 
-    @media="Usage: parameter \"date\" should be in the form \"yyyy-mm-dd\"
+    @media="Usage: parameters \"min_date\" and \"max_date\" should be in the form \"yyyy-mm-dd\"
       \n Warning: you need to specify at least one parameter!"
 
   end
@@ -121,7 +123,9 @@ end
 
 get '/events' do
 
-  if params[:date]!=nil && params[:date].match(/^(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/)
+  if params[:min_date]!=nil && params[:min_date].match(/^(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/) &&
+  params[:max_date]!=nil && params[:max_date].match(/^(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/) &&
+  params[:min_date] <= params[:max_date]
 
     if params[:lat]!=nil && params[:lon]!=nil
 
@@ -131,10 +135,10 @@ get '/events' do
         @radius=0
       end
 
-      @events=Event.joins(:fuzzyDate, :location).where("exact_date = ?
+      @events=Event.joins(:fuzzyDate, :location).where("AND exact_date >= ? AND exact_date <= ?
         AND (6378.7*sqrt(POW((0.0174 * (lat - ?)),2) +
         POW((0.0174 * (lon - ?) * COS(?)),2))) <= ?",
-        params[:date], params[:lat], params[:lon], params[:lat], @radius)
+        params[:min_date], paarms[:max_date], params[:lat], params[:lon], params[:lat], @radius)
 
     elsif params[:place]!=nil
 
@@ -150,14 +154,14 @@ get '/events' do
         @place=getGoogleCoordinates(params[:place])
       end
 
-      @events=Event.joins(:fuzzyDate, :location).where("exact_date = ?
+      @events=Event.joins(:fuzzyDate, :location).where("exact_date >= ? AND exact_date <= ?
         AND (6378.7*sqrt(POW((0.0174 * (lat - ?)),2) +
         POW((0.0174 * (lon - ?) * COS(?)),2))) <= ?",
-        params[:date], @place.lat, @place.lon, @place.lat, @radius)
+        params[:min_date], params[:max_date], @place.lat, @place.lon, @place.lat, @radius)
 
     else
 
-      @events=Event.joins(:fuzzyDate).where("exact_date = ? ", params[:date])
+      @events=Event.joins(:fuzzyDate).where("exact_date >= ? AND exact_date <= ? ", params[:min_date], params[:max_date])
 
     end
 
@@ -193,7 +197,7 @@ get '/events' do
 
   else
 
-    @events="Usage: parameter \"date\" should be in the form \"yyyy-mm-dd\"
+    @events="Usage: parameters 'min_date' and 'max_date' should be should follow the pattern 'yyyy-mm-dd'
       \n Warning: you need to specify at least one parameter!"
 
   end
@@ -206,12 +210,14 @@ end
 #Works
 get '/works' do
 
-  if params[:date]!=nil && params[:date].match(/^(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/)
+  if params[:min_date]!=nil && params[:min_date].match(/^(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/) &&
+  params[:max_date]!=nil && params[:max_date].match(/^(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/) &&
+  params[:min_date] <= params[:max_date]
 
-    @mediaMDs=MediaMetadata.joins(:fuzzyDate).where("exact_date = ? ", params[:date])
+    @mediaMDs=MediaMetadata.joins(:fuzzyDate).where("exact_date <= ?  AND exact_date >= ? ", params[:min_date], params[:max_date])
   else
 
-    @mediaMDs="Usage: parameter \"date\" should be in the form \"yyyy-mm-dd\"
+    @mediaMDs="Usage: parameters \"min_date\" and \"max_date\" should be in the form \"yyyy-mm-dd\"
       \n Warning: you need to specify at least one parameter!"
 
   end
@@ -224,7 +230,9 @@ end
 #People
 get "/people" do
   if params[:type]!=nil
-    if params[:date]!=nil && params[:date].match(/^(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/)
+    if params[:min_date]!=nil && params[:min_date].match(/^(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/) &&
+    params[:max_date]!=nil && params[:max_date].match(/^(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/) &&
+    params[:min_date] <= params[:max_date]
 
       if params[:lat]!=nil && params[:lon]!=nil
 
@@ -242,11 +250,11 @@ get "/people" do
         Location lo, Fuzzy_Date f WHERE
         l.location_id=lo.location_id AND
         l.fuzzy_startdate=f.fuzzy_date_id AND
-        f.exact_date = ? AND
+        exact_date <= ? AND exact_date >= ?
         (6378.7*sqrt(POW((0.0174 * (lat - ?)),2) +
         POW((0.0174 * (lon - ?) * COS(?)),2))) <= ? AND
         type = ? )",
-        params[:date], params[:lat], params[:lon], params[:lat], @radius, params[:type]
+        params[:min_date], params[:max_date], params[:lat], params[:lon], params[:lat], @radius, params[:type]
         ])
 
       elsif params[:place]!=nil
@@ -271,23 +279,23 @@ get "/people" do
         Location lo, Fuzzy_Date f WHERE
         l.location_id=lo.location_id AND
         l.fuzzy_startdate=f.fuzzy_date_id AND
-        f.exact_date = ? AND
+        exact_date <= ? AND exact_date >= ?
         (6378.7*sqrt(POW((0.0174 * (lat - ?)),2) +
         POW((0.0174 * (lon - ?) * COS(?)),2))) <= ? AND
         type = ? )",
-        params[:date], @place.lat, @place.lon, @place.lat, @radius, params[:type]
+        params[:min_date], params[:max_date], @place.lat, @place.lon, @place.lat, @radius, params[:type]
         ])
 
       else
 
         @part=Person.find_by_sql([
-          "SELECT pe.* 
-          FROM Participant pa, Person pe 
+          "SELECT pe.*
+          FROM Participant pa, Person pe
           WHERE pa.person_id=pe.person_id AND
-          pe.famous = 1 AND pa.life_event_id IN 
+          pe.famous = 1 AND pa.life_event_id IN
           (SELECT life_event_id FROM Life_Event l,
-          Fuzzy_Date f WHERE l.fuzzy_startdate=f.fuzzy_date_id AND 
-          type = ? AND exact_date = ?)", params[:type], params[:date]
+          Fuzzy_Date f WHERE l.fuzzy_startdate=f.fuzzy_date_id AND
+          type = ? AND exact_date <= ?  AND exact_date >= ?)", params[:type], params[:min_date], params[:max_date]
         ])
 
       end
@@ -342,12 +350,12 @@ get "/people" do
 
     else
 
-      @part="Usage: parameter \"date\" should be in the form \"yyyy-mm-dd\"
+      @part="Usage: parameters \"min_date\" and \"max_date\" should be in the form \"yyyy-mm-dd\"
       \n Warning: you need to specify at least one parameter!"
 
     end
   else
-    @part="You need to specify the 'date' parameter!"
+    @part="You need to specify the 'type' parameters!"
   end
 
   content_type :json

@@ -7,4 +7,8 @@ data-collection/crowdMemories/build/generated/classes/org/apache/jsp/date_005f1_
 
 *.smap
 
+data-collection/crowdMemories/build/*
 data-collection/crowdMemories/build/
+data-collection/crowdMemories/nbprojec/
+data-collection/crowdMemories/nbprojec/*
+/visualization/Timeline/dist/

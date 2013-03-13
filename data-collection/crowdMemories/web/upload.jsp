@@ -18,8 +18,8 @@
         <title>Upload Page</title>
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet"/>
         <script src="bootstrap/js/jquery-1.8.2.min.js"></script>
-        <script src="cm-func.js"></script>
         <script src="bootstrap/js/bootstrap.js"></script>
+        <script src="http://dev.kucherbaev.com/CrowdMemories/cm-func.js"></script>
         <script src="upload.js"></script>
 
         <style type="text/css">

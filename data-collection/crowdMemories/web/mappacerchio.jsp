@@ -71,7 +71,7 @@
         <script type="text/javascript"
                 src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAfhwuXTgopU7b9KHaTB9YDZwQ6LdPbLJ8&sensor=false">
         </script>
-        <script src="cm-func.js"></script>
+        <script src="http://dev.kucherbaev.com/CrowdMemories/cm-func.js"></script>
         <script src="bootstrap/js/bootstrap.js"></script>
         <script src="myMapMarkerCircle.js"></script>
         <script type="text/javascript">

@@ -28,7 +28,7 @@
         </property>
         
         <many-to-one cascade="all" column="location_id" name="location" unique="true"/>
-        <many-to-one cascade="all" column="time_interval_id" name="time_interval" unique="true"/>
-        
+        <many-to-one cascade="all" column="fuzzy_startdate" name="fuzzy_startdate" unique="true"/>
+              
     </class>
 </hibernate-mapping>

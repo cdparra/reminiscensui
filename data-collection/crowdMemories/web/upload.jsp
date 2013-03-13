@@ -3,9 +3,13 @@
     Created on : 1-ott-2012, 15.08.43
     Author     : francesco
 --%>
-<%@page import="crowdMemories.Media"%>
+
 <%@page errorPage="errorPage.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    String album_id = request.getParameter("album_id");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -60,7 +64,7 @@
             #modal-body-uploaded{
                 display: none
             }
-            
+
             #myModalInfo p{
                 /* background-image: url('bootstrap/img/old_house.jpg');
                 */
@@ -79,20 +83,20 @@
                     <p id="text"><i class="icon-arrow-right"></i> Select a photo from your library or just Copy the URL of the image in the following bar </p>
                     <input id="submit" type="submit" style="display:none">
                     <input id="fileInput" type="file" onchange="displayImage(this.files[0])">
-
                     <button class="btn btn-primary" type="button" onclick="document.getElementById('fileInput').click()">Click here to upload from your library</button>                    
-
                     <input id="url" name="url" autofocus="autofocus" type="text" class="search-query" placeholder="Copy URL here" onchange="readURL();" onblur="readURL();"/>
-
-                    <p> <i class="icon-arrow-right"></i>  And remember to Insert a Title 
+                    <input name="album_id" type="number" style="display:none" value="<%=album_id%>">
+                    <p> 
+                        <i class="icon-arrow-right"></i>  And remember to Insert a Title 
                         <input id="title" name="title" type="text" class="search-query" placeholder="Insert Title Here"/>
                     </p>
-
                     <img id="img" src="#" alt="image not found"/>
+
                     <div id="next">
                         <button class="btn btn-primary btn-large btn-block" type="button" onclick="return checkOrUpload()"> Submit url</button>
                     </div>
                 </form>
+
             </div>
 
             <div id="myModalUrl" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

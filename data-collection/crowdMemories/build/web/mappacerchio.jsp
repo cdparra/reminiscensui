@@ -3,16 +3,15 @@
     Created on : 1-ott-2012, 15.08.43
     Author     : francesco
 --%>
-<%@page import="crowdMemories.Media"%>
+
 <%@page errorPage="errorPage.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
 <%
-
+    String album_id = request.getParameter("album_id");
     String url = request.getParameter("url");
     String title = request.getParameter("title");
-
 %>
 
 <!DOCTYPE html>
@@ -24,28 +23,27 @@
         <style type="text/css">
 
             .hero-unit p{
-                text-align: center;
                 font-size: 14px;
                 line-height: 20px 
             }
             #address{
-                width:350px;
+                width:170px;
+                float: right;
             }
             #right{
                 width: 350px;
             }
-            #search{
-                padding: 20px
-            }
-
             #map_canvas { 
-                height: 480px;
-                width: 540px 
+                height: 300px;
+                width: 500px;
+                margin-bottom: 20px;
+                margin-top: 30px;
+                margin-left: 15px;
             }
 
             #sfondo { 
                 width: 940px;
-                padding-bottom: 760px;
+                padding-bottom: 520px;
                 margin-top: 40px;
                 margin-left: auto;
                 margin-right: auto;
@@ -55,15 +53,14 @@
                 font-size: 20px
             }
             #mytext{
-                width: 327px; 
-                height: 470px;
+                width: 335px;
+                height: 340px;
                 margin-top: 20px;
-                margin-bottom: 100px;
-                resize: none
+                margin-bottom: 20px;
+                resize: none;
             }
             #image { 
-                max-height: 250px; 
-                max-width: 250px;
+                max-height: 80px; 
             }
             #box{
                 background-color: white;
@@ -108,44 +105,42 @@
     <body onload="initialize()">
         <div class="container">
             <div id="sfondo" class="hero-unit">
-                <form method="get" action="date.jsp">
-                    <button class="btn btn-mini pull-right" type="submit" name="submit" value="skip"> Skip this <i class="icon-forward"></i></button>
-                    <div style="display: none;">
-                        <input name="url" value="<%= url%>">
-                        <input name="title" value="<%= title%>">
+                <div class="row" style="margin-bottom: 20px">
+                    <div class="span10">
+                        <h1 >Do you remember <br> the location?</h1>   
+                    </div>  
+                    <div class="span2" style="background: white;padding: 5px;margin-left: 0px;text-align: center;">
+                        <form method="get" action="date.jsp">
+                            <button class="btn btn-mini pull-right" type="submit" name="submit" value="skip" style="margin-bottom: 5px;"> Skip <i class="icon-forward"></i></button>
+                            <div style="display: none;">
+                                <input name="album_id" value="<%=album_id%>">
+                                <input name="url" value="<%= url%>">
+                                <input name="title" value="<%= title%>">
+                            </div>
+                        </form>
+                        <img id="image" src="<%= url%>" class="img-rounded"> 
+                        <p style="margin: 0 0 0px;"><%= title%></p>
                     </div>
-                </form>
-
-                <div id="box" class="hero-unit">
-                    <table style="margin-left:auto; margin-right: auto; padding: 10px; width: 70%;">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <img id="image" src="<%=url%>"  class="img-rounded"> 
-                                </td>
-                                <td>
-                                    <h2><%= title%></h2>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
 
-                <h1 style="margin-bottom: 70px;margin-top: 70px;">Do you remember the location?</h1>
                 <div class="span7" >
-                    <p><i class="icon-arrow-right"></i> If you remember exactly the location just drag the marker on the map over the location or select with a rightclick on the map the area in which you think it was.</p>
-                    <div id="map_canvas" ></div>
-                    <div id="search">
-                        <p> <i class="icon-arrow-right"></i> You can also search a place!  </p>
+                    <p>
+                        <i class="icon-arrow-right"></i> If you remember exactly the location just drag the marker on the map over the location or select with a rightclick on the map the area in which you think it was.
+                    </p>
+                    <p style="margin-right: 10px"> 
+                        <i class="icon-arrow-right"></i> You can also search a place!  
+                        <input type="button" class="btn btn-inverse pull-right" value="Search" onclick="codeAddress()">
                         <input id="address" name="address" class="input-medium search-query" type="text" placeholder="Insert place here" >
-                        <input type="button" class="btn btn-primary" value="Search Place" onclick="codeAddress()">
+                    </p>
 
-                    </div>
+
+                    <div id="map_canvas" ></div>
 
                     <form method="get" action="date.jsp" >
-                        <button class="btn btn-success btn-large" type="submit" name="submit" value="map" onclick="return checkLocation()"> Add the location on the map</button>
+                        <button class="btn btn-success btn-large btn-block" type="submit" name="submit" value="map" onclick="return checkLocation()"> Add the location on the map</button>
 
                         <div style="display: none; margin-top: 652px">
+                            <input name="album_id" value="<%=album_id%>">
                             <input name="url" value="<%= url%>">
                             <input name="title" value="<%= title%>">
                             <table class="table" style="margin-top: 40px; width: 700px;">
@@ -178,10 +173,11 @@
                 <div id="right" class="span4" >
                     <form method="get" action="date.jsp">
                         <p> <i class="icon-arrow-right"></i> Otherwise you can describe it textually.</p>
-                        <textarea id="mytext" name="description" placeholder="Add location textually"></textarea>
-                        <button class="btn btn-success btn-large " type="submit" name="submit" value="text" onclick="return checkDescription()"> or add the description </button>
+                        <textarea id="mytext" name="description" placeholder="Here you can describe textually what you remember of the location!"></textarea>
+                        <button class="btn btn-success btn-large btn-block" type="submit" name="submit" value="text" onclick="return checkDescription()"> or add the description </button>
 
                         <div style="display: none">
+                            <input name="album_id" value="<%=album_id%>">
                             <input name="url" value="<%= url%>">
                             <input name="title" value="<%= title%>">
                         </div>           

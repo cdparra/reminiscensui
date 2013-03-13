@@ -9,7 +9,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-
+    String album_id = request.getParameter("album_id");
     String url = request.getParameter("url");
     String title = request.getParameter("title");
     String button = request.getParameter("submit");
@@ -77,8 +77,7 @@
                 margin-right: auto;
             }
             #image { 
-                max-height: 250px; 
-                max-width: 250px;
+                max-height: 80px; 
             }
             #box{
                 background-color: white;
@@ -98,46 +97,42 @@
     <body>
         <div class="container">
             <div id="sfondo" class="hero-unit">
-                <form method="get" action="menu.jsp">
-                    <button class="btn btn-mini pull-right" type="submit" name="submit" value="skip"> Skip this <i class="icon-forward"></i></button>
-                    <div style="display: none;">
-                        <input name="url" value="<%= url%>">
-                        <input name="title" value="<%= title%>">
-                        <input name="lat" value="<%= lat%>">
-                        <input name="lng" value="<%= lng%>">
-                        <input name="radius" value="<%= radius%>">
-                        <input name="indirizzo" value="<%= indirizzo%>">
-                        <input name="description" value="<%= description%>">
-                        <input name="loctype" value="<%=button%>">
-                    </div>
-                </form>
 
-                <div id="box" class="hero-unit">
-                    <table style="margin-left:auto; margin-right: auto; padding: 10px; width: 70%;">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <img id="image" src="<%=url%>"  class="img-rounded"> 
-                                </td>
-                                <td>
-                                    <h2><%= title%></h2>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="row" style="margin-bottom: 20px">
+                    <div class="span10">
+                        <h1>Do you remember <br>the date?</h1>   
+                    </div>  
+                    <div class="span2" style="background: white;padding: 5px;margin-left: 0px;text-align: center;">
+                        <form method="get" action="menu_new_short.jsp">
+                            <button class="btn btn-mini pull-right" type="submit" name="submit" value="skip" style="margin-bottom: 5px;"> Skip <i class="icon-forward"></i></button>
+                            <div style="display: none;">
+                                <input name="album_id" value="<%=album_id%>">
+                                <input name="url" value="<%= url%>">
+                                <input name="title" value="<%= title%>">
+                                <input name="lat" value="<%= lat%>">
+                                <input name="lng" value="<%= lng%>">
+                                <input name="radius" value="<%= radius%>">
+                                <input name="indirizzo" value="<%= indirizzo%>">
+                                <input name="description" value="<%= description%>">
+                                <input name="loctype" value="<%=button%>">
+                            </div>
+                        </form>
+                        <img id="image" src="<%= url%>" class="img-rounded"> 
+                        <p style="margin: 0 0 0px;"><%= title%></p>
+                    </div>
                 </div>
-                <h1 style="margin-bottom: 70px;margin-top: 70px;">Do you remember the date?</h1>
                 <div>
                     <button id="yes" class="btn btn-large btn-success btn-block">Yes, sure!</button>
 
                     <div id="yesdiv">
-                        <form action="menu.jsp">
+                        <form action="menu_new_short.jsp">
                             <button name="submit" value="yes" class="btn btn-success btn-large pull-right" type="submit" style="margin-left: 540px;"> Submit </button>
                             Date: <input name="datepicker" type="text" id="datepicker" placeholder="click here to view calendar" readonly="readonly"/>
                             <%
                                 if (button.equals("map")) {
                             %>
                             <div style="display:none">
+                                <input name="album_id" value="<%=album_id%>">
                                 <input name="url" value="<%= url%>">
                                 <input name="title" value="<%= title%>">
                                 <input name="lat" value="<%= lat%>">
@@ -150,6 +145,7 @@
                             } else if (button.equals("text")) {
                             %>
                             <div style="display:none">
+                                <input name="album_id" value="<%=album_id%>">
                                 <input name="url" value="<%= url%>">
                                 <input name="title" value="<%= title%>">
                                 <input name="description" value="<%= description%>">
@@ -159,6 +155,7 @@
                             } else if (button.equals("skip")) {
                             %>
                             <div style="display:none">
+                                <input name="album_id" value="<%=album_id%>">
                                 <input name="url" value="<%= url%>">
                                 <input name="title" value="<%= title%>">
                                 <input name="loctype" value="<%=button%>">
@@ -172,7 +169,7 @@
                     <button id="almost" class="btn btn-large btn-primary btn-block" >Almost</button>
 
                     <div id="almostdiv">
-                        <form action="menu.jsp">
+                        <form action="menu_new_short.jsp">
                             <p style="text-align: center; padding-top: 5px">Just enter what you remember</p>
                             <button name="submit" value="almost" class="btn btn-primary btn-large pull-right" type="submit"> Submit </button>
                             <table>
@@ -459,6 +456,7 @@
                                 if (button.equals("map")) {
                             %>
                             <div style="display:none">
+                                <input name="album_id" value="<%=album_id%>">
                                 <input name="url" value="<%= url%>">
                                 <input name="title" value="<%= title%>">
                                 <input name="lat" value="<%= lat%>">
@@ -471,6 +469,7 @@
                             } else if (button.equals("text")) {
                             %>
                             <div style="display:none">
+                                <input name="album_id" value="<%=album_id%>">
                                 <input name="url" value="<%= url%>">
                                 <input name="title" value="<%= title%>">
                                 <input name="description" value="<%= description%>">
@@ -480,6 +479,7 @@
                             } else if (button.equals("skip")) {
                             %>
                             <div style="display:none">
+                                <input name="album_id" value="<%=album_id%>">
                                 <input name="url" value="<%= url%>">
                                 <input name="title" value="<%= title%>">
                                 <input name="loctype" value="<%=button%>">
@@ -493,13 +493,14 @@
                     <button id="no" class="btn btn-large btn-danger btn-block">No</button>
 
                     <div id="nodiv">
-                        <form action="menu.jsp" >
+                        <form action="menu_new_short.jsp">
                             <textarea id="description" name="description" placeholder="Try to write date textually" ></textarea>
                             <button name="submit" value="no" class="btn btn-danger btn-large pull-right" type="submit"> Submit </button>
                             <%
                                 if (button.equals("map")) {
                             %>
                             <div style="display:none">
+                                <input name="album_id" value="<%=album_id%>">
                                 <input name="url" value="<%= url%>">
                                 <input name="title" value="<%= title%>">
                                 <input name="lat" value="<%= lat%>">
@@ -512,6 +513,7 @@
                             } else if (button.equals("text")) {
                             %>
                             <div style="display:none">
+                                <input name="album_id" value="<%=album_id%>">
                                 <input name="url" value="<%= url%>">
                                 <input name="title" value="<%= title%>">
                                 <input name="description" value="<%= description%>">
@@ -521,6 +523,7 @@
                             } else if (button.equals("skip")) {
                             %>
                             <div style="display:none">
+                                <input name="album_id" value="<%=album_id%>">
                                 <input name="url" value="<%= url%>">
                                 <input name="title" value="<%= title%>">
                                 <input name="loctype" value="<%=button%>">

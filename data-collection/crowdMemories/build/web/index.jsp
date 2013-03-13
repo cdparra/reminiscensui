@@ -72,14 +72,14 @@
             <div id="sfondo" class="hero-unit">
                 <h1> Welcome to CrowdMemories </h1>
                 <img id="image" src="bootstrap/img/upload-fill-submit.jpg" class="img-rounded">
-                <form>
-                    <a id="start-now" class="btn btn-success btn-large" href="upload.jsp"> 
+                <form name="start" method="get" action="Album_check">
+                    <button id="start-now" class="btn btn-success btn-large" type="submit"> 
                         Start Now
-                    </a>
+                    </button>
                     <div id="album" class="pull-right" >
                         <p> ALBUM NUMBER HERE 
                         </p>
-                        <input type="number">
+                        <input name="album_id" type="number">
                     </div>
                 </form>
             </div>

@@ -20,19 +20,27 @@ public class Media implements java.io.Serializable {
     private String title;
     private Timestamp last_update;
     private Location location;
-    private Time_interval time_interval;
+    private Fuzzy_date fuzzy_startdate;
 
     public Media() {
         source = "crowd";
         type = "photo";
     }
 
-    public Time_interval getTime_interval() {
-        return time_interval;
+    public Fuzzy_date getFuzzy_startdate() {
+        return fuzzy_startdate;
     }
 
-    public void setTime_interval(Time_interval time_interval) {
-        this.time_interval = time_interval;
+    public void setFuzzy_startdate(Fuzzy_date fuzzy_startdate) {
+        this.fuzzy_startdate = fuzzy_startdate;
+    }
+
+    public String getMedia_id() {
+        return media_id;
+    }
+
+    public void setMedia_id(String media_id) {
+        this.media_id = media_id;
     }
 
     public Location getLocation() {

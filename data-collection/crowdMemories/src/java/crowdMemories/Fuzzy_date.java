@@ -14,20 +14,53 @@ import java.util.Set;
 public class Fuzzy_date implements java.io.Serializable {
 
     private String fuzzy_date_id;
-    private String type_of_date;
+    private String textual_date;
+    private String exact_date;
     private String decade;
+    private String year;
+    private String season;
+    private String month;
     private String day;
     private String day_name;
     private String day_part;
-    private String month;
-    private String year;
-    private String season;
-    private String description_time;
-    private String date;
-    private String exact_date;
     private String hour;
     private String minute;
     private String second;
+    private String accuracy;
+    private String locale;
+    private String type_of_date;
+
+    public String getTextual_date() {
+        return textual_date;
+    }
+
+    public void setTextual_date(String textual_date) {
+        this.textual_date = check(textual_date);
+    }
+
+    public String getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(String accuracy) {
+        this.accuracy = check(accuracy);
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = check(locale);
+    }
+
+    public String getFuzzy_date_id() {
+        return fuzzy_date_id;
+    }
+
+    public void setFuzzy_date_id(String fuzzy_date_id) {
+        this.fuzzy_date_id = fuzzy_date_id;
+    }
 
     public String getHour() {
         return hour;
@@ -124,25 +157,6 @@ public class Fuzzy_date implements java.io.Serializable {
         this.season = check(season);
     }
 
-    public String getDescription_time() {
-        return description_time;
-    }
-
-    public void setDescription_time(String description_time) {
-        this.description_time = check(description_time);
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        // this.date = check(date);
-        if (date != null) {
-            setExact_date(convert_date(date));
-        }
-    }
-
     private void clear_all() {
         decade = null;
         day = null;
@@ -154,8 +168,7 @@ public class Fuzzy_date implements java.io.Serializable {
         hour = null;
         minute = null;
         second = null;
-        description_time = null;
-        date = null;
+        textual_date = null;
         exact_date = null;
     }
 
@@ -164,7 +177,9 @@ public class Fuzzy_date implements java.io.Serializable {
     }
 
     public void setExact_date(String exact_date) {
-        this.exact_date = exact_date;
+        if (exact_date != null) {
+            this.exact_date = convert_date(exact_date);
+        }
     }
 
     public String convert_date(String date) {

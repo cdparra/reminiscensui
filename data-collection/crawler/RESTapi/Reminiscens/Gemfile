@@ -1,5 +1,0 @@
-source 'https://rubygems.org'
-
-gem 'mysql2'
-gem 'flickraw'
-gem 'activerecord-mysql-adapter'

@@ -1,7 +1,0 @@
-source :rubygems
-
-gem 'rabl'
-gem 'oj'
-gem 'mysql2'
-gem 'activerecord-mysql-adapter'
-gem 'geocoder'

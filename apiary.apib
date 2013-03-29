@@ -1,0 +1,411 @@
+HOST: http://test.reminiscens.me/api/v0
+
+--- Reminiscens RESTful Explorelife API version 0.1 ---
+---
+This RESTful API provides HTTP access to resources that support Reminiscens' explorelife application, which is a tablet
+app to support elderly and their families in sharing memories and motivate conversation by exploring content related to 
+these memories' place and period of time. The goal is to stimulate a healthy practice of positive reminiscence that will 
+benefit elders' subjective wellbeing. 
+
+<h3> About the Reminiscens Project</h3>
+Reminiscens is a social informatics project funded by the <a href="http://www.lifeparticipation.org/">Lifeparticipation 
+Research Group</a> at the <a href="http://www.disi.unitn.it/"> University of Trento </a>. It is the result of participatory 
+research action and design with local elders, with the goal of motivating face to face social interactions between older 
+adults and their younger relatives. Not only we have worked on designing an application, but we have worked to build 
+an interesting knowledge base of content that will stimulate people to reminisce. It is work in progress, towards the 
+finalization of a Ph.D. in Information and Communication Technologies 
+---
+
+--
+Person Resource
+<p>A person resource represents information about users who interact with the system by adding, visualizing or editing
+their life stories and visualizing the surrounding and public related content.</p>
+<p>Every single person in Reminiscens Knowledge Base is identified by one unique <code>id</code> and has a bare minimum, 
+one name and one lastname.</p>
+--
+-
+<p>Get the basic information related to the Person identified by <code>id</code>.</p>
+
+<table style="width: 100%; margin: 12px 0 0 0;"><tbody>
+<tr><td style="padding-left: 0;" colspan="2"><strong>Required Parameters</strong></td></tr>
+<tr><td style="padding-left: 0;" colspan="2">api_key</td></tr>
+<tr><td style="padding-left: 0;" colspan="2">session_id</td></tr>
+</tbody></table>
+-
+GET /person/{id}
+> Accept: application/json
+{  
+    "api_key": "<api key for registered application>",
+    "session_id": "<session id of the application issuing the request>"
+}
+< 200 
+< Content-Type: application/json
+{ 
+    "status_code": "1", 
+    "status_message":"OK",
+    "Person" : {
+        "url": "/person/{id}", 
+        "fullname":"<full name of the person>", 
+        "firstname": "<only first name>", 
+        "lastname": "<only last name>", 
+        "birthdate": "<birthdate in format dd/mm/yyyy>",
+        "birthplace": "<textual description of birthplace>",
+        "birthplace_lat": "<birthplace latitude>", 
+        "birthplace_lon": "<birthplace longitude>", 
+        "current_home":"<current location in textual description>"
+        "current_coordinates":"<current location in textual description>"
+        "locale" : "IT_it"
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "status_code": "41", 
+    "status_message":"API Key is not valid"
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "status_code": "42", 
+    "status_message":"Session ID is not valid"
+}
+
+-
+<p>Get the user information related to the Person identified by <code>id</code>.</p>
+
+<table style="width: 100%; margin: 12px 0 0 0;"><tbody>
+<tr><td style="padding-left: 0;" colspan="2"><strong>Required Parameters</strong></td></tr>
+<tr><td style="padding-left: 0;" colspan="2">api_key</td></tr>
+<tr><td style="padding-left: 0;" colspan="2">session_id</td></tr>
+</tbody></table>
+-
+GET /person/{id}/user
+> Accept: application/json
+{  
+    "api_key": "<api key for registered application>",
+    "session_id": "<session id of the application issuing the request>"
+}
+< 200 
+< Content-Type: application/json
+{ 
+    "status_code": "1", 
+    "status_message":"OK",
+    "User" : {
+        "url": "/person/{id}/user", 
+        "user_id":"<user id as use in the User Management Module (external API)>"
+        "user_name":"<full name of the person>", 
+        "user_email": "<user email if there is one>", 
+        "user_modified": "<No if the user has not yet modified his nickname and is only using the automatic>", 
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "status_code": "41", 
+    "status_message":"API Key is not valid"
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "status_code": "42", 
+    "status_message":"Session ID is not valid"
+}
+
+GET /person/56
+> Accept: application/json
+{  
+    "api_key": "playgroundKey=42",
+    "session_id": "playgroundSession=12345"
+}
+< 200 
+< Content-Type: application/json
+{ 
+    "status_code": "1", 
+    "status_message":"OK",
+    "Person" : {
+        "url": "/person/56", 
+        "fullname":"Ugo Fantozzi", 
+        "firstname": "Ugo", 
+        "lastname": "Fantozzi", 
+        "birthdate": "01/01/1956",
+        "birthplace": "Genova, Italy",
+        "birthplace_lat": 44.4167, 
+        "birthplace_lon": 8.9239, 
+        "current_home":"Genova, Italy"
+        "locale" : "IT_it"
+    }
+}
+
+-
+<p>Creates and saves a new Person. If a person has the same name, birthdate, 
+birthplace or device ID that one that is already in the Database, the person will 
+not be created</p>
+
+<table style="width: 100%; margin: 12px 0 0 0;"><tbody>
+<tr><td style="padding-left: 0;" colspan="2"><strong>Required Parameters</strong></td></tr>
+<tr><td style="padding-left: 0;" colspan="2">api_key</td></tr>
+<tr><td style="padding-left: 0;" colspan="2">session_id</td></tr>
+<tr><td style="padding-left: 0;" colspan="2">The Person</td></tr>
+</tbody></table>
+
+<table style="width: 100%; margin: 12px 0 0 0;"><tbody>
+<tr><td style="padding-left: 0;" colspan="2"><strong>The Person Resource required information</strong></td></tr>
+<tr><td style="padding-left: 0;">fullname</td><td style="padding-left: 0;">string</td></tr>
+<tr><td style="padding-left: 0;">birthdate</td><td style="padding-left: 0;">date in format dd/mm/yyyy</td></tr>
+<tr><td style="padding-left: 0;">birthplace</td><td style="padding-left: 0;">textual name of Birth Place</td></tr>
+<tr><td style="padding-left: 0;" colspan="2"><strong>The Person Resource optional information</strong></td></tr>
+<tr><td style="padding-left: 0;">firstname</td><td style="padding-left: 0;">string</td></tr>
+<tr><td style="padding-left: 0;">lastname</td><td style="padding-left: 0;">string</td></tr>
+<tr><td style="padding-left: 0;">birthplace_lat</td><td style="padding-left: 0;">real latitude of Birth Place</td></tr>
+<tr><td style="padding-left: 0;">birthplace_lat</td><td style="padding-left: 0;">real longitud of Birth Place</td></tr>
+
+</tbody></table>
+-
+POST /person
+> Content-Type: application/json
+{  
+    "api_key": "<api key for registered application>",
+    "session_id": "<session id of the application issuing the request>",    
+    "Person" : {
+        "url": "/person/{id}", 
+        "fullname":"<full name of the person>", 
+        "firstname": "<only first name>", 
+        "lastname": "<only last name>", 
+        "birthdate": "<birthdate in format dd/mm/yyyy>", 
+        "birthplace": "<textual description of birthplace>",
+        "birthplace_lat": "<birthplace latitude>", 
+        "birthplace_lon": "<birthplace longitude>",
+        "current_home":"<current location in textual description>"
+        "current_coordinates":"<current location in textual description>"
+        "locale" : "IT_it"
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "status_code": "1", 
+    "status_message":"Resource was created",    
+    "Person" : {
+        "url": "/person/{id}", 
+        "fullname":"<full name of the person>", 
+        "firstname": "<only first name>", 
+        "lastname": "<only last name>", 
+        "birthdate": "<birthdate in format dd/mm/yyyy>", 
+        "birthplace": "<textual description of birthplace>",
+        "birthplace_lat": "<birthplace latitude>", 
+        "birthplace_lon": "<birthplace longitude>",
+        "current_home":"<current location in textual description>"
+        "current_coordinates":"<current location in textual description>"
+        "locale" : "IT_it"
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "status_code": "41", 
+    "status_message":"API Key is not valid"
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "status_code": "42", 
+    "status_message":"Session ID is not valid"
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "status_code": "51", 
+    "status_message":"The resource you tried to create is incomplete"
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "status_code": "52", 
+    "status_message":"The resource you tried to create already exists"
+}
+
+Creates and saves a new Person along with an automatically created User for it
+POST /person/user
+> Content-Type: application/json
+{  
+    "api_key": "<api key for registered application>",
+    "session_id": "<session id of the application issuing the request>",    
+    "Person" : {
+        "url": "/person/{id}", 
+        "fullname":"<full name of the person>", 
+        "firstname": "<only first name>", 
+        "lastname": "<only last name>", 
+        "birthdate": "<birthdate in format dd/mm/yyyy>", 
+        "birthplace": "<textual description of birthplace>",
+        "birthplace_lat": "<birthplace latitude>", 
+        "birthplace_lon": "<birthplace longitude>",
+        "current_home":"<current location in textual description>"
+        "current_coordinates":"<current location in textual description>"
+        "locale" : "IT_it"
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "status_code": "1", 
+    "status_message":"Resource was created",    
+    "Person" : {
+        "url": "/person/{id}", 
+        "fullname":"<full name of the person>", 
+        "firstname": "<only first name>", 
+        "lastname": "<only last name>", 
+        "birthdate": "<birthdate in format dd/mm/yyyy>", 
+        "birthplace": "<textual description of birthplace>",
+        "birthplace_lat": "<birthplace latitude>", 
+        "birthplace_lon": "<birthplace longitude>",
+        "current_home":"<current location in textual description>"
+        "current_coordinates":"<current location in textual description>"
+        "locale" : "IT_it"
+    }
+    "User" : {
+        "url": "/person/{id}/user", 
+        "user_id":"<user id as use in the User Management Module (external API)>"
+        "user_name":"<full name of the person>", 
+        "user_email": "<user email if there is one>", 
+        "user_modified": "<No if the user has not yet modified his nickname and is only using the automatic>", 
+    }
+    "Session" : {
+        "session_id": "<new session id associated to the user>",   
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "status_code": "41", 
+    "status_message":"API Key is not valid"
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "status_code": "42", 
+    "status_message":"Session ID is not valid"
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "status_code": "51", 
+    "status_message":"The resource you tried to create is incomplete"
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "status_code": "52", 
+    "status_message":"The resource you tried to create already exists"
+}
+
+--
+Life story resource 
+The life story resource is the core element of the API. Every person has life stories to share, starting with their birth. 
+--
+-
+Create a story
+-
+POST /person/{id}/lifestory
+> Content-Type: application/json
+{  
+    "api_key": "<api key for registered application>",    
+    "User" : {
+        "user_id":"<user id as use in the User Management Module (external API)>" 
+        "auth_string":"<authentication string obtain after login in with >"
+    }
+    "Device" : {
+        "device_id" : "<id of the device that is creating the session> 
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "status_code": "1", 
+    "status_message":"Resource was created",    
+    "Person" : {
+        "url": "/person/{id}", 
+        "fullname":"<full name of the person>", 
+        "firstname": "<only first name>", 
+        "lastname": "<only last name>", 
+        "birthdate": "<birthdate in format dd/mm/yyyy>", 
+        "birthplace": "<textual description of birthplace>",
+        "birthplace_lat": "<birthplace latitude>", 
+        "birthplace_lon": "<birthplace longitude>",
+        "current_home":"<current location in textual description>"
+        "current_coordinates":"<current location in textual description>"
+        "locale" : "IT_it"
+    }
+    "User" : {
+        "url": "/person/{id}/user", 
+        "user_id":"<user id as use in the User Management Module (external API)>"
+        "user_name":"<full name of the person>", 
+        "user_email": "<user email if there is one>", 
+        "user_modified": "<No if the user has not yet modified his nickname and is only using the automatic>", 
+    }
+    "Session" : {
+        "session_id": "<new session id associated to the user>",   
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "status_code": "41", 
+    "status_message":"API Key is not valid"
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "status_code": "42", 
+    "status_message":"Session ID is not valid"
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "status_code": "51", 
+    "status_message":"The resource you tried to create is incomplete"
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "status_code": "52", 
+    "status_message":"The resource you tried to create already exists"
+}
+
+
+
+--
+Memento resource 
+The session resource allows the platform to manage authentication and authorization to 
+execute operations on the API. 
+--
+
+
+--
+Timeline resource 
+The session resource allows the platform to manage authentication and authorization to 
+execute operations on the API. 
+--
+
+--
+Question resource 
+The session resource allows the platform to manage authentication and authorization to 
+execute operations on the API. 
+--
+
+

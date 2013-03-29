@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>My Reminiscens ::. Share, Explore & Rediscover your Life</title>
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+    <!-- Style Sheets and Fonts --> 
+    <!-- Libraries styles --> 
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+
+    <!-- Fonts --> 
+    <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
+    
+    
+    <!-- Favicon --> 
+    <link rel="shortcut icon" href="resources/img/reminiscens-favicon-text-black.ico">
+    
+
+    <!-- Page styles --> 
+    <link rel="stylesheet" type="text/css" href="resources/css/index.css">
+    
+        
+    <!-- External Libraries -->    
+    
+<!-- 
+    If we use requireJS to optimize JS loading
+   By using require.js, we no longer need load each module by hand
+
+    <script 
+        data-main="resources/js/re-require.js" 
+        src="resources/js/libs/require.js"
+    >
+    </script>
+--> 
+   
+    <script type="text/javascript" src="resources/js/lib/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="resources/js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="resources/js/lib/ejs_production.js"></script>
+    <script type="text/javascript" src="resources/js/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="resources/js/lib/backbone-min.js"></script>
+       
+    <!-- Timeline Library 
+
+    Not needed in the index
+    
+    <script type="text/javascript" 
+        src="resources/js/lib/timelines/timelinejs/js/timeline-min.js">
+    </script>
+    -->
+
+
+    <!-- Date and Places Libraries -->
+    <script type="text/javascript"         
+            src="resources/js/lib/datepicker/js/bootstrap-datepicker.js">
+    </script>
+    
+    <!-- Own JS Libraries -->
+    <script type="text/javascript" src="resources/js/re.js"></script><!--Main App code-->
+    <script type="text/javascript" src="resources/js/app/routers/homeRouter.js"></script>
+    <script type="text/javascript" src="resources/js/app/views/homeView.js"></script>
+</head>
+
+<body>
+    <div class="container">   
+        <!-- Re.View.Index will load the HTML here -->
+        <div id="reIndex"> 
+        </div>
+    </div>  
+    
+    <script type="text/javascript">
+        RE.index();
+    </script>            
+</body>
+</html>

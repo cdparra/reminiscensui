@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Reminiscens</title>
+<script src="cordova-2.4.0.js"></script>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<link href="css/StyleOverlay.css" rel="stylesheet">
+<script src="js/GestioneOverlay.js"></script>
+<link href="kendo/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
+<script src="kendo/js/jquery.min.js"></script>
+<script src="kendo/js/kendo.web.min.js"></script>
+<script>
+                $(document).ready(function() {
+                    // create Editor from textarea HTML element with default set of tools
+                    $("#editor").kendoEditor({
+                        tools: [
+                            "bold",
+                "italic",
+                "underline",
+                "strikethrough",
+                "fontName",
+                "fontSize",
+                "foreColor",
+                "backColor",
+                "justifyLeft",
+                "justifyCenter",
+                "justifyRight",
+                "justifyFull",
+                "insertUnorderedList",
+                "insertOrderedList",
+                "indent",
+                "outdent",
+                "formatBlock",
+                "createLink",
+                "unlink",
+                "insertImage",
+                        ],
+                        imageBrowser: {
+                           messages: {
+                            dropFilesHere: "Drop files here"
+                           },
+                           transport: {
+                                read: "/kendo/service/ImageBrowser/Read",
+                                destroy: {
+                                    url: "/kendo/service/ImageBrowser/Destroy",
+                                    type: "POST"
+                                },
+                                create: {
+                                    url: "/kendo/service/ImageBrowser/Create",
+                                    type: "POST"
+                                },
+                                thumbnailUrl: "/kendo/service/ImageBrowser/Thumbnail",
+                                uploadUrl: "/kendo/service/ImageBrowser/Upload",
+                                imageUrl: "/kendo/service/ImageBrowser/images/{0}"
+                           }
+                        }
+                    });
+                });
+				
+				var pictureSource;   // picture source
+    var destinationType; // sets the format of returned value 
+
+    // Wait for Cordova to connect with the device
+    //
+    document.addEventListener("deviceready",onDeviceReady,false);
+
+    // Cordova is ready to be used!
+    //
+    function onDeviceReady() {
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
+    }
+
+				function capturePhoto() {
+      // Take picture using device camera and retrieve image as base64-encoded string
+      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
+        destinationType: destinationType.DATA_URL });
+    }
+	
+	function onFail(message) {
+      alert('Failed because: ' + message);
+    }
+	
+	function onPhotoDataSuccess(imageData) {
+		var editor = $("#editor").data("kendoEditor");
+		var tmp = editor.value();
+		
+      editor.value(tmp + "<br/><img src='" + "data:image/jpeg;base64," + imageData + "' style='display:block;margin-left:auto;margin-right:auto;width:80px;height:80px' /><br/>");
+    }
+	
+	function changeImg()
+	{
+		var editor = $("#editor").data("kendoEditor");
+		var tmp = editor.value();
+		//editor.value(tmp + "\n<img src='" + "data:image/jpeg;base64," + imageData + "style='display:block;margin-left:auto;margin-right:auto;' />");
+		editor.value(tmp + "\n<img src='" + "img/calendar.png" + "' style='display:block;margin-left:auto;margin-right:auto;' />\n");
+		
+		//editor.value(tmp + "<img src='" + "data:image/jpeg;base64," + imageData + "' style='display:block;margin-left:auto;margin-right:auto;' />");
+		
+	}
+
+
+            </script>
+<script>  	
+     function onLoad(){
+          document.addEventListener("deviceready", onDeviceReady, true);
+     }
+     function onDeviceReady(){
+          navigator.notification.alert("PhoneGap is working!!");
+     }
+	function Redirect()
+	{
+		location.href = "Datanascita.html";
+	}
+	$(document).ready(function() {
+	$('.timeline').click(function(){
+            var recupero_id = $(this).attr("id");  
+			$("#lbldebug").text("Non ci sono ancora storie del " + recupero_id + "!");
+        });
+		});
+</script>
+<style>
+body {
+	background-color: #CCC;
+	background-repeat: repeat-y;
+}
+#divRoot {
+	width: 1020px;
+	height: 750px;
+	margin: auto;
+	margin-top: 20px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	background-color: #FFF;
+	text-align: center;
+}
+input {
+	float: left;
+}
+label {
+	font-size: 24px;
+}
+#divRoot #centrale {
+	background-color: #999;
+	margin-top: 30px;
+	height: 590px;
+	-webkit-border-bottom-right-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+</style>
+</head>
+<body>
+<div id="divRoot">
+  <input class="timeline" id="1940" type="image" src="button/1940.jpg">
+  <input class="timeline" id="1950" type="image" src="button/1950.jpg">
+  <input class="timeline" id="1960" type="image" src="button/1960.jpg">
+  <input class="timeline" id="1970" type="image" src="button/1970.jpg">
+  <input class="timeline" id="1980" type="image" src="button/1980.jpg">
+  <input class="timeline" id="1990" type="image" src="button/1990.jpg">
+  <br/>
+  <label id="lbldebug" style="margin-top:130px;">Non ci sono ancora storie del 1950!</label>
+  <div id="centrale">
+    <button style="margin-top:40px;" class="btn btn-large btn-primary" onClick="ApriOverlay();">Raccontaci una</button>
+    
+  </div>
+  <div class="overlay" id="overlay" style="display: none;"></div>
+  <!--contenuto overlay-->
+  
+  <div id="box" style="padding-left:50px; padding-top:10px; padding-bottom:90px; padding-right:50px;">
+  <button style="margin-bottom:10px;" class="btn btn-primary" onClick="changeImg();">Change</button>
+  <button style="margin-bottom:10px;" class="btn btn-primary" onClick="capturePhoto();">Capture Foto</button>
+    <textarea id="editor" rows="10" cols="30" style="width:400px;height:220px; margin-left:50px; margin-top:25px; margin-right:50px;">
+    
+    </textarea>
+    
+    <img src="images/X.png" class="chiudi" /> </div>
+  <!--fine box--> 
+</div>
+</html>

@@ -5,3 +5,12 @@ PlayReminiscens/target
 PlayReminiscens/tmp
 PlayReminiscens/dist
 PlayReminiscens/.cache
+*DS_Store
+*._.DS_Store
+*._*
+*.apk
+*.class
+
+
+*.DS_Store
+*.target/

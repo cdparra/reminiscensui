@@ -10,7 +10,11 @@ PlayReminiscens/.cache
 *._*
 *.apk
 *.class
-
-
 *.DS_Store
 *.target/
+.DS_Store
+.DS_Store
+ui/marzemino/android/.DS_Store
+*.DS_Store
+
+ui/marzemino/android/First/.DS_Store

@@ -36,11 +36,14 @@ $(document).ready(function() {
     });
     
     //alert
-	var height = $("#box").height() + 50;
+	/*var height = $("#box").height() + 50;
     var PosY = ($(window).height() - height) / 2;
     var percentualeY = PosY / $(window).height() * 100;
     $("#box").css({
         "top": percentualeY + "%"
+    });*/
+	$("#box").css({
+        "top": 50
     });
 }
 

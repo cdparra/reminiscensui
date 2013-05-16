@@ -11,13 +11,13 @@
     z-index:100;
 	cursor:pointer;
 /*Trasperenza cross browser*/
-opacity: .7; filter: alpha(opacity=70); 
+opacity: .9; filter: alpha(opacity=70); 
 -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";	
 	
 }
 
-#box{ width:800px; height:550px; background-color:#FFF; display:none; z-index:+300; position:fixed; -moz-border-radius: 15px;  -webkit-border-radius: 15px;
-border-radius: 15px;text-align: center;border:ridge;border-color:white;border-width:3px; color:white;background-color:rgba(40, 40, 40, 0.97);}
+#box{ width:800px; height:550px; background-color:#EAE8E9; padding:10px 10px 10px 10px; display:none; z-index:+300; position:fixed; -moz-border-radius: 15px;  -webkit-border-radius: 15px;
+border-radius: 15px;text-align: center;color:white;}
 
 /*css sul bordino sotto*/
 hr {

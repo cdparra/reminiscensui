@@ -13,6 +13,7 @@
 <link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
 <script src="kendo/js/jquery.min.js"></script>
 <script src="kendo/js/kendo.web.min.js"></script>
+<script type="text/javascript" src="js/recorder.js"></script>
 <script>
                 $(document).ready(function() {
                     // create Editor from textarea HTML element with default set of tools
@@ -85,17 +86,6 @@
 		
       editor.value(tmp + "<br/><img src='" + "data:image/jpeg;base64," + imageData + "' style='display:block;margin-left:auto;margin-right:auto;width:80px;height:80px' /><br/>");
     }
-	
-	function changeImg()
-	{
-		var editor = $("#editor").data("kendoEditor");
-		var tmp = editor.value();
-		//editor.value(tmp + "\n<img src='" + "data:image/jpeg;base64," + imageData + "style='display:block;margin-left:auto;margin-right:auto;' />");
-		editor.value(tmp + "\n<img src='" + "img/calendar.png" + "' style='display:block;margin-left:auto;margin-right:auto;' />\n");
-		
-		//editor.value(tmp + "<img src='" + "data:image/jpeg;base64," + imageData + "' style='display:block;margin-left:auto;margin-right:auto;' />");
-		
-	}
 
 
             </script>
@@ -158,6 +148,76 @@
 			e.preventDefault();
 			});
 		});
+</script>
+<script>
+function timecode(ms) {
+        var hms = {
+          h: Math.floor(ms/(60*60*1000)),
+          m: Math.floor((ms/60000) % 60),
+          s: Math.floor((ms/1000) % 60)
+        };
+        var tc = []; // Timecode array to be joined with '.'
+
+        if (hms.h > 0) {
+          tc.push(hms.h);
+        }
+
+        tc.push((hms.m < 10 && hms.h > 0 ? "0" + hms.m : hms.m));
+        tc.push((hms.s < 10  ? "0" + hms.s : hms.s));
+
+        return tc.join(':');
+      }
+    
+    
+      $(document).ready(function() {
+	  Recorder.initialize({
+        swfSrc: "js/recorder.swf"
+      });
+	  });
+
+      function record(){
+		  $('#overlay').fadeOut('fast');
+            $('#box').hide();
+        Recorder.record({
+          start: function(){
+            //alert("recording starts now. press stop when youre done. and then play or upload if you want.");
+          },
+          progress: function(milliseconds){
+			ApriOverlay();
+			document.getElementById("record").onclick = function() {stop()};
+			document.getElementById("record").src = "button/buttonStopRecording.jpg";
+            document.getElementById("time").innerHTML = timecode(milliseconds);
+          }
+        });
+		
+      }
+      
+      function play(){
+        Recorder.stop();
+        Recorder.play({
+          progress: function(milliseconds){
+            document.getElementById("time").innerHTML = timecode(milliseconds);
+          }
+        });
+      }
+      	  
+      function stop(){
+		document.getElementById("record").onclick = function() {record()};
+		document.getElementById("record").src = "button/buttonMicrofono.jpg";
+        document.getElementById("play").style.visibility="visible";
+		Recorder.stop();
+      }
+      
+      function upload(){
+		  //alert("ciao");
+        Recorder.upload({
+          url:        "http://localhost/sound",
+          audioParam: "track[asset_data]",
+          success: function(){
+            alert("your file was uploaded!");
+          }
+        });
+      }
 </script>
 <style>
 body {
@@ -232,18 +292,18 @@ label {
 #Foto img {
 	margin: 5px 5px 5px 5px;
 }
-.round
-{
-border-radius: 0 80px 0 80px;
-opacity: 0.7;
--webkit-transition: opacity 0.6s linear;
--webkit-transition: all 0.6s ease-in-out;
--moz-transition: all 0.6s ease-in-out;
--o-transition: all 0.6s ease-in-out}
-
-.round:hover
-{border-radius: 0 0 0 0;
-opacity: 1}
+.round {
+	border-radius: 0 80px 0 80px;
+	opacity: 0.7;
+	-webkit-transition: opacity 0.6s linear;
+	-webkit-transition: all 0.6s ease-in-out;
+	-moz-transition: all 0.6s ease-in-out;
+	-o-transition: all 0.6s ease-in-out
+}
+.round:hover {
+	border-radius: 0 0 0 0;
+	opacity: 1
+}
 </style>
 </head>
 <body>
@@ -274,7 +334,6 @@ opacity: 1}
         </ul>
       </div>
     </div>
-    
     <div id="Foto">
       <div class="divFoto">
         <h3 id="TueFotoDelTempo">Le tue foto attorno al 1950</h3>
@@ -283,7 +342,6 @@ opacity: 1}
         <h3 id="TueFotoDelTempo">Le tue foto attorno al 1950</h3>
         <img src="img/tuefoto1.jpg" /> <img src="img/tuefoto2.jpg" /> <img src="img/tuefoto3.jpg" /> </div>
     </div>
-    
     <div id="Storie" style="display:none;">
       <div class="divFoto">
         <h3 id="StorieDelTempo">Che cosa succedeva nel 1950</h3>
@@ -301,44 +359,79 @@ opacity: 1}
         <h3 id="TueStorieDelTempo">Le tue storie nel 1950</h3>
         <img src="img/tuefoto2.jpg" /> </div>
     </div>
-  </div> 
-  
+  </div>
   <div id="Canzoni" style="display:none;">
-  	<h1>Quali erano le canzoni pi&uacute; popolari?</h1>
+    <h1>Quali erano le canzoni pi&uacute; popolari?</h1>
     <div class="divFoto" style="height:500px;">
-    <iframe width="420" height="315" src="http://www.youtube.com/embed/CwE8GcoqEfw" frameborder="0" allowfullscreen style="margin-top:30px;"></iframe>
-    <h3>Matia Bazar - Cavallo bianco</h3>
+      <iframe width="420" height="315" src="http://www.youtube.com/embed/CwE8GcoqEfw" frameborder="0" allowfullscreen style="margin-top:30px;"></iframe>
+      <h3>Matia Bazar - Cavallo bianco</h3>
     </div>
     <div class="divFoto" style="height:500px;">
-    <iframe width="420" height="315" src="http://www.youtube.com/embed/MKahSufwWS0" frameborder="0" allowfullscreen style="margin-top:30px;"></iframe>
-    <h3>Patty Pravo - Pensiero Stupendo</h3>
+      <iframe width="420" height="315" src="http://www.youtube.com/embed/MKahSufwWS0" frameborder="0" allowfullscreen style="margin-top:30px;"></iframe>
+      <h3>Patty Pravo - Pensiero Stupendo</h3>
     </div>
-  </div> 
-  
+  </div>
   <div id="Famosi" style="display:none;">
-  <div class="divFoto">
-  <h3>Chi &eacute; nato all'epoca</h3>
-  <img src="img/Loredana.jpg" class="round"/>
-  <h4>Loredana Bert&eacute;</h4>
-  <h6>Non &eacute; una signora, &eacute; costantemente</br> depressa e in lotta con il </br>mondo, difficile da gestire...</h6>
-  </div>
-  <div class="divFoto">
-  <h3>Chi era famoso all'epoca</h3>
-  <img src="img/DiPietro.jpg" class="round"/>
-  <h4>Antonio di Pietro</h4>
-  <h6>Nato il 2 ottobre 1950 a Montenero</br> di Bisaccia (CB), &eacute; l'uomo simbolo di</br> quella stagione politica che va...</h6>
-  </div>
+    <div class="divFoto">
+      <h3>Chi &eacute; nato all'epoca</h3>
+      <img src="img/Loredana.jpg" class="round"/>
+      <h4>Loredana Bert&eacute;</h4>
+      <h6>Non &eacute; una signora, &eacute; costantemente</br>
+        depressa e in lotta con il </br>
+        mondo, difficile da gestire...</h6>
+    </div>
+    <div class="divFoto">
+      <h3>Chi era famoso all'epoca</h3>
+      <img src="img/DiPietro.jpg" class="round"/>
+      <h4>Antonio di Pietro</h4>
+      <h6>Nato il 2 ottobre 1950 a Montenero</br>
+        di Bisaccia (CB), &eacute; l'uomo simbolo di</br>
+        quella stagione politica che va...</h6>
+    </div>
   </div>
 </div>
-
 <div class="overlay" id="overlay" style="display: none;"></div>
-  <!--contenuto overlay-->
-  <div id="box" style="padding-left:50px; padding-top:10px; padding-bottom:90px; padding-right:50px;">
-    <button style="margin-bottom:10px;" class="btn btn-primary" onClick="changeImg();">Change</button>
-    <button style="margin-bottom:10px;" class="btn btn-primary" onClick="capturePhoto();">Capture Foto</button>
-    <textarea id="editor" rows="10" cols="30" style="width:800px;height:550px; margin-left:50px; margin-top:25px; margin-right:50px; position:absolute;">
+<!--contenuto overlay-->
+<div id="box">
+    <div style="background-color:#D5D5D5; padding-top:10px;">
+      <div style="background-color:#A05152; padding-bottom:10px; padding-top:10px;">
+        <label>raccontaci la tua storia</label>
+      </div>
+      <div style="margin-top:10px; color:#000; margin-left:20px; margin-right:20px;">
+        <form>
+          <div>
+            <label for="titolo" style="float:left; margin-top:3px;">Titolo:</label>
+            <input id="titolo" style="float:left; margin-left:31px;" class="input-xxlarge" type="text"/>
+          </div>
+          <br/>
+          <br/>
+          <div>
+            <label for="quando" style="float:left;margin-top:3px;">Quando:</label>
+            <input id="quando"  style="float:left; margin-left:3px;" type="text" class="input-xlarge"/>
+            <label for="dove" style="float:left;margin-top:3px; margin-left:10px;">Dove:</label>
+            <input id="dove" style="float:left; margin-left:3px;" type="text" class="input-xlarge"/>
+          </div>
+        </form>
+      </div>
+      <!--<button style="margin-bottom:10px;" class="btn btn-primary" onClick="capturePhoto();">Capture Foto</button>
+      <button style="margin-bottom:10px;" class="btn btn-primary" onClick="record();">Record</button>
+      <button style="margin-bottom:10px;" class="btn btn-primary" onClick="stop();">Stop</button>
+      <button style="margin-bottom:10px;" class="btn btn-primary" onClick="play();">Play</button>
+      <button style="margin-bottom:10px;" class="btn btn-primary" onClick="upload();" disabled>Upload</button>
+      <label style="color:#FF0;" id="time">0:00</label>-->
+      <div style="float:left; margin:20px;">
+        	<input type="image" src="button/buttonFoto.jpg" onClick="capturePhoto();"> 
+            <br/>           
+       	 	<input id="record" type="image" style="margin-top:10px;" src="button/buttonMicrofono.jpg" onClick="record();">
+            <br/>
+            <h3 style="color:#FF0;" id="time">0:00</h3>
+            <input id="play" type="image" style="margin-top:10px; visibility:hidden;" src="button/buttonPlay.png" onClick="play();">
+        </div>
+      <textarea  id="editor" rows="10" cols="30" style="width:620px;height:400px; float:left;">
     
-    </textarea>
-    <img src="images/X.png" class="chiudi" /> </div>
-  <!--fine box--> 
+    	</textarea>
+        
+    </div>
+  <img src="images/X.png" class="chiudi" /> </div>
+<!--fine box-->
 </html>

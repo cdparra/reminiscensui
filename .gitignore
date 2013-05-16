@@ -4,6 +4,7 @@ PlayReminiscens/project/target
 PlayReminiscens/target
 PlayReminiscens/tmp
 PlayReminiscens/dist
+api/PlayReminiscens/bin
 PlayReminiscens/.cache
 *DS_Store
 *._.DS_Store

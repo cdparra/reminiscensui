@@ -16,9 +16,12 @@ an interesting knowledge base of content that will stimulate people to reminisce
 finalization of a Ph.D. in Information and Communication Technologies 
 ---
 
+
 --
-Session resource 
-<p>The session resource is the first resource with which an app and user has to interact to start the usage of the API</p>. 
+Sessions 
+<p>The session resource endpoint is where the experience begins. Applications create a session using either an username/password pair 
+or an authentication token provided by a third party service (facebook and google are currently supported). After creating the session, 
+the created session instance must be included in all of the API calls. </p> 
 --
 -
 Create a session
@@ -26,11 +29,10 @@ Create a session
 POST /session
 > Content-Type: application/json
 {  
-    "service":{
-        "name": "<authentication service provider>"
+    "Service":{
+        "name": "<authentication service provider (e.g. facebook)>"
         "authString": "authentication service string"  
     }
-    "api_key" : "<api key for registered application>",  
     "User" : {
         "user_id":"<user id as use in the User Management Module (external API)>"
     }
@@ -184,11 +186,13 @@ POST /user
     "status_message":"The resource you tried to create already exists"
 }
 
+
+
 --
 Person Resource
-<p>A person resource represents information about users who interact with the system by adding, visualizing or editing
-their life stories and visualizing the surrounding and public related content.</p>
-<p>Every single person in Reminiscens Knowledge Base is identified by one unique <code>id</code> and has a bare minimum, 
+<p>A <br>person resource</br> encapsulates information about users that interact with the system by adding, visualizing or editing
+life stories, exploring the surrounding context (composed by public related content)</p>
+<p>Every person is identified by one unique <code>id</code> and has a bare minimum, 
 one name and one lastname.</p>
 --
 -
@@ -752,5 +756,3 @@ Question resource
 The session resource allows the platform to manage authentication and authorization to 
 execute operations on the API. 
 --
-
-

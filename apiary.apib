@@ -2,8 +2,8 @@ HOST: http://test.reminiscens.me/api/
 
 --- Reminiscens RESTful Explorelife API version 0.1 ---
 ---
-This RESTful API provides HTTP access to resources that support Reminiscens' explorelife application, which is a tablet
-app to support elderly and their families in sharing memories and motivate conversation by exploring content related to 
+This RESTful API provides HTTP access to resources that support the Reminiscens' tablet app for stimulating elderly 
+and their families in sharing memories and motivate conversation by exploring content related to 
 these memories' place and period of time. The goal is to stimulate a healthy practice of positive reminiscence that will 
 benefit elders' subjective wellbeing. 
 
@@ -21,18 +21,18 @@ Session resource
 <p>The session resource is the first resource with which an app and user has to interact to start the usage of the API</p>. 
 --
 -
-Create a story
+Create a session
 -
 POST /session
 > Content-Type: application/json
 {  
+    "service":{
+        "name": "<authentication service provider>"
+        "authString": "authentication service string"  
+    }
     "api_key" : "<api key for registered application>",  
     "User" : {
-        "user_id":"<user id as use in the User Management Module (external API)>" 
-        "auth_string":"<authentication string/password used to login >"
-    }
-    "Device" : {
-        "device_id" : "<id of the device that is creating the session> 
+        "user_id":"<user id as use in the User Management Module (external API)>"
     }
 }
 < 200

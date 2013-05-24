@@ -35,6 +35,29 @@ The Session Bean
     }
 
 </pre></code></code>
+
+Example of Javscript call to create a Session based on user email and password
+<p><pre><code>
+    var passSha1 = $.sha1($("#password").val() + salt);
+    var sessionData = new Object;
+    sessionData.name = "reminiscens";
+    sessionData.authString = $("#email").val() + "!_-_!" + passSha1;                    
+    $.ajax({
+        type: "POST",
+        url: "resources/session",
+        data: JSON.stringify(sessionData),
+        async: false,
+        success: function (data) {
+            alert("ok");
+        },
+        error: function (data) {
+            alert("error");
+        },
+        dataType: "json",
+            contentType: "application/json"
+        });
+
+</pre></code></p>
 --
 -
 Create a session

@@ -21,7 +21,20 @@ finalization of a Ph.D. in Information and Communication Technologies
 Sessions 
 <p>The session resource endpoint is where the experience begins. Applications create a session using either an username/password pair 
 or an authentication token provided by a third party service (facebook and google are currently supported). After creating the session, 
-the created session instance must be included in all of the API calls. </p> 
+the created session instance must be included in all of the API calls. </p>
+
+The Session Bean
+<p><pre><code>
+
+    "Service":{
+        "name": "<authentication service provider (e.g. facebook)>"
+        "authString": "authentication service string"  
+    }
+    "User" : {
+        "user_id":"<user id as use in the User Management Module (external API)>"
+    }
+
+</pre></code></code>
 --
 -
 Create a session
@@ -30,11 +43,8 @@ POST /session
 > Content-Type: application/json
 {  
     "Service":{
-        "name": "<authentication service provider (e.g. facebook)>"
-        "authString": "authentication service string"  
-    }
-    "User" : {
-        "user_id":"<user id as use in the User Management Module (external API)>"
+        "name": "reminiscens"
+        "authString": "user.email@gmail.com!_-_!7566563aafe0f481c95c3c1d0569d15d146e9ee4"  
     }
 }
 < 200

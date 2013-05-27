@@ -14,8 +14,8 @@ research action and design with local elders, with the goal of motivating face t
 adults and their younger relatives. Not only we have worked on designing an application, but we have worked to build 
 an interesting knowledge base of content that will stimulate people to reminisce. It is work in progress, towards the 
 finalization of a Ph.D. in Information and Communication Technologies 
----
 
+---
 
 --
 Sessions 
@@ -78,6 +78,10 @@ Create a session endpoint. To create the session, a service is required, which i
         });
 
 </pre></code></p>
+
+<p>The response to creating a session includes a <a href="response_status", a <a href="#session">Session</a> and an 
+<a href="#user">User</a></p>
+
 POST /session
 > Content-Type: application/json
 {  
@@ -93,20 +97,10 @@ POST /session
         "status_code": "1", 
         "status_message":"Session was created"   
     },    
-    "Person" : {
-        "url": "/person/999", 
-        "fullname":"Ugo Fantozzi", 
-        "firstname": "Ugo", 
-        "lastname": "Fantozzi", 
-        "birthdate": "07/07/1934", 
-        "birthplace": "Genova, Italia",
-        "birthplace_lat": "44.4056499", 
-        "birthplace_lon": "8.946256",
-        "home":"Trento, Italia",
-        "home_lat": "46.0696924", 
-        "home_lon": "11.1210886",
-        "locale" : "IT_it"
-    }
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration" : "10080" 
+    },
     "User" : {
         "url": "/user/999", 
         "user_id":"999"
@@ -114,12 +108,22 @@ POST /session
         "user_email": "ugo.fantozzi@gmail.com", 
         "user_verified": "true", 
         "user_name_verified": "true", 
-        "profile_picture":"http://www.flickr.com/photos/mykalburns/2807451879/"
+        "profile_picture":"http://www.flickr.com/photos/mykalburns/2807451879/",
+        "Person" : {
+            "url": "/person/999", 
+            "fullname":"Ugo Fantozzi", 
+            "firstname": "Ugo", 
+            "lastname": "Fantozzi", 
+            "birthdate": "07/07/1934", 
+            "birthplace": "Genova, Italia",
+            "birthplace_lat": "44.4056499", 
+            "birthplace_lon": "8.946256",
+            "home":"Trento, Italia",
+            "home_lat": "46.0696924", 
+            "home_lon": "11.1210886",
+            "locale" : "IT_it"
+        }
     },
-    "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : "10080" 
-    }
 }
 +++++
 < 401
@@ -145,14 +149,25 @@ POST /session
 
 --
 Users
-The <b>user resource</b> endpoint gives access to all the operations available on user data 
+The <b>User resource</b> endpoint gives access to all the operations available on user data, including also his
+<a href="#person">Personal</a> profile information. Notice that there is a separation between the entities 
+<a href="#user">User</a> and <a href="#person">Person</a>. A person might exist in our dataset wihtout user 
+information, referring to people that is mentioned in life stories or public historical records that we used
+to stimulate reminiscence
 --
 
-<p>Create a user with initial personal details. A user is composed by: </p>
+<p>Create a user with initial personal details. Entails createing a <a href="#user">User</a> and <a href="#person">Person</a>. 
+Mandatory information to send for the registration includes: </p>
+
+ + **user_email:** user's registered email
+ + **fullname:** person's fullname 
+ + **birthdate:** person's birthdate in dd/mm/yyyy format
+ + **birthplace:** person's textual name of the birthplace
+
+Aditionally, a <a href="#user">User</a> resource has:
 
  + **user_id:** user unique identificator
  + **user_name:** username used for authentication
- + **user_email:** user's registered email
  + **user_verified:** user has verified that this account belongs to him
  + **user_name_verified:** user has verified/updated his username (generated first by the system)
  + **user_profile_picture:** URL to a profile picture
@@ -171,65 +186,23 @@ The <b>user resource</b> endpoint gives access to all the operations available o
     }
 </pre></code></code>
 
-<p>To create the <a href="#user">User</a>, you will also need to specify some personal details, sending also a 
-<b>Person</b> resource, including the following as mandatory: </p>
+<p>The response includes: </p> 
 
- + **fullname:** user's fullname 
- + **birthdate:** user's birthdate in dd/mm/yyyy format
- + **birthplace:** textual name of the birthplace
-
-<p>Optionally, personal information could also include:</p>
-
- + **firstname:** user's firstname
- + **lastname:** user's lastname
- + **birthplace_lat:** latitude coordinates of the birthplace
- + **birthplace_lon:** longitude coordintates of the birthplace
- + **home:** textual name of the current home
- + **home_lat:** latitude coordinates of the current home
- + **home_lon:** longitude coordintates of the current home
- + **locale:** languate localization code
-
-<p><pre><code>
-<a id="user"><b>The Person Resource (complete):</b></a>
-    "Person" : {
-        "url": "/person/999", 
-        "fullname":"Ugo Fantozzi", 
-        "firstname": "Ugo", 
-        "lastname": "Fantozzi", 
-        "birthdate": "07/07/1934", 
-        "birthplace": "Genova, Italia",
-        "birthplace_lat": "44.4056499", 
-        "birthplace_lon": "8.946256",
-        "home":"Trento, Italia",
-        "home_lat": "46.0696924", 
-        "home_lon": "11.1210886",
-        "locale" : "IT_it"
-    }
-</pre></code></code>
-
-<p>The response includes the generated user name, person details, a response 
-status resource (included in most api calls responses to gie further details of 
-errors) and a newly created session </p>
-
-
-<p><pre><code>
-<a id="response_status"><b>The Response Status Resource (complete):</b></a>
-    "Response_Status" : {
-        "status_code": "1", 
-        "status_message":"User was created"   
-    },    
-</pre></code></code>
+ + The newly created <a href="#user">User</a> resource with a generated user_name
+ + The newly created <a href="#person">Person</a> resource with the provided details (as part of the user data object)
+ + A <a href="#response_status">Response status</a> resource (included in most api calls responses to gie further details of errors) 
+ + A new <a href ="#session" Session </a> for the user</p>
 
 POST /user
 > Content-Type: application/json
-{    
+{   
     "User" : {
-        "user_email":"ugo.fantozzi@gmail.com"
-    }
-    "Person" : {
-        "firstname": "Ugo Fantozzi",
-        "birthdate": "07/07/1934>", 
-        "birthplace": "Genova, Italia",
+        "user_email":"ugo.fantozzi@gmail.com",
+        "Person" : {
+            "firstname": "Ugo Fantozzi",
+            "birthdate": "07/07/1934>", 
+            "birthplace": "Genova, Italia",
+        }
     }
 }
 < 200
@@ -239,27 +212,19 @@ POST /user
         "status_code": "1", 
         "status_message":"User was created"   
     },    
-    "Person" : {
-        "url": "/person/999", 
-        "fullname":"Ugo Fantozzi", 
-        "firstname": "Ugo", 
-        "lastname": "Fantozzi", 
-        "birthdate": "07/07/1934", 
-        "birthplace": "Genova, Italia",
-        "birthplace_lat": "44.4056499", 
-        "birthplace_lon": "8.946256",
-        "home":"Trento, Italia",
-        "home_lat": "46.0696924", 
-        "home_lon": "11.1210886",
-        "locale" : "IT_it"
-    }
     "User" : {
         "url": "/user/999", 
         "user_id":"999", 
         "user_email":"ugo.fantozzi@gmail.com"
         "user_name":"ugo.fantozzi98832", 
-        "user_verified": "true", 
-        "user_name_verified": "true"
+        "user_verified": "false", 
+        "user_name_verified": "false"
+        "Person" : {
+            "url": "/person/999", 
+            "fullname":"Ugo Fantozzi", 
+            "birthdate": "07/07/1934", 
+            "birthplace": "Genova, Italia"
+        }
     }
     "Session" : {
         "auth_token" : "<new authentication token associated to the user's current session>",
@@ -295,29 +260,153 @@ POST /user
     "status_message":"The resource you tried to create already exists"
 }
 
+<p>Update user's information and personal details. </p>
 
+<p>The response includes: </p> 
+
+ + The <a href="#user">User</a> resource with its updated information
+
+POST /user
+> Content-Type: application/json
+{   
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration" : "10080" 
+    }, 
+    "User" : {
+        "user_email":"ugo.fantozzi@gmail.com"
+        "user_name":"ugo.fantozzi", 
+        "user_verified": "true", 
+        "user_name_verified": "true"
+        "Person" : {
+            "fullname":"Ugo Fantozzi", 
+            "firstname": "Ugo", 
+            "lastname": "Fantozzi", 
+            "birthdate": "07/07/1934", 
+            "birthplace": "Genova, Italia",
+            "birthplace_lat": "44.4056499", 
+            "birthplace_lon": "8.946256",
+            "home":"Trento, Italia",
+            "home_lat": "46.0696924", 
+            "home_lon": "11.1210886",
+            "locale" : "IT_it"
+        }
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": "2", 
+        "status_message":"User was updated"   
+    },    
+    "User" : {
+        "url": "/user/999",
+        "user_email":"ugo.fantozzi@gmail.com"
+        "user_name":"ugo.fantozzi", 
+        "user_verified": "true", 
+        "user_name_verified": "true"
+        "Person" : {
+            "url": "/person/999", 
+            "fullname":"Ugo Fantozzi", 
+            "firstname": "Ugo", 
+            "lastname": "Fantozzi", 
+            "birthdate": "07/07/1934", 
+            "birthplace": "Genova, Italia",
+            "birthplace_lat": "44.4056499", 
+            "birthplace_lon": "8.946256",
+            "home":"Trento, Italia",
+            "home_lat": "46.0696924", 
+            "home_lon": "11.1210886",
+            "locale" : "IT_it"
+        }
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "Response_Status": {
+        "status_code": "42", 
+        "status_message":"Auth string is not valid"
+    }
+}
++++++
+< 501
+< Content-Type: application/json
+{   "Response_Status": {
+        "status_code": "51", 
+        "status_message":"The resource you tried to create is incomplete"
+    }
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "Response_Status": {
+        "status_code": "52", 
+        "status_message":"The resource you tried to create already exists"
+    }
+}
 
 --
 Person Resource
-<p>A <br>person resource</br> encapsulates information about users that interact with the system by adding, visualizing or editing
-life stories, exploring the surrounding context (composed by public related content)</p>
-<p>Every person is identified by one unique <code>id</code> and has a bare minimum, 
-one name and one lastname.</p>
---
--
-<p>Get the basic information related to the Person identified by <code>id</code>.</p>
+<p>A <a href="#person">Person </a>resource encapsulates information about users that interact with the system by adding, 
+visualizing or editing life stories, exploring the surrounding context (composed by public related content). Every person 
+is identified by one unique <code>id</code> and has at least fullname, a birthdate and birhtplace.</p>. A person can exist 
+without a <a href="#user">User</a> associated to it, in which case the person refers to a public figure, existing in our
+historical knowledge base (see the <a href="http://docs.reminiscens.apiary.io/">Lifecontext API</a> to know more about this 
+knolwedge base)</p>
 
-<table style="width: 100%; margin: 12px 0 0 0;"><tbody>
-<tr><td style="padding-left: 0;" colspan="2"><strong>Required Parameters</strong></td></tr>
-<tr><td style="padding-left: 0;" colspan="2">api_key</td></tr>
-<tr><td style="padding-left: 0;" colspan="2">auth_token</td></tr>
-</tbody></table>
--
+<p>Through this API, users can only access a person's available information from their URI and if it has privileges. 
+For creation and update operations, the <a href="#user">User</a> endpoint must be used</p>
+--
+
+<p> Get the basic information related to the Person identified by <code>id</code>, 
+including the following information as mandatory: </p>
+
+ + **fullname:** user's fullname 
+ + **birthdate:** user's birthdate in dd/mm/yyyy format
+ + **birthplace:** textual name of the birthplace
+
+<p>Optionally, personal information could also include:</p>
+
+ + **firstname:** user's firstname
+ + **lastname:** user's lastname
+ + **birthplace_lat:** latitude coordinates of the birthplace
+ + **birthplace_lon:** longitude coordintates of the birthplace
+ + **home:** textual name of the current home
+ + **home_lat:** latitude coordinates of the current home
+ + **home_lon:** longitude coordintates of the current home
+ + **locale:** languate localization code
+
+<p><pre><code>
+<a id="user"><b>The Person Resource (complete):</b></a>
+    "Person" : {
+        "url": "/person/999", 
+        "user_id":"999",
+        "fullname":"Ugo Fantozzi", 
+        "firstname": "Ugo", 
+        "lastname": "Fantozzi", 
+        "birthdate": "07/07/1934", 
+        "birthplace": "Genova, Italia",
+        "birthplace_lat": "44.4056499", 
+        "birthplace_lon": "8.946256",
+        "home":"Trento, Italia",
+        "home_lat": "46.0696924", 
+        "home_lon": "11.1210886",
+        "locale" : "IT_it"
+    }
+</pre></code></code>
+
 GET /person/{id}
 > Accept: application/json
-{  
-    "api_key": "<api key for registered application>",
-    "auth_token": "<session id of the application issuing the request>"
+{"url":"/person/999"}
+{ 
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration" : "10080" 
+    }
 }
 < 200 
 < Content-Type: application/json
@@ -327,287 +416,37 @@ GET /person/{id}
         "status_message":"OK"
     },
     "Person" : {
-        "url": "/person/{id}", 
-        "fullname":"<full name of the person>", 
-        "firstname": "<only first name>", 
-        "middlename": "<only middle name>", 
-        "lastname": "<only last name>", 
-        "birthdate": "<birthdate in format dd/mm/yyyy>",
-        "birthplace": "<textual description of birthplace>",
-        "birthplace_lat": "<birthplace latitude>", 
-        "birthplace_lon": "<birthplace longitude>", 
-        "current_home":"<current home location in textual description>",
-        "current_home_lat":"<current home location latitudes>",
-        "current_home_lon":"<current home location latitudes>",
-        "locale" : "IT_it"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "41", 
-        "status_message":"API Key is not valid"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{
-    "Response_Status" : {
-        "status_code": "42", 
-        "status_message":"Session ID is not valid"
-    }
-}
-
--
-<p>Get the user information related to the Person identified by <code>id</code>.</p>
-
-<table style="width: 100%; margin: 12px 0 0 0;"><tbody>
-<tr><td style="padding-left: 0;" colspan="2"><strong>Required Parameters</strong></td></tr>
-<tr><td style="padding-left: 0;" colspan="2">api_key</td></tr>
-<tr><td style="padding-left: 0;" colspan="2">auth_token</td></tr>
-</tbody></table>
--
-GET /person/{id}/user
-> Accept: application/json
-{  
-    "api_key": "<api key for registered application>",
-    "auth_token": "<session id of the application issuing the request>"
-}
-< 200 
-< Content-Type: application/json
-{ 
-    "Response_Status" : {
-        "status_code": "1", 
-        "status_message":"OK"
-    }
-    "User" : {
-        "url": "/person/{id}/user", 
-        "user_id":"<user id as use in the User Management Module (external API)>"
-        "user_name":"<user nickname used for login purposes>", 
-        "user_email": "<user email if there is one>", 
-        "user_modified": "<No if the user has not yet modified his nickname and is only using the automatic>"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "41", 
-        "status_message":"API Key is not valid"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "42", 
-        "status_message":"Session ID is not valid"
-    }
-}
-
-GET /person/56
-> Accept: application/json
-{  
-    "api_key": "playgroundKey=42",
-    "auth_token": "playgroundSession=12345"
-}
-< 200 
-< Content-Type: application/json
-{ 
-    "Response_Status" : {
-        "status_code": "1", 
-        "status_message":"OK"
-    }
-    "Person" : {
-        "url": "/person/56", 
+        "url": "/person/999", 
+        "user_id":"999",
         "fullname":"Ugo Fantozzi", 
         "firstname": "Ugo", 
         "lastname": "Fantozzi", 
-        "birthdate": "01/01/1956",
-        "birthplace": "Genova, Italy",
-        "birthplace_lat": 44.4167, 
-        "birthplace_lon": 8.9239, 
-        "current_home":"Genova, Italy",
-        "current_home_lat": 8.9239,
-        "current_home_lon": 44.4167, 
+        "birthdate": "07/07/1934", 
+        "birthplace": "Genova, Italia",
+        "birthplace_lat": "44.4056499", 
+        "birthplace_lon": "8.946256",
+        "home":"Trento, Italia",
+        "home_lat": "46.0696924", 
+        "home_lon": "11.1210886",
         "locale" : "IT_it"
     }
 }
-
--
-<p>Updates information about a Person</p>
-
-<table style="width: 100%; margin: 12px 0 0 0;"><tbody>
-<tr><td style="padding-left: 0;" colspan="2"><strong>Required Parameters</strong></td></tr>
-<tr><td style="padding-left: 0;" colspan="2">api_key</td></tr>
-<tr><td style="padding-left: 0;" colspan="2">auth_token</td></tr>
-<tr><td style="padding-left: 0;" colspan="2">The Person</td></tr>
-</tbody></table>
-
-<table style="width: 100%; margin: 12px 0 0 0;"><tbody>
-<tr><td style="padding-left: 0;" colspan="2"><strong>The Person Resource required information</strong></td></tr>
-<tr><td style="padding-left: 0;">fullname</td><td style="padding-left: 0;">string</td></tr>
-<tr><td style="padding-left: 0;">birthdate</td><td style="padding-left: 0;">date in format dd/mm/yyyy</td></tr>
-<tr><td style="padding-left: 0;">birthplace</td><td style="padding-left: 0;">textual name of Birth Place</td></tr>
-<tr><td style="padding-left: 0;" colspan="2"><strong>The Person Resource optional information</strong></td></tr>
-<tr><td style="padding-left: 0;">firstname</td><td style="padding-left: 0;">string</td></tr>
-<tr><td style="padding-left: 0;">lastname</td><td style="padding-left: 0;">string</td></tr>
-<tr><td style="padding-left: 0;">birthplace_lat</td><td style="padding-left: 0;">real latitude of Birth Place</td></tr>
-<tr><td style="padding-left: 0;">birthplace_lat</td><td style="padding-left: 0;">real longitud of Birth Place</td></tr>
-
-</tbody></table>
--
-PUT /person
-> Content-Type: application/json
++++++
+< 401
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": "41", 
+        "status_message":"Auth token is not valid"
+    }
+}
++++++
+< 401
+< Content-Type: application/json
 {
-    "api_key" : "<api key for registered application>",
-    "auth_token" : "<session id of the application issuing the request>",
-    "Person" : {
-        "fullname":"<full name of the person>", 
-        "firstname": "<only first name>", 
-        "lastname": "<only last name>", 
-        "birthdate": "<birthdate in format dd/mm/yyyy>", 
-        "birthplace": "<textual description of birthplace>",
-        "birthplace_lat": "<birthplace latitude>", 
-        "birthplace_lon": "<birthplace longitude>",
-        "current_home":"<current location in textual description>",
-        "current_home_lat":"<current home location latitudes>",
-        "current_home_lon":"<current home location latitudes>",
-        "locale" : "IT_it"
-    }
-}
-< 200
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "1", 
-        "status_message":"Resource was updated"
-    },    
-    "Person" : {
-        "url": "/person/{id}", 
-        "fullname":"<full name of the person>", 
-        "firstname": "<only first name>", 
-        "lastname": "<only last name>", 
-        "birthdate": "<birthdate in format dd/mm/yyyy>", 
-        "birthplace": "<textual description of birthplace>",
-        "birthplace_lat": "<birthplace latitude>", 
-        "birthplace_lon": "<birthplace longitude>",
-        "current_home":"<current location in textual description>"
-        "current_coordinates":"<current location in textual description>"
-        "locale" : "IT_it"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "41", 
-        "status_message":"API Key is not valid"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
     "Response_Status" : {
         "status_code": "42", 
         "status_message":"Session ID is not valid"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "51", 
-        "status_message":"Information sentd for update was incomplete"
-    }
-}
-
--
-<p>Updates user information about a Person</p>
--
-PUT /person/{id}/user
-> Content-Type: application/json
-{  
-    "api_key": "<api key for registered application>",
-    "auth_token": "<session id of the application issuing the request>",    
-    "User" : {
-        "url": "/person/{id}/user", 
-        "user_id":"<user id as use in the User Management Module (external API)>"
-        "user_name":"<user nickname used for login purposes>", 
-        "user_email": "<user email if there is one>", 
-        "user_modified": "<No if the user has not yet modified his nickname and is only using the automatic>"
-    }
-}
-< 200
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "1", 
-        "status_message":"Resource was created"
-    },
-    "Person" : {
-        "url": "/person/{id}", 
-        "fullname":"<full name of the person>", 
-        "firstname": "<only first name>", 
-        "lastname": "<only last name>", 
-        "birthdate": "<birthdate in format dd/mm/yyyy>", 
-        "birthplace": "<textual description of birthplace>",
-        "birthplace_lat": "<birthplace latitude>", 
-        "birthplace_lon": "<birthplace longitude>",
-        "current_home":"<current location in textual description>"
-        "current_coordinates":"<current location in textual description>"
-        "locale" : "IT_it"
-    }
-    "User" : {
-        "url": "/person/{id}/user", 
-        "user_id":"<user id as use in the User Management Module (external API)>"
-        "user_name":"<full name of the person>", 
-        "user_email": "<user email if there is one>", 
-        "user_modified": "<No if the user has not yet modified his nickname and is only using the automatic>", 
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "41", 
-        "status_message":"API Key is not valid"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{    
-    "Response_Status" : {
-        "status_code": "42", 
-        "status_message":"Session ID is not valid"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "51", 
-        "status_message":"The resource you tried to create is incomplete"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{    
-    "Response_Status" : {
-        "status_code": "52", 
-        "status_message":"The resource you tried to create already exists"
     }
 }
 
@@ -615,9 +454,9 @@ PUT /person/{id}/user
 Life story resource 
 The life story resource is the core element of the API. Every person has life stories to share, starting with their birth. 
 --
--
+
 Create a story
--
+
 POST /person/{id}/lifestory
 > Content-Type: application/json
 {  
@@ -675,9 +514,7 @@ POST /person/{id}/lifestory
     }
 }
 
--
 Get a person's particular life story
--
 GET /person/{id}/lifestory/{id}
 > Content-Type: application/json
 {  
@@ -860,8 +697,79 @@ The session resource allows the platform to manage authentication and authorizat
 execute operations on the API. 
 --
 
+
 --
 Question resource 
 The session resource allows the platform to manage authentication and authorization to 
 execute operations on the API. 
 --
+
+-
+Get a question 
+-
+GET /question/{birthyear}/{focusyear}
+> Content-Type: application/json
+{ "url":"/question/1940/1948"}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": "1", 
+        "status_message":"Resource exists"
+    }
+    "Question_List" : [ 
+        "Question" :{
+            "url": "/question/999",
+            "life_chapter": "childhood",
+            "question_text" : "Cosa ti ricordi della tua prima bicileta",
+            "question_type" : "open"
+        }, 
+        "Question" :{
+            "url": "/question/998",
+            "life_chapter": "childhood",
+            "question_text" : "Come si chiamava la tua scuola elementare",
+            "question_type" : "open"
+        }
+    ]
+    }
+}
+
+GET /question/{lifechapter}
+> Content-Type: application/json
+{ "url":"/question/childhood"}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": "1", 
+        "status_message":"Resource exists"
+    }
+    "Question_List" : [ 
+        "Question" :{
+            "url": "/question/999",
+            "life_chapter": "childhood",
+            "question_text" : "Cosa ti ricordi della tua prima bicileta",
+            "question_type" : "open"
+        }, 
+        "Question" :{
+            "url": "/question/998",
+            "life_chapter": "childhood",
+            "question_text" : "Come si chiamava la tua scuola elementare",
+            "question_type" : "open"
+        }
+    ]
+    }
+}
+
+-- 
+Response status Resource
+
+<p><pre><code>
+<a id="response_status"><b>The Response Status Resource (complete):</b></a>
+    "Response_Status" : {
+        "status_code": "1", 
+        "status_message":"User was created"   
+    },    
+</pre></code></code>
+--
+

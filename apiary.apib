@@ -19,29 +19,42 @@ finalization of a Ph.D. in Information and Communication Technologies
 
 --
 Sessions 
+
 <p>The session resource endpoint is where the experience begins. Applications create a session using either an username/password pair 
 or an authentication token provided by a third party service (e.g., facebook, google). After creating the session, the created session 
 instance must be included in all of the API calls. Is the only non-RESTful element of this APIn (but implemented in the most RESTful way 
-possible) </p>
+possible). </p>
+
+<p>Sessions are made of: </p>
+ 
+ + **auth_token:** An authentication token identifying the session
+ + **expiration:** Duration of the token in minutes                                       
 
 <p><pre><code>
 <a id="session"><b>The Session Resource:</b></a>
-<br>
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",  // authentication token identifying the session
-        "expiration" : "10080"                                      // duration of the token in minutes 
-    }
-
-<a id="service"><b>The Service Resource:</b></a>
-<br>
-    "Service":{
-        "name": "reminiscens"                                       // authentication service provider (facebook, google, reminiscens
-        "authString": "ugo.fantozzi@gmail.com!_-_!a94..."           // authentication service string = email + "!_-_!" + sha1(password) 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",  
+        "expiration" : "10080"                                       
     }
 </pre></code></code>
 --
--
-Create a session endpoint. Below, an example of Javascript code to create a Session based on user email and password.
+ 
+Create a session endpoint. To create the session, a service is required, which is specified by:  
+
+ + **name:** The name of the authentication service provider (facebook, google, reminiscens)
+ + **authString:** Authentication string provided by the service. If the service name is reminiscens, it will be the email + "!_-_!" + sha1(password) )
+
+<p><pre><code>
+<a id="service"><b>The Service Resource:</b></a>
+<br>
+    "Service":{
+        "name": "reminiscens",                      
+        "authString": "ugo.fantozzi@gmail.com!_-_!a94..."          
+    }
+
+</pre></code></code>
+
+<p>Below, an example of Javascript code to create a Session based on user email and password.</p>
 
 <p><pre><code>
 <br>
@@ -65,7 +78,6 @@ Create a session endpoint. Below, an example of Javascript code to create a Sess
         });
 
 </pre></code></p>
--
 POST /session
 > Content-Type: application/json
 {  
@@ -94,14 +106,15 @@ POST /session
         "home_lat": "46.0696924", 
         "home_lon": "11.1210886",
         "locale" : "IT_it"
-        "profile_picture":"http://www.flickr.com/photos/mykalburns/2807451879/"
     }
     "User" : {
         "url": "/user/999", 
         "user_id":"999"
         "user_name":"ugo.fantozzi", 
         "user_email": "ugo.fantozzi@gmail.com", 
-        "user_modified": "true" 
+        "user_verified": "true", 
+        "user_name_verified": "true", 
+        "profile_picture":"http://www.flickr.com/photos/mykalburns/2807451879/"
     },
     "Session" : {
         "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
@@ -131,29 +144,92 @@ POST /session
 }
 
 --
-User Registration
-<p>Creates a new user with initial personal details </p>
+Users
+The <b>user resource</b> endpoint gives access to all the operations available on user data 
 --
+
+<p>Create a user with initial personal details. A user is composed by: </p>
+
+ + **user_id:** user unique identificator
+ + **user_name:** username used for authentication
+ + **user_email:** user's registered email
+ + **user_verified:** user has verified that this account belongs to him
+ + **user_name_verified:** user has verified/updated his username (generated first by the system)
+ + **user_profile_picture:** URL to a profile picture
+
+<p><pre><code>
+<a id="user"><b>The User Resource:</b></a>
+<br>
+    "User" : {
+        "url": "/user/999", 
+        "user_id":"999"
+        "user_name":"ugo.fantozzi", 
+        "user_email": "ugo.fantozzi@gmail.com", 
+        "user_verified": "true", 
+        "user_name_verified": "true",        
+        "profile_picture":"http://www.flickr.com/photos/mykalburns/2807451879/"
+    }
+</pre></code></code>
+
+<p>To create the <a href="#user">User</a>, you will also need to specify some personal details, sending also a 
+<b>Person</b> resource, including the following as mandatory: </p>
+
+ + **fullname:** user's fullname 
+ + **birthdate:** user's birthdate in dd/mm/yyyy format
+ + **birthplace:** textual name of the birthplace
+
+<p>Optionally, personal information could also include:</p>
+
+ + **firstname:** user's firstname
+ + **lastname:** user's lastname
+ + **birthplace_lat:** latitude coordinates of the birthplace
+ + **birthplace_lon:** longitude coordintates of the birthplace
+ + **home:** textual name of the current home
+ + **home_lat:** latitude coordinates of the current home
+ + **home_lon:** longitude coordintates of the current home
+ + **locale:** languate localization code
+
+<p><pre><code>
+<a id="user"><b>The Person Resource (complete):</b></a>
+    "Person" : {
+        "url": "/person/999", 
+        "fullname":"Ugo Fantozzi", 
+        "firstname": "Ugo", 
+        "lastname": "Fantozzi", 
+        "birthdate": "07/07/1934", 
+        "birthplace": "Genova, Italia",
+        "birthplace_lat": "44.4056499", 
+        "birthplace_lon": "8.946256",
+        "home":"Trento, Italia",
+        "home_lat": "46.0696924", 
+        "home_lon": "11.1210886",
+        "locale" : "IT_it"
+    }
+</pre></code></code>
+
+<p>The response includes the generated user name, person details, a response 
+status resource (included in most api calls responses to gie further details of 
+errors) and a newly created session </p>
+
+
+<p><pre><code>
+<a id="response_status"><b>The Response Status Resource (complete):</b></a>
+    "Response_Status" : {
+        "status_code": "1", 
+        "status_message":"User was created"   
+    },    
+</pre></code></code>
+
 POST /user
 > Content-Type: application/json
-{  
-    "api_key" : "<api key for registered application>",  
+{    
     "User" : {
-        "user_email":"<user email>" 
-        "auth_string":"<authentication string/password used to login >"
-    }
-    "Device" : {
-        "device_id" : "<id of the device that is creating the session> 
+        "user_email":"ugo.fantozzi@gmail.com"
     }
     "Person" : {
-        "fullname":"<full name of the person>", 
-        "firstname": "<only first name>", 
-        "lastname": "<only last name>", 
-        "birthdate": "<birthdate in format dd/mm/yyyy>", 
-        "birthplace": "<textual description of birthplace>",
-        "birthplace_lat": "<birthplace latitude>", 
-        "birthplace_lon": "<birthplace longitude>",
-        "locale" : "IT_it"
+        "firstname": "Ugo Fantozzi",
+        "birthdate": "07/07/1934>", 
+        "birthplace": "Genova, Italia",
     }
 }
 < 200
@@ -164,25 +240,26 @@ POST /user
         "status_message":"User was created"   
     },    
     "Person" : {
-        "url": "/person/{id}", 
-        "fullname":"<full name of the person>", 
-        "firstname": "<only first name>", 
-        "lastname": "<only last name>", 
-        "birthdate": "<birthdate in format dd/mm/yyyy>", 
-        "birthplace": "<textual description of birthplace>",
-        "birthplace_lat": "<birthplace latitude>", 
-        "birthplace_lon": "<birthplace longitude>",
-        "current_home":"<current location in textual description>"
-        "current_coordinates":"<current location in textual description>"
+        "url": "/person/999", 
+        "fullname":"Ugo Fantozzi", 
+        "firstname": "Ugo", 
+        "lastname": "Fantozzi", 
+        "birthdate": "07/07/1934", 
+        "birthplace": "Genova, Italia",
+        "birthplace_lat": "44.4056499", 
+        "birthplace_lon": "8.946256",
+        "home":"Trento, Italia",
+        "home_lat": "46.0696924", 
+        "home_lon": "11.1210886",
         "locale" : "IT_it"
     }
     "User" : {
-        "url": "/person/{id}/user", 
-        "user_id":"<user id as use in the User Management Module (external API)>"
-        "user_name":"<full name of the person>", 
-        "user_email": "<user email if there is one>", 
-        "user_modified": "<No if the user has not yet modified his nickname and is only using the automatic>",
-        "user_status" : "<uncofirmed untill confirmation link is accessed>"
+        "url": "/user/999", 
+        "user_id":"999", 
+        "user_email":"ugo.fantozzi@gmail.com"
+        "user_name":"ugo.fantozzi98832", 
+        "user_verified": "true", 
+        "user_name_verified": "true"
     }
     "Session" : {
         "auth_token" : "<new authentication token associated to the user's current session>",

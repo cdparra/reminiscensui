@@ -38,9 +38,11 @@ possible) </p>
         "authString": "ugo.fantozzi@gmail.com!_-_!a94..."           // authentication service string = email + "!_-_!" + sha1(password) 
     }
 </pre></code></code>
+--
+-
+Create a session endpoint. Below, an example of Javascript code to create a Session based on user email and password.
 
 <p><pre><code>
-<b>Example of Javscript call to create a Session based on user email and password</b>
 <br>
     var passSha1 = $.sha1($("#password").val() + salt);
     var sessionData = new Object;
@@ -62,9 +64,6 @@ possible) </p>
         });
 
 </pre></code></p>
---
--
-Create a session
 -
 POST /session
 > Content-Type: application/json
@@ -72,24 +71,6 @@ POST /session
     "Service":{
         "name": "reminiscens"
         "authString": "ugo.fantozzi@gmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"  
-    }
-}
-{  
-    "Service":{
-        "name": "reminiscens"
-        "authString": "cdparra@gmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"  
-    }
-}
-{  
-    "Service":{ 
-        "name": "reminiscens"
-        "authString": "biasioli@hotmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"  
-    }
-}
-{  
-    "Service":{ 
-        "name": "reminiscens"
-        "authString": "nonno@gmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"  
     }
 }
 < 200
@@ -104,14 +85,15 @@ POST /session
         "fullname":"Ugo Fantozzi", 
         "firstname": "Ugo", 
         "lastname": "Fantozzi", 
-        "birthdate": "21/06/1945>", 
-        "birthplace": "Trento, Italia",
-        "birthplace_lat": "46.0696924", 
-        "birthplace_lon": "11.1210886",
+        "birthdate": "07/07/1934", 
+        "birthplace": "Genova, Italia",
+        "birthplace_lat": "44.4056499", 
+        "birthplace_lon": "8.946256",
         "home":"Trento, Italia",
         "home_lat": "46.0696924", 
         "home_lon": "11.1210886",
         "locale" : "IT_it"
+        "profile_picture":"http://www.flickr.com/photos/mykalburns/2807451879/"
     }
     "User" : {
         "url": "/user/999", 

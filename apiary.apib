@@ -23,10 +23,7 @@ Sessions
 <p>The session resource endpoint is where the experience begins. Applications create a session using either an username/password pair 
 or an authentication token provided by a third party service (e.g., facebook, google). After creating the session, the created session 
 instance must be included in all of the API calls. Is the only non-RESTful element of this APIn (but implemented in the most RESTful way 
-possible). </p>
---
-
-<p>Sessions are made of: </p>
+possible). Sessions are made of: </p>
  
  + **auth_token:** An authentication token identifying the session
  + **expiration:** Duration of the token in minutes                                       
@@ -38,8 +35,9 @@ possible). </p>
         "expiration" : "10080"                                       
     }
 </pre></code></code>
- 
-Create a session endpoint. To create the session, a service is required, which is specified by:  
+
+<p>Various authentication services can be used to create a session. A <a href="#service">Service</a> is specified on creating a session
+and is identified by: </p>
 
  + **name:** The name of the authentication service provider (facebook, google, reminiscens)
  + **authString:** Authentication string provided by the service. If the service name is reminiscens, it will be the email + "!_-_!" + sha1(password) )
@@ -52,8 +50,24 @@ Create a session endpoint. To create the session, a service is required, which i
     }
 </pre></code></code>
 
-<p>Below, an example of Javascript code to create a Session based on user email and password.</p>
+--
+
+<p><b>Create a session endpoint.</b> </p>
+
+<p>Request Body: </p>
+
+ + <b> Mandatory. </b> The authentication <a href="#service">Service</a> resource.
+
+<p>Response Body:</p>
+
+ + The newly created <a href="#session">Session</a> 
+ + The <a href="#user">User</a> that created the session.
+
 <p><pre><code>
+<b>Example of Javascript code for creating a <a href="#session">Session</a>, using our own authentication service 
+based on user email and password.)
+</p>
+
     var passSha1 = $.sha1($("#password").val() + salt);
     var sessionData = new Object;
     sessionData.name = "reminiscens";
@@ -73,12 +87,6 @@ Create a session endpoint. To create the session, a service is required, which i
             contentType: "application/json"
         });
 </pre></code></p>
-
-<p>The response to creating a session includes:
-
- + The newly created <a href="#session">Session</a> 
- + The <a href="#user">User</a> that created the session.
-</p>
 
 POST /session
 > Content-Type: application/json

@@ -46,18 +46,14 @@ Create a session endpoint. To create the session, a service is required, which i
 
 <p><pre><code>
 <a id="service"><b>The Service Resource:</b></a>
-<br>
     "Service":{
         "name": "reminiscens",                      
         "authString": "ugo.fantozzi@gmail.com!_-_!a94..."          
     }
-
 </pre></code></code>
 
 <p>Below, an example of Javascript code to create a Session based on user email and password.</p>
-
 <p><pre><code>
-<br>
     var passSha1 = $.sha1($("#password").val() + salt);
     var sessionData = new Object;
     sessionData.name = "reminiscens";
@@ -76,11 +72,13 @@ Create a session endpoint. To create the session, a service is required, which i
         dataType: "json",
             contentType: "application/json"
         });
-
 </pre></code></p>
 
-<p>The response to creating a session includes a <a href="response_status", a <a href="#session">Session</a> and an 
-<a href="#user">User</a></p>
+<p>The response to creating a session includes:
+
+ + The newly created <a href="#session">Session</a> 
+ + The <a href="#user">User</a> that created the session.
+</p>
 
 POST /session
 > Content-Type: application/json
@@ -156,7 +154,7 @@ information, referring to people that is mentioned in life stories or public his
 to stimulate reminiscence
 --
 
-<p>Create a user with initial personal details. Entails createing a <a href="#user">User</a> and <a href="#person">Person</a>. 
+<p>Create a user with initial personal details entails creating a <a href="#user">User</a> and <a href="#person">Person</a>. 
 Mandatory information to send for the registration includes: </p>
 
  + **user_email:** user's registered email
@@ -171,10 +169,8 @@ Aditionally, a <a href="#user">User</a> resource has:
  + **user_verified:** user has verified that this account belongs to him
  + **user_name_verified:** user has verified/updated his username (generated first by the system)
  + **user_profile_picture:** URL to a profile picture
-
 <p><pre><code>
 <a id="user"><b>The User Resource:</b></a>
-<br>
     "User" : {
         "url": "/user/999", 
         "user_id":"999"
@@ -191,7 +187,7 @@ Aditionally, a <a href="#user">User</a> resource has:
  + The newly created <a href="#user">User</a> resource with a generated user_name
  + The newly created <a href="#person">Person</a> resource with the provided details (as part of the user data object)
  + A <a href="#response_status">Response status</a> resource (included in most api calls responses to gie further details of errors) 
- + A new <a href ="#session" Session </a> for the user</p>
+ + A new <a href ="#session"> Session </a> for the user
 
 POST /user
 > Content-Type: application/json

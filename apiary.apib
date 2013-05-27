@@ -40,13 +40,13 @@ possible). Sessions are made of: </p>
 and is identified by: </p>
 
  + **name:** The name of the authentication service provider (facebook, google, reminiscens)
- + **authString:** Authentication string provided by the service. If the service name is reminiscens, it will be the email + "!_-_!" + sha1(password) )
+ + **authString:** Authentication string provided by the service. For using our own authenticaiton service, name is reminiscens and authString = email + "!_-_!" + sha1(password) 
 
 <p><pre><code>
 <a id="service"><b>The Service Resource:</b></a>
     "Service":{
-        "name": "reminiscens",                      
-        "authString": "ugo.fantozzi@gmail.com!_-_!a94..."          
+        "name": "reminiscens", 
+        "authString": "ugo.fantozzi@gmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"          
     }
 </pre></code></code>
 
@@ -65,9 +65,7 @@ and is identified by: </p>
 
 <p><pre><code>
 <b>Example of Javascript code for creating a <a href="#session">Session</a>, using our own authentication service 
-based on user email and password.)
-</p>
-
+based on user email and password.)</p>
     var passSha1 = $.sha1($("#password").val() + salt);
     var sessionData = new Object;
     sessionData.name = "reminiscens";
@@ -160,23 +158,21 @@ The <b>User resource</b> endpoint gives access to all the operations available o
 <a href="#user">User</a> and <a href="#person">Person</a>. A person might exist in our dataset wihtout user 
 information, referring to people that is mentioned in life stories or public historical records that we used
 to stimulate reminiscence
---
 
-<p>Create a user with initial personal details entails creating a <a href="#user">User</a> and <a href="#person">Person</a>. 
-Mandatory information to send for the registration includes: </p>
+<p>A <a href="#user">User</a> is includes the following information </p>
 
  + **user_email:** user's registered email
- + **fullname:** person's fullname 
- + **birthdate:** person's birthdate in dd/mm/yyyy format
- + **birthplace:** person's textual name of the birthplace
-
-Aditionally, a <a href="#user">User</a> resource has:
-
  + **user_id:** user unique identificator
  + **user_name:** username used for authentication
  + **user_verified:** user has verified that this account belongs to him
  + **user_name_verified:** user has verified/updated his username (generated first by the system)
  + **user_profile_picture:** URL to a profile picture
+ + A **<a href="#"person>Person</a>, including at least: 
+ ++ **fullname:** person's fullname 
+ ++ **birthdate:** person's birthdate in dd/mm/yyyy format
+ ++ **birthplace:** person's textual name of the birthplace
+
+
 <p><pre><code>
 <a id="user"><b>The User Resource:</b></a>
     "User" : {
@@ -190,7 +186,19 @@ Aditionally, a <a href="#user">User</a> resource has:
     }
 </pre></code></code>
 
-<p>The response includes: </p> 
+--
+
+<p>Create <a href="#user">User</a> endpoint </p>
+<p><b>Request:</b> 
+ 
+ + A <a href="#user">User</a> including: 
+ ++ <b>Mandatory.</b> user_email
+ ++ A <a href="#person">Person</a>. resource with:  
+ +++ <b>Mandatory.</b> fullname 
+ +++ <b>Mandatory.</b> birthdate
+ +++ <b>Mandatory.</b> birthplace
+
+<p>Response: </p> 
 
  + The newly created <a href="#user">User</a> resource with a generated user_name
  + The newly created <a href="#person">Person</a> resource with the provided details (as part of the user data object)

@@ -67,7 +67,7 @@ POST /session
 {  
     "Service":{
         "name": "reminiscens"
-        "authString": "user.email@gmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"  
+        "authString": "ugo.fantozzi@gmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"  
     }
 }
 {  
@@ -82,6 +82,12 @@ POST /session
         "authString": "biasioli@hotmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"  
     }
 }
+{  
+    "Service":{ 
+        "name": "reminiscens"
+        "authString": "nonno@gmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"  
+    }
+}
 < 200
 < Content-Type: application/json
 {  
@@ -90,28 +96,29 @@ POST /session
         "status_message":"Session was created"   
     },    
     "Person" : {
-        "url": "/person/{id}", 
-        "fullname":"<full name of the person>", 
-        "firstname": "<only first name>", 
-        "lastname": "<only last name>", 
-        "birthdate": "<birthdate in format dd/mm/yyyy>", 
-        "birthplace": "<textual description of birthplace>",
-        "birthplace_lat": "<birthplace latitude>", 
-        "birthplace_lon": "<birthplace longitude>",
-        "current_home":"<current location in textual description>"
-        "current_coordinates":"<current location in textual description>"
+        "url": "/person/999", 
+        "fullname":"Ugo Fantozzi", 
+        "firstname": "Ugo", 
+        "lastname": "Fantozzi", 
+        "birthdate": "21/06/1945>", 
+        "birthplace": "Trento, Italia",
+        "birthplace_lat": "46.0696924", 
+        "birthplace_lon": "11.1210886",
+        "home":"Trento, Italia",
+        "home_lat": "46.0696924", 
+        "home_lon": "11.1210886",
         "locale" : "IT_it"
     }
     "User" : {
-        "url": "/person/{id}/user", 
-        "user_id":"<user id as use in the User Management Module (external API)>"
-        "user_name":"<full name of the person>", 
-        "user_email": "<user email if there is one>", 
-        "user_modified": "<No if the user has not yet modified his nickname and is only using the automatic>", 
+        "url": "/user/999", 
+        "user_id":"999"
+        "user_name":"ugo.fantozzi", 
+        "user_email": "ugo.fantozzi@gmail.com", 
+        "user_modified": "true" 
     },
     "Session" : {
-        "auth_token" : "<new authentication token associated to the user's current session>",
-        "expiration" : "<minutes before the token expires>" 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration" : "10080" 
     }
 }
 +++++
@@ -119,13 +126,6 @@ POST /session
 < Content-Type: application/json
 {  
     "status_code": "41", 
-    "status_message":"API Key is not valid"
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "status_code": "42", 
     "status_message":"Auth string is not valid"
 }
 +++++

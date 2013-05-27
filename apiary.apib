@@ -167,7 +167,7 @@ to stimulate reminiscence
  + **user_verified:** user has verified that this account belongs to him
  + **user_name_verified:** user has verified/updated his username (generated first by the system)
  + **user_profile_picture:** URL to a profile picture
- + A **<a href="#"person>Person</a>, including at least: 
+ + A **<a href="#"person>Person</a>**, including at least: 
   + **fullname:** person's fullname 
   + **birthdate:** person's birthdate in dd/mm/yyyy format
   + **birthplace:** person's textual name of the birthplace
@@ -182,21 +182,27 @@ to stimulate reminiscence
         "user_email": "ugo.fantozzi@gmail.com", 
         "user_verified": "true", 
         "user_name_verified": "true",        
-        "profile_picture":"http://www.flickr.com/photos/mykalburns/2807451879/"
+        "profile_picture":"http://www.flickr.com/photos/mykalburns/2807451879/",
+        "Person" : {
+            "url": "/person/999", 
+            "fullname":"Ugo Fantozzi", 
+            "birthdate": "07/07/1934", 
+            "birthplace": "Genova, Italia"
+        }
     }
 </pre></code></code>
 
 --
 
-<p>Create <a href="#user">User</a> endpoint </p>
-<p><b>Request:</b> 
+<p><b>Create <a href="#user">User</a> endpoint </b></p>
+<p>Request:</p>
  
  + A <a href="#user">User</a> including: 
- ++ <b>Mandatory.</b> user_email
- ++ A <a href="#person">Person</a>. resource with:  
- +++ <b>Mandatory.</b> fullname 
- +++ <b>Mandatory.</b> birthdate
- +++ <b>Mandatory.</b> birthplace
+  + <b>Mandatory.</b> user_email
+  + A <a href="#person">Person</a>. resource with:  
+   + <b>Mandatory.</b> fullname 
+   + <b>Mandatory.</b> birthdate
+   + <b>Mandatory.</b> birthplace
 
 <p>Response: </p> 
 
@@ -272,9 +278,12 @@ POST /user
     "status_message":"The resource you tried to create already exists"
 }
 
-<p>Update user's information and personal details. </p>
+<p><b>Update user endpoint</b></p>
+<p>Request: </p>
+ 
+ + The <a href="#user">User</a>
 
-<p>The response includes: </p> 
+<p>Response:</p> 
 
  + The <a href="#user">User</a> resource with its updated information
 

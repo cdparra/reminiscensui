@@ -20,20 +20,23 @@ finalization of a Ph.D. in Information and Communication Technologies
 --
 Sessions 
 <p>The session resource endpoint is where the experience begins. Applications create a session using either an username/password pair 
-or an authentication token provided by a third party service (facebook and google are currently supported). After creating the session, 
-the created session instance must be included in all of the API calls. </p>
+or an authentication token provided by a third party service (e.g., facebook, google). After creating the session, the created session 
+instance must be included in all of the API calls. Is the only non-RESTful element of this APIn (but implemented in the most RESTful way 
+possible) </p>
 
-The Session Bean
 <p><pre><code>
+<a id="session"><b>The Session Resource:</b></a>
+<br>
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",  // authentication token identifying the session
+        "expiration" : "10080"                                      // duration of the token in minutes 
+    }
 
+<a id="service"><b>The Service Resource:</b></a>
     "Service":{
-        "name": "<authentication service provider (e.g. facebook)>"
-        "authString": "authentication service string"  
+        "name": "reminiscens"                                       // authentication service provider (facebook, google, reminiscens
+        "authString": "ugo.fantozzi@gmail.com!_-_!a94..."           // authentication service string = email + "!_-_!" + sha1(password) 
     }
-    "User" : {
-        "user_id":"<user id as use in the User Management Module (external API)>"
-    }
-
 </pre></code></code>
 
 Example of Javscript call to create a Session based on user email and password

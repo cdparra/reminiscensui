@@ -164,9 +164,10 @@ to stimulate reminiscence
  + **user_email:** user's registered email
  + **user_id:** user unique identificator
  + **user_name:** username used for authentication
- + **user_verified:** user has verified that this account belongs to him
- + **user_name_verified:** user has verified/updated his username (generated first by the system)
- + **user_profile_picture:** URL to a profile picture
+ + **user_verified:** user has verified that this account belongs to him. Non verified accounts are limited 
+to no more than 10 stories and 50 mementos
+ + **user_nameverified:** user has verified/updated his username (generated first by the system)
+ + **user_profilepicture:** URL to a profile picture
  + A **<a href="#"person>Person</a>**, including at least: 
   + **fullname:** person's fullname 
   + **birthdate:** person's birthdate in dd/mm/yyyy format
@@ -181,8 +182,8 @@ to stimulate reminiscence
         "user_name":"ugo.fantozzi", 
         "user_email": "ugo.fantozzi@gmail.com", 
         "user_verified": "true", 
-        "user_name_verified": "true",        
-        "profile_picture":"http://www.flickr.com/photos/mykalburns/2807451879/",
+        "user_nameverified": "true",        
+        "user_profilepicture":"http://www.flickr.com/photos/mykalburns/2807451879/",
         "Person" : {
             "url": "/person/999", 
             "fullname":"Ugo Fantozzi", 
@@ -295,7 +296,7 @@ POST /user
         "expiration" : "10080" 
     }, 
     "User" : {
-        "user_email":"ugo.fantozzi@gmail.com"
+        "user__email":"ugo.fantozzi@gmail.com"
         "user_name":"ugo.fantozzi", 
         "user_verified": "true", 
         "user_name_verified": "true"

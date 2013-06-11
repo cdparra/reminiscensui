@@ -243,19 +243,35 @@ POST /user
             "birthplace": "Genova, Italia"
             "Timeline" : {[
                 {
+                    "story_id" : "999"
+                    "decade" : "1930", 
                     "startDate": "1934,7,7 0:00:00",
                     "endDate": "1934,7,7 0:00:00",
                     "headline": "Nascita",
                     "text": "Ugo Fantozzi e nato a Genova",
-                    "asset": {
-                        "media": "http://www.flickr.com/photos/mykalburns/2807451879/",
-                        "credit": "Burns! http://www.flickr.com/photos/mykalburns/",
-                        "caption": "A picture of Ugo around his birth in 1934",
-                        "thumbnail": ""
-                    },
-        "type": "title",
-        "tag": "self-contributed"
-      },
+                    "richtext" : "/story/999/richtext", 
+                    "tags": { ["self-contributed", "childhood"] },
+                    "memento": { [
+                        { 
+                            "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                            "credit": "Burns! http://www.flickr.com/photos/mykalburns/",
+                            "caption": "Foto di Ugo circa la sua nascita in 1934",
+                            "thumbnail": "",
+                            "type" : "picture",
+                            "cover" : "true",
+                            "index" : 1
+                        }, 
+                        {
+                            "url": "https://soundcloud.com/er_murena/fantozzi-all",
+                            "credit": "er_murena @ soundcloud! https://soundcloud.com/er_murena",
+                            "caption": "Ugo's music",
+                            "thumbnail": "",
+                            "type" : "audio",
+                            "cover" : "false",
+                            "index" : 2
+                        }
+                    ]}
+                },
       {
         "startDate": "1960,9,9 0:00:00",
         "endDate": "1960,9,9 0:00:00",

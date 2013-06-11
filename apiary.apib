@@ -224,177 +224,226 @@ POST /user
 }
 < 200
 < Content-Type: application/json
-{  
-    "User" : {
-        "user_id" : 999, 
-        "user_email":"ugo.fantozzi@gmail.com"
-        "user_name":"ugo.fantozzi98832", 
-        "user_verified": "false", 
+{
+    "User": {
+        "userId": 999,
+        "user_email": "ugo.fantozzi@gmail.com",
+        "user_name": "ugo.fantozzi98832",
+        "user_verified": "false",
         "user_name_verified": "false",
-        "Person" : {
-            "personId" : 999,
-            "fullname" :"Ugo Fantozzi", 
-            "birthdate" : "07/07/1934", 
-            "birthplace" : "Genova, Italia"
+        "Person": {
+            "personId": 999,
+            "fullname": "Ugo Fantozzi",
+            "birthdate": "07/07/1934",
+            "birthplace": "Genova, Italia"
         }
     },
-    "Timeline" : {
-        "timelineId" : 999,
-        "aboutPersonId" : 999,
-        "curators" : [ 777, 778, 779 ],
-        "storyList" : [
+    "Timeline": {
+        "timelineId": 999,
+        "aboutPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "storyList": [
             {
-                "storyId" : 999,
-                "decade" : 1930, 
+                "storyId": 999,
+                "decade": 1930,
                 "startDate": "1934,7,7 0:00:00",
                 "endDate": "1934,7,7 0:00:00",
                 "headline": "Nascita",
                 "text": "Ugo Fantozzi e nato a Genova",
-                "richtext" : "/story/999/richtext",
-                "participants" : [777, 779],
-                "createdBy" : 999,
-                "tags": ["birth", "childhood"] ,
+                "richtext": "/story/999/richtext",
+                "participants": [
+                    777,
+                    779
+                ],
+                "createdBy": 999,
+                "tags": [
+                    "birth",
+                    "childhood"
+                ],
                 "mementoList": [
-                    { 
-                        "mementoId" : 998,
+                    {
+                        "mementoId": 998,
                         "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
                         "credit": "Burns! http://www.flickr.com/photos/mykalburns/",
                         "caption": "Foto di Ugo circa la sua nascita in 1934",
                         "thumbnail": "",
-                        "type" : "picture",
-                        "cover" : "true",
-                        "index" : 1
-                    }, 
+                        "type": "picture",
+                        "cover": "true",
+                        "index": 1
+                    },
                     {
-                        "mementoId" : 997,
+                        "mementoId": 997,
                         "url": "https://soundcloud.com/er_murena/fantozzi-all",
                         "credit": "er_murena @ soundcloud! https://soundcloud.com/er_murena",
                         "caption": "Ugo's music",
                         "thumbnail": "",
-                        "type" : "audio",
-                        "cover" : "false",
-                        "index" : 2
+                        "type": "audio",
+                        "cover": "false",
+                        "index": 2
                     }
                 ]
             },
             {
-                "storyId" : 998,
-                "decade" : 1960,                    
+                "storyId": 998,
+                "decade": 1960,
                 "startDate": "1960,9,9 0:00:00",
                 "endDate": "1960,9,9 0:00:00",
                 "headline": "Matrimonio",
-                "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",                    "text": "Ugo Fantozzi e nato a Genova",
-                "richtext" : "/story/998/richtext",
-                "participants" : [777],
-                "createdBy" : 777, 
-                "tags": ["matrimonio", "adulthood", "milestone"] ,
+                "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",
+                "richtext": "/story/998/richtext",
+                "participants": [
+                    777
+                ],
+                "createdBy": 777,
+                "tags": [
+                    "matrimonio",
+                    "adulthood",
+                    "milestone"
+                ],
                 "mementoList": [
-                    { 
-                        "mementoId" : 999,
+                    {
+                        "mementoId": 999,
                         "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
                         "credit": "Wikipedia",
                         "caption": "",
                         "thumbnail": "",
-                        "type" : "photo",
-                        "cover" : "false",
-                        "index" : 2
+                        "type": "photo",
+                        "cover": "false",
+                        "index": 2
                     }
-                ] 
+                ]
             }
         ]
     },
-    "Context" : {
-        "contextId" : 999, 
-        "forPersonId" : 999,
-        "curators" : [ 777, 778, 779 ],
-        "mementoList" : [
+    "Context": {
+        "contextId": 999,
+        "forPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "mementoList": [
             {
-                "publicMementoId" : 999,
-                "decade" : 1930, 
-                "startDate" : "",
-                "endDate" : "",
-                "headline" : "MG M - 1930",
-                "text" : "MG M del 1930 ovvero la prima MG Midget",
-                "tags":  ["photo", "automobile", "ogetto"] ,
+                "publicMementoId": 999,
+                "decade": 1930,
+                "startDate": "",
+                "endDate": "",
+                "headline": "MG M - 1930",
+                "text": "MG M del 1930 ovvero la prima MG Midget",
+                "tags": [
+                    "photo",
+                    "automobile",
+                    "ogetto"
+                ],
                 "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
                 "credit": "Some rights reserved by ciric",
                 "creditURL": "",
-                "type" : "photo", 
-                "category" : "photo",
-                "questionList" : [
+                "type": "photo",
+                "category": "photo",
+                "questionList": [
                     {
-                        "questionId" : 999,
-                        "question" : "Riconosci questa macchina?",
-                        "tags": { ["automobile", "ogetto"] }
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
                     },
                     {
-                        "questionId" : 998,
-                        "question" : "Hai mai guidato una macchina come questa?",
-                        "tags": ["automobile", "ogetto"] 
+                        "questionId": 998,
+                        "question": "Hai mai guidato una macchina come questa?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
                     }
                 ]
             },
             {
-                "publicMementoId" : 997,
-                "decade" : 1960, 
-                "startDate" : "",
-                "endDate" : "",
-                "headline" : "Monte Gazzo 21",
-                "text" : "1960: veduta area del Santuario del Monte Gazzo.",
-                "tags": ["photo", "landscape"],
+                "publicMementoId": 997,
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "headline": "Monte Gazzo 21",
+                "text": "1960: veduta area del Santuario del Monte Gazzo.",
+                "tags": [
+                    "photo",
+                    "landscape"
+                ],
                 "url": "http://farm3.staticflickr.com/2781/4437292021_3f6b977f8a.jpg",
                 "credit": "Some rights reserved by ciric",
                 "creditURL": "",
-                "type" : "photo",
-                "category" : "photo", 
-                "questionList" : [
+                "type": "photo",
+                "category": "photo",
+                "questionList": [
                     {
-                        "questionId" : 997,
-                        "question" : "Riconosci questo posto?",
-                        "tags": ["landscape", "castell"]
+                        "questionId": 997,
+                        "question": "Riconosci questo posto?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
                     },
                     {
-                        "questionId" : 996,
-                        "question" : "Lei è mai stat in questo castello?",
-                        "tags":  ["landscape", "castell"]
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
                     }
                 ]
             },
             {
-                "publicMementoId" : 996,
-                "decade" : 1960, 
-                "startDate" : "",
-                "endDate" : "",
-                "headline" : "Claudio Villa in Rai Due",
-                "text" : "",
-                "tags": ["musica", "youtube", "musicista", "video"],
+                "publicMementoId": 996,
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "headline": "Claudio Villa in Rai Due",
+                "text": "",
+                "tags": [
+                    "musica",
+                    "youtube",
+                    "musicista",
+                    "video"
+                ],
                 "url": "https://www.youtube.com/watch?feature=player_detailpage&v=78LXfimeh8g",
                 "credit": "Uploaded by Youtube user Kartastone",
-                "creditURL" : "https://www.youtube.com/user/Kartastone?feature=watch", 
-                "type" : "music",
-                "category" : "music", 
-                "questionList" : [
+                "creditURL": "https://www.youtube.com/user/Kartastone?feature=watch",
+                "type": "music",
+                "category": "music",
+                "questionList": [
                     {
-                        "questionId" : 997,
-                        "question" : "Ti piace questa musica?",
-                        "tags": ["musica"]
+                        "questionId": 997,
+                        "question": "Ti piace questa musica?",
+                        "tags": [
+                            "musica"
+                        ]
                     },
                     {
-                        "questionId" : 996,
-                        "question" : "Lei è mai stat in questo castello?",
-                        "tags":  ["landscape", "castell"]
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
                     }
                 ]
             }
         ]
     },
-    "Response_Status" : {
-        "status_code": "1", 
-        "status_message":"User was created"   
-    },   
-    "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : "10080" 
+    "Response_Status": {
+        "status_code": "1",
+        "status_message": "User was created"
+    },
+    "Session": {
+        "auth_token": "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration": "10080"
     }
 }
 +++++
@@ -580,9 +629,9 @@ For creation and update operations, the <a href="#user">User</a> endpoint must b
 
 <p><pre><code>
 <a id="person"><b>The Person Resource (complete):</b></a>
-    "Person" : {
-        "url": "/person/999", 
-        "user_id":"999",
+    "Person" : { 
+        "personId":999,
+        "userId":999,
         "fullname":"Ugo Fantozzi", 
         "firstname": "Ugo", 
         "lastname": "Fantozzi", 
@@ -595,7 +644,7 @@ For creation and update operations, the <a href="#user">User</a> endpoint must b
         "home_lon": "11.1210886",
         "locale" : "IT_it"
     }
-</pre></code></code>
+</pre></code></p>
 
 <p>Life stories are organized in a <a href="#timeline">Timeline</a>, which is nothing byt the aggregated list 
 stories related to a person. Only the owner itself and people in its friends list can access and view a person's timeline.
@@ -604,7 +653,9 @@ Timeline Curators, who can access and edit thes stories in his/her timeline</p>
 
 <p><pre><code>
 <a id="timeline"><b>The Timeline Resource</b></a>
-  { 
+
+
+    { 
     "Timeline" : {
         "timelineId" : "999",
         "forPersonId" : "999",

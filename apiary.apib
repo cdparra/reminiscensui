@@ -209,8 +209,8 @@ to no more than 10 stories and 50 mementos
 
  + The newly created <a href="#user">User</a> resource with a generated user_name
  + The newly created <a href="#person">Person</a> resource with the provided details (as part of the user data object)
- + The <a href="#person">Timeline</a> of the person with the first event: his/her birth
- + The <a href="#person">Timeline</a> of the person with the first event: his/her birth
+ + The <a href="#timeline">Timeline</a> of the person with the first event: his/her birth
+ + The <a href="#context">Contextual</a> reminiscence recommendations for the person based on her first event: his/her birth
  + A <a href="#response_status">Response status</a> resource (included in most api calls responses to gie further details of errors) 
  + A new <a href ="#session"> Session </a> for the user
 
@@ -229,10 +229,6 @@ POST /user
 < 200
 < Content-Type: application/json
 {  
-    "Response_Status" : {
-        "status_code": "1", 
-        "status_message":"User was created"   
-    },    
     "User" : {
         "url": "/user/999", 
         "user_id":"999", 
@@ -245,8 +241,43 @@ POST /user
             "fullname":"Ugo Fantozzi", 
             "birthdate": "07/07/1934", 
             "birthplace": "Genova, Italia"
+            "Timeline" : {[
+                {
+                    "startDate": "1934,7,7 0:00:00",
+                    "endDate": "1934,7,7 0:00:00",
+                    "headline": "Nascita",
+                    "text": "Ugo Fantozzi e nato a Genova",
+                    "asset": {
+                        "media": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                        "credit": "Burns! http://www.flickr.com/photos/mykalburns/",
+                        "caption": "A picture of Ugo around his birth in 1934",
+                        "thumbnail": ""
+                    },
+        "type": "title",
+        "tag": "self-contributed"
+      },
+      {
+        "startDate": "1960,9,9 0:00:00",
+        "endDate": "1960,9,9 0:00:00",
+        "headline": "Matrimonio",
+        "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",
+        "asset": {
+          "media": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+          "credit": "Wikipedia",
+          "caption": "",
+          "thumbnail": ""
+        },
+        "type": "",
+        "tag": "contributed"
+      }
+               
+            ]}
         }
-    }
+    },
+    "Response_Status" : {
+        "status_code": "1", 
+        "status_message":"User was created"   
+    },  
     "Session" : {
         "auth_token" : "<new authentication token associated to the user's current session>",
         "expiration" : "<minutes before the token expires, 60 minutes for unconfirmed users>" 

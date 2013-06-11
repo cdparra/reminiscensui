@@ -19,13 +19,13 @@ finalization of a Ph.D. in Information and Communication Technologies
 
 --
 User management 
-<p> The user management section of this API groups the endpoints related to craating and maintaing sessions and users. These are the entry 
-points to Reminiscens' services</p>
+<p> The user management section of this API groups the endpoints related to craating and maintaing sessions and users. 
+These are the entry points to Reminiscens' services</p>
 
-<p>The session resource is where the experience begins. Applications create a session using either an username/password pair 
-or an authentication token provided by a third party service (e.g., facebook, google). After creating the session, the created session 
-instance must be included in all of the API calls. Is the only non-RESTful element of this APIn (but implemented in the most RESTful way 
-possible). Sessions are made of: </p>
+<p> The <a href="#session">Session</a> resource is where the experience begins. Applications create a session using either 
+an username/password pair or an authentication token provided by a third party service (e.g., facebook, google). After creating 
+the session, the created session instance must be included in all of the API calls. Is the only non-RESTful element of this API 
+(but implemented in the most RESTful way possible). Sessions are made of: </p>
  
  + **auth_token:** An authentication token identifying the session
  + **expiration:** Duration of the token in minutes                                       
@@ -36,7 +36,7 @@ possible). Sessions are made of: </p>
         "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",  
         "expiration" : "10080"                                       
     }
-</pre></code></code>
+</pre></code></p>
 
 <p>Various authentication services can be used to create a session. A <a href="#service">Service</a> is specified on creating a session
 and is identified by: </p>
@@ -580,7 +580,7 @@ Timeline Curators, who can access and edit thes stories in his/her timeline</p>
     "Timeline" : {
         "timelineId" : "999",
         "forPersonId" : "999",
-        "storyList" : {[
+        "storyList" : [
             {
                 "storyId" : "999"
                 "decade" : "1930", 
@@ -589,16 +589,14 @@ Timeline Curators, who can access and edit thes stories in his/her timeline</p>
                 "headline": "Nascita",
                 "text": "Ugo Fantozzi e nato a Genova",
                 "richtext" : "/story/999/richtext", 
-                "tags": { ["self-contributed", "childhood"] },
-                "mementoList": {[
-                    ...
-                ]}
+                "tags":  ["self-contributed", "childhood", ...],
+                "mementoList": [...]
             },
             ...
-        ]}
+        ]
     }
 }
-</pre></code></code>
+</pre></code></p>
 
 <p> Life stories ...
 
@@ -606,6 +604,7 @@ Timeline Curators, who can access and edit thes stories in his/her timeline</p>
 
 
 <p> Personal Mementos ... </p>
+<p><pre><code>
 { 
                         "mementoId" : "998",
                         "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
@@ -615,7 +614,10 @@ Timeline Curators, who can access and edit thes stories in his/her timeline</p>
                         "type" : "picture",
                         "cover" : "true",
                         "index" : 1
-                    }, 
+                    }
+</pre></code></p>
+
+
 
 
 --

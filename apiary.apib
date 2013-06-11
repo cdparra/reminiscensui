@@ -357,18 +357,11 @@ POST /user
     "Response_Status" : {
         "status_code": "1", 
         "status_message":"User was created"   
-    },  
+    },   
     "Session" : {
-        "auth_token" : "<new authentication token associated to the user's current session>",
-        "expiration" : "<minutes before the token expires, 60 minutes for unconfirmed users>" 
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "status_code": "41", 
-    "status_message":"API Key is not valid"
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration" : "10080" 
+    },
 }
 +++++
 < 401
@@ -401,7 +394,7 @@ POST /user
 
  + The <a href="#user">User</a> resource with its updated information
 
-POST /user
+PUT /user
 > Content-Type: application/json
 {   
     "Session" : {

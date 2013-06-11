@@ -40,7 +40,8 @@ possible). Sessions are made of: </p>
 and is identified by: </p>
 
  + **name:** The name of the authentication service provider (facebook, google, reminiscens)
- + **authString:** Authentication string provided by the service. For using our own authenticaiton service, name is reminiscens and authString = email + "!_-_!" + sha1(password) 
+ + **authString:** Authentication string provided by the service. For using our own authenticaiton service, name is reminiscens and authString 
+ = email + "!_-_!" + sha1(password) 
 
 <p><pre><code>
 <a id="service"><b>The Service Resource:</b></a>
@@ -54,11 +55,11 @@ and is identified by: </p>
 
 <p><b>Create a session endpoint.</b> </p>
 
-<p>Request Body: </p>
+<p>Request: </p>
 
  + <b> Mandatory. </b> The authentication <a href="#service">Service</a> resource.
 
-<p>Response Body:</p>
+<p>Response:</p>
 
  + The newly created <a href="#session">Session</a> 
  + The <a href="#user">User</a> that created the session.
@@ -242,8 +243,11 @@ POST /user
             "fullname" :"Ugo Fantozzi", 
             "birthdate" : "07/07/1934", 
             "birthplace" : "Genova, Italia",
-            "Timeline" : {[
-                {
+            "Timeline" : {
+                "timelineId" : "999",
+                "forPersonId" : "999",
+                "storyList" : {[
+                    {
                     "storyId" : "999"
                     "decade" : "1930", 
                     "startDate": "1934,7,7 0:00:00",
@@ -275,7 +279,7 @@ POST /user
                         }
                     ]}
                 },
-                {
+                    {
                     "storyId" : "998"
                     "decade" : "1960                    
                     "startDate": "1960,9,9 0:00:00",
@@ -297,7 +301,7 @@ POST /user
                         }
                     ]} 
                 }
-            ]},
+                ]},
             "Context" : {
                 "contextId" : "999", 
                 "forPersonId" : "999",
@@ -396,8 +400,9 @@ POST /user
  + The <a href="#user">User</a> resource with its updated information
  + The <a href="#user">Person</a> resource with its updated information
 
-PUT /user
+PUT /user/{id}
 > Content-Type: application/json
+{"url":"/user/999"}
 {   
     "Session" : {
         "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
@@ -548,24 +553,14 @@ knolwedge base)</p>
 For creation and update operations, the <a href="#user">User</a> endpoint must be used</p>
 --
 
-<p> Get the basic information related to the Person identified by <code>id</code>, 
-including the following information as mandatory: </p>
+<p> Get the basic information related to the Person identified by <code>id</code>
+<p>Request: </p>
+ 
+ +  <b> Mandatory. </b> **Session** information
 
- + **fullname:** user's fullname 
- + **birthdate:** user's birthdate in dd/mm/yyyy format
- + **birthplace:** textual name of the birthplace
-
-<p>Optionally, personal information could also include:</p>
-
- + **firstname:** user's firstname
- + **lastname:** user's lastname
- + **birthplace_lat:** latitude coordinates of the birthplace
- + **birthplace_lon:** longitude coordintates of the birthplace
- + **home:** textual name of the current home
- + **home_lat:** latitude coordinates of the current home
- + **home_lon:** longitude coordintates of the current home
- + **locale:** languate localization code
-
+<p>Response:</p> 
+ + The <a href="#user">Person</a> resource 
+ 
 <p><pre><code>
 <a id="user"><b>The Person Resource (complete):</b></a>
     "Person" : {
@@ -635,6 +630,137 @@ GET /person/{id}
         "status_message":"Session ID is not valid"
     }
 }
+
+--
+Timeline Resource
+<p>A <a href="#timeline">Timeline</a> resource is a set of all the life stories of a person</p>
+
+<p>Only the owner itself and people in its friends list can access and view a person's timeline.
+Some stories might be marked as "public", and only those are viewable by all. A person can also have
+Timeline Curators, who can access and edit thes stories in his/her timeline</p>
+--
+
+<p> Get the full timeline of a person: </p>
+
+<p>Request: </p> 
+ +  <b> Mandatory. </b> **Session** information
+
+<p>Response:</p> 
+ + The complete <a href="#timeline">Person</a> resource 
+ 
+
+ + **fullname:** user's fullname 
+ + **birthdate:** user's birthdate in dd/mm/yyyy format
+ + **birthplace:** textual name of the birthplace
+
+<p>Optionally, personal information could also include:</p>
+
+ + **firstname:** user's firstname
+ + **lastname:** user's lastname
+ + **birthplace_lat:** latitude coordinates of the birthplace
+ + **birthplace_lon:** longitude coordintates of the birthplace
+ + **home:** textual name of the current home
+ + **home_lat:** latitude coordinates of the current home
+ + **home_lon:** longitude coordintates of the current home
+ + **locale:** languate localization code
+
+<p><pre><code>
+<a id="user"><b>The Person Resource (complete):</b></a>
+    "Person" : {
+        "url": "/person/999", 
+        "user_id":"999",
+        "fullname":"Ugo Fantozzi", 
+        "firstname": "Ugo", 
+        "lastname": "Fantozzi", 
+        "birthdate": "07/07/1934", 
+        "birthplace": "Genova, Italia",
+        "birthplace_lat": "44.4056499", 
+        "birthplace_lon": "8.946256",
+        "home":"Trento, Italia",
+        "home_lat": "46.0696924", 
+        "home_lon": "11.1210886",
+        "locale" : "IT_it"
+    }
+</pre></code></code>
+
+GET /user/{id}/timeline
+> Accept: application/json
+{"url":"/user/999/timeline"}
+{ 
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration" : "10080" 
+    }
+}
+< 200 
+< Content-Type: application/json
+{ 
+    "Timeline" : {
+                "timelineId" : "999",
+                "forPersonId" : "999",
+                "storyList" : {[
+                    {
+                    "storyId" : "999"
+                    "decade" : "1930", 
+                    "startDate": "1934,7,7 0:00:00",
+                    "endDate": "1934,7,7 0:00:00",
+                    "headline": "Nascita",
+                    "text": "Ugo Fantozzi e nato a Genova",
+                    "richtext" : "/story/999/richtext", 
+                    "tags": { ["self-contributed", "childhood"] },
+                    "mementoList": {[
+                        { 
+                            "mementoId" : "998",
+                            "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                            "credit": "Burns! http://www.flickr.com/photos/mykalburns/",
+                            "caption": "Foto di Ugo circa la sua nascita in 1934",
+                            "thumbnail": "",
+                            "type" : "picture",
+                            "cover" : "true",
+                            "index" : 1
+                        }, 
+                        {
+                            "mementoId" : "997",
+                            "url": "https://soundcloud.com/er_murena/fantozzi-all",
+                            "credit": "er_murena @ soundcloud! https://soundcloud.com/er_murena",
+                            "caption": "Ugo's music",
+                            "thumbnail": "",
+                            "type" : "audio",
+                            "cover" : "false",
+                            "index" : 2
+                        }
+                    ]}
+                },
+                    {
+                    "storyId" : "998"
+                    "decade" : "1960                    
+                    "startDate": "1960,9,9 0:00:00",
+                    "endDate": "1960,9,9 0:00:00",
+                    "headline": "Matrimonio",
+                    "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",                    "text": "Ugo Fantozzi e nato a Genova",
+                    "richtext" : "/story/998/richtext", 
+                    "tags": { ["self-contributed", "childhood"] },
+                    "mementoList": { [
+                        { 
+                            "mementoId" : "999",
+                            "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+                            "credit": "Wikipedia",
+                            "caption": "",
+                            "thumbnail": "",
+                            "type" : "photo",
+                            "cover" : "false",
+                            "index" : 2
+                        }
+                    ]} 
+                }
+                ]},
+
+
+--
+Context Resource
+The life story resource is the core element of the API. Every person has life stories to share, starting with their birth. 
+--
+
 
 --
 Life story resource 

@@ -241,7 +241,7 @@ POST /user
             "personURL" : "/person/999",
             "fullname" :"Ugo Fantozzi", 
             "birthdate" : "07/07/1934", 
-            "birthplace" : "Genova, Italia"
+            "birthplace" : "Genova, Italia",
             "Timeline" : {[
                 {
                     "storyId" : "999"
@@ -252,7 +252,7 @@ POST /user
                     "text": "Ugo Fantozzi e nato a Genova",
                     "richtext" : "/story/999/richtext", 
                     "tags": { ["self-contributed", "childhood"] },
-                    "mementoList": { [
+                    "mementoList": {[
                         { 
                             "mementoId" : "998",
                             "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
@@ -295,9 +295,50 @@ POST /user
                             "cover" : "false",
                             "index" : 2
                         }
-                    ]}         
-            ]}
-        }
+                    ]} 
+                }
+            ]},
+            "Context" : {
+                "contextId" : "999", 
+                "mementoList" : {[
+                    {
+                        "resourceId" : "999"
+                        "decade" : "1930", 
+                        "startDate" : "",
+                        "endDate" : "",
+                        "headline" : "MG M - 1930",
+                        "text" : "MG M del 1930 ovvero la prima MG Midget",
+                        "tags": { ["photo", "automobile", "ogetto"] },
+                        "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+                        "credit": "Some rights reserved by ciric",
+                        "type" : "photo", 
+                        "questionList" : {[
+                            {
+                                "questionId" : "999",
+                                "question" : "Riconosci questa macchina?",
+                                "tags": { ["automobile", "ogetto"] }
+                            },
+                            {
+                                "questionId" : "998",
+                                "question" : "Hai mai guidato una macchina come questa?",
+                                "tags": { ["automobile", "ogetto"] }
+                            }
+                        ]}
+                    },
+                    {
+                        "resourceId" : "999"
+                        "decade" : "1930", 
+                        "startDate" : "",
+                        "endDate" : "",
+                        "caption" : "Bianchi S5 Monza Torpedo (1930)",
+                        "question" : "Riconosci questa macchina? Hai mai guidato una cosi?",
+                        "tags": { ["photo", "automobile", "ogetto"] },
+                        "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+                        "credit": "Some rights reserved by ciric",
+                        "type" : "photo"
+                    }
+                ]}
+            }
         }
     },
     "Response_Status" : {

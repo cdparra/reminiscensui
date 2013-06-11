@@ -574,6 +574,48 @@ stories related to a person. Only the owner itself and people in its friends lis
 Some stories might be marked as "public", and only those are viewable by all. A person can also have
 Timeline Curators, who can access and edit thes stories in his/her timeline</p>
 
+<p><pre><code>
+<a id="timeline"><b>The Timeline Resource</b></a>
+  { 
+    "Timeline" : {
+        "timelineId" : "999",
+        "forPersonId" : "999",
+        "storyList" : {[
+            {
+                "storyId" : "999"
+                "decade" : "1930", 
+                "startDate": "1934,7,7 0:00:00",
+                "endDate": "1934,7,7 0:00:00",
+                "headline": "Nascita",
+                "text": "Ugo Fantozzi e nato a Genova",
+                "richtext" : "/story/999/richtext", 
+                "tags": { ["self-contributed", "childhood"] },
+                "mementoList": {[
+                    ...
+                ]}
+            },
+            ...
+        ]}
+    }
+}
+</pre></code></code>
+
+<p> Life stories ...
+
+</p>
+
+
+<p> Personal Mementos ... </p>
+{ 
+                        "mementoId" : "998",
+                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                        "credit": "Burns! http://www.flickr.com/photos/mykalburns/",                        
+                        "caption": "Foto di Ugo circa la sua nascita in 1934",
+                        "thumbnail": ""    
+                        "type" : "picture",
+                        "cover" : "true",
+                        "index" : 1
+                    }, 
 
 
 --
@@ -643,44 +685,9 @@ GET /person/{id}
  +  <b> Mandatory. </b> **Session** information
 
 <p>Response:</p> 
- + The complete <a href="#timeline">Person</a> resource 
+ + The complete <a href="#timeline">Timeline</a> resource 
  
-
- + **fullname:** user's fullname 
- + **birthdate:** user's birthdate in dd/mm/yyyy format
- + **birthplace:** textual name of the birthplace
-
-<p>Optionally, personal information could also include:</p>
-
- + **firstname:** user's firstname
- + **lastname:** user's lastname
- + **birthplace_lat:** latitude coordinates of the birthplace
- + **birthplace_lon:** longitude coordintates of the birthplace
- + **home:** textual name of the current home
- + **home_lat:** latitude coordinates of the current home
- + **home_lon:** longitude coordintates of the current home
- + **locale:** languate localization code
-
-<p><pre><code>
-<a id="user"><b>The Person Resource (complete):</b></a>
-    "Person" : {
-        "url": "/person/999", 
-        "user_id":"999",
-        "fullname":"Ugo Fantozzi", 
-        "firstname": "Ugo", 
-        "lastname": "Fantozzi", 
-        "birthdate": "07/07/1934", 
-        "birthplace": "Genova, Italia",
-        "birthplace_lat": "44.4056499", 
-        "birthplace_lon": "8.946256",
-        "home":"Trento, Italia",
-        "home_lat": "46.0696924", 
-        "home_lon": "11.1210886",
-        "locale" : "IT_it"
-    }
-</pre></code></code>
-
-GET /user/{id}/timeline
+GET /person/{id}/timeline
 > Accept: application/json
 {"url":"/user/999/timeline"}
 { 
@@ -693,76 +700,66 @@ GET /user/{id}/timeline
 < Content-Type: application/json
 { 
     "Timeline" : {
-                "timelineId" : "999",
-                "forPersonId" : "999",
-                "storyList" : {[
+        "timelineId" : "999",
+        "forPersonId" : "999",
+        "storyList" : {[
+            {
+                "storyId" : "999"
+                "decade" : "1930", 
+                "startDate": "1934,7,7 0:00:00",
+                "endDate": "1934,7,7 0:00:00",
+                "headline": "Nascita",
+                "text": "Ugo Fantozzi e nato a Genova",
+                "richtext" : "/story/999/richtext", 
+                "tags": { ["self-contributed", "childhood"] },
+                "mementoList": {[
+                    { 
+                        "mementoId" : "998",
+                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                        "credit": "Burns! http://www.flickr.com/photos/mykalburns/",                        
+                        "caption": "Foto di Ugo circa la sua nascita in 1934",
+                        "thumbnail": ""    
+                        "type" : "picture",
+                        "cover" : "true",
+                        "index" : 1
+                    }, 
                     {
-                    "storyId" : "999"
-                    "decade" : "1930", 
-                    "startDate": "1934,7,7 0:00:00",
-                    "endDate": "1934,7,7 0:00:00",
-                    "headline": "Nascita",
-                    "text": "Ugo Fantozzi e nato a Genova",
-                    "richtext" : "/story/999/richtext", 
-                    "tags": { ["self-contributed", "childhood"] },
-                    "mementoList": {[
-                        { 
-                            "mementoId" : "998",
-                            "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
-                            "credit": "Burns! http://www.flickr.com/photos/mykalburns/",
-                            "caption": "Foto di Ugo circa la sua nascita in 1934",
-                            "thumbnail": "",
-                            "type" : "picture",
-                            "cover" : "true",
-                            "index" : 1
-                        }, 
-                        {
-                            "mementoId" : "997",
-                            "url": "https://soundcloud.com/er_murena/fantozzi-all",
-                            "credit": "er_murena @ soundcloud! https://soundcloud.com/er_murena",
-                            "caption": "Ugo's music",
-                            "thumbnail": "",
-                            "type" : "audio",
-                            "cover" : "false",
-                            "index" : 2
-                        }
-                    ]}
-                },
-                    {
-                    "storyId" : "998"
-                    "decade" : "1960                    
-                    "startDate": "1960,9,9 0:00:00",
-                    "endDate": "1960,9,9 0:00:00",
-                    "headline": "Matrimonio",
-                    "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",                    "text": "Ugo Fantozzi e nato a Genova",
-                    "richtext" : "/story/998/richtext", 
-                    "tags": { ["self-contributed", "childhood"] },
-                    "mementoList": { [
-                        { 
-                            "mementoId" : "999",
-                            "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
-                            "credit": "Wikipedia",
-                            "caption": "",
-                            "thumbnail": "",
-                            "type" : "photo",
-                            "cover" : "false",
-                            "index" : 2
-                        }
-                    ]} 
-                }
-                ]},
-
-
---
-Context Resource
-The life story resource is the core element of the API. Every person has life stories to share, starting with their birth. 
---
-
-
---
-Life story resource 
-The life story resource is the core element of the API. Every person has life stories to share, starting with their birth. 
---
+                        "mementoId" : "997",
+                        "url": "https://soundcloud.com/er_murena/fantozzi-all",
+                        "credit": "er_murena @ soundcloud! https://soundcloud.com/er_murena",
+                        "caption": "Ugo's music",
+                        "thumbnail": "",
+                        "type" : "audio",
+                        "cover" : "false",
+                        "index" : 2
+                    }
+                ]}
+            },
+            {
+                "storyId" : "998"
+                "decade" : "1960                    
+                "startDate": "1960,9,9 0:00:00",
+                "endDate": "1960,9,9 0:00:00",
+                "headline": "Matrimonio",
+                "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",                    "text": "Ugo Fantozzi e nato a Genova",
+                "richtext" : "/story/998/richtext", 
+                "tags": { ["self-contributed", "childhood"] },
+                "mementoList": { [
+                    { 
+                        "mementoId" : "999",
+                        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+                        "credit": "Wikipedia",
+                        "caption": "",
+                        "thumbnail": "",
+                        "type" : "photo",
+                        "cover" : "false",
+                        "index" : 2
+                    }
+                ]} 
+            }
+        ]}
+    }
+}
 
 Create a story
 
@@ -786,42 +783,6 @@ POST /person/{id}/lifestory
         "url": "/person/{id}"
     }
 }
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "41", 
-        "status_message":"API Key is not valid"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "42", 
-        "status_message":"Session ID is not valid"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{    
-    "Response_Status" : {
-        "status_code": "51", 
-        "status_message":"The resource you tried to create is incomplete"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "52", 
-        "status_message":"The resource you tried to create already exists"
-    }
-}
 
 Get a person's particular life story
 GET /person/{id}/lifestory/{id}
@@ -839,104 +800,6 @@ GET /person/{id}/lifestory/{id}
     }
     "Lifestory" : {
         "url": "/person/{id}"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "41", 
-        "status_message":"API Key is not valid"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "42", 
-        "status_message":"Session ID is not valid"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{    
-    "Response_Status" : {
-        "status_code": "51", 
-        "status_message":"The resource you tried to create is incomplete"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "52", 
-        "status_message":"The resource you tried to create already exists"
-    }
-}
-
--
-Get a person's timeline of life stories
--
-GET /person/{id}/lifestory
-> Content-Type: application/json
-{  
-    "api_key" : "<api key for registered application>",  
-    "auth_token" : "<valid session auth token>",
-}
-< 200
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "1", 
-        "status_message":"Resource was created"
-    },
-    "Timeline" : [
-        "Lifestory" : {
-            "id": "{id}"
-        }, 
-        "Lifestory" : {
-            "id": "{id}"
-        }
-    ]
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "41", 
-        "status_message":"API Key is not valid"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "42", 
-        "status_message":"Session ID is not valid"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{    
-    "Response_Status" : {
-        "status_code": "51", 
-        "status_message":"The resource you tried to create is incomplete"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "52", 
-        "status_message":"The resource you tried to create already exists"
     }
 }
 
@@ -963,54 +826,14 @@ PUT /person/{id}/lifestory/{id}
         "url": "/person/{id}"
     }
 }
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "41", 
-        "status_message":"API Key is not valid"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "42", 
-        "status_message":"Session ID is not valid"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{    
-    "Response_Status" : {
-        "status_code": "51", 
-        "status_message":"The resource you tried to create is incomplete"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "52", 
-        "status_message":"The resource you tried to create already exists"
-    }
-}
 
---
-Memento resource 
-The session resource allows the platform to manage authentication and authorization to 
-execute operations on the API. 
---
 
 
 --
-Question resource 
-The session resource allows the platform to manage authentication and authorization to 
-execute operations on the API. 
+Context Resource for Reminiscence
+
+<p> The context for a timeline </p> 
+<p> Questions </p>
 --
 
 -
@@ -1046,6 +869,9 @@ GET /question/{birthyear}/{focusyear}
         ]
 }
 
+-
+Question for a lifechapter 
+-
 GET /question/{lifechapter}
 > Content-Type: application/json
 { "url":"/question/childhood"}
@@ -1077,8 +903,7 @@ GET /question/{lifechapter}
 }
 
 -- 
-Response status Resource
-
+Additional Resources
 <p><pre><code>
 <a id="response_status"><b>The Response Status Resource (complete):</b></a>
     "Response_Status" : {

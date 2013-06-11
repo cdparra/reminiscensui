@@ -367,11 +367,11 @@ POST /user
                 "endDate" : "",
                 "headline" : "Claudio Villa in Rai Due",
                 "text" : "",
-                "tags": ["musica", "youtube", "musicista"],
+                "tags": ["musica", "youtube", "musicista", "video"],
                 "url": "https://www.youtube.com/watch?feature=player_detailpage&v=78LXfimeh8g",
                 "credit": "Uploaded by Youtube user Kartastone",
                 "creditURL" : "https://www.youtube.com/user/Kartastone?feature=watch", 
-                "type" : "music video",
+                "type" : "music",
                 "category" : "music", 
                 "questionList" : [
                     {
@@ -395,7 +395,7 @@ POST /user
     "Session" : {
         "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
         "expiration" : "10080" 
-    },
+    }
 }
 +++++
 < 401
@@ -436,10 +436,10 @@ PUT /user/{id}
 {   
     "Session" : {
         "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : "10080" 
+        "expiration" : 10080
     }, 
     "User" : {
-        "user__email":"ugo.fantozzi@gmail.com"
+        "user_email":"ugo.fantozzi@gmail.com"
         "user_name":"ugo.fantozzi", 
         "user_verified": "true", 
         "user_name_verified": "true",
@@ -466,13 +466,13 @@ PUT /user/{id}
         "status_message":"User was updated"   
     },    
     "User" : {
-        "url": "/user/999",
+        "userId": 999,
         "user_email":"ugo.fantozzi@gmail.com"
         "user_name":"ugo.fantozzi", 
         "user_verified": "true", 
         "user_name_verified": "true"
         "Person" : {
-            "url": "/person/999", 
+            "personId": 999, 
             "fullname":"Ugo Fantozzi", 
             "firstname": "Ugo", 
             "lastname": "Fantozzi", 
@@ -517,21 +517,16 @@ PUT /user/{id}
 <p><b>Delete the user endpoint</b></p>
 <p>Request: </p>
  
- + The <a href="#user">User</a> to delete (only the user itself and his/her main curators can delete 
+ + The <a href="#user">Session</a> to delete (only the user itself and his/her main curators can delete 
  the user (which means deleting all of his/her data too)
  
-DELETE /user
+DELETE /user/{id}
 > Content-Type: application/json
+{"url":"/user/999"}
 {   
     "Session" : {
         "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : "10080" 
-    }, 
-    "User" : {
-        "user_email":"ugo.fantozzi@gmail.com"
-        "user_name":"ugo.fantozzi", 
-        "user_verified": "true", 
-        "user_name_verified": "true"
+        "expiration" : 10080
     }
 }
 < 200

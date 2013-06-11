@@ -968,30 +968,30 @@ GET /person/{id}
 { 
     "Session" : {
         "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : "10080" 
+        "expiration" : 10080 
     }
 }
 < 200 
 < Content-Type: application/json
 { 
     "Response_Status" : { 
-        "status_code": "1", 
+        "status_code": 1, 
         "status_message":"OK"
     },
-    "Person" : {
-        "url": "/person/999", 
-        "user_id":"999",
-        "fullname":"Ugo Fantozzi", 
-        "firstname": "Ugo", 
-        "lastname": "Fantozzi", 
-        "birthdate": "07/07/1934", 
+    "Person": {
+        "personId": 999,
+        "userId": 999,
+        "fullname": "Ugo Fantozzi",
+        "firstname": "Ugo",
+        "lastname": "Fantozzi",
+        "birthdate": "07/07/1934",
         "birthplace": "Genova, Italia",
-        "birthplace_lat": "44.4056499", 
+        "birthplace_lat": "44.4056499",
         "birthplace_lon": "8.946256",
-        "home":"Trento, Italia",
-        "home_lat": "46.0696924", 
+        "home": "Trento, Italia",
+        "home_lat": "46.0696924",
         "home_lon": "11.1210886",
-        "locale" : "IT_it"
+        "locale": "IT_it"
     }
 }
 +++++
@@ -999,7 +999,7 @@ GET /person/{id}
 < Content-Type: application/json
 {  
     "Response_Status" : {
-        "status_code": "41", 
+        "status_code": 41, 
         "status_message":"Auth token is not valid"
     }
 }
@@ -1008,12 +1008,12 @@ GET /person/{id}
 < Content-Type: application/json
 {
     "Response_Status" : {
-        "status_code": "42", 
+        "status_code": 42, 
         "status_message":"Session ID is not valid"
     }
 }
 
-<p> Get the full timeline of a person: </p>
+<p> Get the timeline of a person: </p>
 
 <p>Request: </p> 
  +  <b> Mandatory. </b> **Session** information
@@ -1023,11 +1023,11 @@ GET /person/{id}
  
 GET /person/{id}/timeline
 > Accept: application/json
-{"url":"/user/999/timeline"}
+{"url":"/person/999/timeline"}
 { 
     "Session" : {
         "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : "10080" 
+        "expiration" : 10080 
     }
 }
 < 200 
@@ -1160,15 +1160,70 @@ GET /person/{id}/timeline
     }
 }
 
+<p> Create a new story: </p>
+
+<p>Request: </p> 
+ + <b> Mandatory. </b> The Session information
+ + <b> Mandatory. </b> The Life Story with a title, a decade (made of at least a decade), and 
+
+<p>Response:</p> 
+ + The complete <a href="#timeline">Timeline</a> resource 
 Create a story
 
-POST /person/{id}/lifestory
+POST /lifestory
 > Content-Type: application/json
 {  
-    "api_key" : "<api key for registered application>",  
-    "auth_token" : "<valid session auth token>",
-    "Lifestory" : {
-        "...":"..."
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration" : 10080 
+    },
+    "LifeStory" :
+    {
+        "storyId": 999,
+        "personId" : 999, 
+        "decade": 1930,
+        "visibility": "public",
+        "startDate": "1934,7,7 0:00:00",
+        "endDate": "1934,7,7 0:00:00",
+        "headline": "Nascita",
+        "text": "Ugo Fantozzi e nato a Genova",
+        "richtext": "/story/999/richtext",
+        "participants": [
+            777,
+            779
+        ],
+        "aboutPersonList": [
+            999,
+            779
+        ],
+        "tags": [
+            "birth",
+            "childhood"
+        ],
+        "mementoList": [
+            {
+                "mementoId": 998,
+                "storyId": 999,
+                "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                "thumbnail": "",
+                "decade": 1930,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Foto di Ugo circa la sua nascita in 1934",
+                "type": "photo",
+                "category": "photo",
+                "cover": "true",
+                "index": 1,
+                "credit": "",
+                "creditURL": "",
+                "text": "",
+                "tags": [
+                    "photo",
+                    "birth"
+                ]
+            }
+        ]    
     }
 }
 < 200

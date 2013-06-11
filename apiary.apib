@@ -34,12 +34,12 @@ the session, the created session instance must be included in all of the API cal
 <a id="session"><b>The Session Resource:</b></a>
     "Session" : {
         "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",  
-        "expiration" : "10080"                                       
+        "expiration" : 10080                                       
     }
 </pre></code></p>
 
-<p>Various authentication services can be used to create a session. A <a href="#service">Service</a> is specified on creating a session
-and is identified by: </p>
+<p>Various authentication services can be used to create a session. A <a href="#service">Service</a> is specified on creating 
+a session and is identified by: </p>
 
  + **name:** The name of the authentication service provider (facebook, google, reminiscens)
  + **authString:** Authentication string provided by the service. For using our own authenticaiton service, name is reminiscens and authString 
@@ -51,7 +51,7 @@ and is identified by: </p>
         "name": "reminiscens", 
         "authString": "ugo.fantozzi@gmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"          
     }
-</pre></code></code>
+</pre></code></p>
 
 Then we have <b>Users</b> endpoints, giving access to all the operations available on user data, including also his
 <a href="#person">Person</a> profile information. Notice that there is a separation between the entities 
@@ -59,7 +59,7 @@ Then we have <b>Users</b> endpoints, giving access to all the operations availab
 information, referring to people that is mentioned in life stories or public historical records that we used
 to stimulate reminiscence
 
-<p>A <a href="#user">User</a> is includes the following information </p>
+<p>An <a href="#user">User</a> includes the following information: </p>
 
  + **user_email:** user's registered email
  + **user_id:** user unique identificator
@@ -73,25 +73,24 @@ to no more than 10 stories and 50 mementos
   + **birthdate:** person's birthdate in dd/mm/yyyy format
   + **birthplace:** person's textual name of the birthplace
 
-
 <p><pre><code>
 <a id="user"><b>The User Resource:</b></a>
     "User" : {
-        "url": "/user/999", 
-        "user_id":"999"
+        "user_id" : 999,
         "user_name":"ugo.fantozzi", 
         "user_email": "ugo.fantozzi@gmail.com", 
         "user_verified": "true", 
         "user_nameverified": "true",        
         "user_profilepicture":"http://www.flickr.com/photos/mykalburns/2807451879/",
         "Person" : {
-            "url": "/person/999", 
+            "personId" : 999,
             "fullname":"Ugo Fantozzi", 
             "birthdate": "07/07/1934", 
             "birthplace": "Genova, Italia"
+            ...
         }
     }
-</pre></code></code>
+</pre></code></p>
 --
 
 <p><b>Create a session endpoint.</b> </p>
@@ -145,18 +144,17 @@ POST /session
     },    
     "Session" : {
         "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : "10080" 
+        "expiration" : 10080 
     },
-    "User" : {
-        "url": "/user/999", 
-        "user_id":"999"
+    "User" : { 
+        "user_id":999,
         "user_name":"ugo.fantozzi", 
         "user_email": "ugo.fantozzi@gmail.com", 
         "user_verified": "true", 
         "user_name_verified": "true", 
         "profile_picture":"http://www.flickr.com/photos/mykalburns/2807451879/",
         "Person" : {
-            "url": "/person/999", 
+            "personId" : 999,
             "fullname":"Ugo Fantozzi", 
             "firstname": "Ugo", 
             "lastname": "Fantozzi", 
@@ -228,63 +226,68 @@ POST /user
 < Content-Type: application/json
 {  
     "User" : {
-        "url": "/user/999", 
-        "user_id":"999", 
+        "user_id" : 999, 
         "user_email":"ugo.fantozzi@gmail.com"
         "user_name":"ugo.fantozzi98832", 
         "user_verified": "false", 
         "user_name_verified": "false",
         "Person" : {
-            "personId" : "999",
-            "personURL" : "/person/999",
+            "personId" : 999,
             "fullname" :"Ugo Fantozzi", 
             "birthdate" : "07/07/1934", 
-            "birthplace" : "Genova, Italia",
-            "Timeline" : {
-                "timelineId" : "999",
-                "forPersonId" : "999",
-                "storyList" : {[
+            "birthplace" : "Genova, Italia"
+        }
+    },
+    "Timeline" : {
+        "timelineId" : 999,
+        "aboutPersonId" : 999,
+        "curators" : [ 777, 778, 779 ],
+        "storyList" : [
+            {
+                "storyId" : 999,
+                "decade" : 1930, 
+                "startDate": "1934,7,7 0:00:00",
+                "endDate": "1934,7,7 0:00:00",
+                "headline": "Nascita",
+                "text": "Ugo Fantozzi e nato a Genova",
+                "richtext" : "/story/999/richtext",
+                "participants" : [777, 779],
+                "createdBy" : 999,
+                "tags": ["birth", "childhood"] ,
+                "mementoList": [
+                    { 
+                        "mementoId" : 998,
+                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                        "credit": "Burns! http://www.flickr.com/photos/mykalburns/",
+                        "caption": "Foto di Ugo circa la sua nascita in 1934",
+                        "thumbnail": "",
+                        "type" : "picture",
+                        "cover" : "true",
+                        "index" : 1
+                    }, 
                     {
-                    "storyId" : "999"
-                    "decade" : "1930", 
-                    "startDate": "1934,7,7 0:00:00",
-                    "endDate": "1934,7,7 0:00:00",
-                    "headline": "Nascita",
-                    "text": "Ugo Fantozzi e nato a Genova",
-                    "richtext" : "/story/999/richtext", 
-                    "tags": { ["self-contributed", "childhood"] },
-                    "mementoList": {[
-                        { 
-                            "mementoId" : "998",
-                            "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
-                            "credit": "Burns! http://www.flickr.com/photos/mykalburns/",
-                            "caption": "Foto di Ugo circa la sua nascita in 1934",
-                            "thumbnail": "",
-                            "type" : "picture",
-                            "cover" : "true",
-                            "index" : 1
-                        }, 
-                        {
-                            "mementoId" : "997",
-                            "url": "https://soundcloud.com/er_murena/fantozzi-all",
-                            "credit": "er_murena @ soundcloud! https://soundcloud.com/er_murena",
-                            "caption": "Ugo's music",
-                            "thumbnail": "",
-                            "type" : "audio",
-                            "cover" : "false",
-                            "index" : 2
-                        }
-                    ]}
-                },
-                    {
-                    "storyId" : "998"
-                    "decade" : "1960                    
-                    "startDate": "1960,9,9 0:00:00",
-                    "endDate": "1960,9,9 0:00:00",
-                    "headline": "Matrimonio",
-                    "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",                    "text": "Ugo Fantozzi e nato a Genova",
-                    "richtext" : "/story/998/richtext", 
-                    "tags": { ["self-contributed", "childhood"] },
+                        "mementoId" : 997,
+                        "url": "https://soundcloud.com/er_murena/fantozzi-all",
+                        "credit": "er_murena @ soundcloud! https://soundcloud.com/er_murena",
+                        "caption": "Ugo's music",
+                        "thumbnail": "",
+                        "type" : "audio",
+                        "cover" : "false",
+                        "index" : 2
+                    }
+                ]
+            },
+            {
+                "storyId" : 998,
+                "decade" : 1960,                    
+                "startDate": "1960,9,9 0:00:00",
+                "endDate": "1960,9,9 0:00:00",
+                "headline": "Matrimonio",
+                "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",                    "text": "Ugo Fantozzi e nato a Genova",
+                "richtext" : "/story/998/richtext",
+                "participants" : [777],
+                "createdBy" : 777, 
+                "tags": ["matrimonio", "adulthood", "milestone"] ,
                     "mementoList": { [
                         { 
                             "mementoId" : "999",
@@ -327,7 +330,7 @@ POST /user
                             }
                         ]}
                     },
-                    {
+                {
                         "publicMementoId" : "997"
                         "decade" : "1960", 
                         "startDate" : "",
@@ -353,8 +356,6 @@ POST /user
                     }]
                 ]}
             }
-        }
-    },
     "Response_Status" : {
         "status_code": "1", 
         "status_message":"User was created"   

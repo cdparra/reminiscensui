@@ -179,6 +179,7 @@ POST /session
             {
                 "storyId": 999,
                 "decade": 1930,
+                "visibility":"public",
                 "startDate": "1934,7,7 0:00:00",
                 "endDate": "1934,7,7 0:00:00",
                 "headline": "Nascita",
@@ -186,6 +187,10 @@ POST /session
                 "richtext": "/story/999/richtext",
                 "participants": [
                     777,
+                    779
+                ],
+                "aboutPersonList": [
+                    999,
                     779
                 ],
                 "createdBy": 999,
@@ -219,6 +224,7 @@ POST /session
             {
                 "storyId": 998,
                 "decade": 1960,
+                "visibility":"private",
                 "startDate": "1960,9,9 0:00:00",
                 "endDate": "1960,9,9 0:00:00",
                 "headline": "Matrimonio",
@@ -226,6 +232,9 @@ POST /session
                 "richtext": "/story/998/richtext",
                 "participants": [
                     777
+                ],
+                "aboutPersonList": [
+                    999
                 ],
                 "createdBy": 777,
                 "tags": [
@@ -371,21 +380,21 @@ POST /session
 < 401
 < Content-Type: application/json
 {  
-    "status_code": "41", 
+    "status_code": 41, 
     "status_message":"Auth string is not valid"
 }
 +++++
 < 501
 < Content-Type: application/json
 {  
-    "status_code": "51", 
+    "status_code": 51, 
     "status_message":"The resource you tried to create is incomplete"
 }
 +++++
 < 501
 < Content-Type: application/json
 {  
-    "status_code": "52", 
+    "status_code": 52, 
     "status_message":"The resource you tried to create already exists"
 }
 
@@ -403,8 +412,8 @@ POST /session
 
  + The newly created <a href="#user">User</a> resource with a generated user_name
  + The newly created <a href="#person">Person</a> resource with the provided details (as part of the user data object)
- + The <a href="#timeancline">Timeline</a> of the person with the first event: his/her birth
- + The <a href="#context">Contextual</a> reminiscence recommendations for the person based on her first event: his/her birth
+ + The <a href="#timeline">Timeline</a> of the person with the first event: his/her birth
+ + The <a href="#context">Context</a> reminiscence recommendations for the person based on her first event: his/her birth
  + A <a href="#response_status">Response status</a> resource (included in most api calls responses to gie further details of errors) 
  + A new <a href ="#session"> Session </a> for the user
 
@@ -412,12 +421,12 @@ POST /user
 > Content-Type: application/json
 {   
     "User" : {
-        "user_email":"ugo.fantozzi@gmail.com",
-        "Person" : {
+        "user_email":"ugo.fantozzi@gmail.com"
+    },
+    "Person" : {
             "firstname": "Ugo Fantozzi",
             "birthdate": "07/07/1934>", 
-            "birthplace": "Genova, Italia",
-        }
+            "birthplace": "Genova, Italia"
     }
 }
 < 200
@@ -425,16 +434,18 @@ POST /user
 {
     "User": {
         "userId": 999,
+        "personId" : 999,
         "user_email": "ugo.fantozzi@gmail.com",
         "user_name": "ugo.fantozzi98832",
         "user_verified": "false",
-        "user_name_verified": "false",
-        "Person": {
-            "personId": 999,
-            "fullname": "Ugo Fantozzi",
-            "birthdate": "07/07/1934",
-            "birthplace": "Genova, Italia"
-        }
+        "user_name_verified": "false"
+    },
+    "Person": {
+        "personId": 999,
+        "userId" : 999,
+        "fullname": "Ugo Fantozzi",
+        "birthdate": "07/07/1934",
+        "birthplace": "Genova, Italia"
     },
     "Timeline": {
         "timelineId": 999,
@@ -448,6 +459,7 @@ POST /user
             {
                 "storyId": 999,
                 "decade": 1930,
+                "visibility":"public",
                 "startDate": "1934,7,7 0:00:00",
                 "endDate": "1934,7,7 0:00:00",
                 "headline": "Nascita",
@@ -455,6 +467,10 @@ POST /user
                 "richtext": "/story/999/richtext",
                 "participants": [
                     777,
+                    779
+                ],
+                "aboutPersonList": [
+                    999,
                     779
                 ],
                 "createdBy": 999,
@@ -488,6 +504,7 @@ POST /user
             {
                 "storyId": 998,
                 "decade": 1960,
+                "visibility":"private",
                 "startDate": "1960,9,9 0:00:00",
                 "endDate": "1960,9,9 0:00:00",
                 "headline": "Matrimonio",
@@ -495,6 +512,9 @@ POST /user
                 "richtext": "/story/998/richtext",
                 "participants": [
                     777
+                ],
+                "aboutPersonList": [
+                    999
                 ],
                 "createdBy": 777,
                 "tags": [
@@ -689,20 +709,21 @@ PUT /user/{id}
         "user_email":"ugo.fantozzi@gmail.com"
         "user_name":"ugo.fantozzi", 
         "user_verified": "true", 
-        "user_name_verified": "true",
-        "Person" : {
-            "fullname":"Ugo Fantozzi", 
-            "firstname": "Ugo", 
-            "lastname": "Fantozzi", 
-            "birthdate": "07/07/1934", 
-            "birthplace": "Genova, Italia",
-            "birthplace_lat": "44.4056499", 
-            "birthplace_lon": "8.946256",
-            "home":"Trento, Italia",
-            "home_lat": "46.0696924", 
-            "home_lon": "11.1210886",
-            "locale" : "IT_it"
-        }
+        "user_name_verified": "true", 
+        "user_profile_picture": "http://farm4.staticflickr.com/3085/2807451879_c132dd1bf8_o.jpg"
+    },
+    "Person" : {
+        "fullname":"Ugo Fantozzi", 
+        "firstname": "Ugo", 
+        "lastname": "Fantozzi", 
+        "birthdate": "07/07/1934", 
+        "birthplace": "Genova, Italia",
+        "birthplace_lat": "44.4056499", 
+        "birthplace_lon": "8.946256",
+        "home":"Trento, Italia",
+        "home_lat": "46.0696924", 
+        "home_lon": "11.1210886",
+        "locale" : "IT_it"
     }
 }
 < 200
@@ -713,25 +734,28 @@ PUT /user/{id}
         "status_message":"User was updated"   
     },    
     "User" : {
-        "userId": 999,
+        "userId" : 999,
+        "personId" : 999,
         "user_email":"ugo.fantozzi@gmail.com"
         "user_name":"ugo.fantozzi", 
         "user_verified": "true", 
-        "user_name_verified": "true"
-        "Person" : {
-            "personId": 999, 
-            "fullname":"Ugo Fantozzi", 
-            "firstname": "Ugo", 
-            "lastname": "Fantozzi", 
-            "birthdate": "07/07/1934", 
-            "birthplace": "Genova, Italia",
-            "birthplace_lat": "44.4056499", 
-            "birthplace_lon": "8.946256",
-            "home":"Trento, Italia",
-            "home_lat": "46.0696924", 
-            "home_lon": "11.1210886",
-            "locale" : "IT_it"
-        }
+        "user_name_verified": "true", 
+        "user_profile_picture": "http://farm4.staticflickr.com/3085/2807451879_c132dd1bf8_o.jpg"
+    },
+    "Person" : {
+        "personId": 999,
+        "userId" : 999,
+        "fullname":"Ugo Fantozzi", 
+        "firstname": "Ugo", 
+        "lastname": "Fantozzi", 
+        "birthdate": "07/07/1934", 
+        "birthplace": "Genova, Italia",
+        "birthplace_lat": "44.4056499", 
+        "birthplace_lon": "8.946256",
+        "home":"Trento, Italia",
+        "home_lat": "46.0696924", 
+        "home_lon": "11.1210886",
+        "locale" : "IT_it"
     }
 }
 +++++
@@ -813,7 +837,7 @@ DELETE /user/{id}
 }
 
 --
-People, Timelines and Stories
+People, Life Stories and Timelines
 <p> Every user is a <a href="#person">Person</a> with many <a href="#person">Life Stories</a> to share. In this section 
 we group API endpoints that allow applications to access personal information and stories of both public people and registered 
 <a href="#user">Users</a> that interact with the system by adding, visualizing or editing life stories and exploring the 
@@ -827,57 +851,89 @@ For creation and update operations, the <a href="#user">User</a> endpoint must b
 
 <p><pre><code>
 <a id="person"><b>The Person Resource (complete):</b></a>
-    "Person" : { 
-        "personId":999,
-        "userId":999,
-        "fullname":"Ugo Fantozzi", 
-        "firstname": "Ugo", 
-        "lastname": "Fantozzi", 
-        "birthdate": "07/07/1934", 
+    "Person": {
+        "personId": 999,
+        "userId": 999,
+        "fullname": "Ugo Fantozzi",
+        "firstname": "Ugo",
+        "lastname": "Fantozzi",
+        "birthdate": "07/07/1934",
         "birthplace": "Genova, Italia",
-        "birthplace_lat": "44.4056499", 
+        "birthplace_lat": "44.4056499",
         "birthplace_lon": "8.946256",
-        "home":"Trento, Italia",
-        "home_lat": "46.0696924", 
+        "home": "Trento, Italia",
+        "home_lat": "46.0696924",
         "home_lon": "11.1210886",
-        "locale" : "IT_it"
+        "locale": "IT_it"
     }
 </pre></code></p>
 
-<p>Life stories are organized in a <a href="#timeline">Timeline</a>, which is nothing byt the aggregated list 
-stories related to a person. Only the owner itself and people in its friends list can access and view a person's timeline.
+<p> Every person has <a href="#lifestory"> Life Stories</a> that together form a <a href="#timeline">Timeline</a>. Each 
+life story has also a list of <a href="#memento"> Mementos</a> or multimedia resources that remind to that story (pictures, 
+videos, audio storytelling, etc.). 
+Only the person who owns these stories and people in his/her friend list can access and view his stories in the timeline.
 Some stories might be marked as "public", and only those are viewable by all. A person can also have
 Timeline Curators, who can access and edit thes stories in his/her timeline</p>
 
 <p><pre><code>
+<a id="lifestory"><b>The Life Story Resource:</b></a>
+    "LifeStory" : {
+        "storyId": 999,
+        "decade": 1930,
+        "visibility":"public",
+        "startDate": "1934,7,7 0:00:00",
+        "endDate": "1934,7,7 0:00:00",
+        "headline": "Nascita",
+        "text": "Ugo Fantozzi e nato a Genova",
+        "richtext": "/story/999/richtext",
+        "participants" : [ <person ids of people that particpated in the story> ],
+        "aboutPersonList : [ <person ids of people that is focus of the story, one the timeline's owner> ], 
+        "createdBy" : 999, 
+        "tags":  ["birth", "childhood", ...],
+        "mementoList": [ <list of mementos (i.e., resources related to this story> ]
+    }
+</pre></code></p>
+
+<p><pre><code>
+<a id="memento"><b>The Memento Resource</b></a>
+    "Memento" : {
+        "mementoId" : 999,
+        "storyId" : 999,                 
+        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+        "thumbnail": "",
+        "decade": 1930,
+        "startDate": "",
+        "endDate": "",
+        "participants" : [ <person ids of people visible in the memento> ],
+        "headline": "Foto di Ugo circa la sua nascita in 1934",
+        "type": "photo",
+        "category" : "photo", 
+        "cover": "true",
+        "index": 1,
+        // information available for public mementos
+        "credit" : "Wikipedia",
+        "creditURL : "<url to the source> ",
+        "text": "MG M del 1930 ovvero la prima MG Midget",
+        "tags": [ "photo", "automobile", "ogetto" ]
+    
+    }
+    
+</pre></code></p>
+
+
+<p><pre><code>
 <a id="timeline"><b>The Timeline Resource</b></a>
-
-
-    { 
     "Timeline" : {
-        "timelineId" : "999",
-        "forPersonId" : "999",
-        "storyList" : [
-            {
-                "storyId" : "999"
-                "decade" : "1930", 
-                "startDate": "1934,7,7 0:00:00",
-                "endDate": "1934,7,7 0:00:00",
-                "headline": "Nascita",
-                "text": "Ugo Fantozzi e nato a Genova",
-                "richtext" : "/story/999/richtext", 
-                "tags":  ["self-contributed", "childhood", ...],
-                "mementoList": [...]
-            },
-            ...
-        ]
+        "timelineId" : 999,
+        "forPersonId" : 999,
+        "curators" : [ <person ids of the people with full access to this timeline> ],
+        "storyList" : [ <list of life stories that belong to this timeline> ]
     }
 }
 </pre></code></p>
 
-<p> Life stories ...
 
-</p>
+
 
 
 <p> Personal Mementos ... </p>

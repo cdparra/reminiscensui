@@ -300,9 +300,10 @@ POST /user
             ]},
             "Context" : {
                 "contextId" : "999", 
+                "forPersonId" : "999",
                 "mementoList" : {[
                     {
-                        "resourceId" : "999"
+                        "publicMementoId" : "999"
                         "decade" : "1930", 
                         "startDate" : "",
                         "endDate" : "",
@@ -326,17 +327,29 @@ POST /user
                         ]}
                     },
                     {
-                        "resourceId" : "999"
-                        "decade" : "1930", 
+                        "publicMementoId" : "997"
+                        "decade" : "1960", 
                         "startDate" : "",
                         "endDate" : "",
-                        "caption" : "Bianchi S5 Monza Torpedo (1930)",
-                        "question" : "Riconosci questa macchina? Hai mai guidato una cosi?",
-                        "tags": { ["photo", "automobile", "ogetto"] },
-                        "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+                        "headline" : "Monte Gazzo 21",
+                        "text" : "1960: veduta area del Santuario del Monte Gazzo.",
+                        "tags": { ["photo", "landscape"] },
+                        "url": "http://farm3.staticflickr.com/2781/4437292021_3f6b977f8a.jpg",
                         "credit": "Some rights reserved by ciric",
-                        "type" : "photo"
-                    }
+                        "type" : "photo", 
+                        "questionList" : {[
+                            {
+                                "questionId" : "997",
+                                "question" : "Riconosci questo posto?",
+                                "tags": { ["landscape", "castell"] }
+                            },
+                            {
+                                "questionId" : "996",
+                                "question" : "Lei è mai stat in questo castello?",
+                                "tags": { ["landscape", "castell"] }
+                            }
+                        ]}
+                    }]
                 ]}
             }
         }

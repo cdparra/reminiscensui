@@ -235,7 +235,7 @@ POST /user
         "user_email":"ugo.fantozzi@gmail.com"
         "user_name":"ugo.fantozzi98832", 
         "user_verified": "false", 
-        "user_name_verified": "false"
+        "user_name_verified": "false",
         "Person" : {
             "personId" : "999",
             "personURL" : "/person/999",
@@ -388,11 +388,13 @@ POST /user
 <p><b>Update user endpoint</b></p>
 <p>Request: </p>
  
- + The <a href="#user">User</a>
+ + The <a href="#user">User</a> with the udpated fields
+ + The <a href="#person">person</a> with the udpated fields
 
 <p>Response:</p> 
 
  + The <a href="#user">User</a> resource with its updated information
+ + The <a href="#user">Person</a> resource with its updated information
 
 PUT /user
 > Content-Type: application/json
@@ -405,7 +407,7 @@ PUT /user
         "user__email":"ugo.fantozzi@gmail.com"
         "user_name":"ugo.fantozzi", 
         "user_verified": "true", 
-        "user_name_verified": "true"
+        "user_name_verified": "true",
         "Person" : {
             "fullname":"Ugo Fantozzi", 
             "firstname": "Ugo", 
@@ -463,6 +465,62 @@ PUT /user
 < 501
 < Content-Type: application/json
 {   "Response_Status": {
+        "status_code": "51", 
+        "status_message":"The resource you tried to create is incomplete"
+    }
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "Response_Status": {
+        "status_code": "52", 
+        "status_message":"The resource you tried to create already exists"
+    }
+}
+
+<p><b>Delete the user endpoint</b></p>
+<p>Request: </p>
+ 
+ + The <a href="#user">User</a> to delete (only the user itself and his/her main curators can delete 
+ the user (which means deleting all of his/her data too)
+ 
+DELETE /user
+> Content-Type: application/json
+{   
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration" : "10080" 
+    }, 
+    "User" : {
+        "user_email":"ugo.fantozzi@gmail.com"
+        "user_name":"ugo.fantozzi", 
+        "user_verified": "true", 
+        "user_name_verified": "true"
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": "2", 
+        "status_message":"User was deleted"   
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "Response_Status": {
+        "status_code": "42", 
+        "status_message":"Auth string is not valid"
+    }
+}
++++++
+< 501
+< Content-Type: application/json
+{   
+    "Response_Status": {
         "status_code": "51", 
         "status_message":"The resource you tried to create is incomplete"
     }

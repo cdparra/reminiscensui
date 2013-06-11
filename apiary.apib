@@ -18,9 +18,11 @@ finalization of a Ph.D. in Information and Communication Technologies
 ---
 
 --
-Sessions 
+User management 
+<p> The user management section of this API groups the endpoints related to craating and maintaing sessions and users. These are the entry 
+points to Reminiscens' services</p>
 
-<p>The session resource endpoint is where the experience begins. Applications create a session using either an username/password pair 
+<p>The session resource is where the experience begins. Applications create a session using either an username/password pair 
 or an authentication token provided by a third party service (e.g., facebook, google). After creating the session, the created session 
 instance must be included in all of the API calls. Is the only non-RESTful element of this APIn (but implemented in the most RESTful way 
 possible). Sessions are made of: </p>
@@ -51,6 +53,45 @@ and is identified by: </p>
     }
 </pre></code></code>
 
+Then we have <b>Users</b> endpoints, giving access to all the operations available on user data, including also his
+<a href="#person">Person</a> profile information. Notice that there is a separation between the entities 
+<a href="#user">User</a> and <a href="#person">Person</a>. A person might exist in our dataset wihtout user 
+information, referring to people that is mentioned in life stories or public historical records that we used
+to stimulate reminiscence
+
+<p>A <a href="#user">User</a> is includes the following information </p>
+
+ + **user_email:** user's registered email
+ + **user_id:** user unique identificator
+ + **user_name:** username used for authentication
+ + **user_verified:** user has verified that this account belongs to him. Non verified accounts are limited 
+to no more than 10 stories and 50 mementos
+ + **user_nameverified:** user has verified/updated his username (generated first by the system)
+ + **user_profilepicture:** URL to a profile picture
+ + A **<a href="#"person>Person</a>**, including at least: 
+  + **fullname:** person's fullname 
+  + **birthdate:** person's birthdate in dd/mm/yyyy format
+  + **birthplace:** person's textual name of the birthplace
+
+
+<p><pre><code>
+<a id="user"><b>The User Resource:</b></a>
+    "User" : {
+        "url": "/user/999", 
+        "user_id":"999"
+        "user_name":"ugo.fantozzi", 
+        "user_email": "ugo.fantozzi@gmail.com", 
+        "user_verified": "true", 
+        "user_nameverified": "true",        
+        "user_profilepicture":"http://www.flickr.com/photos/mykalburns/2807451879/",
+        "Person" : {
+            "url": "/person/999", 
+            "fullname":"Ugo Fantozzi", 
+            "birthdate": "07/07/1934", 
+            "birthplace": "Genova, Italia"
+        }
+    }
+</pre></code></code>
 --
 
 <p><b>Create a session endpoint.</b> </p>
@@ -151,50 +192,6 @@ POST /session
     "status_code": "52", 
     "status_message":"The resource you tried to create already exists"
 }
-
---
-Users
-The <b>User resource</b> endpoint gives access to all the operations available on user data, including also his
-<a href="#person">Personal</a> profile information. Notice that there is a separation between the entities 
-<a href="#user">User</a> and <a href="#person">Person</a>. A person might exist in our dataset wihtout user 
-information, referring to people that is mentioned in life stories or public historical records that we used
-to stimulate reminiscence
-
-<p>A <a href="#user">User</a> is includes the following information </p>
-
- + **user_email:** user's registered email
- + **user_id:** user unique identificator
- + **user_name:** username used for authentication
- + **user_verified:** user has verified that this account belongs to him. Non verified accounts are limited 
-to no more than 10 stories and 50 mementos
- + **user_nameverified:** user has verified/updated his username (generated first by the system)
- + **user_profilepicture:** URL to a profile picture
- + A **<a href="#"person>Person</a>**, including at least: 
-  + **fullname:** person's fullname 
-  + **birthdate:** person's birthdate in dd/mm/yyyy format
-  + **birthplace:** person's textual name of the birthplace
-
-
-<p><pre><code>
-<a id="user"><b>The User Resource:</b></a>
-    "User" : {
-        "url": "/user/999", 
-        "user_id":"999"
-        "user_name":"ugo.fantozzi", 
-        "user_email": "ugo.fantozzi@gmail.com", 
-        "user_verified": "true", 
-        "user_nameverified": "true",        
-        "user_profilepicture":"http://www.flickr.com/photos/mykalburns/2807451879/",
-        "Person" : {
-            "url": "/person/999", 
-            "fullname":"Ugo Fantozzi", 
-            "birthdate": "07/07/1934", 
-            "birthplace": "Genova, Italia"
-        }
-    }
-</pre></code></code>
-
---
 
 <p><b>Create <a href="#user">User</a> endpoint </b></p>
 <p>Request:</p>
@@ -541,28 +538,20 @@ DELETE /user
 }
 
 --
-Person Resource
-<p>A <a href="#person">Person </a>resource encapsulates information about users that interact with the system by adding, 
-visualizing or editing life stories, exploring the surrounding context (composed by public related content). Every person 
-is identified by one unique <code>id</code> and has at least fullname, a birthdate and birhtplace.</p>. A person can exist 
-without a <a href="#user">User</a> associated to it, in which case the person refers to a public figure, existing in our
-historical knowledge base (see the <a href="http://docs.reminiscens.apiary.io/">Lifecontext API</a> to know more about this 
-knolwedge base)</p>
+People, Timelines and Stories
+<p> Every user is a <a href="#person">Person</a> with many <a href="#person">Life Stories</a> to share. In this section 
+we group API endpoints that allow applications to access personal information and stories of both public people and registered 
+<a href="#user">Users</a> that interact with the system by adding, visualizing or editing life stories and exploring the 
+surrounding <a href="#context">Context</a> (composed by public related content). Every person is identified by one unique 
+<code>id</code> and has at least fullname, a birthdate and birhtplace.</p>. A person can exist without a <a href="#user">User</a> 
+associated to it, in which case the person refers to a public figure, existing in our historical knowledge base (see the 
+<a href="http://docs.reminiscens.apiary.io/">Lifecontext API</a> to know more about this knolwedge base)</p>
 
 <p>Through this API, users can only access a person's available information from their URI and if it has privileges. 
 For creation and update operations, the <a href="#user">User</a> endpoint must be used</p>
---
 
-<p> Get the basic information related to the Person identified by <code>id</code>
-<p>Request: </p>
- 
- +  <b> Mandatory. </b> **Session** information
-
-<p>Response:</p> 
- + The <a href="#user">Person</a> resource 
- 
 <p><pre><code>
-<a id="user"><b>The Person Resource (complete):</b></a>
+<a id="person"><b>The Person Resource (complete):</b></a>
     "Person" : {
         "url": "/person/999", 
         "user_id":"999",
@@ -579,6 +568,23 @@ For creation and update operations, the <a href="#user">User</a> endpoint must b
         "locale" : "IT_it"
     }
 </pre></code></code>
+
+<p>Life stories are organized in a <a href="#timeline">Timeline</a>, which is nothing byt the aggregated list 
+stories related to a person. Only the owner itself and people in its friends list can access and view a person's timeline.
+Some stories might be marked as "public", and only those are viewable by all. A person can also have
+Timeline Curators, who can access and edit thes stories in his/her timeline</p>
+
+
+
+--
+
+<p> Get the basic information related to the Person identified by <code>id</code>
+<p>Request: </p>
+ 
+ +  <b> Mandatory. </b> **<a href="#session">Session</a>** information
+
+<p>Response:</p> 
+ + The <a href="#person">Person</a> resource 
 
 GET /person/{id}
 > Accept: application/json
@@ -630,15 +636,6 @@ GET /person/{id}
         "status_message":"Session ID is not valid"
     }
 }
-
---
-Timeline Resource
-<p>A <a href="#timeline">Timeline</a> resource is a set of all the life stories of a person</p>
-
-<p>Only the owner itself and people in its friends list can access and view a person's timeline.
-Some stories might be marked as "public", and only those are viewable by all. A person can also have
-Timeline Curators, who can access and edit thes stories in his/her timeline</p>
---
 
 <p> Get the full timeline of a person: </p>
 

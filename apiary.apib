@@ -288,74 +288,106 @@ POST /user
                 "participants" : [777],
                 "createdBy" : 777, 
                 "tags": ["matrimonio", "adulthood", "milestone"] ,
-                    "mementoList": { [
-                        { 
-                            "mementoId" : "999",
-                            "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
-                            "credit": "Wikipedia",
-                            "caption": "",
-                            "thumbnail": "",
-                            "type" : "photo",
-                            "cover" : "false",
-                            "index" : 2
-                        }
-                    ]} 
-                }
-                ]},
-            "Context" : {
-                "contextId" : "999", 
-                "forPersonId" : "999",
-                "mementoList" : {[
-                    {
-                        "publicMementoId" : "999"
-                        "decade" : "1930", 
-                        "startDate" : "",
-                        "endDate" : "",
-                        "headline" : "MG M - 1930",
-                        "text" : "MG M del 1930 ovvero la prima MG Midget",
-                        "tags": { ["photo", "automobile", "ogetto"] },
-                        "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
-                        "credit": "Some rights reserved by ciric",
-                        "type" : "photo", 
-                        "questionList" : {[
-                            {
-                                "questionId" : "999",
-                                "question" : "Riconosci questa macchina?",
-                                "tags": { ["automobile", "ogetto"] }
-                            },
-                            {
-                                "questionId" : "998",
-                                "question" : "Hai mai guidato una macchina come questa?",
-                                "tags": { ["automobile", "ogetto"] }
-                            }
-                        ]}
-                    },
-                {
-                        "publicMementoId" : "997"
-                        "decade" : "1960", 
-                        "startDate" : "",
-                        "endDate" : "",
-                        "headline" : "Monte Gazzo 21",
-                        "text" : "1960: veduta area del Santuario del Monte Gazzo.",
-                        "tags": { ["photo", "landscape"] },
-                        "url": "http://farm3.staticflickr.com/2781/4437292021_3f6b977f8a.jpg",
-                        "credit": "Some rights reserved by ciric",
-                        "type" : "photo", 
-                        "questionList" : {[
-                            {
-                                "questionId" : "997",
-                                "question" : "Riconosci questo posto?",
-                                "tags": { ["landscape", "castell"] }
-                            },
-                            {
-                                "questionId" : "996",
-                                "question" : "Lei è mai stat in questo castello?",
-                                "tags": { ["landscape", "castell"] }
-                            }
-                        ]}
-                    }]
-                ]}
+                "mementoList": [
+                    { 
+                        "mementoId" : 999,
+                        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+                        "credit": "Wikipedia",
+                        "caption": "",
+                        "thumbnail": "",
+                        "type" : "photo",
+                        "cover" : "false",
+                        "index" : 2
+                    }
+                ] 
             }
+        ]
+    },
+    "Context" : {
+        "contextId" : 999, 
+        "forPersonId" : 999,
+        "curators" : [ 777, 778, 779 ],
+        "mementoList" : [
+            {
+                "publicMementoId" : 999,
+                "decade" : 1930, 
+                "startDate" : "",
+                "endDate" : "",
+                "headline" : "MG M - 1930",
+                "text" : "MG M del 1930 ovvero la prima MG Midget",
+                "tags":  ["photo", "automobile", "ogetto"] ,
+                "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "type" : "photo", 
+                "category" : "photo",
+                "questionList" : [
+                    {
+                        "questionId" : 999,
+                        "question" : "Riconosci questa macchina?",
+                        "tags": { ["automobile", "ogetto"] }
+                    },
+                    {
+                        "questionId" : 998,
+                        "question" : "Hai mai guidato una macchina come questa?",
+                        "tags": ["automobile", "ogetto"] 
+                    }
+                ]
+            },
+            {
+                "publicMementoId" : 997,
+                "decade" : 1960, 
+                "startDate" : "",
+                "endDate" : "",
+                "headline" : "Monte Gazzo 21",
+                "text" : "1960: veduta area del Santuario del Monte Gazzo.",
+                "tags": ["photo", "landscape"],
+                "url": "http://farm3.staticflickr.com/2781/4437292021_3f6b977f8a.jpg",
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "type" : "photo",
+                "category" : "photo", 
+                "questionList" : [
+                    {
+                        "questionId" : 997,
+                        "question" : "Riconosci questo posto?",
+                        "tags": ["landscape", "castell"]
+                    },
+                    {
+                        "questionId" : 996,
+                        "question" : "Lei è mai stat in questo castello?",
+                        "tags":  ["landscape", "castell"]
+                    }
+                ]
+            },
+            {
+                "publicMementoId" : 996,
+                "decade" : 1960, 
+                "startDate" : "",
+                "endDate" : "",
+                "headline" : "Claudio Villa in Rai Due",
+                "text" : "",
+                "tags": ["musica", "youtube", "musicista"],
+                "url": "https://www.youtube.com/watch?feature=player_detailpage&v=78LXfimeh8g",
+                "credit": "Uploaded by Youtube user Kartastone",
+                "creditURL" : "https://www.youtube.com/user/Kartastone?feature=watch", 
+                "type" : "music video",
+                "category" : "music", 
+                "questionList" : [
+                    {
+                        "questionId" : 997,
+                        "question" : "Ti piace questa musica?",
+                        "tags": ["musica"]
+                    },
+                    {
+                        "questionId" : 996,
+                        "question" : "Lei è mai stat in questo castello?",
+                        "tags":  ["landscape", "castell"]
+                    }
+                ]
+            }
+        ]
+    },
     "Response_Status" : {
         "status_code": "1", 
         "status_message":"User was created"   

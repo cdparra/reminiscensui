@@ -1687,7 +1687,364 @@ for storytelling</p>
 
 Get the context for a person
 
+GET /person/{id}/context
+> Content-Type: application/json
+{"url":"/person/999/context"}
+{  
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration" : 10080 
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource was created"
+    },
+    "Context": {
+        "contextId": 999,
+        "forPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "mementoList": [
+            {
+                "contextMementoId": 999,
+                "contextId": 999,
+                "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+                "thumbnail": "",
+                "headline": "MG M - 1930",
+                "decade": 1930,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "type": "photo",
+                "category": "photo",
+                "index": 2,
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "text": "MG M del 1930 ovvero la prima MG Midget",
+                "tags": [
+                    "photo",
+                    "automobile",
+                    "ogetto"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    },
+                    {
+                        "questionId": 998,
+                        "question": "Hai mai guidato una macchina come questa?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    }
+                ]
+            },
+            {
+                "contextMementoId": 997,
+                "contextId": 999,
+                "url": "http://farm3.staticflickr.com/2781/4437292021_3f6b977f8a.jpg",
+                "thumbnail": "",
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Monte Gazzo 21",
+                "type": "photo",
+                "category": "photo",
+                "index": 2,
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "text": "1960: veduta area del Santuario del Monte Gazzo.",
+                "tags": [
+                    "photo",
+                    "landscape"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 997,
+                        "question": "Riconosci questo posto?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    },
+                    {
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    }
+                ]
+            },
+            {
+                "contextMementoId": 996,
+                "contextId": 999,
+                "url": "https://www.youtube.com/watch?feature=player_detailpage&v=78LXfimeh8g",
+                "thumbnail": "",
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Claudio Villa in Rai Due",
+                "type": "music",
+                "category": "music",
+                "index": 3,
+                "credit": "Uploaded by Youtube user Kartastone",
+                "creditURL": "https://www.youtube.com/user/Kartastone?feature=watch",
+                "text": "",
+                "tags": [
+                    "musica",
+                    "youtube",
+                    "musicista",
+                    "video"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 997,
+                        "question": "Ti piace questa musica?",
+                        "tags": [
+                            "musica"
+                        ]
+                    },
+                    {
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+Get a context by ID
+
+GET /context/{id}
+> Content-Type: application/json
+{"url":"/context/999"}
+{  
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration" : 10080 
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource was created"
+    },
+    "Context": {
+        "contextId": 999,
+        "forPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "mementoList": [
+            {
+                "contextMementoId": 999,
+                "contextId": 999,
+                "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+                "thumbnail": "",
+                "headline": "MG M - 1930",
+                "decade": 1930,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "type": "photo",
+                "category": "photo",
+                "index": 2,
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "text": "MG M del 1930 ovvero la prima MG Midget",
+                "tags": [
+                    "photo",
+                    "automobile",
+                    "ogetto"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    },
+                    {
+                        "questionId": 998,
+                        "question": "Hai mai guidato una macchina come questa?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    }
+                ]
+            },
+            {
+                "contextMementoId": 997,
+                "contextId": 999,
+                "url": "http://farm3.staticflickr.com/2781/4437292021_3f6b977f8a.jpg",
+                "thumbnail": "",
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Monte Gazzo 21",
+                "type": "photo",
+                "category": "photo",
+                "index": 2,
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "text": "1960: veduta area del Santuario del Monte Gazzo.",
+                "tags": [
+                    "photo",
+                    "landscape"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 997,
+                        "question": "Riconosci questo posto?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    },
+                    {
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    }
+                ]
+            },
+            {
+                "contextMementoId": 996,
+                "contextId": 999,
+                "url": "https://www.youtube.com/watch?feature=player_detailpage&v=78LXfimeh8g",
+                "thumbnail": "",
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Claudio Villa in Rai Due",
+                "type": "music",
+                "category": "music",
+                "index": 3,
+                "credit": "Uploaded by Youtube user Kartastone",
+                "creditURL": "https://www.youtube.com/user/Kartastone?feature=watch",
+                "text": "",
+                "tags": [
+                    "musica",
+                    "youtube",
+                    "musicista",
+                    "video"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 997,
+                        "question": "Ti piace questa musica?",
+                        "tags": [
+                            "musica"
+                        ]
+                    },
+                    {
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
+
 Get a contextual memento
+
+GET /context/{id}/memento/{id}
+> Content-Type: application/json
+{"url":"/context/999"}
+{  
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration" : 10080 
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource was created"
+    },
+    "Memento": {
+        "contextMementoId": 999,
+        "contextId": 999,
+        "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+        "thumbnail": "",
+        "headline": "MG M - 1930",
+        "decade": 1930,
+        "startDate": "",
+        "endDate": "",
+        "participants": [],
+        "type": "photo",
+        "category": "photo",
+        "index": 2,
+        "credit": "Some rights reserved by ciric",
+        "creditURL": "",
+        "text": "MG M del 1930 ovvero la prima MG Midget",
+        "tags": [
+            "photo",
+            "automobile",
+            "ogetto"
+        ],
+        "questionList": [
+                    {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    },
+                    {
+                        "questionId": 998,
+                        "question": "Hai mai guidato una macchina come questa?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    }
+                ]
+    }
+}
+
 
 Add a memento to the context of a person
 

@@ -1472,7 +1472,13 @@ POST /lifestory
     }
 }
 
-Get a person's particular life story
+<p> Get a life story: </p>
+
+<p>Request: </p> 
+    + <b> Mandatory. </b> <a href="#session">Session</a>
+
+<p>Response:</p> 
+    + <a href="#timeline">Life Story</a> 
 GET /lifestory/{id}
 > Content-Type: application/json
 {"url":"/lifestory/999"}
@@ -1488,8 +1494,9 @@ GET /lifestory/{id}
     "Response_Status" : {
         "status_code": 1, 
         "status_message":"Resource was created"
-    }
-    "LifeStory" : {
+    },
+    "LifeStory" :
+    {
         "storyId": 999,
         "personId" : 999, 
         "decade": 1930,
@@ -1600,11 +1607,11 @@ PUT /lifestory/{id}
 < Content-Type: application/json
 {  
     "Response_Status" : {
-        "status_code": "1", 
+        "status_code": 1, 
         "status_message":"Resource was created"
     }
     "Lifestory" : {
-        "url": "/person/{id}"
+        "url": "/person/999"
     }
 }
 
@@ -1654,7 +1661,7 @@ for storytelling</p>
 </pre></code></p>
 
 <p><pre><code>
-<a id="timeline"><b>The Timeline Resource</b></a>
+<a id="question"><b>The Question Resource</b></a>
     "Question" : {
         "questionId": 789,
         "question": "Ti ricordi della prima volta che hai guidato una macchina?",
@@ -1666,7 +1673,7 @@ for storytelling</p>
 </pre></code></p>
 
 <p><pre><code>
-<a id="timeline"><b>The Timeline Resource</b></a>
+<a id="timeline"><b>The Context Resource</b></a>
     "Context" : {
         "contextId" : 999,
         "forPersonId" : 999,

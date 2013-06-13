@@ -1697,7 +1697,7 @@ Delete a memento from the context of a person
 
 Get questions for a person around a decade of his life
 
-Get a question 
+Get a random question based on birthyear and a focus year
 
 GET /question/{birthyear}/{focusyear}
 > Content-Type: application/json
@@ -1729,9 +1729,9 @@ GET /question/{birthyear}/{focusyear}
         ]
 }
 
--
-Question for a lifechapter 
--
+
+Question for a life chapter 
+
 GET /question/{lifechapter}
 > Content-Type: application/json
 { "url":"/question/childhood"}
@@ -1739,7 +1739,7 @@ GET /question/{lifechapter}
 < Content-Type: application/json
 {  
     "Response_Status" : {
-        "status_code": "1", 
+        "status_code": 1, 
         "status_message":"Resource exists"
     },
     "Question_List": [
@@ -1762,17 +1762,20 @@ GET /question/{lifechapter}
     ]
 }
 
+
 -- 
 Additional Resources
 
 <p><pre><code>
 <a id="response_status"><b>The Response Status Resource (complete):</b></a>
     "Response_Status" : {
-        "status_code": "1", 
+        "status_code": 1, 
         "status_message":"User was created"   
     },    
 </pre></code></code>
 --
+
+
 
 -- 
 Mock APIs

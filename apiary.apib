@@ -2156,6 +2156,32 @@ DELETE /context/{id}/memento/{id}
     }
 }
 
+Get list of questions for a person around a decade of his life
+GET /person/{id}/question
+> Content-Type: application/json
+{ "url":"/person/999/question/1940"}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": "1", 
+        "status_message":"Resource exists"
+    },
+        "QuestionList": [
+            {
+                {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "decade" : 1990,
+                        "tags": [
+                            "automobile",
+                            "ogetto, giovinezza"
+                        ]
+                    }
+            }
+        ]
+}
+
 Get questions for a person around a decade of his life
 GET /person/{id}/question/{decade}
 > Content-Type: application/json

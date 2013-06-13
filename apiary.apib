@@ -957,10 +957,10 @@ Timeline Curators, who can access and edit thes stories in his/her timeline</p>
 <p> Get the basic information related to the Person identified by <code>id</code>
 <p>Request: </p>
  
- +  <b> Mandatory. </b> **<a href="#session">Session</a>** information
+ +  <b> Mandatory. </b> <a href="#session">Session</a>
 
 <p>Response:</p> 
- + The <a href="#person">Person</a> resource 
+ + <a href="#person">Person</a> 
 
 GET /person/{id}
 > Accept: application/json
@@ -1013,13 +1013,14 @@ GET /person/{id}
     }
 }
 
-<p> Get the timeline of a person: </p>
+<p> Get the timeline of life stories of a person: </p>
+<p>Request: </p>
+ 
+ +  <b> Mandatory. </b> <a href="#session">Session</a>
 
-<p>Request: </p> 
- +  <b> Mandatory. </b> **Session** information
+<p>Response: </p> 
 
-<p>Response:</p> 
- + The complete <a href="#timeline">Timeline</a> resource 
++ A <a href="#timeline">Timeline</a> resource 
  
 GET /person/{id}/timeline
 > Accept: application/json
@@ -1160,15 +1161,248 @@ GET /person/{id}/timeline
     }
 }
 
+<p> Synch local timeline </p>
+<p>Request: </p>
+ 
+ +  <b> Mandatory. </b> <a href="#session">Session</a>
+ +  <b> Mandatory. </b> <a href="#session">Timeline</a>
+
+<p>Response: </p> 
+
++ <a href="#timeline">Timeline</a> with StoryList having missing stories in the local version
+
+POST /person/{id}/timeline
+> Accept: application/json
+{"url":"/person/999/timeline"}
+{ 
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
+        "expiration" : 10080 
+    } 
+    "Timeline": {
+        "timelineId": 999,
+        "aboutPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "storyList": [
+            {
+                "storyId": 999,
+                "decade": 1930,
+                "visibility": "public",
+                "startDate": "1934,7,7 0:00:00",
+                "endDate": "1934,7,7 0:00:00",
+                "headline": "Nascita",
+                "text": "Ugo Fantozzi e nato a Genova",
+                "richtext": "/story/999/richtext",
+                "participants": [
+                    777,
+                    779
+                ],
+                "aboutPersonList": [
+                    999,
+                    779
+                ],
+                "createdBy": 999,
+                "tags": [
+                    "birth",
+                    "childhood"
+                ],
+                "mementoList": [
+                    {
+                        "mementoId": 998,
+                        "storyId": 999,
+                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                        "thumbnail": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [],
+                        "headline": "Foto di Ugo circa la sua nascita in 1934",
+                        "type": "photo",
+                        "category": "photo",
+                        "cover": "true",
+                        "index": 1,
+                        "credit": "",
+                        "creditURL": "",
+                        "text": "",
+                        "tags": [
+                            "photo",
+                            "birth"
+                        ]
+                    },
+                    {
+                        "mementoId": 997,
+                        "storyId": 999,
+                        "url": "https://soundcloud.com/er_murena/fantozzi-all",
+                        "thumbnail": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [
+                            999
+                        ],
+                        "headline": "Ugo's music",
+                        "type": "audio",
+                        "category": "",
+                        "cover": "false",
+                        "index": 2,
+                        "credit": "er_murena @ soundcloud!",
+                        "creditURL": "https://soundcloud.com/er_murena",
+                        "text": "",
+                        "tags": [
+                            "audio",
+                            "storytelling"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
+< 200 
+< Content-Type: application/json
+{ 
+    "Timeline": {
+        "timelineId": 999,
+        "aboutPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "storyList": [
+            {
+                "storyId": 999,
+                "decade": 1930,
+                "visibility": "public",
+                "startDate": "1934,7,7 0:00:00",
+                "endDate": "1934,7,7 0:00:00",
+                "headline": "Nascita",
+                "text": "Ugo Fantozzi e nato a Genova",
+                "richtext": "/story/999/richtext",
+                "participants": [
+                    777,
+                    779
+                ],
+                "aboutPersonList": [
+                    999,
+                    779
+                ],
+                "createdBy": 999,
+                "tags": [
+                    "birth",
+                    "childhood"
+                ],
+                "mementoList": [
+                    {
+                        "mementoId": 998,
+                        "storyId": 999,
+                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                        "thumbnail": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [],
+                        "headline": "Foto di Ugo circa la sua nascita in 1934",
+                        "type": "photo",
+                        "category": "photo",
+                        "cover": "true",
+                        "index": 1,
+                        "credit": "",
+                        "creditURL": "",
+                        "text": "",
+                        "tags": [
+                            "photo",
+                            "birth"
+                        ]
+                    },
+                    {
+                        "mementoId": 997,
+                        "storyId": 999,
+                        "url": "https://soundcloud.com/er_murena/fantozzi-all",
+                        "thumbnail": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [
+                            999
+                        ],
+                        "headline": "Ugo's music",
+                        "type": "audio",
+                        "category": "",
+                        "cover": "false",
+                        "index": 2,
+                        "credit": "er_murena @ soundcloud!",
+                        "creditURL": "https://soundcloud.com/er_murena",
+                        "text": "",
+                        "tags": [
+                            "audio",
+                            "storytelling"
+                        ]
+                    }
+                ]
+            },
+            {
+                "storyId": 998,
+                "decade": 1960,
+                "visibility": "private",
+                "startDate": "1960,9,9 0:00:00",
+                "endDate": "1960,9,9 0:00:00",
+                "headline": "Matrimonio",
+                "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",
+                "richtext": "/story/998/richtext",
+                "participants": [
+                    777
+                ],
+                "aboutPersonList": [
+                    999
+                ],
+                "createdBy": 777,
+                "tags": [
+                    "matrimonio",
+                    "adulthood",
+                    "milestone"
+                ],
+                "mementoList": [
+                    {
+                        "mementoId": 999,
+                        "storyId": 999,
+                        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+                        "thumbnail": "",
+                        "headline": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [],
+                        "type": "photo",
+                        "category": "photo",
+                        "cover": "false",
+                        "index": 2,
+                        "credit": "Wikipedia",
+                        "creditURL": "",
+                        "text": "",
+                        "tags": []
+                    }
+                ]
+            }
+        ]
+    }
+}
+
 <p> Create a new story: </p>
 
 <p>Request: </p> 
- + <b> Mandatory. </b> The Session information
- + <b> Mandatory. </b> The Life Story with a title, a decade (made of at least a decade), and 
+    + <b> Mandatory. </b> <a href="#session">Session</a>
+    + <b> Mandatory. </b> <a href="#session">Life Story</a> with at least:
+        + Title
+        + Decade or year
+        + Location 
 
 <p>Response:</p> 
- + The complete <a href="#timeline">Timeline</a> resource 
-Create a story
+    + <a href="#timeline">Life Story</a> ID 
 
 POST /lifestory
 > Content-Type: application/json

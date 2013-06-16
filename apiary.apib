@@ -43,7 +43,9 @@ a session and is identified by: </p>
 
  + **name:** The name of the authentication service provider (facebook, google, reminiscens)
  + **authString:** Authentication string provided by the service. For using our own authenticaiton service, name is reminiscens and authString 
- = email + "!_-_!" + sha1(password) 
+ = email + "!_-_!" + bcrypt(password) 
+
+<p> For a javascript implementation of Bcrypt, checkout <a href="https://code.google.com/p/javascript-bcrypt/">JsBCrypt</a></p>
 
 <p><pre><code>
 <a id="service"><b>The Service Resource:</b></a>
@@ -1665,6 +1667,7 @@ for storytelling</p>
     "Question" : {
         "questionId": 789,
         "question": "Ti ricordi della prima volta che hai guidato una macchina?",
+        "locale":"it_IT", 
         "tags": [
             "automobile",
             "ogetto"
@@ -1677,6 +1680,8 @@ for storytelling</p>
     "Context" : {
         "contextId" : 999,
         "forPersonId" : 999,
+        "title" : "The contextual reminiscence multimedia for Ugo Fantozzi",
+        "subtitle" : "A set of old public collective memory items that can help Ugo Fantozzi remember his life",
         "curators" : [ <person ids of the people with full access to this timeline> ],
         "mementoList" : [ <list of life stories that belong to this timeline> ]
     }

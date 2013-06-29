@@ -1,0 +1,57 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+# User and Session Management
+GET     /user                           controllers.UM.getUsers()
+GET     /user/:uid                      controllers.UM.getUser(uid: Long)
+POST    /user                           controllers.UM.createUser()
+PUT     /user/:uid                      controllers.UM.updateUser(uid: Long)
+DELETE  /user/:uid                      controllers.UM.deleteUser(uid: Long)
+GET     /session                        controllers.UM.getSessions()
+POST    /session                        controllers.UM.createSession()
+PUT     /session/:sid                   controllers.UM.updateSession(sid: Long)
+DELETE  /session/:sid                   controllers.UM.deleteSession(sid: Long)
+
+# People, Life Stories and Timeline
+GET     /person/:id                     controllers.PersonalReminiscence.getPerson(id: Long)
+GET     /person/:id/friends             controllers.PersonalReminiscence.getPersonFriends(id: Long)
+GET     /person/:id/timeline            controllers.PersonalReminiscence.getPersonTimeline(id: Long)
+POST    /person/:id/timeline            controllers.PersonalReminiscence.synchronizePersonTimeline(id: Long)
+GET     /person/:id/lifestory/:lsid     controllers.PersonalReminiscence.getLifeStory(id: Long, lsid: Long)
+POST    /person/:id/lifestory           controllers.PersonalReminiscence.createLifeStory(id: Long)
+PUT     /person/:id/lifestory/:lsid     controllers.PersonalReminiscence.updateLifeStory(id: Long, lsid: Long)
+DELETE  /person/:id/lifestory/:lsid     controllers.PersonalReminiscence.deleteLifeStory(id: Long, lsid: Long)
+GET     /person/:id/memento             controllers.PersonalReminiscence.getMementoAll(id: Long)
+GET     /person/:id/memento/:mid        controllers.PersonalReminiscence.getMemento(id: Long, mid: Long)
+POST    /person/:id/memento/:mid        controllers.PersonalReminiscence.createMemento(id: Long, mid: Long)
+PUT     /person/:id/memento/:mid        controllers.PersonalReminiscence.updateMemento(id: Long, mid: Long)
+DELETE  /person/:id/memento/:mid        controllers.PersonalReminiscence.deleteMemento(id: Long, mid: Long)
+
+
+# Contextual Reminiscence
+GET     /context/:cid                   controllers.ContextualReminiscence.getContext(cid: Long)
+GET     /context/:cid/curators          controllers.ContextualReminiscence.getContextCurators(cid: Long)
+GET     /context/:cid/memento/:mid      controllers.ContextualReminiscence.getContextMemento(cid: Long, mid: Long)
+POST    /context/:cid/memento           controllers.ContextualReminiscence.createContextMemento(cid: Long)
+PUT     /context/:cid/memento           controllers.ContextualReminiscence.updateContextMemento(cid: Long)
+DELETE  /context/:cid/memento/:mid      controllers.ContextualReminiscence.deleteContextMemento(cid: Long, mid: Long)
+GET     /context/:cid/question          controllers.ContextualReminiscence.getContextQuestions(cid: Long)
+GET     /context/:cid/question/:decade  controllers.ContextualReminiscence.getContextQuestionsForDecade(cid: Long, decade: Long)
+GET     /context/:cid/question/curated  controllers.ContextualReminiscence.getContextQuestionsByCurators(cid: Long)
+POST    /context/:cid/question          controllers.ContextualReminiscence.createContextCuratedQuestions(cid: Long)
+
+# General Questions
+GET     /question/:byear/:fyear/:lang   controllers.Questions.getGeneralQuestionsForYear(byear: Long, fyear: Long, lang: String)
+GET     /question/:chapter/:lang        controllers.Questions.getGeneralQuestionsForLifeChapter(chapter: String, lang: String)
+
+# General Public Mementos API (lifecontext proxy)
+GET     /memento/random/:lang                   controllers.Memento.getRandomMemento(lang: String)
+GET     /memento/:mid                           controllers.Memento.getMemento(mid: Long)
+GET     /memento/:decade/:place/:lat/:lon/:rad/:lang   controllers.Memento.getMementoList(decade: Long, place: String, lat: Double, lon: Double, rad: Long, lang: String)

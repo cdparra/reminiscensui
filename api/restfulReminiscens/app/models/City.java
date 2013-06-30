@@ -2,6 +2,7 @@ package models;
 
 import java.util.List;
 
+import javax.management.Query;
 import javax.persistence.*;
 
 import org.joda.time.DateTime;
@@ -14,10 +15,10 @@ public class City extends Model {
 
 	@Id
     @GeneratedValue
-    @Column(name="person_id")
+    @Column(name="city_id")
     private Long cityId;
 	
-	@Column
+	@Column(name="city_name")
 	private String name; 
 	
 	@Column
@@ -60,6 +61,15 @@ public class City extends Model {
     
     public static City read(Long id){
         return find.byId(id);
+    }
+    
+    public static List<City> findByName(String name){
+    	
+    	List<City> result = (List<City>) find.where()
+    			.ilike("name", "%"+name+"%")
+    			.findPagingList(25)
+    			.getPage(1);
+    	return result;
     }
 
 	/**

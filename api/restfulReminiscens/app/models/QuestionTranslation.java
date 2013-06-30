@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.joda.time.DateTime;
 
 import play.db.ebean.Model;
@@ -17,6 +18,7 @@ public class QuestionTranslation extends Model {
     @Column(name="question_trans_id")
     private Long translationId;
 	
+	@JsonIgnore
     @ManyToOne
     @JoinColumn(name="question_id")
     private Question question;

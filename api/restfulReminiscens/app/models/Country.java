@@ -32,7 +32,8 @@ public class Country extends Model {
 	@Column
 	private String numcode;
 
-	@Column
+	// change in DB to 
+	@Column(name="un_nember")
 	private String un_member;
 	
 	@Column

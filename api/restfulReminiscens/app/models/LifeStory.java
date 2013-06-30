@@ -1,11 +1,13 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
 import play.data.validation.Constraints.*;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.joda.time.DateTime;
 
 import play.db.ebean.Model;
@@ -51,7 +53,7 @@ public class LifeStory extends Model {
 
 	@ManyToOne
 	@MapsId
-	@Column
+	@JoinColumn(name="question_id")
 	private Question question;
 	
 	@ManyToOne
@@ -66,6 +68,59 @@ public class LifeStory extends Model {
 
 	@OneToMany(mappedBy="lifeStory")
 	private List<Memento> mementoList;
+
+	@JsonIgnore
+	@OneToMany(mappedBy="lifeStory")
+	private List<Participation> participationList;
+	
+	private List<Person> participants;
+
+	public static Model.Finder<Long,LifeStory> find = new Model.Finder(
+            Long.class,LifeStory.class
+    );
+    
+    public static List<LifeStory> all(){
+        return find.all();
+    }
+    
+    public static void create(LifeStory lifestory){
+        lifestory.save();
+    }
+    
+    public static LifeStory createObject(LifeStory lifestory){
+        lifestory.save();
+        return lifestory;
+    }
+    
+    public static void delete(Long id){
+        find.ref(id).delete();
+    }
+    
+    public static LifeStory read(Long id){
+        return find.byId(id);
+    }
+
+    public static List<LifeStory> readByPerson(Long personId){
+    	List<Participation> participationList = Participation.participationByPersonProtagonist(personId);
+    	List<LifeStory> lifeStories = new ArrayList<LifeStory> ();
+    	for (Participation participation : participationList) {
+//			LifeStory ls = LifeStory.read(participation.getLifeStoryId());
+    		LifeStory ls = participation.getLifeStory();
+			lifeStories.add(ls);
+		}
+    	return lifeStories;
+    }
+    
+	public List<Memento> getMementoList() {
+		return mementoList;
+	}
+
+	public void setMementoList(List<Memento> mementoList) {
+		this.mementoList = mementoList;
+	}
+
+
+	
 	
 	/**
 	 * @return the lifeStoryId
@@ -248,39 +303,4 @@ public class LifeStory extends Model {
 	public void setEndDate(FuzzyDate endDate) {
 		this.endDate = endDate;
 	}
-
-	public static Model.Finder<Long,LifeStory> find = new Model.Finder(
-            Long.class,LifeStory.class
-    );
-    
-    public static List<LifeStory> all(){
-        return find.all();
-    }
-    
-    public static void create(LifeStory lifestory){
-        lifestory.save();
-    }
-    
-    public static LifeStory createObject(LifeStory lifestory){
-        lifestory.save();
-        return lifestory;
-    }
-    
-    public static void delete(Long id){
-        find.ref(id).delete();
-    }
-    
-    public static LifeStory read(Long id){
-        return find.byId(id);
-    }
-
-	public List<Memento> getMementoList() {
-		return mementoList;
-	}
-
-	public void setMementoList(List<Memento> mementoList) {
-		this.mementoList = mementoList;
-	}
-
-	
 }

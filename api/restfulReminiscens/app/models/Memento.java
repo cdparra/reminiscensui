@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.joda.time.DateTime;
 
 import play.db.ebean.Model;
@@ -18,6 +19,7 @@ public class Memento extends Model {
     private Long mementoId;
 	
 
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name="life_event_id")
 	private LifeStory lifeStory;
@@ -65,7 +67,7 @@ public class Memento extends Model {
 	
 	@ManyToOne
 	@MapsId
-	@Column
+	@JoinColumn(name="question_id")
 	private Question question;
 	
 	@ManyToOne

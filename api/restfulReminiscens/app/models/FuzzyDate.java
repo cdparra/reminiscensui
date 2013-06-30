@@ -22,6 +22,7 @@ public class FuzzyDate extends Model {
 	private String textual_date;
 
 	@Column
+	@DateTime(format="yyyy-dd-mm hh:mm:ss");
 	private DateTime exact_date;
 
 	@Column

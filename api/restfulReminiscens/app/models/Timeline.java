@@ -13,8 +13,8 @@ public class Timeline extends Model {
 	@Id
     @GeneratedValue
     private Long timelineId;
-
-	private Long aboutPersonId;
+	
+	private Person aboutPerson;
 	
 	private List<LifeStory> storyList;
 
@@ -23,5 +23,41 @@ public class Timeline extends Model {
 	public static Model.Finder<Long,Timeline> find = new Model.Finder(
             Long.class,Timeline.class
     );
-    
+	
+	public static Timeline read(Long personId){
+		Person p = Person.read(personId);
+		Timeline t = new Timeline();
+		
+		t.setAboutPerson(p);
+		t.setStoryList(LifeStory.readByPerson(personId));
+		
+		
+		return t;
+	}
+
+	public List<LifeStory> getStoryList() {
+		return storyList;
+	}
+
+	public void setStoryList(List<LifeStory> storyList) {
+		this.storyList = storyList;
+	}
+
+	public Person getAboutPerson() {
+		return aboutPerson;
+	}
+
+	public void setAboutPerson(Person aboutPerson) {
+		this.aboutPerson = aboutPerson;
+	}
+
+	public List<User> getCurators() {
+		return curators;
+	}
+
+	public void setCurators(List<User> curators) {
+		this.curators = curators;
+	}
+	    
+	
 }

@@ -70,7 +70,7 @@ public class Location extends Model {
 	private Double lon;
 
 	@Column
-	private String locate;
+	private String locale;
 	
 	@Column
 	private Long radius;
@@ -357,14 +357,14 @@ public class Location extends Model {
 	 * @return the locate
 	 */
 	public String getLocate() {
-		return locate;
+		return locale;
 	}
 
 	/**
 	 * @param locate the locate to set
 	 */
 	public void setLocate(String locate) {
-		this.locate = locate;
+		this.locale = locate;
 	}
 
 	/**

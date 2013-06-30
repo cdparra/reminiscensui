@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 import play.db.ebean.*;
 import play.data.validation.Constraints.*;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.joda.time.DateTime;
 
 
@@ -28,7 +30,8 @@ public class Person extends Model {
 	@Column
 	private String lastname;
 	
-	@Column
+	@Column 
+	//@Formats.DateTime(pattern="yyyy-mm-dd HH:mm:ss")
 	private DateTime birthdate;
 	
 	@OneToOne
@@ -65,7 +68,19 @@ public class Person extends Model {
 	@Column(name="famous_id")
 	private Long famousId;
 
+	@JsonIgnore
+	@OneToMany(mappedBy="person")
+	private List<Participation> participationList;
 	
+	
+//	@ManyToMany
+//	  @JoinTable(
+//	      name="Participant",
+//	      joinColumns={@JoinColumn(name="person_id", referencedColumnName="person_id")},
+//	      inverseJoinColumns={@JoinColumn(name="life_event_id", referencedColumnName="life_event_id")})
+	@JsonIgnore
+	private List<LifeStory> lifeStories;
+//		
 	public static Model.Finder<Long,Person> find = new Model.Finder(
             Long.class,Person.class
     );
@@ -90,7 +105,7 @@ public class Person extends Model {
     public static Person read(Long id){
         return find.byId(id);
     }
-
+    
 	/**
 	 * @return the personId
 	 */
@@ -271,6 +286,22 @@ public class Person extends Model {
 	 */
 	public void setFamousId(Long famousId) {
 		this.famousId = famousId;
+	}
+
+	public List<Participation> getParticipationList() {
+		return participationList;
+	}
+
+	public void setParticipationList(List<Participation> participationList) {
+		this.participationList = participationList;
+	}
+
+	public List<LifeStory> getLifeStories() {
+		return lifeStories;
+	}
+
+	public void setLifeStories(List<LifeStory> lifeStories) {
+		this.lifeStories = lifeStories;
 	}
 	
 	

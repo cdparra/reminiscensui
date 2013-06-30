@@ -8,17 +8,44 @@ import play.data.validation.Constraints.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name="vsg_user")
+@Table(name="User")
 public class User extends Model {
-    
     @Id
     @GeneratedValue
     @Column(name="user_id")
-    public Long id;
+    public Long userId;
+ 
+    @Column(name="person_id")
+    public Long personId;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name="person_id")
+    private Person person;
     
-    @Column(length=50, name="user_email")
-    public String email;
+    @Column(length=60)
+    private String nickname;
     
+    @Column(length=50)
+    private String email;
+    
+    @Column(length=45)
+    private String lang;
+    
+    @Column
+    private Boolean email_verified;
+    
+    @Column
+    private Boolean nickname_verified;
+
+    @Column
+    private String profile_pic;
+    
+    @Column
+    private String cryptpass;
+
+    @Column
+    private String conf_type;
     
     public static Model.Finder<Long,User> find = new Model.Finder(
             Long.class,User.class
@@ -44,5 +71,159 @@ public class User extends Model {
     public static User read(Long id){
         return find.byId(id);
     }
+
+	/**
+	 * @return the userId
+	 */
+	public Long getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	/**
+	 * @return the personId
+	 */
+	public Long getPersonId() {
+		return personId;
+	}
+
+	/**
+	 * @param personId the personId to set
+	 */
+	public void setPersonId(Long personId) {
+		this.personId = personId;
+	}
+
+	/**
+	 * @return the person
+	 */
+	public Person getPerson() {
+		return person;
+	}
+
+	/**
+	 * @param person the person to set
+	 */
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	/**
+	 * @return the nickname
+	 */
+	public String getNickname() {
+		return nickname;
+	}
+
+	/**
+	 * @param nickname the nickname to set
+	 */
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @return the lang
+	 */
+	public String getLang() {
+		return lang;
+	}
+
+	/**
+	 * @param lang the lang to set
+	 */
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+
+	/**
+	 * @return the email_verified
+	 */
+	public Boolean getEmail_verified() {
+		return email_verified;
+	}
+
+	/**
+	 * @param email_verified the email_verified to set
+	 */
+	public void setEmail_verified(Boolean email_verified) {
+		this.email_verified = email_verified;
+	}
+
+	/**
+	 * @return the nickname_verified
+	 */
+	public Boolean getNickname_verified() {
+		return nickname_verified;
+	}
+
+	/**
+	 * @param nickname_verified the nickname_verified to set
+	 */
+	public void setNickname_verified(Boolean nickname_verified) {
+		this.nickname_verified = nickname_verified;
+	}
+
+	/**
+	 * @return the profile_pic
+	 */
+	public String getProfile_pic() {
+		return profile_pic;
+	}
+
+	/**
+	 * @param profile_pic the profile_pic to set
+	 */
+	public void setProfile_pic(String profile_pic) {
+		this.profile_pic = profile_pic;
+	}
+
+	/**
+	 * @return the cryptpass
+	 */
+	public String getCryptpass() {
+		return cryptpass;
+	}
+
+	/**
+	 * @param cryptpass the cryptpass to set
+	 */
+	public void setCryptpass(String cryptpass) {
+		this.cryptpass = cryptpass;
+	}
+
+	/**
+	 * @return the conf_type
+	 */
+	public String getConf_type() {
+		return conf_type;
+	}
+
+	/**
+	 * @param conf_type the conf_type to set
+	 */
+	public void setConf_type(String conf_type) {
+		this.conf_type = conf_type;
+	}
     
 }

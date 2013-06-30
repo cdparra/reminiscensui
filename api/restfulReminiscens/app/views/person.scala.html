@@ -1,0 +1,34 @@
+@(personList: List[Person], personForm: Form[Person])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+
+@main("Person List") {
+    
+    <h1>@personList.size() Person List</h1>
+    
+    <ul>
+        @for(person <- personList) {
+            <li>
+                @person.getFullname()
+                
+                @form(routes.PersonalReminiscence.deletePerson(person.getPersonId())) {
+                    <input type="submit" value="Delete">
+                }
+            </li>
+        }
+    </ul>
+    
+    <h2>Add a new person</h2>
+    
+    @form(routes.PersonalReminiscence.createPerson()) {
+        
+        @inputText(personForm("name"))         
+        @inputText(personForm("lastname"))    
+        
+        <input type="submit" value="Create">
+        
+    }
+    
+}

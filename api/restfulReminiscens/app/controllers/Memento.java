@@ -17,8 +17,8 @@ public class Memento extends Controller {
 		return TODO;
 	}
 
-	public static Result getMementoList(Long decade, String place, Double lat,
-			Double lon, Long rad, String lang) {
+	public static Result getMementoList(Long decade, String place, String lat,
+			String lon, String rad, String lang) {
     	/** @TODO */
 		return TODO;
 	}

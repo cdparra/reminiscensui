@@ -1,10 +1,15 @@
 package models;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.*;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import play.db.ebean.Model;
 
@@ -22,7 +27,6 @@ public class FuzzyDate extends Model {
 	private String textual_date;
 
 	@Column
-	@DateTime(format="yyyy-dd-mm hh:mm:ss");
 	private DateTime exact_date;
 
 	@Column
@@ -119,14 +123,19 @@ public class FuzzyDate extends Model {
 	 * @return the exact_date
 	 */
 	public DateTime getExact_date() {
+//		String pattern = "yyyy-MM-dd HH:mm:ss";
+//		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
 		return exact_date;
 	}
 
 	/**
 	 * @param exact_date the exact_date to set
+	 * @throws ParseException 
 	 */
-	public void setExact_date(DateTime exact_date) {
-		this.exact_date = exact_date;
+	public void setExact_date(DateTime exact_date) throws ParseException {
+//		String pattern = "yyyy-MM-dd HH:mm:ss";
+//		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+		this.exact_date =exact_date;
 	}
 
 	/**

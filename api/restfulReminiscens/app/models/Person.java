@@ -7,7 +7,7 @@ import javax.persistence.*;
 import play.db.ebean.*;
 import play.data.validation.Constraints.*;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.*;
 import org.joda.time.DateTime;
 
 
@@ -31,7 +31,7 @@ public class Person extends Model {
 	private String lastname;
 	
 	@Column 
-	//@Formats.DateTime(pattern="yyyy-mm-dd HH:mm:ss")
+	@Temporal(TemporalType.DATE)
 	private DateTime birthdate;
 	
 	@OneToOne

@@ -1,10 +1,13 @@
-PlayReminiscens/logs
-PlayReminiscens/project/project
-PlayReminiscens/project/target
-PlayReminiscens/target
-PlayReminiscens/tmp
-PlayReminiscens/dist
-PlayReminiscens/.cache
+restfulReminiscens/logs
+restfulReminiscens/project/project
+restfulReminiscens/project/target
+restfulReminiscens/target
+restfulReminiscens/conf/application.conf
+restfulReminiscens/tmp
+restfulReminiscens/dist
+restfulReminiscens/conf/evolutions
+api/restfulReminiscens/bin
+restfulReminiscens/.cache
 *DS_Store
 *._.DS_Store
 *._*
@@ -18,3 +21,9 @@ ui/marzemino/android/.DS_Store
 *.DS_Store
 
 ui/marzemino/android/First/.DS_Store
+ui/marzemino/android/First/bin
+*.ipa
+*.apk
+*.classpath
+
+

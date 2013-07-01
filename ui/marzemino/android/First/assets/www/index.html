@@ -6,6 +6,9 @@
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/json/json2.js"></script>
+<script type="text/javascript" src="js/sha1.js"></script>
 <script>  	
      function onLoad(){
           document.addEventListener("deviceready", onDeviceReady, true);
@@ -15,9 +18,32 @@
      }
 	function Redirect()
 	{
-		location.href = "Datanascita.html";
+		location.href = "registra.html";
+	}
+	function Login()
+	{		
+		var passSha1 = $.sha1($("#password").val());
+		var sessionData = new Object;
+		sessionData.name = "reminiscens";
+		sessionData.authString = $("#email").val() + "!_-_!" + passSha1; 
+		
+		var xhr = new XMLHttpRequest();		
+		xhr.open('POST', 'http://reminiscens.apiary.io/api/session');		
+		xhr.setRequestHeader("Content-Type", "application/json");		
+		xhr.onreadystatechange = function () {
+  			if (this.readyState == 4) {
+    			if (typeof cb !== "undefined") {
+					cb(this);
+    			}
+			}
+   			else {
+      			alert('Status: '+this.status+'\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'\nBody: '+this.		responseText);
+    		}
+  		};		
+		xhr.send("{  \n    \"Service\":{\n        \"name\": \"reminiscens\"\n        \"authString\": \"" + sessionData.authString + "\"  \n    }\n}");
 	}
 </script>
+
 <style>
 body {
 	background-color:#CCC;
@@ -25,7 +51,7 @@ body {
 }
 #divRoot{
 	width: 450px;
-	height: 200px;
+	height: 240px;
 	margin: auto;
 	margin-top:20px;
 	-moz-border-radius: 10px 10px 10px 10px;
@@ -35,7 +61,7 @@ body {
 }
 .cont{
 	text-align: center;
-	height: 100px;
+	height: 70px;
 	width: 450px;
 	vertical-align: central;
 	margin: auto;
@@ -46,11 +72,16 @@ body {
 <body>
 <div id="divRoot">
   <div class="cont" style="padding-left:20px;">
-    <h3 style="color:#999; float:left;">Come ti chiami?</h3>
-    <input style="float:left; margin-top:15px; margin-left:10px;" type="text" placeholder="Nome Cognome" autofocus>
+    <h3 style="color:#999; float:left;">Email:</h3>
+    <input id="email" style="float:left; margin-top:15px; margin-left:60px;" type="text" placeholder="email" autofocus>
+    </div>
+  <div class="cont" style="padding-left:20px;height:100px;">
+    <h3 style="color:#999; float:left;">Password:</h3>
+    <input id="password" style="float:left; margin-top:15px; margin-left:10px;" type="text" placeholder="password">
   </div>
   <div class="cont">
-    <button onClick="Redirect()" class="btn btn-primary">avanti</button>
+  	<button onClick="Redirect()" class="btn btn-primary">Registrati</button>
+    <button onClick="Login()" class="btn btn-primary">Login</button>
   </div>
 </div>
 </html>

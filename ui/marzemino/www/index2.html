@@ -32,8 +32,9 @@
     }
 
     // Upload files to server
+	path;
     function uploadFile(mediaFile) {
-        var ft = new FileTransfer(),
+        /*var ft = new FileTransfer(),
             path = mediaFile.fullPath,
             name = mediaFile.name;
 			
@@ -48,12 +49,32 @@
             function(error) {
                 console.log('Error uploading file ' + path + ': ' + error.code);
             },
-            { fileName: name });   
+            { fileName: name });*/ 
+			path = mediaFile.fullPath;
+            alert(mediaFile.fullPath);
+			
     }
+	
+	function riproduci()
+	{
+		mymedia = new Media(path, 
+        function(){
+            if (myMedia) {
+                myMedia.stop();
+                myMedia.release();
+            }
+        }, 
+        function(error){
+            console.log(error.message);
+        })
+		mymedia.play();
+
+	}
 
     </script>
     </head>
     <body>
         <button onclick="captureAudio();">Capture Audio</button> <br>
+        <button onclick="riproduci()">Play</button>
     </body>
 </html>

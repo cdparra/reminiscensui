@@ -1453,3 +1453,100 @@ org.eclipse.core.runtime.OperationCanceledException
 	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
 	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SESSION 2013-05-16 16:59:21.454 -----------------------------------------------
+eclipse.buildId=v21.1.0-569685
+java.version=1.7.0_10
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-05-16 17:00:25.724
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-05-16 17:00:25.740
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\J'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2013-05-16 17:21:07.432 -----------------------------------------------
+eclipse.buildId=v21.1.0-569685
+java.version=1.7.0_21
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-05-16 17:21:38.354
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-05-16 17:21:38.419
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\J'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2013-05-16 17:54:12.081 -----------------------------------------------
+eclipse.buildId=v21.1.0-569685
+java.version=1.7.0_13
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY com.android.ide.eclipse.ddms 4 0 2013-05-16 17:54:48.117
+!MESSAGE DDMS files not found: C:\Users\J\Desktop\adt-bundle-windows-x86_64-20130219\sdk\platform-tools\adb.exe C:\Users\J\Desktop\adt-bundle-windows-x86_64-20130219\sdk\tools\hprof-conv.exe C:\Users\J\Desktop\adt-bundle-windows-x86_64-20130219\sdk\tools\traceview.bat 
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-05-16 17:54:49.771
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-05-16 17:54:49.787
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Power'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2013-05-16 17:54:52.439
+!MESSAGE Fatal error: No API database found at null
+!SESSION 2013-05-16 18:02:51.941 -----------------------------------------------
+eclipse.buildId=v21.1.0-569685
+java.version=1.7.0_21
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-05-16 18:03:32.059
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-05-16 18:03:32.059
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\J'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2013-05-16 18:03:32.308
+!MESSAGE Fatal error: No API database found at null

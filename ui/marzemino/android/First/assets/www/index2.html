@@ -32,8 +32,9 @@
     }
 
     // Upload files to server
+	path;
     function uploadFile(mediaFile) {
-        var ft = new FileTransfer(),
+        /*var ft = new FileTransfer(),
             path = mediaFile.fullPath,
             name = mediaFile.name;
 			
@@ -48,13 +49,36 @@
             function(error) {
                 console.log('Error uploading file ' + path + ': ' + error.code);
             },
-            { fileName: name });   
+            { fileName: name });*/ 
+			path = mediaFile.fullPath;
+            alert(mediaFile.fullPath);
+			
     }
+	
+	function riproduci()
+	{
+		mymedia = new Media(path, 
+        function(){
+            if (myMedia) {
+                myMedia.stop();
+                myMedia.release();
+            }
+        }, 
+        function(error){
+            console.log(error.message);
+        })
+		mymedia.play();
+
+	}
 
     </script>
     </head>
     <body>
         <button onclick="captureAudio();">Capture Audio</button> <br>
-        <button onclick="file:///android_asset/www/main.html">Back to Main</button> <br>
+<<<<<<< HEAD
+        <button onclick="riproduci()">Play</button>
+=======
+        <button onclick="file:///android_asset/www/main.html">Capture Audio</button> <br>
+>>>>>>> 4a9b30e2e02f59542f1f89cd2010a28e7d777dc7
     </body>
 </html>

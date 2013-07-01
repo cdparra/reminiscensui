@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+-<!DOCTYPE HTML>
 <html>
 <head>
 <title>Reminiscens</title>
@@ -11,300 +11,52 @@
 <script src="js/GestioneOverlay.js"></script>
 <link href="kendo/styles/kendo.common.min.css" rel="stylesheet" />
 <link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
+<link href="css/StyleRoot.css" rel="stylesheet" />
+
 <script src="kendo/js/jquery.min.js"></script>
 <script src="kendo/js/kendo.web.min.js"></script>
 <script type="text/javascript" src="js/recorder.js"></script>
-<script>
-                $(document).ready(function() {
-                    // create Editor from textarea HTML element with default set of tools
-                    $("#editor").kendoEditor({
-                        tools: [
-                            "bold",
-                "italic",
-                "underline",
-                "strikethrough",
-                "foreColor",
-                "justifyLeft",
-                "justifyCenter",
-                "justifyRight",
-                "justifyFull",
-                "insertUnorderedList",
-                "insertOrderedList",
-                "createLink",
-                "unlink",
-                "insertImage",
-                        ],
-                        imageBrowser: {
-                           messages: {
-                            dropFilesHere: "Drop files here"
-                           },
-                           transport: {
-                                read: "/kendo/service/ImageBrowser/Read",
-                                destroy: {
-                                    url: "/kendo/service/ImageBrowser/Destroy",
-                                    type: "POST"
-                                },
-                                create: {
-                                    url: "/kendo/service/ImageBrowser/Create",
-                                    type: "POST"
-                                },
-                                thumbnailUrl: "/kendo/service/ImageBrowser/Thumbnail",
-                                uploadUrl: "/kendo/service/ImageBrowser/Upload",
-                                imageUrl: "/kendo/service/ImageBrowser/images/{0}"
-                           }
-                        }
-                    });
-                });
-				
-				var pictureSource;   // picture source
-    var destinationType; // sets the format of returned value 
+<script type="text/javascript" src="js/GestioneKendoEditor.js"></script>
 
-    // Wait for Cordova to connect with the device
-    //
-    document.addEventListener("deviceready",onDeviceReady,false);
+<script type="text/javascript" src="js/GestioneFoto.js"></script>
+<script type="text/javascript" src="js/GestioneSchermate&Menu.js"></script>
+<script type="text/javascript" src="js/GestioneRecorderHTML.js"></script>
 
-    // Cordova is ready to be used!
-    //
-    function onDeviceReady() {
-        pictureSource=navigator.camera.PictureSourceType;
-        destinationType=navigator.camera.DestinationType;
-    }
+<script type="text/javascript" src="js/storage/jquery.storageapi.js"></script>
+<script type="text/javascript" src="js/storage/jquery.storageapi.min.js"></script>
 
-				function capturePhoto() {
-      // Take picture using device camera and retrieve image as base64-encoded string
-      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
-        destinationType: destinationType.DATA_URL });
-    }
-	
-	function onFail(message) {
-      alert('Failed because: ' + message);
-    }
-	
-	function onPhotoDataSuccess(imageData) {
-		var editor = $("#editor").data("kendoEditor");
-		var tmp = editor.value();
-		
-      editor.value(tmp + "<br/><img src='" + "data:image/jpeg;base64," + imageData + "' style='display:block;margin-left:auto;margin-right:auto;width:80px;height:80px' /><br/>");
-    }
+<script type="text/javascript" src="js/json/json2.js"></script>
+<script type="text/javascript" src="js/GestioneImmagini.js"></script>
+<script type="text/javascript" src="js/SaveStoryJSON.js"></script>
 
 
-            </script>
+
 <script>  	
      function onLoad(){
           document.addEventListener("deviceready", onDeviceReady, true);
      }
      function onDeviceReady(){
-          navigator.notification.alert("PhoneGap is working!!");
-     }
-	function nascondiDiv()
-	{
-		document.getElementById("Foto").style.display="none";
-		document.getElementById("Storie").style.display="none";
-		document.getElementById("Canzoni").style.display="none";
-		document.getElementById("Famosi").style.display="none";
-	}
-	$(document).ready(function() {
-	$('.timeline').click(function(){
-			nascondiDiv();
-            var recupero_id = $(this).attr("id");  
-			$("#lbldebug").text("Non ci sono ancora storie del " + recupero_id + "!");
-			$("#FotoDelTempo").text("Com'era questo posto attorno al " + recupero_id);
-			$("#TueFotoDelTempo").text("Le tue foto attorno al " + recupero_id);
-			$("#StorieDelTempo").text("Che cosa succedeva nel " + recupero_id);
-			$("#TueStorieDelTempo").text("Le tue storie nel " + recupero_id);
-			if(recupero_id == 1950)
-			{
-				document.getElementById("Foto").style.display="inherit";
-				document.getElementById("Results").style.display="inherit";
-				document.getElementById("NoResults").style.display="none";
-				$('.navbar li').removeClass('active');
-				$('#liFoto').addClass('active');
-			}
-			else
-			{
-				document.getElementById("NoResults").style.display="inherit";
-				document.getElementById("Results").style.display="none";
-			}
-        });
-		/*applica la classe active al menù nav bar di bootstrap quando viene cliccato*/
-		$('.navbar li').click(function(e) {
-			$('.navbar li').removeClass('active');
-			var $this = $(this);
-			if (!$this.hasClass('active')) {
-				$this.addClass('active');
-			}
-			var tmp = $this.attr("id");
-			tmp = tmp.substring(2,tmp.length);
-			if(tmp == "Raccontaci")
-			{
-				ApriOverlay();
-			}
-			else
-			{
-				nascondiDiv();
-				document.getElementById(tmp).style.display="inherit";
-			}
-			
-			e.preventDefault();
-			});
-		});
-</script>
-<script>
-function timecode(ms) {
-        var hms = {
-          h: Math.floor(ms/(60*60*1000)),
-          m: Math.floor((ms/60000) % 60),
-          s: Math.floor((ms/1000) % 60)
-        };
-        var tc = []; // Timecode array to be joined with '.'
-
-        if (hms.h > 0) {
-          tc.push(hms.h);
-        }
-
-        tc.push((hms.m < 10 && hms.h > 0 ? "0" + hms.m : hms.m));
-        tc.push((hms.s < 10  ? "0" + hms.s : hms.s));
-
-        return tc.join(':');
-      }
-    
-    
-      $(document).ready(function() {
-	  Recorder.initialize({
-        swfSrc: "js/recorder.swf"
-      });
-	  });
-
-      function record(){
-		  $('#overlay').fadeOut('fast');
-            $('#box').hide();
-        Recorder.record({
-          start: function(){
-            //alert("recording starts now. press stop when youre done. and then play or upload if you want.");
-          },
-          progress: function(milliseconds){
-			ApriOverlay();
-			document.getElementById("record").onclick = function() {stop()};
-			document.getElementById("record").src = "button/buttonStopRecording.jpg";
-            document.getElementById("time").innerHTML = timecode(milliseconds);
-          }
-        });
+          //navigator.notification.alert("PhoneGap is working!!");
+     }	
+	 function editor()
+	 {
+		var editor = $("#editor").data("kendoEditor");
+		//alert(editor.value());
+		$("#debug").text(editor.value());
+	 }
+	 function storage() {
+		/*var storage =$.localStorage;
+		//alert(storage.get('prova'));
+		//var obj = JSON.parse(storage.get('prova'));
+		alert(storage.get('prova').titolo);
+	 	//$("#debug").text(storage.get('prova'));*/
 		
-      }
-      
-      function play(){
-        Recorder.stop();
-        Recorder.play({
-          progress: function(milliseconds){
-            document.getElementById("time").innerHTML = timecode(milliseconds);
-          }
-        });
-      }
-      	  
-      function stop(){
-		document.getElementById("record").onclick = function() {record()};
-		document.getElementById("record").src = "button/buttonMicrofono.jpg";
-        document.getElementById("play").style.visibility="visible";
-		Recorder.stop();
-      }
-      
-      function upload(){
-		  //alert("ciao");
-        Recorder.upload({
-          url:        "http://localhost/sound",
-          audioParam: "track[asset_data]",
-          success: function(){
-            alert("your file was uploaded!");
-          }
-        });
-      }
+		
+		//EliminaIntestazioneDataImg();
+		
+		alert();
+	 }
 </script>
-<style>
-body {
-	background-color: #CCC;
-	background-repeat: repeat-y;
-}
-#divRoot {
-	width: 1020px;
-	height: 750px;
-	margin: auto;
-	margin-top: 20px;
-	-moz-border-radius: 10px 10px 10px 10px;
-	-webkit-border-radius: 10px 10px 10px 10px;
-	border-radius: 10px 10px 10px 10px;
-	background-color: #FFF;
-	text-align: center;
-}
-input {
-	float: left;
-}
-label {
-	font-size: 24px;
-}
-#divRoot #centrale {
-	background-color: #999;
-	margin-top: 30px;
-	height: 750px;
-	text-align: center;
-	-webkit-border-bottom-right-radius: 10px;
-	-webkit-border-bottom-left-radius: 10px;
-	-moz-border-radius-bottomright: 10px;
-	-moz-border-radius-bottomleft: 10px;
-	border-bottom-right-radius: 10px;
-	border-bottom-left-radius: 10px;
-}
-/*allinemanto orrizzontale menù bootstrap*/
-.navbar .nav, .navbar .nav > li {
-	float: none;
-	display: inline-block;
- *display:inline; /* ie7 fix */
- *zoom:1; /* hasLayout ie7 trigger */
-	vertical-align: top;
-}
-.navbar-inner {
-	text-align: center;
-}
-.divFoto {
-	float: left;
-	width: 450px;
-	height: 550px;
-	min-height: 100%;
-	margin-left: 30px;
-	margin-right: 30px;
-	margin-top: 10px;
-	margin-bottom: 30px;
-	background-color: #CCC;
-}
-.immagini {
-	margin: 5px 5px 5px 5px;
-	position: relative;
-	float: left;
-}
-.text {
-	background: rgba(0,0,0,0.7);
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	padding: 6px;
-	display: block;
-	color: #FFF;
-}
-#Foto img {
-	margin: 5px 5px 5px 5px;
-}
-.round {
-	border-radius: 0 80px 0 80px;
-	opacity: 0.7;
-	-webkit-transition: opacity 0.6s linear;
-	-webkit-transition: all 0.6s ease-in-out;
-	-moz-transition: all 0.6s ease-in-out;
-	-o-transition: all 0.6s ease-in-out
-}
-.round:hover {
-	border-radius: 0 0 0 0;
-	opacity: 1
-}
-</style>
 </head>
 <body>
 <div id="divRoot">
@@ -396,12 +148,15 @@ label {
     <div style="background-color:#D5D5D5; padding-top:10px;">
       <div style="background-color:#A05152; padding-bottom:10px; padding-top:10px;">
         <label>raccontaci la tua storia</label>
+        <button id="salva" onClick="salvaStoria();" class="btn btn-primary">Salva</button>
       </div>
       <div style="margin-top:10px; color:#000; margin-left:20px; margin-right:20px;">
+        
         <form>
           <div>
             <label for="titolo" style="float:left; margin-top:3px;">Titolo:</label>
             <input id="titolo" style="float:left; margin-left:31px;" class="input-xxlarge" type="text"/>
+            
           </div>
           <br/>
           <br/>
@@ -413,19 +168,15 @@ label {
           </div>
         </form>
       </div>
-      <!--<button style="margin-bottom:10px;" class="btn btn-primary" onClick="capturePhoto();">Capture Foto</button>
-      <button style="margin-bottom:10px;" class="btn btn-primary" onClick="record();">Record</button>
-      <button style="margin-bottom:10px;" class="btn btn-primary" onClick="stop();">Stop</button>
-      <button style="margin-bottom:10px;" class="btn btn-primary" onClick="play();">Play</button>
-      <button style="margin-bottom:10px;" class="btn btn-primary" onClick="upload();" disabled>Upload</button>
-      <label style="color:#FF0;" id="time">0:00</label>-->
       <div style="float:left; margin:20px;">
+      		<!--<button onClick="editor();">Editor</button>-->
         	<input type="image" src="button/buttonFoto.jpg" onClick="capturePhoto();"> 
             <br/>           
        	 	<input id="record" type="image" style="margin-top:10px;" src="button/buttonMicrofono.jpg" onClick="record();">
             <br/>
             <h3 style="color:#FF0;" id="time">0:00</h3>
             <input id="play" type="image" style="margin-top:10px; visibility:hidden;" src="button/buttonPlay.png" onClick="play();">
+            <input id="stop" type="image" style="margin-top:10px; margin-left:2px; visibility:hidden;" src="button/buttonStop.png" onClick="stop();">
         </div>
       <textarea  id="editor" rows="10" cols="30" style="width:620px;height:400px; float:left;">
     
@@ -434,4 +185,7 @@ label {
     </div>
   <img src="images/X.png" class="chiudi" /> </div>
 <!--fine box-->
+
+<!--<button onClick="storage();">Storage</button>-->
+<!--<label id="debug"></label>-->
 </html>

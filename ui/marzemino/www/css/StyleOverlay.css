@@ -16,7 +16,7 @@ opacity: .9; filter: alpha(opacity=70);
 	
 }
 
-#box{ width:800px; height:550px; background-color:#EAE8E9; padding:10px 10px 10px 10px; display:none; z-index:+300; position:fixed; -moz-border-radius: 15px;  -webkit-border-radius: 15px;
+#box{ width:800px; height:570px; background-color:#EAE8E9; padding:10px 10px 10px 10px; display:none; z-index:+300; position:fixed; -moz-border-radius: 15px;  -webkit-border-radius: 15px;
 border-radius: 15px;text-align: center;color:white;}
 
 /*css sul bordino sotto*/

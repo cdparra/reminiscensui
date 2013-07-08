@@ -12,6 +12,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import play.db.ebean.Model;
+import utils.JodaDateTime;
 
 @Entity
 @Table(name="Fuzzy_Date")
@@ -26,7 +27,8 @@ public class FuzzyDate extends Model {
 	@Column
 	private String textual_date;
 
-	@Column
+	@Column	
+	@JodaDateTime(format = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private DateTime exact_date;
 
 	@Column

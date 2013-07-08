@@ -20,10 +20,7 @@ public class Person extends Model {
     @GeneratedValue
     @Column(name="person_id")
     private Long personId;
-	
-	@Column
-	private String fullname; 
-	
+		
 	@Column
 	private String firstname;
 
@@ -34,31 +31,16 @@ public class Person extends Model {
 	@Temporal(TemporalType.DATE)
 	private DateTime birthdate;
 	
-	@OneToOne
-	@MapsId
-    @JoinColumn(name="birthdate_fuzzy_id")
-	private FuzzyDate fuzzy_birthdate;
-
 	@Column
 	private DateTime deathdate;
-	
-	@OneToOne
-	@MapsId
-    @JoinColumn(name="deathdate_fuzzy_id")
-	private FuzzyDate fuzzy_deathdate;
-	
+
+	@Column
+	private String gender;
+
 	@ManyToOne
 	@MapsId
     @JoinColumn(name="birthplace_id")
 	private City birthplace;
-
-	@ManyToOne
-	@MapsId
-    @JoinColumn(name="nationality_country_id")
-	private Country nation;
-	
-	@Column
-	private String gender;
 	
 //	@OneToOne
 //	@MapsId
@@ -121,20 +103,6 @@ public class Person extends Model {
 	}
 
 	/**
-	 * @return the fullname
-	 */
-	public String getFullname() {
-		return fullname;
-	}
-
-	/**
-	 * @param fullname the fullname to set
-	 */
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
-	}
-
-	/**
 	 * @return the firstname
 	 */
 	public String getFirstname() {
@@ -176,19 +144,6 @@ public class Person extends Model {
 		this.birthdate = birthdate;
 	}
 
-	/**
-	 * @return the fuzzy_birthdate
-	 */
-	public FuzzyDate getFuzzy_birthdate() {
-		return fuzzy_birthdate;
-	}
-
-	/**
-	 * @param fuzzy_birthdate the fuzzy_birthdate to set
-	 */
-	public void setFuzzy_birthdate(FuzzyDate fuzzy_birthdate) {
-		this.fuzzy_birthdate = fuzzy_birthdate;
-	}
 
 	/**
 	 * @return the deathdate
@@ -203,21 +158,7 @@ public class Person extends Model {
 	public void setDeathdate(DateTime deathdate) {
 		this.deathdate = deathdate;
 	}
-
-	/**
-	 * @return the fuzzy_deathdate
-	 */
-	public FuzzyDate getFuzzy_deathdate() {
-		return fuzzy_deathdate;
-	}
-
-	/**
-	 * @param fuzzy_deathdate the fuzzy_deathdate to set
-	 */
-	public void setFuzzy_deathdate(FuzzyDate fuzzy_deathdate) {
-		this.fuzzy_deathdate = fuzzy_deathdate;
-	}
-
+	
 	/**
 	 * @return the birthplace
 	 */
@@ -230,20 +171,6 @@ public class Person extends Model {
 	 */
 	public void setBirthplace(City birthplace) {
 		this.birthplace = birthplace;
-	}
-
-	/**
-	 * @return the nation
-	 */
-	public Country getNation() {
-		return nation;
-	}
-
-	/**
-	 * @param nation the nation to set
-	 */
-	public void setNation(Country nation) {
-		this.nation = nation;
 	}
 
 	/**

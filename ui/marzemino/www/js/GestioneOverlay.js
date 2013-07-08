@@ -47,9 +47,27 @@ $(document).ready(function() {
     });
 }
 
+function CentroCaricamento() {
+			
+    //imposto la finestra sempre in mezzo!!!
+    var PosX = ($(window).width() - $("#caricamento").width()) / 2;
+    var percentualeX = PosX / $(window).width() * 100;
+    $("#caricamento").css({
+        "left": percentualeX + "%"
+    });
+    
+    //alert
+    var PosY = ($(window).height() - $("#caricamento").height()) / 2;
+    var percentualeY = PosY / $(window).height() * 100;
+    $("#caricamento").css({
+        "top": percentualeY + "%"
+    });
+}
+
 //controllo se la finestra è stata ridimensionata con jquery
 jQuery(window).bind('resize', function () {
     CentroOverlay();
+	CentroCaricamento();
 });
 
 function ApriOverlay() { 

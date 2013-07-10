@@ -4,13 +4,16 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.joda.time.DateTime;
-
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="Country")
 public class Country extends Model {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8279916434556075304L;
 
 	@Id
     @GeneratedValue
@@ -32,8 +35,7 @@ public class Country extends Model {
 	@Column
 	private String numcode;
 
-	// change in DB to 
-	@Column(name="un_nember")
+	@Column(name="un_member")
 	private String un_member;
 	
 	@Column
@@ -44,14 +46,11 @@ public class Country extends Model {
 	
 	@Column
 	private String spanish_name;
+
+	@Column
+	private String italian_name;
 	
-	/** 
-	 * TODO 
-	 * @Column
-	 * private String italian_name;
-	 */
-	
-	public static Model.Finder<Long,Country> find = new Model.Finder(
+	public static Model.Finder<Long,Country> find = new Model.Finder<Long, Country>(
             Long.class,Country.class
     );
     

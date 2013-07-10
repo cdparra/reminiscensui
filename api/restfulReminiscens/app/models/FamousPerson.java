@@ -4,14 +4,17 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.joda.time.DateTime;
-
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="Famous_Person")
 public class FamousPerson extends Model {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7758981950323371564L;
+
 	@Id
     @GeneratedValue
     @Column(name="famous_person_id")
@@ -22,7 +25,7 @@ public class FamousPerson extends Model {
 	 * Map other attributes
 	 */
 
-	public static Model.Finder<Long,FamousPerson> find = new Model.Finder(
+	public static Model.Finder<Long,FamousPerson> find = new Finder<Long, FamousPerson>(
             Long.class,FamousPerson.class
     );
     

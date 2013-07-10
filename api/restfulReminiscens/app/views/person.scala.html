@@ -11,7 +11,7 @@
     <ul>
         @for(person <- personList) {
             <li>
-                @person.getFullname()
+                @person.getFirstname()
                 
                 @form(routes.PersonalReminiscence.deletePerson(person.getPersonId())) {
                     <input type="submit" value="Delete">

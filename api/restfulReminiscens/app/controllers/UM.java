@@ -1,18 +1,9 @@
 package controllers;
 
-import play.*;
 import play.mvc.*;
 
-import views.html.*;
-
 public class UM extends Controller {
-  
-    public static Result index() {
-    	/** @TODO */
-        return ok(index.render("Reminiscens RESTful API is ready!"));
-    }
-    
-
+ 
     public static Result getUsers() {
     	/** @TODO */
         return TODO;

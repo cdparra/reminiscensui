@@ -1,24 +1,24 @@
 package models;
 
-import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.*;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
 import play.db.ebean.Model;
-import utils.JodaDateTime;
 
 @Entity
 @Table(name="Fuzzy_Date")
 public class FuzzyDate extends Model {
 
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5986577686511527227L;
+
 	@Id
     @GeneratedValue
     @Column(name="fuzzy_date_id")
@@ -26,10 +26,11 @@ public class FuzzyDate extends Model {
 	
 	@Column
 	private String textual_date;
-
-	@Column	
-	@JodaDateTime(format = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-	private DateTime exact_date;
+	
+	@Temporal(TemporalType.DATE)
+	@Column 
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime exactDate;
 
 	@Column
 	private Long decade;
@@ -68,7 +69,7 @@ public class FuzzyDate extends Model {
 	private String locale;
 	
 
-	public static Model.Finder<Long,FuzzyDate> find = new Model.Finder(
+	public static Model.Finder<Long,FuzzyDate> find = new Model.Finder<Long, FuzzyDate>(
             Long.class,FuzzyDate.class
     );
     
@@ -124,20 +125,20 @@ public class FuzzyDate extends Model {
 	/**
 	 * @return the exact_date
 	 */
-	public DateTime getExact_date() {
+	public DateTime getExactDate() {
 //		String pattern = "yyyy-MM-dd HH:mm:ss";
 //		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
-		return exact_date;
+		return exactDate;
 	}
 
 	/**
 	 * @param exact_date the exact_date to set
 	 * @throws ParseException 
 	 */
-	public void setExact_date(DateTime exact_date) throws ParseException {
+	public void setExactDate(DateTime exact_date) throws ParseException {
 //		String pattern = "yyyy-MM-dd HH:mm:ss";
 //		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
-		this.exact_date =exact_date;
+		this.exactDate =exact_date;
 	}
 
 	/**

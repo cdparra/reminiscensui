@@ -2,16 +2,18 @@ package models;
 
 import java.util.List;
 
-import javax.management.Query;
 import javax.persistence.*;
-
-import org.joda.time.DateTime;
 
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="City")
 public class City extends Model {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7427940699391709658L;
 
 	@Id
     @GeneratedValue
@@ -23,9 +25,6 @@ public class City extends Model {
 	
 	@Column
 	private String region;
-
-	@Column(name="country")
-	private String countryName;
 	
 	@ManyToOne
 	@MapsId
@@ -38,7 +37,7 @@ public class City extends Model {
 	@Column
 	private Double lon;
 	
-	public static Model.Finder<Long,City> find = new Model.Finder(
+	public static Model.Finder<Long,City> find = new Model.Finder<Long, City>(
             Long.class,City.class
     );
     
@@ -64,8 +63,8 @@ public class City extends Model {
     }
     
     public static List<City> findByName(String name){
-    	
-    	List<City> result = (List<City>) find.where()
+    	@SuppressWarnings("unchecked")
+		List<City> result = (List<City>) find.where()
     			.ilike("name", "%"+name+"%")
     			.findPagingList(25)
     			.getPage(1);
@@ -112,20 +111,6 @@ public class City extends Model {
 	 */
 	public void setRegion(String region) {
 		this.region = region;
-	}
-
-	/**
-	 * @return the countryName
-	 */
-	public String getCountryName() {
-		return countryName;
-	}
-
-	/**
-	 * @param countryName the countryName to set
-	 */
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
 	}
 
 	/**

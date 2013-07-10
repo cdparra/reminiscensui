@@ -11,6 +11,11 @@ import play.db.ebean.Model;
 @Entity
 @Table(name="Context")
 public class Context extends Model {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2568314759877540078L;
+
 	@Id
     @GeneratedValue
     @Column(name="context_id")
@@ -50,7 +55,7 @@ public class Context extends Model {
     public List<PublicMemento> publicMementoList;
 	
 	
-	public static Model.Finder<Long,LifeStory> find = new Model.Finder(
+	public static Model.Finder<Long,LifeStory> find = new Model.Finder<Long, LifeStory>(
             Long.class,LifeStory.class
     );
     

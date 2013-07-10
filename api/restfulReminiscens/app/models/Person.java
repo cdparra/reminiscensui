@@ -4,36 +4,45 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import play.db.ebean.*;
 import play.data.validation.Constraints.*;
-
+import play.db.ebean.*;
 import org.codehaus.jackson.annotate.*;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-
-
 
 @Entity
 @Table(name="Person")
 public class Person extends Model {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7045811975198960968L;
+
 	@Id
     @GeneratedValue
     @Column(name="person_id")
-    private Long personId;
-		
+    private Long personId;	
+
+	@Required
 	@Column
 	private String firstname;
 
+	@Required
 	@Column
 	private String lastname;
 	
-	@Column 
+	@Required
 	@Temporal(TemporalType.DATE)
+	@Column 
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime birthdate;
-	
-	@Column
-	private DateTime deathdate;
 
+	@Temporal(TemporalType.DATE)
+	@Column
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime deathdate;
+	
 	@Column
 	private String gender;
 
@@ -60,10 +69,10 @@ public class Person extends Model {
 //	      name="Participant",
 //	      joinColumns={@JoinColumn(name="person_id", referencedColumnName="person_id")},
 //	      inverseJoinColumns={@JoinColumn(name="life_event_id", referencedColumnName="life_event_id")})
-	@JsonIgnore
-	private List<LifeStory> lifeStories;
+//	@JsonIgnore
+//	private List<LifeStory> lifeStories;
 //		
-	public static Model.Finder<Long,Person> find = new Model.Finder(
+	public static Model.Finder<Long,Person> find = new Model.Finder<Long, Person>(
             Long.class,Person.class
     );
     
@@ -223,13 +232,13 @@ public class Person extends Model {
 		this.participationList = participationList;
 	}
 
-	public List<LifeStory> getLifeStories() {
-		return lifeStories;
-	}
-
-	public void setLifeStories(List<LifeStory> lifeStories) {
-		this.lifeStories = lifeStories;
-	}
-	
+//	public List<LifeStory> getLifeStories() {
+//		return lifeStories;
+//	}
+//
+//	public void setLifeStories(List<LifeStory> lifeStories) {
+//		this.lifeStories = lifeStories;
+//	}
+//	
 	
 }

@@ -4,14 +4,17 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.joda.time.DateTime;
-
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="Event")
 public class Event extends Model {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5320571988438886312L;
+
 	@Id
     @GeneratedValue
     @Column(name="event_id")
@@ -57,9 +60,7 @@ public class Event extends Model {
     @JoinColumn(name="fuzzy_enddate")
 	private FuzzyDate endDate;
 	
-	
-	
-	public static Model.Finder<Long,Event> find = new Model.Finder(
+	public static Model.Finder<Long,Event> find = new Model.Finder<Long, Event>(
             Long.class,Event.class
     );
     
@@ -83,5 +84,21 @@ public class Event extends Model {
     public static Event read(Long id){
         return find.byId(id);
     }
+
+	public List<FamousPerson> getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(List<FamousPerson> participants) {
+		this.participants = participants;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
 	
 }

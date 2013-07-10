@@ -3,14 +3,20 @@ package models;
 import java.util.*;
 
 import play.db.ebean.*;
-import play.data.validation.Constraints.*;
-
 import javax.persistence.*;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 @Entity
 @Table(name="User")
 public class User extends Model {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 822847283908287240L;
+
+	@Id
     @GeneratedValue
     @Column(name="user_id")
     public Long userId;
@@ -44,10 +50,15 @@ public class User extends Model {
     @Column
     private String cryptpass;
 
-    @Column
-    private String conf_type;
+    @Column(name="conf_type")
+    private String confType;
     
-    public static Model.Finder<Long,User> find = new Model.Finder(
+    @Temporal(TemporalType.DATE)
+	@Column(name="creation_date")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    private DateTime creationDate;
+    
+    public static Model.Finder<Long,User> find = new Model.Finder<Long, User>(
             Long.class,User.class
     );
     
@@ -215,15 +226,23 @@ public class User extends Model {
 	/**
 	 * @return the conf_type
 	 */
-	public String getConf_type() {
-		return conf_type;
+	public String getConfType() {
+		return confType;
 	}
 
 	/**
 	 * @param conf_type the conf_type to set
 	 */
-	public void setConf_type(String conf_type) {
-		this.conf_type = conf_type;
+	public void setConfType(String conf_type) {
+		this.confType = conf_type;
+	}
+
+	public DateTime getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(DateTime creationDate) {
+		this.creationDate = creationDate;
 	}
     
 }

@@ -4,25 +4,28 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.joda.time.DateTime;
-
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="Works")
 public class CreativeWork extends Model {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5888693895616346277L;
+
 	@Id
     @GeneratedValue
     @Column(name="work_id")
     private Long workId;
 	
 	/**
-	 * @TODO
+	 * TODO
 	 * Map other attributes
 	 */
 
-	public static Model.Finder<Long,CreativeWork> find = new Model.Finder(
+	public static Model.Finder<Long,CreativeWork> find = new Model.Finder<Long, CreativeWork>(
             Long.class,CreativeWork.class
     );
     

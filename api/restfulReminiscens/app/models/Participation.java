@@ -4,18 +4,17 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import play.data.validation.Constraints.*;
-
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.joda.time.DateTime;
-
-import com.avaje.ebean.ExpressionList;
-
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="Participant")
 public class Participation extends Model {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9000709644175989610L;
 
 	@Id
     @GeneratedValue
@@ -155,7 +154,7 @@ public class Participation extends Model {
 		this.lifeStory = lifeStory;
 	}
 
-	public static Model.Finder<Long,Participation> find = new Model.Finder(
+	public static Model.Finder<Long,Participation> find = new Finder<Long, Participation>(
             Long.class,Participation.class
     );
     
@@ -182,7 +181,6 @@ public class Participation extends Model {
 
 	public static List<Participation> participationByPersonProtagonist(
 			Long personId) {		
-		
 		List<Participation> participationList = find.where()
 				.eq("personId", personId).eq("isProtagonist", "1").findList();
 		return participationList;

@@ -1,3 +1,97 @@
-2013-07-10 10:47:38,690 - [INFO] - from play in main 
+2013-07-10 22:28:30,403 - [INFO] - from play in main 
 Listening for HTTP on /0:0:0:0:0:0:0:0%0:9000
+
+2013-07-10 22:28:36,442 - [DEBUG] - from com.jolbox.bonecp.BoneCPDataSource in New I/O  worker #1 
+JDBC URL = jdbc:mysql://localhost:3306/reminiscensdb?characterEncoding=UTF-8, Username = reminiscens, partitions = 1, max (per partition) = 30, min (per partition) = 5, helper threads = 0, idle max age = 10 min, idle test period = 1 min
+
+2013-07-10 22:28:36,972 - [INFO] - from play in New I/O  worker #1 
+database [default] connected at jdbc:mysql://localhost:3306/reminiscensdb?characterEncoding=UTF-8
+
+2013-07-10 22:28:38,441 - [INFO] - from play in New I/O  worker #1 
+Application started (Dev)
+
+2013-07-10 22:30:56,620 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-7 
+insert into Relationship (person_id_to, person_id_from, directed, to_is_curator, from_is_curator, role_person_to, role_person_from, network) values (3,3,false,false,true,'FATHER','SON','FAMILY')
+
+2013-07-10 22:30:56,837 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-7 
+select t0.relationship_id c0, t0.person_id_to c1, t0.person_id_from c2, t0.directed c3, t0.to_is_curator c4, t0.from_is_curator c5, t0.role_person_to c6, t0.role_person_from c7, t0.network c8, t0.person_id_to c9, t0.person_id_from c10 
+from Relationship t0
+where t0.relationship_id = 7  
+
+2013-07-10 22:30:57,061 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-7 
+select t0.person_id c0, t0.firstname c1, t0.lastname c2, t0.birthdate c3, t0.deathdate c4, t0.gender c5, t0.famous_id c6, t0.birthplace_id c7 
+from Person t0
+where t0.person_id = 3  
+
+2013-07-10 22:30:57,179 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-7 
+select t0.city_id c0, t0.city_name c1, t0.region c2, t0.lat c3, t0.lon c4, t0.country_id c5 
+from City t0
+where t0.city_id = 9092  
+
+2013-07-10 22:30:57,190 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-7 
+select t0.country_id c0, t0.short_name c1, t0.long_name c2, t0.iso2 c3, t0.iso3 c4, t0.numcode c5, t0.un_member c6, t0.calling_code c7, t0.cctld c8, t0.spanish_name c9, t0.italian_name c10 
+from Country t0
+where t0.country_id = 172  
+
+2013-07-10 22:32:52,768 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-13 
+update Relationship set person_id_to=3, person_id_from=6, directed=false, to_is_curator=false, from_is_curator=false, role_person_to='FATHER', role_person_from='SON', network='FAMILY' where relationship_id=7
+
+2013-07-10 22:32:52,799 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-13 
+select t0.relationship_id c0, t0.person_id_to c1, t0.person_id_from c2, t0.directed c3, t0.to_is_curator c4, t0.from_is_curator c5, t0.role_person_to c6, t0.role_person_from c7, t0.network c8, t0.person_id_to c9, t0.person_id_from c10 
+from Relationship t0
+where t0.relationship_id = 7  
+
+2013-07-10 22:32:52,823 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-13 
+select t0.person_id c0, t0.firstname c1, t0.lastname c2, t0.birthdate c3, t0.deathdate c4, t0.gender c5, t0.famous_id c6, t0.birthplace_id c7 
+from Person t0
+where t0.person_id = 6  
+
+2013-07-10 22:32:52,831 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-13 
+select t0.city_id c0, t0.city_name c1, t0.region c2, t0.lat c3, t0.lon c4, t0.country_id c5 
+from City t0
+where t0.city_id = 9092  
+
+2013-07-10 22:32:52,838 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-13 
+select t0.country_id c0, t0.short_name c1, t0.long_name c2, t0.iso2 c3, t0.iso3 c4, t0.numcode c5, t0.un_member c6, t0.calling_code c7, t0.cctld c8, t0.spanish_name c9, t0.italian_name c10 
+from Country t0
+where t0.country_id = 172  
+
+2013-07-10 22:32:52,843 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-13 
+select t0.person_id c0, t0.firstname c1, t0.lastname c2, t0.birthdate c3, t0.deathdate c4, t0.gender c5, t0.famous_id c6, t0.birthplace_id c7 
+from Person t0
+where t0.person_id = 3  
+
+2013-07-10 22:33:32,776 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-16 
+delete from Relationship where relationship_id=7
+
+2013-07-10 22:54:17,910 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-18 
+select t0.relationship_id c0, t0.person_id_to c1, t0.person_id_from c2, t0.directed c3, t0.to_is_curator c4, t0.from_is_curator c5, t0.role_person_to c6, t0.role_person_from c7, t0.network c8, t0.person_id_to c9, t0.person_id_from c10 
+from Relationship t0 
+where t0.person_id_from = 3  and t0.to_is_curator = true 
+
+2013-07-10 22:54:18,087 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-18 
+select t0.person_id c0, t0.firstname c1, t0.lastname c2, t0.birthdate c3, t0.deathdate c4, t0.gender c5, t0.famous_id c6, t0.birthplace_id c7 
+from Person t0
+where t0.person_id = 3  
+
+2013-07-10 22:54:18,110 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-18 
+select t0.city_id c0, t0.city_name c1, t0.region c2, t0.lat c3, t0.lon c4, t0.country_id c5 
+from City t0
+where t0.city_id = 9092  
+
+2013-07-10 22:54:18,115 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-18 
+select t0.country_id c0, t0.short_name c1, t0.long_name c2, t0.iso2 c3, t0.iso3 c4, t0.numcode c5, t0.un_member c6, t0.calling_code c7, t0.cctld c8, t0.spanish_name c9, t0.italian_name c10 
+from Country t0
+where t0.country_id = 172  
+
+2013-07-10 22:54:18,120 - [DEBUG] - from com.jolbox.bonecp.PreparedStatementHandle in play-akka.actor.default-dispatcher-18 
+select t0.person_id c0, t0.firstname c1, t0.lastname c2, t0.birthdate c3, t0.deathdate c4, t0.gender c5, t0.famous_id c6, t0.birthplace_id c7 
+from Person t0
+where t0.person_id = 6  
+
+2013-07-10 22:54:26,064 - [INFO] - from com.jolbox.bonecp.BoneCP in main 
+Shutting down connection pool...
+
+2013-07-10 22:54:26,071 - [INFO] - from com.jolbox.bonecp.BoneCP in main 
+Connection pool has been shutdown.
 

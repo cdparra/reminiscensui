@@ -3,8 +3,11 @@ package pojos;
 
 import java.io.Serializable;
 import utils.JodaDateTime;
+import play.data.validation.Constraints.*;
 
 import org.joda.time.DateTime;
+
+import com.avaje.ebean.validation.NotNull;
 
 public class PersonBean implements Serializable {
 
@@ -14,9 +17,15 @@ public class PersonBean implements Serializable {
 	private static final long serialVersionUID = -1821474864754424620L;
 	
 	private Long personId;	
-	private String firstname;
+	@Required 
+	@NotNull
+	private String firstname;	
+	@Required
+	@NotNull
 	private String lastname;
 
+	@Required
+	@NotNull
 	@JodaDateTime(format = "yyyy-MM-dd HH:mm:ss")
 	private DateTime birthdate;
 
@@ -24,6 +33,8 @@ public class PersonBean implements Serializable {
 	private DateTime deathdate;
 	
 	private String gender;
+	@Required 
+	@NotNull
 	private CityBean birthplace;
 	private Long famousId;
 	
@@ -56,7 +67,7 @@ public class PersonBean implements Serializable {
 	}
 	
 	public String getBirthdateAsString() {
-		return birthdate != null ? birthdate.toString("yyyy-mm-dd HH:mm:ss") : null;
+		return birthdate != null ? birthdate.toString("yyyy-MM-dd HH:mm:ss") : null;
 	}
 
 	public void setBirthdate(DateTime birthdate) {
@@ -68,7 +79,7 @@ public class PersonBean implements Serializable {
 	}
 
 	public String getDeathdateAsString() {
-		return deathdate != null ? deathdate.toString("yyyy-mm-dd HH:mm:ss") : null;
+		return deathdate != null ? deathdate.toString("yyyy-MM-dd HH:mm:ss") : null;
 	}
 	
 	public void setDeathdate(DateTime deathdate) {

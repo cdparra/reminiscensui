@@ -3,29 +3,28 @@ HOST: http://test.reminiscens.me/api/
 --- Reminiscens RESTful Explorelife API version 0.1 ---
 ---
 This RESTful API provides HTTP access to resources that support the Reminiscens' tablet app for stimulating elderly 
-and their families in sharing memories and motivate conversation by exploring content related to 
-these memories' place and period of time. The goal is to stimulate a healthy practice of positive reminiscence that will 
-benefit elders' subjective wellbeing. 
+and their families in sharing memories and motivate conversation by exploring content related to these memories' 
+place and period of time. The goal is to stimulate a healthy practice of positive reminiscence that will benefit 
+elders' subjective wellbeing. 
 
 <h3> About the Reminiscens Project</h3>
-Reminiscens is a social informatics project funded by the <a href="http://www.lifeparticipation.org/">Lifeparticipation 
-Research Group</a> at the <a href="http://www.disi.unitn.it/"> University of Trento </a>. It is the result of participatory 
-research action and design with local elders, with the goal of motivating face to face social interactions between older 
-adults and their younger relatives. Not only we have worked on designing an application, but we have worked to build 
-an interesting knowledge base of content that will stimulate people to reminisce. It is work in progress, towards the 
-finalization of a Ph.D. in Information and Communication Technologies 
-
+Reminiscens is a social informatics project funded by the <a href="http://www.lifeparticipation.org/"> 
+Lifeparticipation Research Group</a> at the <a href="http://www.disi.unitn.it/"> University of Trento </a>. It is 
+the result of participatory research action and design with local elders, with the goal of motivating face to face 
+social interactions between older adults and their younger relatives. Not only we have worked on designing an 
+application, but we have worked to build an interesting knowledge base of content that will stimulate people to 
+reminisce. It is work in progress, towards the finalization of a Ph.D. in Information and Communication Technologies 
 ---
 
 --
 User management 
-<p> The user management section of this API groups the endpoints related to craating and maintaing sessions and users. 
-These are the entry points to Reminiscens' services</p>
+<p> The user management section of this API groups the endpoints related to craating and maintaing sessions and 
+users. These are the entry points to Reminiscens' services</p>
 
-<p> The <a href="#session">Session</a> resource is where the experience begins. Applications create a session using either 
-an username/password pair or an authentication token provided by a third party service (e.g., facebook, google). After creating 
-the session, the created session instance must be included in all of the API calls. Is the only non-RESTful element of this API 
-(but implemented in the most RESTful way possible). Sessions are made of: </p>
+<p> The <a href="#session">Session</a> resource is where the experience begins. Applications create a session using 
+either an username/password pair or an authentication token provided by a third party service (e.g., facebook, 
+google). After creating the session, the created session instance must be included in all of the API calls. Is the 
+only non-RESTful element of this API (but implemented in the most RESTful way possible). Sessions are made of: </p>
  
  + **auth_token:** An authentication token identifying the session
  + **expiration:** Duration of the token in minutes                                       
@@ -33,17 +32,16 @@ the session, the created session instance must be included in all of the API cal
 <p><pre><code>
 <a id="session"><b>The Session Resource:</b></a>
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",  
-        "expiration" : 10080                                       
+        "auth_token" : "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"                                  
     }
 </pre></code></p>
 
-<p>Various authentication services can be used to create a session. A <a href="#service">Service</a> is specified on creating 
-a session and is identified by: </p>
+<p>Various authentication services can be used to create a session. A <a href="#service">Service</a> is specified on 
+creating a session and is identified by: </p>
 
  + **name:** The name of the authentication service provider (facebook, google, reminiscens)
- + **authString:** Authentication string provided by the service. For using our own authenticaiton service, name is reminiscens and authString 
- = email + "!_-_!" + bcrypt(password) 
+ + **authString:** Authentication string provided by the service. For using our own authenticaiton service, name is 
+reminiscens and authString  = email + "!_-_!" + bcrypt(password) 
 
 <p> For a javascript implementation of Bcrypt, checkout <a href="https://code.google.com/p/javascript-bcrypt/">JsBCrypt</a></p>
 
@@ -142,12 +140,11 @@ POST /session
         "status_message": "Session was created"
     },
     "Session": {
-        "auth_token": "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration": 10080
+        "auth_token": "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
     },
     "User": {
-        "userId": 999,
-        "personId": 999,
+        "userId": 6,
+        "personId": 5,
         "lang":"it_IT",
         "nickname": "ugo.fantozzi",
         "user_email": "ugo.fantozzi@gmail.com",
@@ -156,19 +153,33 @@ POST /session
         "profile_pic": "http://farm4.staticflickr.com/3085/2807451879_c132dd1bf8_o.jpg"
     },
     "Person": {
-        "personId": 999,
-        "userId": 999,
-        "fullname": "Ugo Fantozzi",
+        "personId": 5,
         "firstname": "Ugo",
         "lastname": "Fantozzi",
-        "birthdate": "07/07/1934",
-        "birthplace": "Genova, Italia",
-        "birthplace_lat": "44.4056499",
-        "birthplace_lon": "8.946256",
-        "home": "Trento, Italia",
-        "home_lat": "46.0696924",
-        "home_lon": "11.1210886",
-        "locale": "IT_it"
+        "birthdate": -1119920400000,
+        "deathdate": null,
+        "birthplace": {
+            "cityId": 2283,
+            "name": "Genova",
+            "region": "Liguria",
+            "country": {
+                "countryId": 109,
+                "short_name": "Italy",
+                "long_namev: "Italian Republic",
+                "iso2": "IT",
+                "iso3": "ITA",
+                "numcode": "380",
+                "un_member": "yes",
+                "calling_code": "39",
+                "cctld": ".jm",
+                "spanish_name": "Italia",
+                "italian_name": null
+            },
+            "lat": 44.40565,
+            "lon": 8.946256
+        }
+        "birthdateAsString": "1934-07-07 00:00:00",
+        "deathdateAsString": null
     },
     "Timeline": {
         "timelineId": 999,
@@ -688,8 +699,7 @@ POST /user
         "status_message": "User was created"
     },
     "Session": {
-        "auth_token": "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration": "10080"
+        "auth_token": "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
     }
 }
 +++++
@@ -730,8 +740,7 @@ PUT /user/{id}
 {"url":"/user/999"}
 {   
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
     }, 
     "User" : {
         "user_email":"ugo.fantozzi@gmail.com"
@@ -820,12 +829,11 @@ PUT /user/{id}
  the user (which means deleting all of his/her data too)
  
 DELETE /user/{id}
-> Content-Type: application/json
+> Content-Type: text/json
 {"url":"/user/999"}
 {   
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
     }
 }
 < 200
@@ -971,8 +979,7 @@ GET /person/{id}
 {"url":"/person/999"}
 { 
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
     }
 }
 < 200 
@@ -1031,8 +1038,7 @@ GET /person/{id}/timeline
 {"url":"/person/999/timeline"}
 { 
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
     }
 }
 < 200 
@@ -1180,8 +1186,7 @@ POST /person/{id}/timeline
 {"url":"/person/999/timeline"}
 { 
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
     } 
     "Timeline": {
         "timelineId": 999,
@@ -1412,8 +1417,7 @@ POST /lifestory
 > Content-Type: application/json
 {  
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
     },
     "LifeStory" :
     {
@@ -1488,8 +1492,7 @@ GET /lifestory/{id}
 {"url":"/lifestory/999"}
 {  
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
     }
 }
 < 200
@@ -1556,8 +1559,7 @@ PUT /lifestory/{id}
 > Content-Type: application/json
 {  
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
     }, 
     "LifeStory" : {
         "storyId": 999,
@@ -1699,8 +1701,7 @@ GET /person/{id}/context
 {"url":"/person/999/context"}
 {  
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
     }
 }
 < 200
@@ -1849,8 +1850,7 @@ GET /context/{id}
 {"url":"/context/999"}
 {  
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
     }
 }
 < 200
@@ -1999,8 +1999,7 @@ GET /context/{id}/memento/{id}
 {"url":"/context/999"}
 {  
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
     }
 }
 < 200
@@ -2060,8 +2059,7 @@ POST /context/{id}/memento
 {"url":"/context/999/memento"}
 {  
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
     },
     "Memento": {
         "contextMementoId": 999,
@@ -2105,8 +2103,7 @@ PUT /context/{id}/memento
 {"url":"/context/999/memento"}
 {  
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
     },
     "Memento": {
         "contextMementoId": 999,
@@ -2150,8 +2147,7 @@ DELETE /context/{id}/memento/{id}
 {"url":"/context/999/memento/999"}
 {  
     "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5",
-        "expiration" : 10080 
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
     }
 }
 < 200

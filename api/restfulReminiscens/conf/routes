@@ -20,23 +20,31 @@ PUT     /session/:sid                   controllers.UM.updateSession(sid: Long)
 DELETE  /session/:sid                   controllers.UM.deleteSession(sid: Long)
 
 # People, Life Stories and Timeline
-GET     /person                         controllers.PersonalReminiscence.getPersonAll()
-GET     /person/:id                     controllers.PersonalReminiscence.getPerson(id: Long)
-POST    /person                         controllers.PersonalReminiscence.createPerson()
-PUT     /person/:id                     controllers.PersonalReminiscence.updatePerson(id: Long)
-DELETE  /person/:id                     controllers.PersonalReminiscence.deletePerson(id: Long)
-GET     /person/:id/friends             controllers.PersonalReminiscence.getPersonFriends(id: Long)
-GET     /person/:id/timeline            controllers.PersonalReminiscence.getPersonTimeline(id: Long)
-POST    /person/:id/timeline            controllers.PersonalReminiscence.synchronizePersonTimeline(id: Long)
-GET     /person/:id/lifestory/:lsid     controllers.PersonalReminiscence.getLifeStory(id: Long, lsid: Long)
-POST    /person/:id/lifestory           controllers.PersonalReminiscence.createLifeStory(id: Long)
-PUT     /person/:id/lifestory/:lsid     controllers.PersonalReminiscence.updateLifeStory(id: Long, lsid: Long)
-DELETE  /person/:id/lifestory/:lsid     controllers.PersonalReminiscence.deleteLifeStory(id: Long, lsid: Long)
-GET     /person/:id/memento             controllers.PersonalReminiscence.getMementoAll(id: Long)
-GET     /person/:id/memento/:mid        controllers.PersonalReminiscence.getMemento(id: Long, mid: Long)
-POST    /person/:id/memento/:mid        controllers.PersonalReminiscence.createMemento(id: Long, mid: Long)
-PUT     /person/:id/memento/:mid        controllers.PersonalReminiscence.updateMemento(id: Long, mid: Long)
-DELETE  /person/:id/memento/:mid        controllers.PersonalReminiscence.deleteMemento(id: Long, mid: Long)
+GET     /person                         controllers.Person.getPersonAll()
+GET     /person/:id                     controllers.Person.getPerson(id: Long)
+POST    /person                         controllers.Person.createPerson()
+PUT     /person/:id                     controllers.Person.updatePerson(id: Long)
+DELETE  /person/:id                     controllers.Person.deletePerson(id: Long)
+
+GET     /person/:id/timeline            controllers.Timeline.getPersonTimeline(id: Long)
+POST    /person/:id/timeline            controllers.Timeline.synchronizePersonTimeline(id: Long)
+
+GET     /person/:id/lifestory/:lsid     controllers.LifeStory.getLifeStory(id: Long, lsid: Long)
+POST    /person/:id/lifestory           controllers.LifeStory.createLifeStory(id: Long)
+PUT     /person/:id/lifestory/:lsid     controllers.LifeStory.updateLifeStory(id: Long, lsid: Long)
+DELETE  /person/:id/lifestory/:lsid     controllers.LifeStory.deleteLifeStory(id: Long, lsid: Long)
+
+GET     /person/:id/memento             controllers.Memento.getMementoAll(id: Long)
+GET     /person/:id/memento/:mid        controllers.Memento.getMemento(id: Long, mid: Long)
+POST    /person/:id/memento/:mid        controllers.Memento.createMemento(id: Long, mid: Long)
+PUT     /person/:id/memento/:mid        controllers.Memento.updateMemento(id: Long, mid: Long)
+DELETE  /person/:id/memento/:mid        controllers.Memento.deleteMemento(id: Long, mid: Long)
+
+GET     /person/:id/relationships       controllers.Relationship.getPersonRelationships(id: Long)
+GET     /person/:id/curators            controllers.Relationship.getPersonCurators(id: Long)
+PUT     /relationship/:id               controllers.Relationship.updateRelationship(id: Long)
+POST    /relationship                   controllers.Relationship.addRelationship()
+DELETE  /relationship/:id               controllers.Relationship.deleteRelationship(id: Long)
 
 
 # Contextual Reminiscence
@@ -56,6 +64,6 @@ GET     /question/:byear/:fyear/:lang   controllers.Questions.getGeneralQuestion
 GET     /question/:chapter/:lang        controllers.Questions.getGeneralQuestionsForLifeChapter(chapter: String, lang: String)
 
 # General Public Mementos API (lifecontext proxy)
-GET     /memento/random/:lang           controllers.Memento.getRandomMemento(lang: String)
-GET     /memento/:mid                   controllers.Memento.getMemento(mid: Long)
-GET     /memento/:decade/:place         controllers.Memento.getMementoList(decade: Long, place: String, lat ?= null, lon ?= null, rad ?= null, lang: String ?= "it_IT")
+GET     /memento/random/:lang           controllers.PublicMemento.getRandomMemento(lang: String)
+GET     /memento/:mid                   controllers.PublicMemento.getMemento(mid: Long)
+GET     /memento/:decade/:place         controllers.PublicMemento.getMementoList(decade: Long, place: String, lat ?= null, lon ?= null, rad ?= null, lang: String ?= "it_IT")

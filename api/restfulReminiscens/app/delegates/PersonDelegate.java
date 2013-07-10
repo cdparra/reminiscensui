@@ -32,22 +32,21 @@ public class PersonDelegate {
         }
     }
 
-    /**
-     * TODO
-     * @param personBean
-     */
     public void create(PersonBean personBean){
         models.Person person = PlayDozerMapper.getInstance().map(personBean, models.Person.class);
         models.Person.create(person);
+        person = models.Person.read(person.getPersonId());
+        PlayDozerMapper.getInstance().map(person,personBean);
     }
 
-    public void update(PersonBean bean, Long id){
-        models.Person course = PlayDozerMapper.getInstance().map(bean, models.Person.class);
-        course.update(id);
+    public void update(PersonBean bean, Long id) {
+        models.Person person = PlayDozerMapper.getInstance().map(bean, models.Person.class);
+        person.update(id);
+        person = models.Person.read(person.getPersonId());
+        PlayDozerMapper.getInstance().map(person,bean);
     }
 
     public void deletePerson(Long id) {
         models.Person.delete(id);
     }
-    
 }

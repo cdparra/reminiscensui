@@ -14,13 +14,20 @@ public class ResponseStatusBean implements Serializable {
 
 
     private ResponseStatus responseStatus;
-    
 	private String statusMessage;
+	private String errorTrace;
 
 	public ResponseStatusBean(ResponseStatus responseStatus,
 			String statusMessage) {
 		this.responseStatus = responseStatus;
 		this.statusMessage = statusMessage;
+	}
+	
+	public ResponseStatusBean(ResponseStatus responseStatus,
+			String statusMessage, String errorTrace) {
+		this.responseStatus = responseStatus;
+		this.statusMessage = statusMessage;
+		this.errorTrace = errorTrace;
 	}
 
 	/**
@@ -43,6 +50,14 @@ public class ResponseStatusBean implements Serializable {
 
 	public void setResponseStatus(ResponseStatus responseStatus) {
 		this.responseStatus = responseStatus;
+	}
+
+	public String getErrorTrace() {
+		return errorTrace;
+	}
+
+	public void setErrorTrace(String errorTrace) {
+		this.errorTrace = errorTrace;
 	}
 	
 	

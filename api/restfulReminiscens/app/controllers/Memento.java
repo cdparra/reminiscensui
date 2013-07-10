@@ -1,12 +1,38 @@
 package controllers;
 
-import play.*;
 import play.mvc.*;
 
-import views.html.*;
 
 public class Memento extends Controller {
 
+	
+	public static Result getMementoAll(Long id) {
+		/** @TODO */
+		return TODO;
+	}
+
+	public static Result getMemento(Long id, Long mid) {
+		/** @TODO */
+		return TODO;
+	}
+
+	public static Result createMemento(Long id, Long mid) {
+		/** @TODO */
+		return TODO;
+	}
+
+	public static Result updateMemento(Long id, Long mid) {
+		/** @TODO */
+		return TODO;
+	}
+
+	public static Result deleteMemento(Long id, Long mid) {
+		/** @TODO */
+		return TODO;
+	}
+	
+	
+	//*** makes sense in personal space??? ***//
 	public static Result getRandomMemento(String lang) {
     	/** @TODO */
 		return TODO;

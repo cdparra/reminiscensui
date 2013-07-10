@@ -4,12 +4,15 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.joda.time.DateTime;
-
 import play.db.ebean.Model;
 
 @Entity
 public class Timeline extends Model {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3160277988972750900L;
+
 	@Id
     @GeneratedValue
     private Long timelineId;
@@ -20,7 +23,7 @@ public class Timeline extends Model {
 
 	private List<User> curators;
 	
-	public static Model.Finder<Long,Timeline> find = new Model.Finder(
+	public static Model.Finder<Long,Timeline> find = new Model.Finder<Long, Timeline>(
             Long.class,Timeline.class
     );
 	

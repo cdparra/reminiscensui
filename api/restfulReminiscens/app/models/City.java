@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import play.db.ebean.Model;
+import utils.LocationUtilities;
 
 @Entity
 @Table(name="City")
@@ -70,6 +71,14 @@ public class City extends Model {
     			.getPage(1);
     	return result;
     }
+    
+    public static Double getDistance(Long city1, Long city2) {
+    	City c1 = models.City.read(city1);
+    	City c2 = models.City.read(city2);
+    	
+    	return LocationUtilities.distFrom(c1.getLat(), c1.getLon(), c2.getLat(), c2.getLon());
+    }
+    
 
 	/**
 	 * @return the cityId

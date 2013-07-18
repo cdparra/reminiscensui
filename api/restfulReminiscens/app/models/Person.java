@@ -10,6 +10,9 @@ import org.codehaus.jackson.annotate.*;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.ExpressionList;
+
 @Entity
 @Table(name="Person")
 public class Person extends Model {
@@ -32,7 +35,6 @@ public class Person extends Model {
 	@Column
 	private String lastname;
 	
-	@Required
 	@Temporal(TemporalType.DATE)
 	@Column 
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -51,10 +53,10 @@ public class Person extends Model {
     @JoinColumn(name="birthplace_id")
 	private City birthplace;
 	
-//	@OneToOne
-//	@MapsId
-//    @JoinColumn(name="famous_id")
-//	private FamousPerson famous;
+	@OneToOne
+	@MapsId
+    @JoinColumn(name="famous_id")
+	private FamousPerson famous;
 	
 	@Column(name="famous_id")
 	private Long famousId;
@@ -96,6 +98,14 @@ public class Person extends Model {
     public static Person read(Long id){
         return find.byId(id);
     }
+    
+
+    public static Person searchByFullname(String fullname){
+    	ExpressionList<Person> el = find.where();
+    	el.raw("CONCAT(firstname,' ',lastname) = ?",fullname);
+        return el.findUnique();
+    }
+    
     
 	/**
 	 * @return the personId
@@ -230,15 +240,5 @@ public class Person extends Model {
 
 	public void setParticipationList(List<Participation> participationList) {
 		this.participationList = participationList;
-	}
-
-//	public List<LifeStory> getLifeStories() {
-//		return lifeStories;
-//	}
-//
-//	public void setLifeStories(List<LifeStory> lifeStories) {
-//		this.lifeStories = lifeStories;
-//	}
-//	
-	
+	}	
 }

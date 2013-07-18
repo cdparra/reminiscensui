@@ -2,26 +2,23 @@ package pojos;
 
 import java.io.Serializable;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class ParticipationBean implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4590549776323471789L;
-
-    private Long participationId;
-
+ 
+	private Long participationId;
     private Long personId;
-	
 	private Long lifeStoryId;
-	
 	private boolean isProtagonist;
-
-//	private UserBean contributor;
-//	
-//	private PersonBean person;	
-//	
-//	private LifeStoryBean lifeStory;	
+	private UserBean contributor;
+	private PersonBean person;	
+	@JsonIgnore		
+	private LifeStoryBean lifeStory;	
 	
 
 	/**
@@ -78,5 +75,29 @@ public class ParticipationBean implements Serializable {
 	 */
 	public void setProtagonist(boolean isProtagonist) {
 		this.isProtagonist = isProtagonist;
+	}
+
+	public UserBean getContributor() {
+		return contributor;
+	}
+
+	public void setContributor(UserBean contributor) {
+		this.contributor = contributor;
+	}
+
+	public PersonBean getPerson() {
+		return person;
+	}
+
+	public void setPerson(PersonBean person) {
+		this.person = person;
+	}
+
+	public LifeStoryBean getLifeStory() {
+		return lifeStory;
+	}
+
+	public void setLifeStory(LifeStoryBean lifeStory) {
+		this.lifeStory = lifeStory;
 	}
 }

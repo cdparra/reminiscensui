@@ -67,10 +67,9 @@ public class FuzzyDateBean implements Serializable {
 	public DateTime getExactDate() {
 		return exactDate;
 	}
-
 	
 	public String getExactDateAsString () {
-		return exactDate == null ? null : exactDate.toString("yyyy-mm-dd HH:mm:ss");
+		return exactDate == null ? null : exactDate.toString("yyyy-MM-dd HH:mm:ss");
 	}
 	
 	/**

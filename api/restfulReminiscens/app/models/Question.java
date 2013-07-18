@@ -4,14 +4,17 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.joda.time.DateTime;
-
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="Question")
 public class Question extends Model {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 469433174903841938L;
+	
 	@Id
     @GeneratedValue
     @Column(name="question_id")
@@ -201,7 +204,7 @@ public class Question extends Model {
 		this.translations = translations;
 	}
 
-	public static Model.Finder<Long,Question> find = new Model.Finder(
+	public static Model.Finder<Long,Question> find = new Model.Finder<Long, Question>(
             Long.class,Question.class
     );
     
@@ -225,5 +228,11 @@ public class Question extends Model {
     public static Question read(Long id){
         return find.byId(id);
     }
+
+	public static List<Question> readByChapter(String chap) {
+		List<Question> questionList = find.where()
+				.eq("chapter", chap).findList();
+		return questionList;
+	}
 	
 }

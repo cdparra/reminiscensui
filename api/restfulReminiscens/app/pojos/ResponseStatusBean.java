@@ -30,6 +30,10 @@ public class ResponseStatusBean implements Serializable {
 		this.errorTrace = errorTrace;
 	}
 
+	public ResponseStatusBean() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @return the status_message
 	 */

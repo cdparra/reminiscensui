@@ -4,6 +4,7 @@ import java.util.List;
 
 import play.mvc.*;
 import play.data.*;
+import pojos.MentionPersonBean;
 import pojos.PersonBean;
 import pojos.RelationshipBean;
 import pojos.ResponseStatusBean;
@@ -14,9 +15,14 @@ import enums.ResponseStatus;
 
 public class Person extends Controller {
 
-	static Form<PersonBean> personForm = Form.form(PersonBean.class);;
+	static Form<PersonBean> personForm = Form.form(PersonBean.class);
 	static Form<RelationshipBean> relationshipForm = Form.form(RelationshipBean.class);
+	static Form<MentionPersonBean> mentionPersonForm = Form.form(MentionPersonBean.class);
 
+	/** 
+	 * Get a complete list of people mentioned in reminiscens
+	 * @return
+	 */
 	public static Result getPersonAll() {
 		List<PersonBean> lp = PersonDelegate.getInstance().getAll();
 		return lp != null ? ok(toJson(lp)) : notFound();
@@ -73,6 +79,20 @@ public class Person extends Controller {
 					ResponseStatus.NODATA, "Entity does not exist",
 					e.getMessage());
 			return badRequest(toJson(res));
+		}
+	}
+
+	public static Result createMentionPerson() {
+		Form<MentionPersonBean> filledForm = mentionPersonForm.bindFromRequest();
+		if (filledForm.hasErrors()) {
+			ResponseStatusBean res = new ResponseStatusBean(
+					ResponseStatus.BADREQUEST,
+					"Body of request misses some information or it is malformed");
+			return badRequest(toJson(res));
+		} else {
+			MentionPersonBean mentionPersonBean = filledForm.get();
+			PersonDelegate.getInstance().createPersonMention(mentionPersonBean);
+			return ok(toJson(mentionPersonBean ));
 		}
 	}
 }

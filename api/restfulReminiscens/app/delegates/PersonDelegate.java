@@ -3,6 +3,9 @@ package delegates;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.MentionPerson;
+
+import pojos.MentionPersonBean;
 import pojos.PersonBean;
 import utils.PlayDozerMapper;
 
@@ -49,4 +52,12 @@ public class PersonDelegate {
     public void deletePerson(Long id) {
         models.Person.delete(id);
     }
+
+    public void createPersonMention(MentionPersonBean mentionPersonBean) {
+    	 models.MentionPerson mentionPerson = PlayDozerMapper.getInstance().map(mentionPersonBean, models.MentionPerson.class);
+         models.MentionPerson.create(mentionPerson);
+         mentionPerson = models.MentionPerson.read(mentionPerson.getMentionPersonId());
+         PlayDozerMapper.getInstance().map(mentionPerson,mentionPersonBean);
+    }
+
 }

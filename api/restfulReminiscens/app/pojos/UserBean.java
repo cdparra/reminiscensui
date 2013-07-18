@@ -3,7 +3,15 @@ package pojos;
 
 import java.io.Serializable;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.joda.time.DateTime;
+
+import play.data.validation.Constraints.Required;
+
+import com.avaje.ebean.validation.NotNull;
+
+import enums.UserType;
+
 import utils.JodaDateTime;
 
 public class UserBean implements Serializable {
@@ -13,18 +21,25 @@ public class UserBean implements Serializable {
 	private static final long serialVersionUID = -6810094935966434080L;
 
 	public Long userId;
+	
+	@Required 
+	@NotNull
 	public Long personId;
     private PersonBean person;
     private String nickname;
-    private String email;
-    private String lang;
-    private Boolean email_verified;
-    private Boolean nickname_verified;
-    private String profile_pic;
-    private String cryptpass;
-    private String conf_type;
     
-    @JodaDateTime(format="yyyy-mm-dd HH:mm:ss")
+    @Required 
+	@NotNull
+    private String email;
+    private String lang = "it_IT";
+    private Boolean email_verified = Boolean.FALSE;
+    private Boolean nickname_verified = Boolean.FALSE;
+    private String profile_pic;
+    @JsonIgnore
+    private String cryptpass;
+    private UserType conf_type =  UserType.TEST;
+    
+    @JodaDateTime(format="yyyy-MM-dd HH:mm:ss")
     private DateTime creationDate;
 
 	/**
@@ -170,14 +185,14 @@ public class UserBean implements Serializable {
 	/**
 	 * @return the conf_type
 	 */
-	public String getConfType() {
+	public UserType getConfType() {
 		return conf_type;
 	}
 
 	/**
 	 * @param conf_type the conf_type to set
 	 */
-	public void setConfType(String conf_type) {
+	public void setConfType(UserType conf_type) {
 		this.conf_type = conf_type;
 	}
 
@@ -186,7 +201,7 @@ public class UserBean implements Serializable {
 	}
 
 	public String getCreationDateAsString() {
-		return creationDate == null ? null : creationDate.toString("yyyy-mm-dd HH:mm:ss");
+		return creationDate == null ? null : creationDate.toString("yyyy-MM-dd HH:mm:ss");
 	}
 
 	public void setCreationDate(DateTime creation_date) {

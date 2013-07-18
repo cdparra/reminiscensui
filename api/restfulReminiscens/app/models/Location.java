@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.joda.time.DateTime;
-
 import play.db.ebean.Model;
 
 @Entity
@@ -13,6 +11,11 @@ import play.db.ebean.Model;
 public class Location extends Model {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 775165124786881924L;
+
 	@Id
     @GeneratedValue
     @Column(name="location_id")
@@ -76,7 +79,7 @@ public class Location extends Model {
 	private Long radius;
 	
 
-	public static Model.Finder<Long,Location> find = new Model.Finder(
+	public static Model.Finder<Long,Location> find = new Model.Finder<Long, Location>(
             Long.class,Location.class
     );
     

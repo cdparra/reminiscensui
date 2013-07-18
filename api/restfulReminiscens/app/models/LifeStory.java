@@ -16,6 +16,11 @@ import play.db.ebean.Model;
 @Table(name="Life_Event")
 public class LifeStory extends Model {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4442579968783942558L;
+
 	@Id
     @GeneratedValue
     @Column(name="life_event_id")
@@ -41,7 +46,7 @@ public class LifeStory extends Model {
 	private Long contributorId;
 
 	@Column
-	private DateTime creation_date;
+	private DateTime creationDate;
 	
 	@Column
 	private String locale;
@@ -72,10 +77,11 @@ public class LifeStory extends Model {
 	@JsonIgnore
 	@OneToMany(mappedBy="lifeStory")
 	private List<Participation> participationList;
-	
-	private List<Person> participants;
 
-	public static Model.Finder<Long,LifeStory> find = new Model.Finder(
+	@Transient
+	private boolean synced;
+
+	public static Model.Finder<Long,LifeStory> find = new Model.Finder<Long, LifeStory>(
             Long.class,LifeStory.class
     );
     
@@ -108,6 +114,20 @@ public class LifeStory extends Model {
     		LifeStory ls = participation.getLifeStory();
 			lifeStories.add(ls);
 		}
+    	return lifeStories;
+    }
+    
+    public static List<LifeStory> readByPersonWithLimits(Long personId, Long from, Long to){
+    	List<Participation> participationList = Participation.participationByPersonProtagonist(personId);
+    	List<LifeStory> lifeStories = new ArrayList<LifeStory> ();
+    	for (int i = from.intValue(); i < participationList.size(); i++) {
+    		Participation participation = participationList.get(i);
+    		LifeStory ls = participation.getLifeStory();
+			lifeStories.add(ls);
+    		if (i>=to.intValue()) {
+				break;
+    		} 
+    	}
     	return lifeStories;
     }
     
@@ -223,15 +243,15 @@ public class LifeStory extends Model {
 	/**
 	 * @return the creation_date
 	 */
-	public DateTime getCreation_date() {
-		return creation_date;
+	public DateTime getCreationDate() {
+		return creationDate;
 	}
 
 	/**
 	 * @param creation_date the creation_date to set
 	 */
-	public void setCreation_date(DateTime creation_date) {
-		this.creation_date = creation_date;
+	public void setCreationDate(DateTime creation_date) {
+		this.creationDate = creation_date;
 	}
 
 	/**
@@ -302,5 +322,13 @@ public class LifeStory extends Model {
 	 */
 	public void setEndDate(FuzzyDate endDate) {
 		this.endDate = endDate;
+	}
+
+	public boolean isSynchronized() {
+		return this.synced;
+	}
+	
+	public void setSynced(boolean synced) {
+		this.synced=synced;
 	}
 }

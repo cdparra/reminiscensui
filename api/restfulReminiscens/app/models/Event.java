@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -19,14 +22,6 @@ public class Event extends Model {
     @GeneratedValue
     @Column(name="event_id")
     private Long eventId;
-	
-	/**
-	 * @TODO
-	 * Map other attributes
-	 */
-
-
-	private List<FamousPerson> participants;
 
 	@Column
 	private String headline;
@@ -34,16 +29,22 @@ public class Event extends Model {
 	@Column
 	private String text;
 
-	@Column
+	@Column(name = "event_type")
 	private String type;
 
-	private String category="story";
+	@Column
+	private String source;
+
+	@Column(name = "source_url")
+	private String sourceUrl;
+
+	@Temporal(TemporalType.DATE)
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@Column(name = "last_update")
+	private DateTime lastUpdate;
 
 	@Column
-	private String credit;
-
-	@Column
-	private String credit_url;
+	private String locale;
 
 	@ManyToOne
 	@MapsId
@@ -59,6 +60,12 @@ public class Event extends Model {
 	@MapsId
     @JoinColumn(name="fuzzy_enddate")
 	private FuzzyDate endDate;
+
+	@Column
+	private String tags;
+
+	@Column
+	private boolean indexed;	
 	
 	public static Model.Finder<Long,Event> find = new Model.Finder<Long, Event>(
             Long.class,Event.class
@@ -85,20 +92,107 @@ public class Event extends Model {
         return find.byId(id);
     }
 
-	public List<FamousPerson> getParticipants() {
-		return participants;
+	public Long getEventId() {
+		return eventId;
 	}
 
-	public void setParticipants(List<FamousPerson> participants) {
-		this.participants = participants;
+	public void setEventId(Long eventId) {
+		this.eventId = eventId;
 	}
 
-	public String getCategory() {
-		return category;
+	public String getHeadline() {
+		return headline;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
+	public void setHeadline(String headline) {
+		this.headline = headline;
 	}
-	
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public String getSourceUrl() {
+		return sourceUrl;
+	}
+
+	public void setSourceUrl(String sourceUrl) {
+		this.sourceUrl = sourceUrl;
+	}
+
+	public DateTime getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(DateTime lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public String getLocale() {
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
+	public FuzzyDate getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(FuzzyDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public FuzzyDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(FuzzyDate endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public boolean isIndexed() {
+		return indexed;
+	}
+
+	public void setIndexed(boolean indexed) {
+		this.indexed = indexed;
+	}
 }

@@ -36,20 +36,21 @@ only non-RESTful element of this API (but implemented in the most RESTful way po
     }
 </pre></code></p>
 
-<p>Various authentication services can be used to create a session. A <a href="#service">Service</a> is specified on 
-creating a session and is identified by: </p>
+<p>Various authentication services can be used for login. The <a href="#login">Login</a> login resource contains by: 
+</p>
 
- + **name:** The name of the authentication service provider (facebook, google, reminiscens)
- + **authString:** Authentication string provided by the service. For using our own authenticaiton service, name is 
-reminiscens and authString  = email + "!_-_!" + bcrypt(password) 
+ + **provider:** the name of the authentication service provider (facebook, google, reminiscens)
+ + **user:** user email or nickname for login
+ + **authstring:** authentication string provided by the service. For reminiscens, authString = bcrypt(password) 
 
 <p> For a javascript implementation of Bcrypt, checkout <a href="https://code.google.com/p/javascript-bcrypt/">JsBCrypt</a></p>
 
 <p><pre><code>
-<a id="service"><b>The Service Resource:</b></a>
-    "Service":{
-        "name": "reminiscens", 
-        "authString": "ugo.fantozzi@gmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"          
+<a id="login"><b>The Login Resource:</b></a>
+    "Login":{
+        "provider" : "reminiscens", 
+        "user" : "ugo.fantozzi@gmail.com",
+        "authstring" : "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"          
     }
 </pre></code></p>
 
@@ -91,7 +92,7 @@ to no more than 10 stories and 50 mementos
 
 <p>Request: </p>
 
- + <b> Mandatory. </b> The authentication <a href="#service">Service</a> resource.
+ + <b> Mandatory. </b> The authentication <a href="#login">Service</a> resource.
 
 <p>Response:</p>
 

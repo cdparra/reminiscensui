@@ -1,7 +1,17 @@
-@(message: String)
 
-@main("Welcome to Play 2.1") {
+@import com.feth.play.module.pa.views.html._
+
+@main("Play! Authenticate simple OAuth sample") {
+
+@currentAuth() { auth =>
+    @if(auth != null) {
+        <a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout">Logout</a>
+        <br/><br/>
+    }
+}
+
+Login/Signup: 
+@_providerPartial(skipCurrent=false)
     
-    @play20.welcome(message, style = "Java")
-    
+    <br/><br/>
 }

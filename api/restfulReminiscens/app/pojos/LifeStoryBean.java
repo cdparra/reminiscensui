@@ -1,8 +1,11 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.joda.time.DateTime;
+
+import utils.JodaDateTime;
 
 
 public class LifeStoryBean implements Serializable {
@@ -19,15 +22,18 @@ public class LifeStoryBean implements Serializable {
 	private String type;
 	private Integer visibility;
 	private Long contributorId;
-	private DateTime creation_date;
+	@JodaDateTime(format = "yyyy-MM-dd HH:mm:ss")
+	private DateTime creationDate;
 	private String locale;
 	private LocationBean location;
 	private QuestionBean question;
 	private FuzzyDateBean startDate;
 	private FuzzyDateBean endDate;
-
-//	private List<MementoBean> mementoList;
-//	private List<ParticipationBean> participationList;
+	private boolean synced = true;
+	private List<ParticipationBean> participationList;
+	private List<MementoBean> mementoList;
+	
+//	
 //	private List<PersonBean> participants;
 	
 	/**
@@ -131,17 +137,22 @@ public class LifeStoryBean implements Serializable {
 	/**
 	 * @return the creation_date
 	 */
-	public DateTime getCreation_date() {
-		return creation_date;
+	public DateTime getCreationDate() {
+		return creationDate;
 	}
 
 	/**
 	 * @param creation_date the creation_date to set
 	 */
-	public void setCreation_date(DateTime creation_date) {
-		this.creation_date = creation_date;
+	public void setCreationDate(DateTime creation_date) {
+		this.creationDate = creation_date;
 	}
 
+	public String getCreationDateAsString () {
+		return creationDate == null ? null : creationDate.toString("yyyy-MM-dd HH:mm:ss");
+	}
+	
+	
 	/**
 	 * @return the locale
 	 */
@@ -199,5 +210,29 @@ public class LifeStoryBean implements Serializable {
 
 	public void setQuestion(QuestionBean question) {
 		this.question = question;
+	}
+
+	public boolean isSynced() {
+		return synced;
+	}
+
+	public void setSynced(boolean synced) {
+		this.synced = synced;
+	}
+
+	public List<ParticipationBean> getParticipationList() {
+		return participationList;
+	}
+
+	public void setParticipationList(List<ParticipationBean> participationList) {
+		this.participationList = participationList;
+	}
+
+	public List<MementoBean> getMementoList() {
+		return mementoList;
+	}
+
+	public void setMementoList(List<MementoBean> mementoList) {
+		this.mementoList = mementoList;
 	}
 }

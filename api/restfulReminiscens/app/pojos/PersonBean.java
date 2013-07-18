@@ -24,8 +24,6 @@ public class PersonBean implements Serializable {
 	@NotNull
 	private String lastname;
 
-	@Required
-	@NotNull
 	@JodaDateTime(format = "yyyy-MM-dd HH:mm:ss")
 	private DateTime birthdate;
 
@@ -33,9 +31,8 @@ public class PersonBean implements Serializable {
 	private DateTime deathdate;
 	
 	private String gender;
-	@Required 
-	@NotNull
 	private CityBean birthplace;
+	private FamousPersonBean famous;
 	private Long famousId;
 	
 	public Long getPersonId() {
@@ -110,47 +107,11 @@ public class PersonBean implements Serializable {
 		this.famousId = famousId;
 	}
 
-//	public List<ParticipationBean> getParticipationList() {
-//		return participationList;
-//	}
-	
-//	@OneToOne
-//	@MapsId
-//    @JoinColumn(name="deathdate_fuzzy_id")
-//	private FuzzyDate fuzzy_deathdate;
-//	
-//	@ManyToOne
-//	@MapsId
-//    @JoinColumn(name="birthplace_id")
-//	private City birthplace;
-//
-//	@ManyToOne
-//	@MapsId
-//    @JoinColumn(name="nationality_country_id")
-//	private Country nation;
-	
-//	private String gender;
-	
-//	@OneToOne
-//	@MapsId
-//    @JoinColumn(name="famous_id")
-//	private FamousPerson famous;
-	
-//	private Long famousId;
+	public FamousPersonBean getFamous() {
+		return famous;
+	}
 
-//	@JsonIgnore
-//	@OneToMany(mappedBy="person")
-//	private List<Participation> participationList;
-	
-	
-//	@ManyToMany
-//	  @JoinTable(
-//	      name="Participant",
-//	      joinColumns={@JoinColumn(name="person_id", referencedColumnName="person_id")},
-//	      inverseJoinColumns={@JoinColumn(name="life_event_id", referencedColumnName="life_event_id")})
-//	@JsonIgnore
-//	private List<LifeStory> lifeStories;
-//		
-
-		
+	public void setFamous(FamousPersonBean famous) {
+		this.famous = famous;
+	}		
 }

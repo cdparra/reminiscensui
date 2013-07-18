@@ -5,13 +5,16 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.joda.time.DateTime;
-
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="Question_Trans")
 public class QuestionTranslation extends Model {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5429566886392202046L;
 
 	@Id
     @GeneratedValue
@@ -38,11 +41,10 @@ public class QuestionTranslation extends Model {
 	@Column
 	private String locale;
 
-
 	@Column
 	private Boolean fixed;
 	
-	public static Model.Finder<Long,QuestionTranslation> find = new Model.Finder(
+	public static Model.Finder<Long,QuestionTranslation> find = new Model.Finder<Long, QuestionTranslation>(
             Long.class,QuestionTranslation.class
     );
     

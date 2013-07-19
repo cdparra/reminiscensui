@@ -35,4 +35,11 @@ public class Timeline extends Controller {
 			return ok(toJson(timelineBean));
 		}
 	}
+	
+	/*
+	 * TODO
+	 * 1. Verify Timeline Synchronize
+	 * 2. Implement a synchronize methods that exchange only IDs of stories 
+	 * 	  and stories that haven't been synced yet
+	 */
 }

@@ -8,6 +8,7 @@ import javax.persistence.*;
 import play.data.validation.Constraints.*;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import play.db.ebean.Model;
@@ -45,7 +46,9 @@ public class LifeStory extends Model {
 	@Column(name="contributor_id")
 	private Long contributorId;
 
-	@Column
+	@Temporal(TemporalType.DATE)
+	@Column 
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime creationDate;
 	
 	@Column
@@ -63,19 +66,19 @@ public class LifeStory extends Model {
 	
 	@ManyToOne
 	@MapsId
-    @JoinColumn(name="fuzzy_startdate")
+    @JoinColumn(name="fuzzy_startdate", updatable=true, insertable = true)
 	private FuzzyDate startDate;
 
 	@ManyToOne
 	@MapsId
-    @JoinColumn(name="fuzzy_enddate")
+    @JoinColumn(name="fuzzy_enddate", updatable=true, insertable = true)
 	private FuzzyDate endDate;
 
-	@OneToMany(mappedBy="lifeStory")
+	@OneToMany(mappedBy="lifeStory", cascade=CascadeType.ALL)
 	private List<Memento> mementoList;
 
 	@JsonIgnore
-	@OneToMany(mappedBy="lifeStory")
+	@OneToMany(mappedBy="lifeStory",cascade=CascadeType.ALL)
 	private List<Participation> participationList;
 
 	@Transient
@@ -90,7 +93,33 @@ public class LifeStory extends Model {
     }
     
     public static void create(LifeStory lifestory){
+
+    	// 1. Data to save before creating the new life story
+    	FuzzyDate start = lifestory.getStartDate();
+    	FuzzyDate end = lifestory.getEndDate();
+    	Location place = lifestory.getLocation();
+
+    	lifestory.setStartDate(FuzzyDate.createIfNotExist(start));
+    	lifestory.setEndDate(FuzzyDate.createIfNotExist(end));
+    	lifestory.setLocation(Location.createIfNotExist(place));
+
+    	// 2. Save the new life story
+    	lifestory.setSynced(true);
+    	lifestory.setCreationDate(DateTime.now());
         lifestory.save();
+    	
+    	// 3. things to save after creating the life story
+    	List<Participation> participants = lifestory.getParticipationList();
+    	for (Participation participation : participants) {
+			Participation.create(participation);
+		}
+    	
+    	List<Memento> mementoList = lifestory.getMementoList();        
+        for (Memento memento : mementoList) {
+        	Memento.create(memento);
+		}
+        
+
     }
     
     public static LifeStory createObject(LifeStory lifestory){
@@ -330,5 +359,17 @@ public class LifeStory extends Model {
 	
 	public void setSynced(boolean synced) {
 		this.synced=synced;
+	}
+
+	public List<Participation> getParticipationList() {
+		return participationList;
+	}
+
+	public void setParticipationList(List<Participation> participationList) {
+		this.participationList = participationList;
+	}
+
+	public boolean isSynced() {
+		return synced;
 	}
 }

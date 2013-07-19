@@ -7,8 +7,6 @@ import javax.persistence.*;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import play.db.ebean.Model;
-import scala.Array;
-
 @Entity
 @Table(name = "Participant_Memento")
 public class MementoParticipation extends Model {

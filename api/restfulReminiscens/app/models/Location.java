@@ -91,6 +91,19 @@ public class Location extends Model {
         person.save();
     }
     
+    public static Location createIfNotExist(Location location) {
+		Long id = location.getLocationId();
+		Location existing = null;
+		if (id != null) {
+			existing = read(id);
+			if (existing != null) {
+				return existing;
+			}
+		} 
+		location.save();
+		return location;
+	}
+    
     public static Location createObject(Location person){
         person.save();
         return person;

@@ -12,10 +12,11 @@ public class ParticipationBean implements Serializable {
 	private static final long serialVersionUID = -4590549776323471789L;
  
 	private Long participationId;
-    private Long personId;
-	private Long lifeStoryId;
+//    private Long personId;
+//	private Long lifeStoryId;
 	private boolean isProtagonist;
-	private UserBean contributor;
+	private Long contributorId;
+	@JsonIgnore		
 	private PersonBean person;	
 	@JsonIgnore		
 	private LifeStoryBean lifeStory;	
@@ -39,28 +40,30 @@ public class ParticipationBean implements Serializable {
 	 * @return the personId
 	 */
 	public Long getPersonId() {
-		return personId;
+		return person.getPersonId();
 	}
 
 	/**
 	 * @param personId the personId to set
 	 */
 	public void setPersonId(Long personId) {
-		this.personId = personId;
+		this.person = new PersonBean();
+		this.person.setPersonId(personId);
 	}
 
 	/**
 	 * @return the lifeEventId
 	 */
 	public Long getLifeStoryId() {
-		return lifeStoryId;
+		return lifeStory.getLifeStoryId();
 	}
 
 	/**
 	 * @param lifeEventId the lifeEventId to set
 	 */
 	public void setLifeStoryId(Long lifeEventId) {
-		this.lifeStoryId = lifeEventId;
+		this.lifeStory = new LifeStoryBean();
+		this.lifeStory.setLifeStoryId(lifeEventId);
 	}
 
 	/**
@@ -77,12 +80,12 @@ public class ParticipationBean implements Serializable {
 		this.isProtagonist = isProtagonist;
 	}
 
-	public UserBean getContributor() {
-		return contributor;
+	public Long getContributorId() {
+		return contributorId;
 	}
 
-	public void setContributor(UserBean contributor) {
-		this.contributor = contributor;
+	public void setContributorId(Long contributor) {
+		this.contributorId = contributor;
 	}
 
 	public PersonBean getPerson() {

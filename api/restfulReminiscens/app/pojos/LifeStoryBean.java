@@ -21,7 +21,7 @@ public class LifeStoryBean implements Serializable {
 	private String richtext;
 	private String type;
 	private Integer visibility;
-	private Long contributorId;
+	private Long contributor;
 	@JodaDateTime(format = "yyyy-MM-dd HH:mm:ss")
 	private DateTime creationDate;
 	private String locale;
@@ -124,14 +124,14 @@ public class LifeStoryBean implements Serializable {
 	 * @return the contributorId
 	 */
 	public Long getContributorId() {
-		return contributorId;
+		return contributor;
 	}
 
 	/**
 	 * @param contributorId the contributorId to set
 	 */
 	public void setContributorId(Long contributorId) {
-		this.contributorId = contributorId;
+		this.contributor = contributorId;
 	}
 
 	/**

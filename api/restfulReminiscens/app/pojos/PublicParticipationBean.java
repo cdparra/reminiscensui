@@ -35,10 +35,10 @@ public class PublicParticipationBean  implements Serializable {
 	public void setFamousPerson(FamousPersonBean famousPerson) {
 		this.famousPerson = famousPerson;
 	}
-	private PublicMementoBean getPublicMemento() {
+	public PublicMementoBean getPublicMemento() {
 		return publicMemento;
 	}
-	private void setPublicMemento(PublicMementoBean publicMemento) {
+	public void setPublicMemento(PublicMementoBean publicMemento) {
 		this.publicMemento = publicMemento;
 	}
 }

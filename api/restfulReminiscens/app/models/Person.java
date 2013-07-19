@@ -10,7 +10,6 @@ import org.codehaus.jackson.annotate.*;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 
 @Entity

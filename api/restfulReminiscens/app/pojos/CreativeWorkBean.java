@@ -5,8 +5,6 @@ import java.io.Serializable;
 
 import org.joda.time.DateTime;
 
-import enums.MementoCategory;
-
 import utils.JodaDateTime;
 
 public class CreativeWorkBean  implements Serializable {

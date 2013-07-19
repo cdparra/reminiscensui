@@ -7,7 +7,6 @@ import org.joda.time.DateTime;
 
 import utils.JodaDateTime;
 
-import enums.MementoCategory;
 
 public class EventBean  implements Serializable {
 

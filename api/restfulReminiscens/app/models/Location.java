@@ -64,9 +64,6 @@ public class Location extends Model {
 	private Integer coordinates_trust;
 
 	@Column
-	private Long location_type_id;
-
-	@Column
 	private Double lat;
 	
 	@Column
@@ -327,20 +324,7 @@ public class Location extends Model {
 		this.coordinates_trust = coordinates_trust;
 	}
 
-	/**
-	 * @return the location_type_id
-	 */
-	public Long getLocation_type_id() {
-		return location_type_id;
-	}
-
-	/**
-	 * @param location_type_id the location_type_id to set
-	 */
-	public void setLocation_type_id(Long location_type_id) {
-		this.location_type_id = location_type_id;
-	}
-
+	
 	/**
 	 * @return the lat
 	 */

@@ -55,6 +55,11 @@ public class PublicMemento extends Model {
 	@JoinColumn(name="media_id")
 	private static Media media;
 
+	@OneToOne
+	@MapsId
+	@JoinColumn(name="famous_id")
+	private static FamousPerson famous;
+
 	@Column
 	private Integer coordinatesTrust;
 	

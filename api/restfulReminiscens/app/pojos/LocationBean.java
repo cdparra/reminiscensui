@@ -24,7 +24,6 @@ public class LocationBean implements Serializable {
 	private String street_number;
 	private String map_url;
 	private Integer coordinates_trust;
-	private Long location_type_id;
 	private Double lat;
 	private Double lon;
 	private String locale;
@@ -120,12 +119,6 @@ public class LocationBean implements Serializable {
 	}
 	public void setCoordinates_trust(Integer coordinates_trust) {
 		this.coordinates_trust = coordinates_trust;
-	}
-	public Long getLocation_type_id() {
-		return location_type_id;
-	}
-	public void setLocation_type_id(Long location_type_id) {
-		this.location_type_id = location_type_id;
 	}
 	public Double getLat() {
 		return lat;

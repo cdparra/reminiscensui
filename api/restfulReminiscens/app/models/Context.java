@@ -59,9 +59,6 @@ public class Context extends Model {
 	@OneToMany(mappedBy="context")
 	private List<ContextContent> publicContextContent;
 
-	@JsonIgnore
-	@OneToMany(mappedBy="context")
-	private List<ContextFamous> publicContextFamous;
 	
 	public static Model.Finder<Long,Context> find = new Model.Finder<Long, Context>(
             Long.class,Context.class
@@ -170,13 +167,5 @@ public class Context extends Model {
 
 	public void setPublicContextContent(List<ContextContent> publicContextContent) {
 		this.publicContextContent = publicContextContent;
-	}
-
-	public List<ContextFamous> getPublicContextFamous() {
-		return publicContextFamous;
-	}
-
-	public void setPublicContextFamous(List<ContextFamous> publicContextFamous) {
-		this.publicContextFamous = publicContextFamous;
 	}
 }

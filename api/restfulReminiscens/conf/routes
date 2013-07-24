@@ -9,7 +9,7 @@
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 # User and Authentication Management Management
-GET     /user                           controllers.User.getUsers()
+#GET     /user                           controllers.User.getUsers()
 GET     /user/:uid                      controllers.User.getUser(uid: Long)
 POST    /user                           controllers.User.createUser()
 PUT     /user/:uid                      controllers.User.updateUser(uid: Long)

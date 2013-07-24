@@ -93,6 +93,4 @@ public class LinkedAccount extends Model {
 	public void setProviderKey(String providerKey) {
 		this.providerKey = providerKey;
 	}
-	
-	
 }

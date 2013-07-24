@@ -49,4 +49,8 @@ public class UserDelegate {
     public void deleteUser(Long id) {
         models.User.delete(id);
     }
+
+	public void deleteUserForce(Long uid) {
+        models.User.deleteForce(uid);
+	}
 }

@@ -118,9 +118,8 @@ public class Memento extends Model {
 					}	
 				} else {
 					MentionPerson mp = models.MentionPerson
-							.fullSearchByAttributes(
-									mentionPerson.getFullname(),
-									mentionPerson.getRelationship());
+							.searchByFullname(
+									mentionPerson.getFullname());
 					
 					if (mp == null) {
 						models.MentionPerson.create(mentionPerson);

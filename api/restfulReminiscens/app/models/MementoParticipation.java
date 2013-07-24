@@ -10,20 +10,9 @@ import play.db.ebean.Model;
 @Entity
 @Table(name = "Participant_Memento")
 public class MementoParticipation extends Model {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -9000709644175989610L;
 
-	// @PrimaryKeyJoinColumn(name="EMPLOYEEID", referencedColumnName="ID")
-	/*
-	 * if this JPA model doesn't create a table for the "PROJ_EMP" entity,
-	 * please comment out the @PrimaryKeyJoinColumn, and use the ff:
-	 * 
-	 * @JoinColumn(name = "employeeId", updatable = false, insertable = false)
-	 * or
-	 */
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "mention_person_id", updatable = true, insertable = true)
@@ -99,22 +88,6 @@ public class MementoParticipation extends Model {
 	public static Boolean mementoParticipationExist(Long mentionPersonId, Long mementoId) {
 		return read(mentionPersonId, mementoId)==null ? false : true;
 	}
-	
-//	public Long getMentionPersonId() {
-//		return mentionPersonId;
-//	}
-//
-//	public void setMentionPersonId(Long mentionPersonId) {
-//		this.mentionPersonId = mentionPersonId;
-//	}
-//
-//	public Long getMementoId() {
-//		return mementoId;
-//	}
-//
-//	public void setMementoId(Long mementoId) {
-//		this.mementoId = mementoId;
-//	}
 
 	public MentionPerson getMentionPerson() {
 		return mentionPerson;

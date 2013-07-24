@@ -33,9 +33,6 @@ public class MentionPerson extends Model{
     @Column
     private String fullname;
  
-    @Column
-    private String relationship;
-    
     @ManyToOne
     @JoinColumn(name="person_id")
     private Person person;
@@ -87,17 +84,8 @@ public class MentionPerson extends Model{
     	}
     }
     
-    public static MentionPerson fullSearchByAttributes(String fullname, String relationship) {
-    	
-    	ExpressionList<MentionPerson> el = find.where();
-    	
-    	if (fullname != null && fullname != "") {
-    		el = el.eq("fullname", fullname);
-    	}
-    
-    	if (relationship != null && relationship != "") {
-    		el = el.eq("relationship", relationship);
-    	}
+    public static MentionPerson searchByFullname(String fullname) {    	
+    	ExpressionList<MentionPerson> el = find.where().eq("fullname", fullname);
     	MentionPerson result = el.findUnique();	
     	return result;
     }
@@ -118,15 +106,7 @@ public class MentionPerson extends Model{
 	public void setFullname(String fullname) {
 		this.fullname = fullname;
 	}
-
-	public String getRelationship() {
-		return relationship;
-	}
-
-	public void setRelationship(String relationship) {
-		this.relationship = relationship;
-	}
-
+	
 	public Person getPerson() {
 		return person;
 	}

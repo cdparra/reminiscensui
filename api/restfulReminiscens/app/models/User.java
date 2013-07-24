@@ -40,9 +40,6 @@ public class User extends Model implements Subject {
     @Column(name="user_id")
     public Long userId;
  
-    @Column(name="person_id")
-    public Long personId;
-
     @OneToOne
     @MapsId
     @JoinColumn(name="person_id")
@@ -83,10 +80,10 @@ public class User extends Model implements Subject {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<LinkedAccount> linkedAccounts;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<SecurityRole> roles;
     
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<UserPermission> permissions;
 	
     public static Model.Finder<Long,User> find = new Model.Finder<Long, User>(
@@ -106,8 +103,11 @@ public class User extends Model implements Subject {
         return user;
     }
     
+    // Lazy delete, just making an user inactive
     public static void delete(Long id){
-        find.ref(id).delete();
+    	User u = find.ref(id);
+    	u.setActive(false);
+    	u.update();
     }
     
     public static User read(Long id){
@@ -118,9 +118,9 @@ public class User extends Model implements Subject {
 		return find.where().eq("email", email).findUnique();
 	}
 
-    /* AUTHENTICATION AND AUTHORIZATION */
-    
-    
+
+	
+	/* AUTHENTICATION AND AUTHORIZATION */
 	public static boolean existsByAuthUserIdentity(
 			final AuthUserIdentity identity) {
 		final ExpressionList<User> exp = getAuthUserFind(identity);
@@ -179,9 +179,8 @@ public class User extends Model implements Subject {
 			
 		}
 
-		
 		Person person = new Person();
-
+		
 		if (authUser instanceof NameIdentity) {
 			final NameIdentity identity = (NameIdentity) authUser;
 			final String name = identity.getName();
@@ -338,19 +337,6 @@ public class User extends Model implements Subject {
 	 */
 	public void setUserId(Long userId) {
 		this.userId = userId;
-	}
-
-	/**
-	 * @return the personId
-	 */
-	public Long getPersonId() {
-		return personId;
-	}
-	/**
-	 * @param personId the personId to set
-	 */
-	public void setPersonId(Long personId) {
-		this.personId = personId;
 	}
 
 	/**
@@ -512,6 +498,24 @@ public class User extends Model implements Subject {
 		this.linkedAccounts = linkedAccounts;
 	}
 
+	// Auxiliary SETTERS and GETTERS
+	
+	/**
+	 * @return the personId
+	 */
+	public Long getPersonId() {
+		return this.person.getPersonId();
+	}
+	/**
+	 * @param personId the personId to set
+	 */
+	public void setPersonId(Long personId) {
+		if (this.person == null) {
+			this.person = new Person();
+		}
+		this.person.setPersonId(personId);
+	}
+	
 	@Override
 	public List<? extends Role> getRoles() {
 		return roles;
@@ -530,5 +534,7 @@ public class User extends Model implements Subject {
 		return this.permissions;
 	}
 
-    
+	public static void deleteForce(Long uid) {
+		find.ref(uid).delete();		
+	}    
 }

@@ -11,7 +11,6 @@ public class MentionPersonBean  implements Serializable {
 
 	private Long mentionPersonId;
     private String fullname;
-    private String relationship;
     private PersonBean person;
     
 	public Long getMentionPersonId() {
@@ -25,12 +24,6 @@ public class MentionPersonBean  implements Serializable {
 	}
 	public void setFullname(String fullname) {
 		this.fullname = fullname;
-	}
-	public String getRelationship() {
-		return relationship;
-	}
-	public void setRelationship(String relationship) {
-		this.relationship = relationship;
 	}
 	public PersonBean getPerson() {
 		return person;

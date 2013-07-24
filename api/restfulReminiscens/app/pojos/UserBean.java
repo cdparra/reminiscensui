@@ -38,6 +38,8 @@ public class UserBean implements Serializable {
     @JsonIgnore
     private String cryptpass;
     private UserType conf_type =  UserType.TEST;
+   
+	private boolean active;
     
     @JodaDateTime(format="yyyy-MM-dd HH:mm:ss")
     private DateTime creationDate;
@@ -206,6 +208,14 @@ public class UserBean implements Serializable {
 
 	public void setCreationDate(DateTime creation_date) {
 		this.creationDate = creation_date;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
     
 }

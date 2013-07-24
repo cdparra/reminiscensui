@@ -76,4 +76,19 @@ public class User extends Controller {
    }
 
 
+   public static Result deleteUserForce(Long uid) {
+		try {
+			UserDelegate.getInstance().deleteUserForce(uid);
+			ResponseStatusBean res = new ResponseStatusBean(ResponseStatus.OK,
+					"Entity deleted with success");
+			return ok(toJson(res));
+		} catch (Exception e) {
+			ResponseStatusBean res = new ResponseStatusBean(
+					ResponseStatus.NODATA, "Entity does not exist",
+					e.getMessage());
+			return badRequest(toJson(res));
+		}
+   }
+
+   
 }

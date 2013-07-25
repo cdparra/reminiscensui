@@ -43,7 +43,7 @@ function salvaStoria(){
 			/*CentroCaricamento();
 			$('#overlayCaricamento').fadeIn('fast');
     		$('#caricamento').fadeIn('slow');*/}
-		//alert(storage.get('url'));
+		alert(storage.get('url'));
 		tmp = storage.get('url').split("//");
 		Imm.src = tmp[0] + "//i." + tmp[1] + ".jpg";
 		vettImm.push(Imm);

@@ -25,5 +25,5 @@ ui/marzemino/android/First/bin
 *.ipa
 *.apk
 *.classpath
-
+api/restfulReminiscens/logs/application.log
 

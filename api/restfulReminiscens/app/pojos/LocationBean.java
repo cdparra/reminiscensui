@@ -144,6 +144,4 @@ public class LocationBean implements Serializable {
 	public void setRadius(Long radius) {
 		this.radius = radius;
 	}
-	
-	
 }

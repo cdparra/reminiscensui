@@ -56,9 +56,6 @@ public class Person extends Model {
 	@MapsId
     @JoinColumn(name="famous_id")
 	private FamousPerson famous;
-	
-	@Column(name="famous_id")
-	private Long famousId;
 
 	@JsonIgnore
 	@OneToMany(mappedBy="person")
@@ -208,30 +205,17 @@ public class Person extends Model {
 	/**
 	 * @return the famous
 	 */
-//	public FamousPerson getFamous() {
-//		return famous;
-//	}
+	public FamousPerson getFamous() {
+		return famous;
+	}
 
 	/**
 	 * @param famous the famous to set
 	 */
-//	public void setFamous(FamousPerson famous) {
-//		this.famous = famous;
-//	}
-
-	/**
-	 * @return the famousId
-	 */
-	public Long getFamousId() {
-		return famousId;
+	public void setFamous(FamousPerson famous) {
+		this.famous = famous;
 	}
 
-	/**
-	 * @param isfamous the isfamous to set
-	 */
-	public void setFamousId(Long famousId) {
-		this.famousId = famousId;
-	}
 
 	public List<Participation> getParticipationList() {
 		return participationList;

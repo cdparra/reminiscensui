@@ -1,6 +1,5 @@
 package pojos;
 
-
 import java.io.Serializable;
 
 public class CityBean  implements Serializable {
@@ -12,11 +11,13 @@ public class CityBean  implements Serializable {
 
 	private Long cityId;
 	private String name; 
-	private String region;
 	private CountryBean country;
 	private Double lat;
 	private Double lon;
-	
+
+//	Fields in database not exposed through this API
+//	private String region;
+
 	
 	public Long getCityId() {
 		return cityId;
@@ -32,14 +33,6 @@ public class CityBean  implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getRegion() {
-		return region;
-	}
-
-	public void setRegion(String region) {
-		this.region = region;
 	}
 
 	public CountryBean getCountry() {
@@ -66,5 +59,11 @@ public class CityBean  implements Serializable {
 		this.lon = lon;
 	}
 	
-	
+//	public String getRegion() {
+//		return region;
+//	}
+//
+//	public void setRegion(String region) {
+//		this.region = region;
+//	}	
 }

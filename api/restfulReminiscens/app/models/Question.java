@@ -20,8 +20,8 @@ public class Question extends Model {
     @Column(name="question_id")
     private Long questionId;
 	
-	@Column
-	private String question_text;
+	@Column(name="question_text")
+	private String question;
 	
 	@Column
 	private String category;
@@ -67,15 +67,15 @@ public class Question extends Model {
 	/**
 	 * @return the question_text
 	 */
-	public String getQuestion_text() {
-		return question_text;
+	public String getQuestion() {
+		return question;
 	}
 
 	/**
 	 * @param question_text the question_text to set
 	 */
-	public void setQuestion_text(String question_text) {
-		this.question_text = question_text;
+	public void setQuestion(String question_text) {
+		this.question = question_text;
 	}
 
 	/**
@@ -231,8 +231,10 @@ public class Question extends Model {
 
 	public static List<Question> readByChapter(String chap) {
 		List<Question> questionList = find.where()
-				.eq("chapter", chap).findList();
+				.eq("chapter", chap)
+				.orderBy("rand()")
+				.setMaxRows(3)
+				.findList();
 		return questionList;
 	}
-	
 }

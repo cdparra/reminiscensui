@@ -19,21 +19,21 @@ public class LifeStoryBean implements Serializable {
 	private String headline;
 	private String text;
 	private String richtext;
-	private String type;
-	private Integer visibility;
 	private Long contributor;
 	@JodaDateTime(format = "yyyy-MM-dd HH:mm:ss")
-	private DateTime creationDate;
-	private String locale;
+	private DateTime creationDate = DateTime.now();
+	private String locale = "it_IT";
 	private LocationBean location;
 	private QuestionBean question;
 	private FuzzyDateBean startDate;
-	private FuzzyDateBean endDate;
 	private boolean synced = true;
 	private List<ParticipationBean> participationList;
 	private List<MementoBean> mementoList;
 	
-//	
+//	Fields in Database not exposed through API 
+//	private String type;
+//	private Integer visibility;
+//	private FuzzyDateBean endDate;
 //	private List<PersonBean> participants;
 	
 	/**
@@ -92,33 +92,33 @@ public class LifeStoryBean implements Serializable {
 		this.richtext = richtext;
 	}
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	/**
-	 * @return the visibility
-	 */
-	public Integer getVisibility() {
-		return visibility;
-	}
-
-	/**
-	 * @param visibility the visibility to set
-	 */
-	public void setVisibility(Integer visibility) {
-		this.visibility = visibility;
-	}
+//	/**
+//	 * @return the type
+//	 */
+//	public String getType() {
+//		return type;
+//	}
+//
+//	/**
+//	 * @param type the type to set
+//	 */
+//	public void setType(String type) {
+//		this.type = type;
+//	}
+//
+//	/**
+//	 * @return the visibility
+//	 */
+//	public Integer getVisibility() {
+//		return visibility;
+//	}
+//
+//	/**
+//	 * @param visibility the visibility to set
+//	 */
+//	public void setVisibility(Integer visibility) {
+//		this.visibility = visibility;
+//	}
 
 	/**
 	 * @return the contributorId
@@ -181,20 +181,20 @@ public class LifeStoryBean implements Serializable {
 	public void setStartDate(FuzzyDateBean startDate) {
 		this.startDate = startDate;
 	}
-
-	/**
-	 * @return the endDate
-	 */
-	public FuzzyDateBean getEndDate() {
-		return endDate;
-	}
-
-	/**
-	 * @param endDate the endDate to set
-	 */
-	public void setEndDate(FuzzyDateBean endDate) {
-		this.endDate = endDate;
-	}
+//
+//	/**
+//	 * @return the endDate
+//	 */
+//	public FuzzyDateBean getEndDate() {
+//		return endDate;
+//	}
+//
+//	/**
+//	 * @param endDate the endDate to set
+//	 */
+//	public void setEndDate(FuzzyDateBean endDate) {
+//		this.endDate = endDate;
+//	}
 
 	public LocationBean getLocation() {
 		return location;

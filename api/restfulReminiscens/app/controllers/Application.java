@@ -1,17 +1,24 @@
 package controllers;
 
+import static play.libs.Json.toJson;
+
+import java.util.List;
+
 import models.User;
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Http.Session;
 import play.mvc.Result;
+import pojos.CityBean;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import views.html.index;
 
 import com.feth.play.module.pa.PlayAuthenticate;
+
+import delegates.ApplicationDelegate;
 
 public class Application extends Controller {
 	
@@ -75,6 +82,28 @@ public class Application extends Controller {
 
 	// Util calls
 	
+	public static Result getCities() {
+		List<CityBean> bean = ApplicationDelegate.getInstance().getCities();
+		return bean != null ? ok(toJson(bean)) : notFound();
+	}
 	
+	public static Result getCitiesByCountryId(Long countryId) {
+		List<CityBean> bean = ApplicationDelegate.getInstance().getCitiesByCountryId(countryId);
+		return bean != null ? ok(toJson(bean)) : notFound();
+	}
+	
+	public static Result getCitiesByCountryName(String countryName) {
+		List<CityBean> bean = ApplicationDelegate.getInstance().getCitiesByCountryName(countryName);
+		return bean != null ? ok(toJson(bean)) : notFound();
+	}
+	
+	public static Result getNewCities (Long lastCityId) {
+		List<CityBean> bean = ApplicationDelegate.getInstance().getNewCities(lastCityId);
+		return bean != null ? ok(toJson(bean)) : notFound();
+	}
 
+	public static Result getCityByName (String cityName) {
+		List<CityBean> bean = ApplicationDelegate.getInstance().getCityByName(cityName);
+		return bean != null ? ok(toJson(bean)) : notFound();		
+	}
 }

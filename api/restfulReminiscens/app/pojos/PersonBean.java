@@ -33,7 +33,6 @@ public class PersonBean implements Serializable {
 	private String gender;
 	private CityBean birthplace;
 	private FamousPersonBean famous;
-	private Long famousId;
 	
 	public Long getPersonId() {
 		return personId;
@@ -100,11 +99,14 @@ public class PersonBean implements Serializable {
 	}
 
 	public Long getFamousId() {
-		return famousId;
+		return famous==null ? null : famous.getFamousId();
 	}
 
 	public void setFamousId(Long famousId) {
-		this.famousId = famousId;
+		if (famous == null) {
+			famous = new FamousPersonBean();
+		}
+		this.famous.setFamousId(famousId);
 	}
 
 	public FamousPersonBean getFamous() {

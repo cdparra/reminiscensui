@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import enums.LocationAccuracy;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -25,7 +27,7 @@ public class Location extends Model {
 	private String location_textual;
 	
 	@Column 
-	private Integer accuracy;
+	private LocationAccuracy accuracy;
 	
 	@Column
 	private String name;
@@ -45,8 +47,8 @@ public class Location extends Model {
 	@Column
 	private String region;
 
-	@Column
-	private String city;
+	@Column(name="city")
+	private String cityName;
 
 	@Column
 	private String neighborhood;
@@ -75,6 +77,10 @@ public class Location extends Model {
 	@Column
 	private Long radius;
 	
+	@OneToOne
+	@MapsId
+    @JoinColumn(name="city_id")
+	private City city;
 
 	public static Model.Finder<Long,Location> find = new Model.Finder<Long, Location>(
             Long.class,Location.class
@@ -145,14 +151,14 @@ public class Location extends Model {
 	/**
 	 * @return the accuracy
 	 */
-	public Integer getAccuracy() {
+	public LocationAccuracy getAccuracy() {
 		return accuracy;
 	}
 
 	/**
 	 * @param accuracy the accuracy to set
 	 */
-	public void setAccuracy(Integer accuracy) {
+	public void setAccuracy(LocationAccuracy  accuracy) {
 		this.accuracy = accuracy;
 	}
 
@@ -241,17 +247,21 @@ public class Location extends Model {
 	}
 
 	/**
-	 * @return the city
+	 * @return the cityName
 	 */
-	public String getCity() {
-		return city;
+	public String getCityName() {
+		if (getCity() == null) {
+			return cityName;
+		} else {
+			return getCity().getName();
+		}
 	}
 
 	/**
 	 * @param city the city to set
 	 */
-	public void setCity(String city) {
-		this.city = city;
+	public void setCityName(String city) {
+		this.cityName = city;
 	}
 
 	/**
@@ -379,6 +389,14 @@ public class Location extends Model {
 	 */
 	public void setRadius(Long radius) {
 		this.radius = radius;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
 	}
 
 	

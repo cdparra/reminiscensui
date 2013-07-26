@@ -3,8 +3,6 @@ package delegates;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.MentionPerson;
-
 import pojos.MentionPersonBean;
 import pojos.PersonBean;
 import utils.PlayDozerMapper;

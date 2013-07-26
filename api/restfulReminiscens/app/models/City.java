@@ -63,6 +63,18 @@ public class City extends Model {
         return find.byId(id);
     }
     
+    public static List<City> readByCountry(Long countryId){
+        return find.where().eq("country.countryId", countryId).findList();
+    }
+
+    public static List<City> readByCountryName(String countryName){
+        return find.where().eq("country.short_name", countryName).findList();
+    }
+    
+    public static List<City> readNewById(Long lastCityId){
+        return find.where().gt("cityId", lastCityId).findList();
+    }
+    
     public static List<City> findByName(String name){
     	@SuppressWarnings("unchecked")
 		List<City> result = (List<City>) find.where()

@@ -2,6 +2,8 @@ package pojos;
 
 import java.io.Serializable;
 
+import enums.LocationAccuracy;
+
 public class LocationBean implements Serializable {
 
     /**
@@ -11,24 +13,30 @@ public class LocationBean implements Serializable {
 	
 	private Long locationId;
 	private String location_textual; 
-	private Integer accuracy;
+	
 	private String name;
-	private String description;
-	private String environment;
-	private String continent;
 	private String country;
 	private String region;
-	private String city;
-	private String neighborhood;
-	private String street;
-	private String street_number;
-	private String map_url;
+	private String cityName;
+	
 	private Integer coordinates_trust;
 	private Double lat;
 	private Double lon;
-	private String locale;
-	private Long radius;
 	
+	private String locale;
+
+	private CityBean city;
+	
+	private LocationAccuracy accuracy;
+//	private String description;
+//	private String environment;
+//	private String continent;
+//	private String neighborhood;
+//	private String street;
+//	private String street_number;
+//	private String map_url;
+//	private Long radius;
+
 	
 	public Long getLocationId() {
 		return locationId;
@@ -42,36 +50,36 @@ public class LocationBean implements Serializable {
 	public void setLocation_textual(String location_textual) {
 		this.location_textual = location_textual;
 	}
-	public Integer getAccuracy() {
-		return accuracy;
-	}
-	public void setAccuracy(Integer accuracy) {
-		this.accuracy = accuracy;
-	}
+//	public Integer getAccuracy() {
+//		return accuracy;
+//	}
+//	public void setAccuracy(Integer accuracy) {
+//		this.accuracy = accuracy;
+//	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getEnvironment() {
-		return environment;
-	}
-	public void setEnvironment(String environment) {
-		this.environment = environment;
-	}
-	public String getContinent() {
-		return continent;
-	}
-	public void setContinent(String continent) {
-		this.continent = continent;
-	}
+//	public String getDescription() {
+//		return description;
+//	}
+//	public void setDescription(String description) {
+//		this.description = description;
+//	}
+//	public String getEnvironment() {
+//		return environment;
+//	}
+//	public void setEnvironment(String environment) {
+//		this.environment = environment;
+//	}
+//	public String getContinent() {
+//		return continent;
+//	}
+//	public void setContinent(String continent) {
+//		this.continent = continent;
+//	}
 	public String getCountry() {
 		return country;
 	}
@@ -84,36 +92,40 @@ public class LocationBean implements Serializable {
 	public void setRegion(String region) {
 		this.region = region;
 	}
-	public String getCity() {
-		return city;
+	public String getCityName() {
+		if (getCity() == null) {
+			return cityName;
+		} else {
+			return getCity().getName();
+		}
 	}
-	public void setCity(String city) {
-		this.city = city;
+	public void setCityName(String city) {
+		this.cityName = city;
 	}
-	public String getNeighborhood() {
-		return neighborhood;
-	}
-	public void setNeighborhood(String neighborhood) {
-		this.neighborhood = neighborhood;
-	}
-	public String getStreet() {
-		return street;
-	}
-	public void setStreet(String street) {
-		this.street = street;
-	}
-	public String getStreet_number() {
-		return street_number;
-	}
-	public void setStreet_number(String street_number) {
-		this.street_number = street_number;
-	}
-	public String getMap_url() {
-		return map_url;
-	}
-	public void setMap_url(String map_url) {
-		this.map_url = map_url;
-	}
+//	public String getNeighborhood() {
+//		return neighborhood;
+//	}
+//	public void setNeighborhood(String neighborhood) {
+//		this.neighborhood = neighborhood;
+//	}
+//	public String getStreet() {
+//		return street;
+//	}
+//	public void setStreet(String street) {
+//		this.street = street;
+//	}
+//	public String getStreet_number() {
+//		return street_number;
+//	}
+//	public void setStreet_number(String street_number) {
+//		this.street_number = street_number;
+//	}
+//	public String getMap_url() {
+//		return map_url;
+//	}
+//	public void setMap_url(String map_url) {
+//		this.map_url = map_url;
+//	}
 	public Integer getCoordinates_trust() {
 		return coordinates_trust;
 	}
@@ -138,12 +150,22 @@ public class LocationBean implements Serializable {
 	public void setLocale(String locale) {
 		this.locale = locale;
 	}
-	public Long getRadius() {
-		return radius;
+//	public Long getRadius() {
+//		return radius;
+//	}
+//	public void setRadius(Long radius) {
+//		this.radius = radius;
+//	}
+	public CityBean getCity() {
+		return city;
 	}
-	public void setRadius(Long radius) {
-		this.radius = radius;
+	public void setCity(CityBean city) {
+		this.city = city;
 	}
-	
-	
+	public LocationAccuracy getAccuracy() {
+		return accuracy;
+	}
+	public void setAccuracy(LocationAccuracy accuracy) {
+		this.accuracy = accuracy;
+	}
 }

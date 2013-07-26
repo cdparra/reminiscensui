@@ -9,6 +9,7 @@
  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script type="text/javascript" src="js/typeahead/typeahead.min.js"></script>
 <script>  	
      function onLoad(){
           document.addEventListener("deviceready", onDeviceReady, true);
@@ -20,7 +21,7 @@
 	{
 		location.href = "main.html";
 	}
-	 $(function() {
+	 /*$(function() {
 var availableCity = [
 "Trento",
 "Roma",
@@ -30,6 +31,28 @@ var availableCity = [
 $( "#città" ).autocomplete({
 source: availableCity
 });
+});*/
+
+$(document).ready(function() {
+		var tmp = $.getJSON('json/cities.json',function(tmp)
+		{ //return timeline	
+			var cities = [];
+			for (var i = 0; i < tmp.length; i++) {
+				//alert(tmp[i].name);
+   				cities.push(tmp[i].name);
+			}
+			$('#dove').typeahead({
+				//name: 'cities',
+				//prefetch: 'json/cities.json',
+				local: cities,
+				limit: 10
+			});
+		
+		
+		
+		});
+		//alert(tmp);
+		
 });
 </script>
 <style>
@@ -60,8 +83,7 @@ body {
 <div id="divRoot">
 <div class="cont" style="padding-left:20px;">
   <h3 style="color:#999; float:left;">Dove sei nato?</h3>
-  
-    <input style="float:left; margin-top:15px; margin-left:10px;" id="città" type="text" placeholder="Luogo Nascita" autofocus/>
+    <input style="float:left; margin-top:15px; margin-left:10px;" id="dove" class="typeahead" type="text" placeholder="Luogo Nascita" autofocus/>
 </div>
 <div class="cont">
   <button onClick="Redirect()" class="btn btn-primary">avanti</button>

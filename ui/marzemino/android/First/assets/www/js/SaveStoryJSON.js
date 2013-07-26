@@ -56,10 +56,13 @@ function salvaStoria(){
 	$("#debug").text(storia);	*/		
 	//alert(storia);
 	
+	
+	controlloStampaPagine();
+	
 	var storage = $.localStorage;
 	storage.set('mieStorie',MieStorie);
 	 
-	document.getElementById("divMieFotoDelTempo").innerHTML = "";
+	/*document.getElementById("divMieFotoDelTempo").innerHTML = "";
 	document.getElementById("divMieStorieDelTempo").innerHTML = "";
 	for (i=0; i<MieStorie.length; i++) { 
 			//alert(MieStorie[i].immagini[0].src);
@@ -93,7 +96,7 @@ function salvaStoria(){
 		'helpers' : { 
     		title : { type : 'inside' }
    		} // helpers
-	});
+	});*/
 	
 	
 	/*$('#overlayCaricamento').fadeOut('fast');

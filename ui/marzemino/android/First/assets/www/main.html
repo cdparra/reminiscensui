@@ -79,6 +79,7 @@
 	 var tokern;
 	 var Storie = [];
 	 var MieStorie = [];
+	 var NumeroPaginaMieStorie = 0;
 	 
 	function Login()
 	{		
@@ -111,76 +112,51 @@
 	
 	function Timeline()
 	{
-		var xhr = new XMLHttpRequest();
-		//test.reminiscens.me/lifeapi
-		xhr.open('GET', 'http://test.reminiscens.me/lifeapi/person/3/timeline');
-		xhr.setRequestHeader("Accept", "application/json");
-		xhr.setRequestHeader("Content-Type", "application/json");
-		//xhr.setRequestHeader("Access-Control-Allow-Origin", "test.reminiscens.me");
-		xhr.onreadystatechange = function () {
- 		 if (this.readyState == 4) {
- 		   if (typeof cb !== "undefined") {
-  		    cb(this);
-  		  }
-  		  else {
-      		//alert('Status: '+this.status+'\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'\nBody: '+this.responseText);
-				alert('Status: '+this.status+'\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'\nBody: '+this.		responseText);
-				//alert(this.responseText);
-				var timeline = JSON.parse(this.responseText);
-				//alert (timeline.Timeline.storyList[0].storyId);
-				var storyList = timeline.Timeline.storyList;
+		$.getJSON("http://test.reminiscens.me/lifeapi/person/3/timeline",function(timeline)
+		{
+			//alert(data.aboutPerson.personId )
+				var storyList = timeline.storyList;
 				
-				document.getElementById("divMieFotoDelTempo").innerHTML = "";
 				var i = 0;
 				while(storyList[i] != null)
 				{
 					//alert(storyList[i].storyId);
 					var mementoList = storyList[i].mementoList;
 					var j = 0;
-					var tmp = new Object;
-					tmp.titolo = storyList[i].text;
-					tmp.dove = "";
-					tmp.quando = storyList[i].startDate;
+					var newStory = new Object;
+					newStory.titolo = storyList[i].text;
+					newStory.dove = "";
+					newStory.quando = storyList[i].startDate.exactDateAsString;
 					var vettImm = [];
 					while(mementoList[j] != null)
 					{						
-						if(mementoList[j].type == "photo")
+						if(mementoList[j].category == "PICTURE")
 						{
 							//alert(mementoList[j].url);
 							
-							tmp.testo = mementoList[j].headline; //!!!!!da sistemare perchè devo salvare la descizione di ogni immagine!							
+							newStory.testo = mementoList[j].headline; //!!!!!da sistemare perchè devo salvare la descizione di ogni immagine!							
 							var Imm = new Object;
 							Imm.src = mementoList[j].url;
-							vettImm.push(Imm);
-							
-							/*document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + mementoList[j].url + "' title='" + storyList[i].text + "' > <img src='" + mementoList[j].url + "' alt='' /> </a>";*/
-							
+							//alert(Imm.src);s
+							vettImm.push(Imm);							
 						}						
 						j++;
 					}
-					tmp.immagini = vettImm;
-					MieStorie.push(tmp);
+					newStory.immagini = vettImm;
+					MieStorie.push(newStory);
 					i++;
 				}
 				
 				
-				document.getElementById("divMieFotoDelTempo").innerHTML = "";
-				document.getElementById("divMieStorieDelTempo").innerHTML = "";
-				for (i=0; i<MieStorie.length; i++) { 
-						
-						//alert(MieStorie[i].immagini[0].src);
-						if(MieStorie[i].immagini[0] != null)
-						{
-							document.getElementById("divMieStorieDelTempo").innerHTML += "<a class='fancybox' rel='gallery2' href='" + MieStorie[i].immagini[0].src + "' title='" + MieStorie[i].titolo + "' > <img src='" + MieStorie[i].immagini[0].src + "' alt='' /> </a>";
-							document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + MieStorie[i].immagini[0].src + "' title='" + MieStorie[i].titolo + "' > <img src='" + MieStorie[i].immagini[0].src + "' alt='' /> </a>";
-						}
-						else
-						{
-							document.getElementById("divMieStorieDelTempo").innerHTML += "<a class='fancybox' rel='gallery2' href='" + "images/no_image.png" + "' title='" + MieStorie[i].titolo + "' > <img src='" + "images/no_image.png" + "' alt='' /> </a>";
-							document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + "images/no_image.png" + "' title='" + MieStorie[i].titolo + "' > <img src='" + "images/no_image.png" + "' alt='' /> </a>";
-						}
-			//document.getElementById("divMieFotoDelTempo").innerHTML += "<img src='" + "http://imgur.com/Bu8asfw" + "' alt='' />";
-	}
+				if(MieStorie.length<2) //caso in cui ci sia da stampare solo una foto o nessuna
+				{
+					stampaMieFoto(0,MieStorie.length);
+				}
+				else //caso in cui ci siano almeno 2 foto quindi stampo le prime 2
+				{
+					stampaMieFoto(0,2);
+				}
+				
 				
 				
 				var storage = $.localStorage;
@@ -205,18 +181,17 @@
     					title : { type : 'inside' }
    					} // helpers
 				});
-    		}
-  		}
-		};
-		xhr.send("{  \n    \"Session\":{\n        \"auth_token\": \"054b13b875efac0604bfa8f21ab92dc26e1e34f5\"\n}");
+		}
+		);
 	}
 	 
 	 
-	 /*function createCORSRequest(method, url){
+	 function createCORSRequest(method, url){
     var xhr = new XMLHttpRequest();
 	
     if ("withCredentials" in xhr){
         xhr.open(method, url, true);
+		xhr.onreadystatechange = handler;
 		xhr.setRequestHeader("Content-Type", "application/json");
     } else if (typeof XDomainRequest != "undefined"){
         xhr = new XDomainRequest();
@@ -226,47 +201,12 @@
         xhr = null;
     }
     return xhr;
-}*/
+}
 	 
 	 
 	 
  
-	$(document).ready(function() {	
-	
-	//var storage =$.localStorage;
-		/*if(storage.get('mieStorie')[0].titolo == null)
-	{
-		//alert("ciao");
-		MieStorie = [];
-	}*/
-	/*yourModule
-  .config(function($httpProvider){
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-});*/
-		/*$.ajax({
-            type: "get",
-			crossDomain: true,
-            url: "http://test.reminiscens.me/lifeapi/person/3/timeline" ,
-            datatype: "jsonp",
-			contentType: "application/json; charset=utf-8",
-            error: function(request,error){
-                alert(error);
-            },
-            success: function(request) {
-                alert(request);
-            }
-        });*/
-		
-		/*$.getJSON( 'http://test.reminiscens.me/lifeapi/person/3/timeline', function ( data ) { alert ( data ); } );*/
-		
-		/*var request = createCORSRequest("get", "http://test.reminiscens.me/lifeapi/person/3/timeline");
-		
-		if (request){
-    		request.onload = function(){
-        		alert(this.responseText);
-    		};
-    		request.send();
-		}*/
+	$(document).ready(function() {					
 		
 		var jsonObj = new Object;
 	
@@ -314,11 +254,6 @@
 		jsonObj.immagini = vettImm;
 		Storie.push(jsonObj);
 		
-		//<a class="fancybox" rel="gallery1" href="img/tuefoto1.jpg" title="Foto 1"> <img src="img/tuefoto1.jpg" alt="" /> </a> 
-		//alert(Storie[0].immagini[0].src);
-		/*<div class="immagini">
-            <div class="text"> 26 gennaio 1950 - L'india diventa una repubblica </div>
-            <img src="img/comera2.jpg" /> </div>*/
 		for (i=0; i<Storie.length; i++) { 
 			document.getElementById("divFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + Storie[i].immagini[0].src + "' title='" + Storie[i].titolo + "' > <img src='" + Storie[i].immagini[0].src + "' alt='' /> </a>";
 			document.getElementById("divStorieDelTempo").innerHTML += "<div class='immagini'><div class='text'>" + Storie[i].testo +"</div><a class='fancybox' rel='gallery2' href='" + Storie[i].immagini[0].src + "' title='" + Storie[i].titolo + "' > <img src='" + Storie[i].immagini[0].src + "' alt='' /> </a></div>";
@@ -327,18 +262,63 @@
 		
 		Login();
 		Timeline();
-		
-	/*$(".fancybox").fancybox({
-		'showCloseButton'	: false,
-		afterLoad : function() {
-    			this.title = "<div><h1>" + Storie[this.index].titolo +"</h1> <h5>" + Storie[this.index].testo + "</h5> </div>";
-			//this.title = "<div><h1>" + "hola" +"</h1> </div>";
-   		},
-		'helpers' : { 
-    		title : { type : 'inside' }
-   		} // helpers
-	});*/
 });
+
+
+function controlloStampaPagine()
+{
+	if(MieStorie.length>NumeroPaginaMieStorie * 2 + 1) //caso in cui ci siano 2 foto da stampare
+	{
+		stampaMieFoto(NumeroPaginaMieStorie * 2,NumeroPaginaMieStorie * 2 +2);
+	}
+	else
+	{
+			stampaMieFoto(NumeroPaginaMieStorie * 2,NumeroPaginaMieStorie * 2 +1);	
+	}
+}
+
+function avanti()
+{
+	NumeroPaginaMieStorie++;
+	alert(NumeroPaginaMieStorie);
+	if(MieStorie.length <= NumeroPaginaMieStorie * 2){
+		NumeroPaginaMieStorie = 0;
+	}
+	alert(NumeroPaginaMieStorie);
+	controlloStampaPagine();
+}
+
+function indietro()
+{
+	NumeroPaginaMieStorie--;
+	//alert(NumeroPaginaMieStorie);
+	if(NumeroPaginaMieStorie < 0){
+		//prendo la metà + eventuale immagine singola (se dim è dispari) - uno perchè le pagine partono da 0!!
+		NumeroPaginaMieStorie = Math.floor(MieStorie.length/2) + MieStorie.length%2 - 1;
+	}
+	//alert(NumeroPaginaMieStorie);
+	controlloStampaPagine()
+}
+
+function stampaMieFoto(inizio, fine)
+{
+	//alert(inizio + "  " + fine);
+	var i;
+	document.getElementById("divMieFotoDelTempo").innerHTML = "";
+	document.getElementById("divMieFotoDelTempo").innerHTML += "<button id='indietro' onClick='indietro()'>Indietro</button> <button id='avanti' onClick='avanti()'>Avanti</button></br>";
+	for (i=inizio; i<fine; i++) { 
+						
+		//alert(MieStorie[i].immagini[0].src);
+		if(MieStorie[i].immagini[0] != null)
+		{
+			document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + MieStorie[i].immagini[0].src + "' title='" + MieStorie[i].titolo + "' > <img src='" + MieStorie[i].immagini[0].src + "' class='immagini' alt='' /> </a></br>";
+		}
+		else
+		{
+			document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + "images/no_image.png" + "' title='" + MieStorie[i].titolo + "' > <img src='" + "images/no_image.png" + "' alt='' /> </a></br>";
+		}
+	}
+}
 </script>
 </head>
 <body>
@@ -372,7 +352,7 @@
       <div id="Foto">
         <div class="divFoto">
           <h3 id="FotoDelTempo">Com'era questo posto attorno al 1950</h3>
-          <div id="divFotoDelTempo">
+          <div id="divFotoDelTempo">          
           <!--<a class="fancybox" rel="gallery1" href="img/comera1.jpg" title="2 ottobre 1950 - nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz..."> <img src="img/comera1.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/comera3.jpg" title="09 maggio 1950 - Nasce la comunitÃ  europea..."> <img src="img/comera3.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/comera2.jpg" title="26 gennaio 1950 - L'india diventa una repubblica.."> <img src="img/comera2.jpg" alt="" /> </a> -->
@@ -380,7 +360,8 @@
           </div>
         <div class="divFoto">
           <h3 id="TueFotoDelTempo">Le tue foto attorno al 1950</h3>
-          <div id="divMieFotoDelTempo">          
+          <div id="divMieFotoDelTempo"> 
+                  
           <!--<a class="fancybox" rel="gallery1" href="img/tuefoto1.jpg" title="Foto 1"> <img src="img/tuefoto1.jpg" alt=""/> </a> 
           <a class="fancybox" rel="gallery1" href="img/tuefoto2.jpg" title="Foto 2"> <img src="img/tuefoto2.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/tuefoto3.jpg" title="Foto 3"> <img src="img/tuefoto3.jpg" alt="" /> </a>--> </div>
@@ -456,7 +437,7 @@
           <br/>
           <div>
             <label for="quando" style="float:left;margin-top:3px;">Quando:</label>
-            <input id="quando"  style="float:left; margin-left:3px;" type="text" class="input-xlarge"/>
+            <input id="quando" style="float:left; margin-left:3px;" type="text" class="input-xlarge"/>
             <label for="dove" style="float:left;margin-top:3px; margin-left:10px;">Dove:</label>
             <input id="dove" style="float:left; margin-left:3px;" type="text" class="input-xlarge"/>
           </div>

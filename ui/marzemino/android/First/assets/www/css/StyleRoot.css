@@ -57,8 +57,10 @@ label {
 }
 .immagini {
 	margin: 5px 5px 5px 5px;
-	position: relative;
-	float: left;
+	/*position: relative;
+	float: left;*/
+	max-width:440px;
+	max-height:200px;	
 }
 .text {
 	background: rgba(0,0,0,0.7);

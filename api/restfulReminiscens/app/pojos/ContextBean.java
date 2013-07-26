@@ -25,7 +25,6 @@ public class ContextBean  implements Serializable {
 	private DateTime date;
 	private Long dateRatio;
 	private List<ContextContentBean> publicContextContent;
-	private List<ContextFamousBean> publicContextFamous;
 	public Long getContextId() {
 		return contextId;
 	}
@@ -80,12 +79,5 @@ public class ContextBean  implements Serializable {
 	public void setPublicContextContent(
 			List<ContextContentBean> publicContextContent) {
 		this.publicContextContent = publicContextContent;
-	}
-	public List<ContextFamousBean> getPublicContextFamous() {
-		return publicContextFamous;
-	}
-	public void setPublicContextFamous(List<ContextFamousBean> publicContextFamous) {
-		this.publicContextFamous = publicContextFamous;
-	}
-		
+	}	
 }

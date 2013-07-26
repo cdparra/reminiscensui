@@ -22,17 +22,19 @@ public class FuzzyDateBean implements Serializable {
 	
 	private Long decade;
 	private Long year;
-	private String season;
 	private String month;
 	private String day;
-	private String day_name;
-	private String day_part;
-	private String hour;
-	private String minute;
-	private String second;
 	private Long accuracy;
 	private String locale;	
-	
+
+//	Fields in Database not exposed in this API
+//	private String season;
+//	private String day_name;
+//	private String day_part;
+//	private String hour;
+//	private String minute;
+//	private String second;
+
 	/**
 	 * @return the fuzzyDateId
 	 */
@@ -108,19 +110,19 @@ public class FuzzyDateBean implements Serializable {
 		this.year = year;
 	}
 
-	/**
-	 * @return the season
-	 */
-	public String getSeason() {
-		return season;
-	}
-
-	/**
-	 * @param season the season to set
-	 */
-	public void setSeason(String season) {
-		this.season = season;
-	}
+//	/**
+//	 * @return the season
+//	 */
+//	public String getSeason() {
+//		return season;
+//	}
+//
+//	/**
+//	 * @param season the season to set
+//	 */
+//	public void setSeason(String season) {
+//		this.season = season;
+//	}
 
 	/**
 	 * @return the month
@@ -150,75 +152,75 @@ public class FuzzyDateBean implements Serializable {
 		this.day = day;
 	}
 
-	/**
-	 * @return the day_name
-	 */
-	public String getDay_name() {
-		return day_name;
-	}
-
-	/**
-	 * @param day_name the day_name to set
-	 */
-	public void setDay_name(String day_name) {
-		this.day_name = day_name;
-	}
-
-	/**
-	 * @return the day_part
-	 */
-	public String getDay_part() {
-		return day_part;
-	}
-
-	/**
-	 * @param day_part the day_part to set
-	 */
-	public void setDay_part(String day_part) {
-		this.day_part = day_part;
-	}
-
-	/**
-	 * @return the hour
-	 */
-	public String getHour() {
-		return hour;
-	}
-
-	/**
-	 * @param hour the hour to set
-	 */
-	public void setHour(String hour) {
-		this.hour = hour;
-	}
-
-	/**
-	 * @return the minute
-	 */
-	public String getMinute() {
-		return minute;
-	}
-
-	/**
-	 * @param minute the minute to set
-	 */
-	public void setMinute(String minute) {
-		this.minute = minute;
-	}
-
-	/**
-	 * @return the second
-	 */
-	public String getSecond() {
-		return second;
-	}
-
-	/**
-	 * @param second the second to set
-	 */
-	public void setSecond(String second) {
-		this.second = second;
-	}
+//	/**
+//	 * @return the day_name
+//	 */
+//	public String getDay_name() {
+//		return day_name;
+//	}
+//
+//	/**
+//	 * @param day_name the day_name to set
+//	 */
+//	public void setDay_name(String day_name) {
+//		this.day_name = day_name;
+//	}
+//
+//	/**
+//	 * @return the day_part
+//	 */
+//	public String getDay_part() {
+//		return day_part;
+//	}
+//
+//	/**
+//	 * @param day_part the day_part to set
+//	 */
+//	public void setDay_part(String day_part) {
+//		this.day_part = day_part;
+//	}
+//
+//	/**
+//	 * @return the hour
+//	 */
+//	public String getHour() {
+//		return hour;
+//	}
+//
+//	/**
+//	 * @param hour the hour to set
+//	 */
+//	public void setHour(String hour) {
+//		this.hour = hour;
+//	}
+//
+//	/**
+//	 * @return the minute
+//	 */
+//	public String getMinute() {
+//		return minute;
+//	}
+//
+//	/**
+//	 * @param minute the minute to set
+//	 */
+//	public void setMinute(String minute) {
+//		this.minute = minute;
+//	}
+//
+//	/**
+//	 * @return the second
+//	 */
+//	public String getSecond() {
+//		return second;
+//	}
+//
+//	/**
+//	 * @param second the second to set
+//	 */
+//	public void setSecond(String second) {
+//		this.second = second;
+//	}
 
 	/**
 	 * @return the accuracy

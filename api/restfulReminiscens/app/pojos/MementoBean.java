@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import enums.MementoType;
+
 
 public class MementoBean  implements Serializable {
 
@@ -20,8 +22,6 @@ public class MementoBean  implements Serializable {
 	private String headline;
 	private String text;
 	private String type;
-	private String source;
-	private String sourceUrl;
 	private String url;
 	private String thumbnailUrl;
 	private String category;
@@ -30,10 +30,14 @@ public class MementoBean  implements Serializable {
 	private Boolean publicMemento;
 	private LocationBean location;
 	private FuzzyDateBean startDate;
-	private FuzzyDateBean endDate;
-	private QuestionBean question;
 	private List<MentionPersonBean> participants;
-	
+
+//	Fields in Database not exposed through API
+//	private String source;
+//	private String sourceUrl;
+//	private FuzzyDateBean endDate;
+//	private QuestionBean question;
+
 	public Long getMementoId() {
 		return mementoId;
 	}
@@ -71,18 +75,18 @@ public class MementoBean  implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getSource() {
-		return source;
-	}
-	public void setSource(String source) {
-		this.source = source;
-	}
-	public String getSourceUrl() {
-		return sourceUrl;
-	}
-	public void setSourceUrl(String sourceUrl) {
-		this.sourceUrl = sourceUrl;
-	}
+//	public String getSource() {
+//		return source;
+//	}
+//	public void setSource(String source) {
+//		this.source = source;
+//	}
+//	public String getSourceUrl() {
+//		return sourceUrl;
+//	}
+//	public void setSourceUrl(String sourceUrl) {
+//		this.sourceUrl = sourceUrl;
+//	}
 	public String getUrl() {
 		return url;
 	}
@@ -131,18 +135,18 @@ public class MementoBean  implements Serializable {
 	public void setStartDate(FuzzyDateBean startDate) {
 		this.startDate = startDate;
 	}
-	public FuzzyDateBean getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(FuzzyDateBean endDate) {
-		this.endDate = endDate;
-	}
-	public QuestionBean getQuestion() {
-		return question;
-	}
-	public void setQuestion(QuestionBean question) {
-		this.question = question;
-	}
+//	public FuzzyDateBean getEndDate() {
+//		return endDate;
+//	}
+//	public void setEndDate(FuzzyDateBean endDate) {
+//		this.endDate = endDate;
+//	}
+//	public QuestionBean getQuestion() {
+//		return question;
+//	}
+//	public void setQuestion(QuestionBean question) {
+//		this.question = question;
+//	}
 	public List<MentionPersonBean> getParticipants() {
 		return participants;
 	}

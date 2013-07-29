@@ -80,22 +80,26 @@ public class FuzzyDate extends Model {
 	}
 	
 	public static FuzzyDate createIfNotExist(FuzzyDate fuzzyDate) {
-		Long id = fuzzyDate.getFuzzyDateId();
-		DateTime exactDate = fuzzyDate.getExactDate();
-		FuzzyDate existing = null;
-		if (id != null) {
-			existing = read(id);
-			if (existing != null) {
-				return existing;
+		if (fuzzyDate != null) {
+			Long id = fuzzyDate.getFuzzyDateId();
+			DateTime exactDate = fuzzyDate.getExactDate();
+			FuzzyDate existing = null;
+			if (id != null) {
+				existing = read(id);
+				if (existing != null) {
+					return existing;
+				}
+			} else if (exactDate != null) {
+				existing = readByExactDate(exactDate);
+				if (existing != null) {
+					return existing;
+				}
 			}
-		} else if (exactDate != null) {
-			existing = readByExactDate(exactDate);
-			if (existing != null) {
-				return existing;
-			}
+			fuzzyDate.save();
+			return fuzzyDate;
+		} else {
+			return null;
 		}
-		fuzzyDate.save();
-		return fuzzyDate;
 	}
 
 	public static FuzzyDate createObject(FuzzyDate fuzzyDate) {

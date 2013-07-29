@@ -118,8 +118,6 @@ public class LifeStory extends Model {
         for (Memento memento : mementoList) {
         	Memento.create(memento);
 		}
-        
-
     }
     
     public static LifeStory createObject(LifeStory lifestory){

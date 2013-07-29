@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import enums.LocationAccuracy;
-
 import play.db.ebean.Model;
 
 @Entity
@@ -27,7 +25,7 @@ public class Location extends Model {
 	private String location_textual;
 	
 	@Column 
-	private LocationAccuracy accuracy;
+	private Long accuracy;
 	
 	@Column
 	private String name;
@@ -95,16 +93,20 @@ public class Location extends Model {
     }
     
     public static Location createIfNotExist(Location location) {
-		Long id = location.getLocationId();
-		Location existing = null;
-		if (id != null) {
-			existing = read(id);
-			if (existing != null) {
-				return existing;
-			}
-		} 
-		location.save();
-		return location;
+		if (location != null) {
+    		Long id = location.getLocationId();
+			Location existing = null;
+			if (id != null) {
+				existing = read(id);
+				if (existing != null) {
+					return existing;
+				}
+			} 
+			location.save();
+			return location;
+		} else {
+			return null;
+		}
 	}
     
     public static Location createObject(Location person){
@@ -151,14 +153,14 @@ public class Location extends Model {
 	/**
 	 * @return the accuracy
 	 */
-	public LocationAccuracy getAccuracy() {
+	public Long getAccuracy() {
 		return accuracy;
 	}
 
 	/**
 	 * @param accuracy the accuracy to set
 	 */
-	public void setAccuracy(LocationAccuracy  accuracy) {
+	public void setAccuracy(Long  accuracy) {
 		this.accuracy = accuracy;
 	}
 

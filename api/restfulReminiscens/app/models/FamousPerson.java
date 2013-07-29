@@ -20,7 +20,7 @@ public class FamousPerson extends Model {
 
 	@Id
     @GeneratedValue
-    @Column(name="famous_person_id")
+    @Column(name="famous_id")
     private Long famousId;
 	
 	@Column
@@ -58,8 +58,8 @@ public class FamousPerson extends Model {
 
 	@Temporal(TemporalType.DATE)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	@Column(name="date_added")
-	private DateTime dateAdded;
+	@Column(name="creation_date")
+	private DateTime creationDate;
 
 	@Temporal(TemporalType.DATE)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -208,12 +208,12 @@ public class FamousPerson extends Model {
 		this.creatorType = creatorType;
 	}
 
-	public DateTime getDateAdded() {
-		return dateAdded;
+	public DateTime getCreationDate() {
+		return creationDate;
 	}
 
-	public void setDateAdded(DateTime dateAdded) {
-		this.dateAdded = dateAdded;
+	public void setCreationDate(DateTime dateAdded) {
+		this.creationDate = dateAdded;
 	}
 
 	public DateTime getLastUpdate() {

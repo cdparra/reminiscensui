@@ -25,7 +25,7 @@ public class FamousPersonBean implements Serializable {
 	@JodaDateTime(format = "yyyy-MM-dd HH:mm:ss")
 	private DateTime lastUpdate;
 	
-	// Knowledge Base Famouse Person Resources specific attributes
+	// Knowledge Base Famous Person Resources specific attributes
 	private String fullname;
 	private String firstname;
 	private String lastname;

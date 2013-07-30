@@ -45,26 +45,26 @@ public class User extends Model implements Subject {
     @JoinColumn(name="person_id")
     private Person person;
     
-    @Column(length=60)
-    private String nickname;
+    @Column(length=60,name="nickname")
+    private String username;
     
     @Column(length=50)
     private String email;
     
-    @Column(length=45)
-    private String lang;
+    @Column(length=45, name="lang")
+    private String locale;
     
-    @Column
-    private Boolean email_verified;
+    @Column (name="email_verified")
+    private Boolean emailVerified;
     
-    @Column
-    private Boolean nickname_verified;
+    @Column(name="nickname_verified")
+    private Boolean usernameVerified;
 
-    @Column
-    private String profile_pic;
-    
-    @Column
-    private String cryptpass;
+    @Column(name="profile_pic")
+    private String profilePic;
+//    
+//    @Column
+//    private String cryptpass;
 
     @Column(name="conf_type")
     private String confType;
@@ -77,7 +77,7 @@ public class User extends Model implements Subject {
     @Column
 	private boolean active;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
 	private List<LinkedAccount> linkedAccounts;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -173,7 +173,7 @@ public class User extends Model implements Subject {
 			// verified within the application as a security breach there might
 			// break your security as well!
 			user.email = identity.getEmail();
-			user.email_verified = false;
+			user.emailVerified = false;
 			
 			userId = User.getByEmail(identity.getEmail())!= null ? User.getByEmail(identity.getEmail()).getUserId():null;
 			
@@ -193,7 +193,7 @@ public class User extends Model implements Subject {
 			final PicturedIdentity identity = (PicturedIdentity) authUser;
 			final String picture = identity.getPicture();
 			if (picture != null) {
-				user.profile_pic = picture;
+				user.profilePic = picture;
 			}
 		}
 		
@@ -356,15 +356,15 @@ public class User extends Model implements Subject {
 	/**
 	 * @return the nickname
 	 */
-	public String getNickname() {
-		return nickname;
+	public String getUsername() {
+		return username;
 	}
 
 	/**
 	 * @param nickname the nickname to set
 	 */
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setUsername(String nickname) {
+		this.username = nickname;
 	}
 
 	/**
@@ -384,72 +384,72 @@ public class User extends Model implements Subject {
 	/**
 	 * @return the lang
 	 */
-	public String getLang() {
-		return lang;
+	public String getLocale() {
+		return locale;
 	}
 
 	/**
 	 * @param lang the lang to set
 	 */
-	public void setLang(String lang) {
-		this.lang = lang;
+	public void setLocale(String lang) {
+		this.locale = lang;
 	}
 
 	/**
 	 * @return the email_verified
 	 */
-	public Boolean getEmail_verified() {
-		return email_verified;
+	public Boolean getEmailVerified() {
+		return emailVerified;
 	}
 
 	/**
 	 * @param email_verified the email_verified to set
 	 */
-	public void setEmail_verified(Boolean email_verified) {
-		this.email_verified = email_verified;
+	public void setEmailVerified(Boolean email_verified) {
+		this.emailVerified = email_verified;
 	}
 
 	/**
 	 * @return the nickname_verified
 	 */
-	public Boolean getNickname_verified() {
-		return nickname_verified;
+	public Boolean getUsernameVerified() {
+		return usernameVerified;
 	}
 
 	/**
 	 * @param nickname_verified the nickname_verified to set
 	 */
-	public void setNickname_verified(Boolean nickname_verified) {
-		this.nickname_verified = nickname_verified;
+	public void setUsernameVerified(Boolean nickname_verified) {
+		this.usernameVerified = nickname_verified;
 	}
 
 	/**
 	 * @return the profile_pic
 	 */
-	public String getProfile_pic() {
-		return profile_pic;
+	public String getProfilePic() {
+		return profilePic;
 	}
 
 	/**
 	 * @param profile_pic the profile_pic to set
 	 */
-	public void setProfile_pic(String profile_pic) {
-		this.profile_pic = profile_pic;
+	public void setProfilePic(String profile_pic) {
+		this.profilePic = profile_pic;
 	}
 
-	/**
-	 * @return the cryptpass
-	 */
-	public String getCryptpass() {
-		return cryptpass;
-	}
-
-	/**
-	 * @param cryptpass the cryptpass to set
-	 */
-	public void setCryptpass(String cryptpass) {
-		this.cryptpass = cryptpass;
-	}
+//	/**
+//	 * @return the cryptpass
+//	 */
+//	public String getCryptpass() {
+//		return cryptpass;
+//	}
+//
+//	/**
+//	 * @param cryptpass the cryptpass to set
+//	 */
+//	public void setCryptpass(String cryptpass) {
+//		this.cryptpass = cryptpass;
+//	}
 
 	/**
 	 * @return the conf_type
@@ -483,11 +483,11 @@ public class User extends Model implements Subject {
 	
 
 	public boolean isEmailValidated() {
-		return this.email_verified;
+		return this.emailVerified;
 	}
 
 	public void setEmailValidated(boolean emailValidated) {
-		this.email_verified= emailValidated;
+		this.emailVerified= emailValidated;
 	}
 
 	public List<LinkedAccount> getLinkedAccounts() {
@@ -504,7 +504,12 @@ public class User extends Model implements Subject {
 	 * @return the personId
 	 */
 	public Long getPersonId() {
-		return this.person.getPersonId();
+		if (this.person != null) {
+			return this.person.getPersonId();
+		} else {
+			return null;
+		}
+			
 	}
 	/**
 	 * @param personId the personId to set

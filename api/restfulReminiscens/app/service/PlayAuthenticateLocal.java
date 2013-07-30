@@ -14,6 +14,8 @@ import play.mvc.Controller;
 import play.mvc.Http.Context;
 import play.mvc.Http.Session;
 import play.mvc.Result;
+import pojos.UserBean;
+import utils.PlayDozerMapper;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
@@ -59,8 +61,10 @@ public class PlayAuthenticateLocal extends PlayAuthenticate {
 
 		String encoded = "";
 		String signed = "";
+
 		try {
 			StringBuffer sb = new StringBuffer();
+			
 			if (loginUser.expires() != AuthUser.NO_EXPIRATION) {
 				sb.append("pa.u.exp:");
 				sb.append(loginUser.expires());
@@ -76,11 +80,17 @@ public class PlayAuthenticateLocal extends PlayAuthenticate {
 			Logger.error(e.getMessage());
 			e.printStackTrace();
 		}
+		
 		if (Logger.isDebugEnabled()) {
 			Logger.debug("session generated: " + "PLAY_SESSION=" + signed + "-"
 					+ encoded);
 		}
-		return Controller.ok(toJson("PLAY_SESSION=" + signed + "-" + encoded));
+		
+		models.User user = models.User.getByEmail(loginUser.getId());
+		UserBean u = PlayDozerMapper.getInstance().map(user, UserBean.class);
+		u.setSessionKey("PLAY_SESSION=" + signed + "-" + encoded);
+//		return Controller.ok(toJson("PLAY_SESSION=" + signed + "-" + encoded));
+		return Controller.ok(toJson(u));
 	}
 
 	public static Result handleAuthentication(final String provider,
@@ -103,15 +113,15 @@ public class PlayAuthenticateLocal extends PlayAuthenticate {
 					return Controller
 							.notFound(Messages
 									.get("playauthenticate.password.login.unknown_user_or_pw"));
-				} else if(routes.Signup.unverified().url().equals(o)){
-					return Controller
-							.ok(Messages
-									.get("playauthenticate.verify.email.cta"));
-				}else
-				// TODO change this avoiding redirect
-				// return Controller.redirect((String) o);
-				throw new NotImplementedException(
-						"not implemented when the authenticate response: " + o);
+				} else if (routes.Signup.unverified().url().equals(o)) {
+					return Controller.ok(Messages
+							.get("playauthenticate.verify.email.cta"));
+				} else
+					// TODO change this avoiding redirect
+					// return Controller.redirect((String) o);
+					throw new NotImplementedException(
+							"not implemented when the authenticate response: "
+									+ o);
 			} else if (o instanceof AuthUser) {
 
 				final AuthUser newUser = (AuthUser) o;

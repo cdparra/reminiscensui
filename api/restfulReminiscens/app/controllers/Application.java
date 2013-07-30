@@ -70,7 +70,6 @@ public class Application extends Controller {
 			return badRequest();
 		} else {
 			// Everything was filled
-
 			return MyUsernamePasswordAuthProvider.handleLogin(ctx());
 		}
 	}

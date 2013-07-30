@@ -1,0 +1,2299 @@
+HOST: http://test.reminiscens.me/api/
+
+--- Reminiscens RESTful Explorelife API version 0.1 ---
+---
+This RESTful API provides HTTP access to resources that support the Reminiscens' tablet app for stimulating elderly 
+and their families in sharing memories and motivate conversation by exploring content related to these memories' 
+place and period of time. The goal is to stimulate a healthy practice of positive reminiscence that will benefit 
+elders' subjective wellbeing. 
+
+<h3> About the Reminiscens Project</h3>
+Reminiscens is a social informatics project funded by the <a href="http://www.lifeparticipation.org/"> 
+Lifeparticipation Research Group</a> at the <a href="http://www.disi.unitn.it/"> University of Trento </a>. It is 
+the result of participatory research action and design with local elders, with the goal of motivating face to face 
+social interactions between older adults and their younger relatives. Not only we have worked on designing an 
+application, but we have worked to build an interesting knowledge base of content that will stimulate people to 
+reminisce. It is work in progress, towards the finalization of a Ph.D. in Information and Communication Technologies 
+---
+
+--
+User management 
+<p> The user management section of this API groups the endpoints related to craating and maintaing sessions and 
+users. These are the entry points to Reminiscens' services</p>
+
+<p> The <a href="#session">Session</a> resource is where the experience begins. Applications create a session using 
+either an username/password pair or an authentication token provided by a third party service (e.g., facebook, 
+google). After creating the session, the created session instance must be included in all of the API calls. Is the 
+only non-RESTful element of this API (but implemented in the most RESTful way possible). Sessions are made of: </p>
+ 
+ + **auth_token:** An authentication token identifying the session
+ + **expiration:** Duration of the token in minutes                                       
+
+<p><pre><code>
+<a id="session"><b>The Session Resource:</b></a>
+    "Session" : {
+        "auth_token" : "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"                                  
+    }
+</pre></code></p>
+
+<p>Various authentication services can be used for login. The <a href="#login">Login</a> login resource contains by: 
+</p>
+
+ + **provider:** the name of the authentication service provider (facebook, google, reminiscens)
+ + **user:** user email or nickname for login
+ + **authstring:** authentication string provided by the service. For reminiscens, authString = bcrypt(password) 
+
+<p> For a javascript implementation of Bcrypt, checkout <a href="https://code.google.com/p/javascript-bcrypt/">JsBCrypt</a></p>
+
+<p><pre><code>
+<a id="login"><b>The Login Resource:</b></a>
+    "Login":{
+        "provider" : "reminiscens", 
+        "user" : "ugo.fantozzi@gmail.com",
+        "authstring" : "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"          
+    }
+</pre></code></p>
+
+Then we have <b>Users</b> endpoints, giving access to all the operations available on user data, including also his
+<a href="#person">Person</a> profile information. Notice that there is a separation between the entities 
+<a href="#user">User</a> and <a href="#person">Person</a>. A person might exist in our dataset wihtout user 
+information, referring to people that is mentioned in life stories or public historical records that we used
+to stimulate reminiscence
+
+<p>An <a href="#user">User</a> includes the following information: </p>
+
+ + **user_email:** user's registered email
+ + **user_id:** user unique identificator
+ + **nickname:** username used for authentication
+ + **email_verified:** user has verified that this account belongs to him. Non verified accounts are limited 
+to no more than 10 stories and 50 mementos
+ + **nicknameverified:** user has verified/updated his username (generated first by the system)
+ + **user_profilepicture:** URL to a profile picture
+ + A **<a href="#"person>Person</a>**, including at least: 
+  + **fullname:** person's fullname 
+  + **birthdate:** person's birthdate in dd/mm/yyyy format
+  + **birthplace:** person's textual name of the birthplace
+
+<p><pre><code>
+<a id="user"><b>The User Resource:</b></a>
+    "User" : {
+        "userId" : 999,
+        "personId" : 999,
+        "nickname":"ugo.fantozzi", 
+        "user_email": "ugo.fantozzi@gmail.com", 
+        "email_verified": "true", 
+        "nickname_verified": "true",        
+        "profile_pic":"http://www.flickr.com/photos/mykalburns/2807451879/",
+    }
+</pre></code></p>
+--
+
+<p><b>Create a session endpoint.</b> </p>
+
+<p>Request: </p>
+
+ + <b> Mandatory. </b> The authentication <a href="#login">Service</a> resource.
+
+<p>Response:</p>
+
+ + The newly created <a href="#session">Session</a> 
+ + The <a href="#user">User</a> that created the session.
+ + The <a href="#person">Person</a> related to the user.
+ + The <a href="#timeline">Timeline</a> of the person.
+ + The <a href="#context">Context</a> for reminiscence of the person.
+
+<p><pre><code>
+Example of Javascript code for creating a <a href="#session">Session</a>, using our own authentication service 
+based on user email and password.)</p>
+    var passSha1 = $.sha1($("#password").val() + salt);
+    var sessionData = new Object;
+    sessionData.name = "reminiscens";
+    sessionData.authString = $("#email").val() + "!_-_!" + passSha1;                    
+    $.ajax({
+        type: "POST",
+        url: "resources/session",
+        data: JSON.stringify(sessionData),
+        async: false,
+        success: function (data) {
+            alert("ok");
+        },
+        error: function (data) {
+            alert("error");
+        },
+        dataType: "json",
+            contentType: "application/json"
+        });
+</pre></code></p>
+
+POST /session
+> Content-Type: application/json
+{  
+    "Service":{
+        "name": "reminiscens"
+        "authString": "ugo.fantozzi@gmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"  
+    }
+}
+< 200
+< Content-Type: application/json
+{
+    "Response_Status": {
+        "status_code": 1,
+        "status_message": "Session was created"
+    },
+    "Session": {
+        "auth_token": "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
+    },
+    "User": {
+        "userId": 6,
+        "personId": 5,
+        "lang":"it_IT",
+        "nickname": "ugo.fantozzi",
+        "user_email": "ugo.fantozzi@gmail.com",
+        "email_verified": "true",
+        "nickname_verified": "true",
+        "profile_pic": "http://farm4.staticflickr.com/3085/2807451879_c132dd1bf8_o.jpg"
+    },
+    "Person": {
+        "personId": 5,
+        "firstname": "Ugo",
+        "lastname": "Fantozzi",
+        "birthdate": -1119920400000,
+        "deathdate": null,
+        "birthplace": {
+            "cityId": 2283,
+            "name": "Genova",
+            "region": "Liguria",
+            "country": {
+                "countryId": 109,
+                "short_name": "Italy",
+                "long_namev: "Italian Republic",
+                "iso2": "IT",
+                "iso3": "ITA",
+                "numcode": "380",
+                "un_member": "yes",
+                "calling_code": "39",
+                "cctld": ".jm",
+                "spanish_name": "Italia",
+                "italian_name": null
+            },
+            "lat": 44.40565,
+            "lon": 8.946256
+        }
+        "birthdateAsString": "1934-07-07 00:00:00",
+        "deathdateAsString": null
+    },
+    "Timeline": {
+        "timelineId": 999,
+        "aboutPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "storyList": [
+            {
+                "storyId": 999,
+                "decade": 1930,
+                "visibility":"public",
+                "startDate": "1934,7,7 0:00:00",
+                "endDate": "1934,7,7 0:00:00",
+                "headline": "Nascita",
+                "text": "Ugo Fantozzi e nato a Genova",
+                "richtext": "/story/999/richtext",
+                "participants": [
+                    777,
+                    779
+                ],
+                "aboutPersonList": [
+                    999,
+                    779
+                ],
+                "createdBy": 999,
+                "tags": [
+                    "birth",
+                    "childhood"
+                ],
+                "mementoList": [
+                    {
+                        "mementoId": 998,
+                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                        "credit": "Burns! http://www.flickr.com/photos/mykalburns/",
+                        "caption": "Foto di Ugo circa la sua nascita in 1934",
+                        "thumbnail": "",
+                        "type": "picture",
+                        "cover": "true",
+                        "index": 1
+                    },
+                    {
+                        "mementoId": 997,
+                        "url": "https://soundcloud.com/er_murena/fantozzi-all",
+                        "credit": "er_murena @ soundcloud! https://soundcloud.com/er_murena",
+                        "caption": "Ugo's music",
+                        "thumbnail": "",
+                        "type": "audio",
+                        "cover": "false",
+                        "index": 2
+                    }
+                ]
+            },
+            {
+                "storyId": 998,
+                "decade": 1960,
+                "visibility":"private",
+                "startDate": "1960,9,9 0:00:00",
+                "endDate": "1960,9,9 0:00:00",
+                "headline": "Matrimonio",
+                "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",
+                "richtext": "/story/998/richtext",
+                "participants": [
+                    777
+                ],
+                "aboutPersonList": [
+                    999
+                ],
+                "createdBy": 777,
+                "tags": [
+                    "matrimonio",
+                    "adulthood",
+                    "milestone"
+                ],
+                "mementoList": [
+                    {
+                        "mementoId": 999,
+                        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+                        "credit": "Wikipedia",
+                        "caption": "",
+                        "thumbnail": "",
+                        "type": "photo",
+                        "cover": "false",
+                        "index": 2
+                    }
+                ]
+            }
+        ]
+    },
+    "Context": {
+        "contextId": 999,
+        "forPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "mementoList": [
+            {
+                "contextMementoId": 999,
+                "contextId": 999,
+                "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+                "thumbnail": "",
+                "headline": "MG M - 1930",
+                "decade": 1930,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "type": "photo",
+                "category": "photo",
+                "index": 2,
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "text": "MG M del 1930 ovvero la prima MG Midget",
+                "tags": [
+                    "photo",
+                    "automobile",
+                    "ogetto"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    },
+                    {
+                        "questionId": 998,
+                        "question": "Hai mai guidato una macchina come questa?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    }
+                ]
+            },
+            {
+                "contextMementoId": 997,
+                "contextId": 999,
+                "url": "http://farm3.staticflickr.com/2781/4437292021_3f6b977f8a.jpg",
+                "thumbnail": "",
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Monte Gazzo 21",
+                "type": "photo",
+                "category": "photo",
+                "index": 2,
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "text": "1960: veduta area del Santuario del Monte Gazzo.",
+                "tags": [
+                    "photo",
+                    "landscape"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 997,
+                        "question": "Riconosci questo posto?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    },
+                    {
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    }
+                ]
+            },
+            {
+                "contextMementoId": 996,
+                "contextId": 999,
+                "url": "https://www.youtube.com/watch?feature=player_detailpage&v=78LXfimeh8g",
+                "thumbnail": "",
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Claudio Villa in Rai Due",
+                "type": "music",
+                "category": "music",
+                "index": 3,
+                "credit": "Uploaded by Youtube user Kartastone",
+                "creditURL": "https://www.youtube.com/user/Kartastone?feature=watch",
+                "text": "",
+                "tags": [
+                    "musica",
+                    "youtube",
+                    "musicista",
+                    "video"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 997,
+                        "question": "Ti piace questa musica?",
+                        "tags": [
+                            "musica"
+                        ]
+                    },
+                    {
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "status_code": 41, 
+    "status_message":"Auth string is not valid"
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "status_code": 51, 
+    "status_message":"The resource you tried to create is incomplete"
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "status_code": 52, 
+    "status_message":"The resource you tried to create already exists"
+}
+
+<p><b>Create <a href="#user">User</a> endpoint </b></p>
+<p>Request:</p>
+ 
+ + A <a href="#user">User</a> including: 
+    + <b>Mandatory.</b> user_email.
+    + A <a href="#person">Person</a>. resource with:  
+        + <b>Mandatory.</b> fullname 
+        + <b>Mandatory.</b> birthdate
+        + <b>Mandatory.</b> birthplace
+
+<p>Response: </p> 
+
+ + The newly created <a href="#user">User</a> resource with a generated nickname
+ + The newly created <a href="#person">Person</a> resource with the provided details (as part of the user data object)
+ + The <a href="#timeline">Timeline</a> of the person with the first event: his/her birth
+ + The <a href="#context">Context</a> reminiscence recommendations for the person based on her first event: his/her birth
+ + A <a href="#response_status">Response status</a> resource (included in most api calls responses to gie further details of errors) 
+ + A new <a href ="#session"> Session </a> for the user
+
+POST /user
+> Content-Type: application/json
+{   
+    "User" : {
+        "user_email":"ugo.fantozzi@gmail.com"
+    },
+    "Person" : {
+            "firstname": "Ugo Fantozzi",
+            "birthdate": "07/07/1934>", 
+            "birthplace": "Genova, Italia"
+    }
+}
+< 200
+< Content-Type: application/json
+{
+    "User": {
+        "userId": 999,
+        "personId" : 999,
+        "lang":"it_IT",
+        "user_email": "ugo.fantozzi@gmail.com",
+        "nickname": "ugo.fantozzi98832",
+        "email_verified": "false",
+        "nickname_verified": "false"
+    },
+    "Person": {
+        "personId": 999,
+        "userId" : 999,
+        "fullname": "Ugo Fantozzi",
+        "birthdate": "07/07/1934",
+        "birthplace": "Genova, Italia"
+    },
+    "Timeline": {
+        "timelineId": 999,
+        "aboutPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "storyList": [
+            {
+                "storyId": 999,
+                "decade": 1930,
+                "visibility":"public",
+                "startDate": "1934,7,7 0:00:00",
+                "endDate": "1934,7,7 0:00:00",
+                "headline": "Nascita",
+                "text": "Ugo Fantozzi e nato a Genova",
+                "richtext": "/story/999/richtext",
+                "participants": [
+                    777,
+                    779
+                ],
+                "aboutPersonList": [
+                    999,
+                    779
+                ],
+                "createdBy": 999,
+                "tags": [
+                    "birth",
+                    "childhood"
+                ],
+                "mementoList": [
+                    {
+                        "mementoId": 998,
+                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                        "credit": "Burns! http://www.flickr.com/photos/mykalburns/",
+                        "caption": "Foto di Ugo circa la sua nascita in 1934",
+                        "thumbnail": "",
+                        "type": "picture",
+                        "cover": "true",
+                        "index": 1
+                    },
+                    {
+                        "mementoId": 997,
+                        "url": "https://soundcloud.com/er_murena/fantozzi-all",
+                        "credit": "er_murena @ soundcloud! https://soundcloud.com/er_murena",
+                        "caption": "Ugo's music",
+                        "thumbnail": "",
+                        "type": "audio",
+                        "cover": "false",
+                        "index": 2
+                    }
+                ]
+            },
+            {
+                "storyId": 998,
+                "decade": 1960,
+                "visibility":"private",
+                "startDate": "1960,9,9 0:00:00",
+                "endDate": "1960,9,9 0:00:00",
+                "headline": "Matrimonio",
+                "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",
+                "richtext": "/story/998/richtext",
+                "participants": [
+                    777
+                ],
+                "aboutPersonList": [
+                    999
+                ],
+                "createdBy": 777,
+                "tags": [
+                    "matrimonio",
+                    "adulthood",
+                    "milestone"
+                ],
+                "mementoList": [
+                    {
+                        "mementoId": 999,
+                        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+                        "credit": "Wikipedia",
+                        "caption": "",
+                        "thumbnail": "",
+                        "type": "photo",
+                        "cover": "false",
+                        "index": 2
+                    }
+                ]
+            }
+        ]
+    },
+    "Context": {
+        "contextId": 999,
+        "forPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "mementoList": [
+            {
+                "contextMementoId": 999,
+                "contextId": 999,
+                "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+                "thumbnail": "",
+                "headline": "MG M - 1930",
+                "decade": 1930,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "type": "photo",
+                "category": "photo",
+                "index": 2,
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "text": "MG M del 1930 ovvero la prima MG Midget",
+                "tags": [
+                    "photo",
+                    "automobile",
+                    "ogetto"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    },
+                    {
+                        "questionId": 998,
+                        "question": "Hai mai guidato una macchina come questa?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    }
+                ]
+            },
+            {
+                "contextMementoId": 997,
+                "contextId": 999,
+                "url": "http://farm3.staticflickr.com/2781/4437292021_3f6b977f8a.jpg",
+                "thumbnail": "",
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Monte Gazzo 21",
+                "type": "photo",
+                "category": "photo",
+                "index": 2,
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "text": "1960: veduta area del Santuario del Monte Gazzo.",
+                "tags": [
+                    "photo",
+                    "landscape"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 997,
+                        "question": "Riconosci questo posto?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    },
+                    {
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    }
+                ]
+            },
+            {
+                "contextMementoId": 996,
+                "contextId": 999,
+                "url": "https://www.youtube.com/watch?feature=player_detailpage&v=78LXfimeh8g",
+                "thumbnail": "",
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Claudio Villa in Rai Due",
+                "type": "music",
+                "category": "music",
+                "index": 3,
+                "credit": "Uploaded by Youtube user Kartastone",
+                "creditURL": "https://www.youtube.com/user/Kartastone?feature=watch",
+                "text": "",
+                "tags": [
+                    "musica",
+                    "youtube",
+                    "musicista",
+                    "video"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 997,
+                        "question": "Ti piace questa musica?",
+                        "tags": [
+                            "musica"
+                        ]
+                    },
+                    {
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "Response_Status": {
+        "status_code": "1",
+        "status_message": "User was created"
+    },
+    "Session": {
+        "auth_token": "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "status_code": "42", 
+    "status_message":"Auth string is not valid"
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "status_code": "51", 
+    "status_message":"The resource you tried to create is incomplete"
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "status_code": "52", 
+    "status_message":"The resource you tried to create already exists"
+}
+
+<p><b>Update user endpoint</b></p>
+<p>Request: </p>
+ 
+ + The <a href="#user">User</a> with the udpated fields
+ + The <a href="#person">person</a> with the udpated fields
+
+<p>Response:</p> 
+
+ + The <a href="#user">User</a> resource with its updated information
+ + The <a href="#user">Person</a> resource with its updated information
+
+PUT /user/{id}
+> Content-Type: application/json
+{"url":"/user/999"}
+{   
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
+    }, 
+    "User" : {
+        "user_email":"ugo.fantozzi@gmail.com"
+        "nickname":"ugo.fantozzi", 
+        "email_verified": "true", 
+        "nickname_verified": "true", 
+        "profile_pic": "http://farm4.staticflickr.com/3085/2807451879_c132dd1bf8_o.jpg"
+    },
+    "Person" : {
+        "fullname":"Ugo Fantozzi", 
+        "firstname": "Ugo", 
+        "lastname": "Fantozzi", 
+        "birthdate": "07/07/1934", 
+        "birthplace": "Genova, Italia",
+        "birthplace_lat": "44.4056499", 
+        "birthplace_lon": "8.946256",
+        "home":"Trento, Italia",
+        "home_lat": "46.0696924", 
+        "home_lon": "11.1210886",
+        "locale" : "IT_it"
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": "2", 
+        "status_message":"User was updated"   
+    },    
+    "User" : {
+        "userId" : 999,
+        "personId" : 999,
+        "user_email":"ugo.fantozzi@gmail.com"
+        "nickname":"ugo.fantozzi", 
+        "email_verified": "true", 
+        "nickname_verified": "true", 
+        "profile_pic": "http://farm4.staticflickr.com/3085/2807451879_c132dd1bf8_o.jpg"
+    },
+    "Person" : {
+        "personId": 999,
+        "userId" : 999,
+        "fullname":"Ugo Fantozzi", 
+        "firstname": "Ugo", 
+        "lastname": "Fantozzi", 
+        "birthdate": "07/07/1934", 
+        "birthplace": "Genova, Italia",
+        "birthplace_lat": "44.4056499", 
+        "birthplace_lon": "8.946256",
+        "home":"Trento, Italia",
+        "home_lat": "46.0696924", 
+        "home_lon": "11.1210886",
+        "locale" : "IT_it"
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "Response_Status": {
+        "status_code": "42", 
+        "status_message":"Auth string is not valid"
+    }
+}
++++++
+< 501
+< Content-Type: application/json
+{   "Response_Status": {
+        "status_code": "51", 
+        "status_message":"The resource you tried to create is incomplete"
+    }
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "Response_Status": {
+        "status_code": "52", 
+        "status_message":"The resource you tried to create already exists"
+    }
+}
+
+<p><b>Delete the user endpoint</b></p>
+<p>Request: </p>
+ 
+ + The <a href="#user">Session</a> to delete (only the user itself and his/her main curators can delete 
+ the user (which means deleting all of his/her data too)
+ 
+DELETE /user/{id}
+> Content-Type: text/json
+{"url":"/user/999"}
+{   
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": "2", 
+        "status_message":"User was deleted"   
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "Response_Status": {
+        "status_code": "42", 
+        "status_message":"Auth string is not valid"
+    }
+}
++++++
+< 501
+< Content-Type: application/json
+{   
+    "Response_Status": {
+        "status_code": "51", 
+        "status_message":"The resource you tried to create is incomplete"
+    }
+}
++++++
+< 501
+< Content-Type: application/json
+{  
+    "Response_Status": {
+        "status_code": "52", 
+        "status_message":"The resource you tried to create already exists"
+    }
+}
+
+--
+People, Life Stories and Timelines
+<p> Every user is a <a href="#person">Person</a> with many <a href="#person">Life Stories</a> to share. In this section 
+we group API endpoints that allow applications to access personal information and stories of both public people and registered 
+<a href="#user">Users</a> that interact with the system by adding, visualizing or editing life stories and exploring the 
+surrounding <a href="#context">Context</a> (composed by public related content). Every person is identified by one unique 
+<code>id</code> and has at least fullname, a birthdate and birhtplace.</p>. A person can exist without a <a href="#user">User</a> 
+associated to it, in which case the person refers to a public figure, existing in our historical knowledge base (see the 
+<a href="http://docs.reminiscens.apiary.io/">Lifecontext API</a> to know more about this knolwedge base)</p>
+
+<p>Through this API, users can only access a person's available information from their URI and if it has privileges. 
+For creation and update operations, the <a href="#user">User</a> endpoint must be used</p>
+
+<p><pre><code>
+<a id="person"><b>The Person Resource (complete):</b></a>
+    "Person": {
+        "personId": 999,
+        "userId": 999,
+        "fullname": "Ugo Fantozzi",
+        "firstname": "Ugo",
+        "lastname": "Fantozzi",
+        "birthdate": "07/07/1934",
+        "birthplace": "Genova, Italia",
+        "birthplace_lat": "44.4056499",
+        "birthplace_lon": "8.946256",
+        "home": "Trento, Italia",
+        "home_lat": "46.0696924",
+        "home_lon": "11.1210886",
+        "locale": "IT_it"
+    }
+</pre></code></p>
+
+<p> Every person has <a href="#lifestory"> Life Stories</a> that together form a <a href="#timeline">Timeline</a>. Each 
+life story has also a list of <a href="#memento"> Mementos</a> or multimedia resources that remind to that story (pictures, 
+videos, audio storytelling, etc.). Mementos are also part of the contextual recommendations, only there 
+Only the person who owns these stories and people in his/her friend list can access and view his stories in the timeline.
+Some stories might be marked as "public", and only those are viewable by all. A person can also have
+Timeline Curators, who can access and edit thes stories in his/her timeline</p>
+
+<p><pre><code>
+<a id="lifestory"><b>The Life Story Resource:</b></a>
+    "LifeStory" : {
+        "storyId": 999,
+        "decade": 1930,
+        "visibility":"public",
+        "startDate": "1934,7,7 0:00:00",
+        "endDate": "1934,7,7 0:00:00",
+        "headline": "Nascita",
+        "text": "Ugo Fantozzi e nato a Genova",
+        "richtext": "/story/999/richtext",
+        "participants" : [ <person ids of people that particpated in the story> ],
+        "aboutPersonList : [ <person ids of people that is focus of the story, one the timeline's owner> ], 
+        "createdBy" : 999, 
+        "tags":  ["birth", "childhood", ...],
+        "mementoList": [ <list of mementos (i.e., resources related to this story> ]
+    }
+</pre></code></p>
+
+<p><pre><code>
+<a id="memento"><b>The Memento Resource</b></a>
+    "Memento" : {
+        "mementoId" : 999,
+        "storyId" : 999,                 
+        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+        "thumbnail": "",
+        "decade": 1930,
+        "startDate": "",
+        "endDate": "",
+        "participants" : [ <person ids of people visible in the memento> ],
+        "headline": "Foto di Ugo circa la sua nascita in 1934",
+        "type": "photo",
+        "category" : "photo", 
+        "cover": "true",
+        "index": 1,
+        "credit" : "Wikipedia",
+        "creditURL : "<url to the source> ",
+        "text": "MG M del 1930 ovvero la prima MG Midget",
+        "tags": [ "photo", "automobile", "ogetto" ]
+    }
+</pre></code></p>
+
+
+<p><pre><code>
+<a id="timeline"><b>The Timeline Resource</b></a>
+    "Timeline" : {
+        "timelineId" : 999,
+        "aboutPersonId" : 999,
+        "curators" : [ <person ids of the people with full access to this timeline> ],
+        "storyList" : [ <list of life stories that belong to this timeline> ]
+    }
+}
+</pre></code></p>
+--
+
+<p> Get the basic information related to the Person identified by <code>id</code>
+<p>Request: </p>
+ 
+ +  <b> Mandatory. </b> <a href="#session">Session</a>
+
+<p>Response:</p> 
+ + <a href="#person">Person</a> 
+
+GET /person/{id}
+> Accept: application/json
+{"url":"/person/999"}
+{ 
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
+    }
+}
+< 200 
+< Content-Type: application/json
+{ 
+    "Response_Status" : { 
+        "status_code": 1, 
+        "status_message":"OK"
+    },
+    "Person": {
+        "personId": 999,
+        "userId": 999,
+        "fullname": "Ugo Fantozzi",
+        "firstname": "Ugo",
+        "lastname": "Fantozzi",
+        "birthdate": "07/07/1934",
+        "birthplace": "Genova, Italia",
+        "birthplace_lat": "44.4056499",
+        "birthplace_lon": "8.946256",
+        "home": "Trento, Italia",
+        "home_lat": "46.0696924",
+        "home_lon": "11.1210886",
+        "locale": "IT_it"
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 41, 
+        "status_message":"Auth token is not valid"
+    }
+}
++++++
+< 401
+< Content-Type: application/json
+{
+    "Response_Status" : {
+        "status_code": 42, 
+        "status_message":"Session ID is not valid"
+    }
+}
+
+<p> Get the timeline of life stories of a person: </p>
+<p>Request: </p>
+ 
+ +  <b> Mandatory. </b> <a href="#session">Session</a>
+
+<p>Response: </p> 
+
++ A <a href="#timeline">Timeline</a> resource 
+ 
+GET /person/{id}/timeline
+> Accept: application/json
+{"url":"/person/999/timeline"}
+{ 
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
+    }
+}
+< 200 
+< Content-Type: application/json
+{ 
+    "Timeline": {
+        "timelineId": 999,
+        "aboutPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "storyList": [
+            {
+                "storyId": 999,
+                "decade": 1930,
+                "visibility": "public",
+                "startDate": "1934,7,7 0:00:00",
+                "endDate": "1934,7,7 0:00:00",
+                "headline": "Nascita",
+                "text": "Ugo Fantozzi e nato a Genova",
+                "richtext": "/story/999/richtext",
+                "participants": [
+                    777,
+                    779
+                ],
+                "aboutPersonList": [
+                    999,
+                    779
+                ],
+                "createdBy": 999,
+                "tags": [
+                    "birth",
+                    "childhood"
+                ],
+                "mementoList": [
+                    {
+                        "mementoId": 998,
+                        "storyId": 999,
+                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                        "thumbnail": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [],
+                        "headline": "Foto di Ugo circa la sua nascita in 1934",
+                        "type": "photo",
+                        "category": "photo",
+                        "cover": "true",
+                        "index": 1,
+                        "credit": "",
+                        "creditURL": "",
+                        "text": "",
+                        "tags": [
+                            "photo",
+                            "birth"
+                        ]
+                    },
+                    {
+                        "mementoId": 997,
+                        "storyId": 999,
+                        "url": "https://soundcloud.com/er_murena/fantozzi-all",
+                        "thumbnail": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [
+                            999
+                        ],
+                        "headline": "Ugo's music",
+                        "type": "audio",
+                        "category": "",
+                        "cover": "false",
+                        "index": 2,
+                        "credit": "er_murena @ soundcloud!",
+                        "creditURL": "https://soundcloud.com/er_murena",
+                        "text": "",
+                        "tags": [
+                            "audio",
+                            "storytelling"
+                        ]
+                    }
+                ]
+            },
+            {
+                "storyId": 998,
+                "decade": 1960,
+                "visibility": "private",
+                "startDate": "1960,9,9 0:00:00",
+                "endDate": "1960,9,9 0:00:00",
+                "headline": "Matrimonio",
+                "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",
+                "richtext": "/story/998/richtext",
+                "participants": [
+                    777
+                ],
+                "aboutPersonList": [
+                    999
+                ],
+                "createdBy": 777,
+                "tags": [
+                    "matrimonio",
+                    "adulthood",
+                    "milestone"
+                ],
+                "mementoList": [
+                    {
+                        "mementoId": 999,
+                        "storyId": 999,
+                        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+                        "thumbnail": "",
+                        "headline": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [],
+                        "type": "photo",
+                        "category": "photo",
+                        "cover": "false",
+                        "index": 2,
+                        "credit": "Wikipedia",
+                        "creditURL": "",
+                        "text": "",
+                        "tags": []
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+<p> Synch local timeline </p>
+<p>Request: </p>
+ 
+ +  <b> Mandatory. </b> <a href="#session">Session</a>
+ +  <b> Mandatory. </b> <a href="#session">Timeline</a>
+
+<p>Response: </p> 
+
++ <a href="#timeline">Timeline</a> with StoryList having missing stories in the local version
+
+POST /person/{id}/timeline
+> Accept: application/json
+{"url":"/person/999/timeline"}
+{ 
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
+    } 
+    "Timeline": {
+        "timelineId": 999,
+        "aboutPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "storyList": [
+            {
+                "storyId": 999,
+                "decade": 1930,
+                "visibility": "public",
+                "startDate": "1934,7,7 0:00:00",
+                "endDate": "1934,7,7 0:00:00",
+                "headline": "Nascita",
+                "text": "Ugo Fantozzi e nato a Genova",
+                "richtext": "/story/999/richtext",
+                "participants": [
+                    777,
+                    779
+                ],
+                "aboutPersonList": [
+                    999,
+                    779
+                ],
+                "createdBy": 999,
+                "tags": [
+                    "birth",
+                    "childhood"
+                ],
+                "mementoList": [
+                    {
+                        "mementoId": 998,
+                        "storyId": 999,
+                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                        "thumbnail": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [],
+                        "headline": "Foto di Ugo circa la sua nascita in 1934",
+                        "type": "photo",
+                        "category": "photo",
+                        "cover": "true",
+                        "index": 1,
+                        "credit": "",
+                        "creditURL": "",
+                        "text": "",
+                        "tags": [
+                            "photo",
+                            "birth"
+                        ]
+                    },
+                    {
+                        "mementoId": 997,
+                        "storyId": 999,
+                        "url": "https://soundcloud.com/er_murena/fantozzi-all",
+                        "thumbnail": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [
+                            999
+                        ],
+                        "headline": "Ugo's music",
+                        "type": "audio",
+                        "category": "",
+                        "cover": "false",
+                        "index": 2,
+                        "credit": "er_murena @ soundcloud!",
+                        "creditURL": "https://soundcloud.com/er_murena",
+                        "text": "",
+                        "tags": [
+                            "audio",
+                            "storytelling"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
+< 200 
+< Content-Type: application/json
+{ 
+    "Timeline": {
+        "timelineId": 999,
+        "aboutPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "storyList": [
+            {
+                "storyId": 999,
+                "decade": 1930,
+                "visibility": "public",
+                "startDate": "1934,7,7 0:00:00",
+                "endDate": "1934,7,7 0:00:00",
+                "headline": "Nascita",
+                "text": "Ugo Fantozzi e nato a Genova",
+                "richtext": "/story/999/richtext",
+                "participants": [
+                    777,
+                    779
+                ],
+                "aboutPersonList": [
+                    999,
+                    779
+                ],
+                "createdBy": 999,
+                "tags": [
+                    "birth",
+                    "childhood"
+                ],
+                "mementoList": [
+                    {
+                        "mementoId": 998,
+                        "storyId": 999,
+                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                        "thumbnail": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [],
+                        "headline": "Foto di Ugo circa la sua nascita in 1934",
+                        "type": "photo",
+                        "category": "photo",
+                        "cover": "true",
+                        "index": 1,
+                        "credit": "",
+                        "creditURL": "",
+                        "text": "",
+                        "tags": [
+                            "photo",
+                            "birth"
+                        ]
+                    },
+                    {
+                        "mementoId": 997,
+                        "storyId": 999,
+                        "url": "https://soundcloud.com/er_murena/fantozzi-all",
+                        "thumbnail": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [
+                            999
+                        ],
+                        "headline": "Ugo's music",
+                        "type": "audio",
+                        "category": "",
+                        "cover": "false",
+                        "index": 2,
+                        "credit": "er_murena @ soundcloud!",
+                        "creditURL": "https://soundcloud.com/er_murena",
+                        "text": "",
+                        "tags": [
+                            "audio",
+                            "storytelling"
+                        ]
+                    }
+                ]
+            },
+            {
+                "storyId": 998,
+                "decade": 1960,
+                "visibility": "private",
+                "startDate": "1960,9,9 0:00:00",
+                "endDate": "1960,9,9 0:00:00",
+                "headline": "Matrimonio",
+                "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",
+                "richtext": "/story/998/richtext",
+                "participants": [
+                    777
+                ],
+                "aboutPersonList": [
+                    999
+                ],
+                "createdBy": 777,
+                "tags": [
+                    "matrimonio",
+                    "adulthood",
+                    "milestone"
+                ],
+                "mementoList": [
+                    {
+                        "mementoId": 999,
+                        "storyId": 999,
+                        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+                        "thumbnail": "",
+                        "headline": "",
+                        "decade": 1930,
+                        "startDate": "",
+                        "endDate": "",
+                        "participants": [],
+                        "type": "photo",
+                        "category": "photo",
+                        "cover": "false",
+                        "index": 2,
+                        "credit": "Wikipedia",
+                        "creditURL": "",
+                        "text": "",
+                        "tags": []
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+<p> Create a new story: </p>
+
+<p>Request: </p> 
+    + <b> Mandatory. </b> <a href="#session">Session</a>
+    + <b> Mandatory. </b> <a href="#session">Life Story</a> with at least:
+        + Title
+        + Decade or year
+        + Location 
+
+<p>Response:</p> 
+    + <a href="#timeline">Life Story</a> ID 
+
+POST /lifestory
+> Content-Type: application/json
+{  
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
+    },
+    "LifeStory" :
+    {
+        "storyId": 999,
+        "personId" : 999, 
+        "decade": 1930,
+        "visibility": "public",
+        "startDate": "1934",
+        "endDate": "1934",
+        "headline": "Nascita",
+        "text": "Ugo Fantozzi e nato a Genova",
+        "richtext": "/story/999/richtext",
+        "participants": [
+            777,
+            779
+        ],
+        "aboutPersonList": [
+            999,
+            779
+        ],
+        "tags": [
+            "birth",
+            "childhood"
+        ],
+        "mementoList": [
+            {
+                "mementoId": 998,
+                "storyId": 999,
+                "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                "thumbnail": "",
+                "decade": 1930,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Foto di Ugo circa la sua nascita in 1934",
+                "type": "photo",
+                "category": "photo",
+                "cover": "true",
+                "index": 1,
+                "credit": "",
+                "creditURL": "",
+                "text": "",
+                "tags": [
+                    "photo",
+                    "birth"
+                ]
+            }
+        ]    
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource was created"
+    }
+    "Lifestory" : {
+        "url": "/lifestory/999"
+    }
+}
+
+<p> Get a life story: </p>
+
+<p>Request: </p> 
+    + <b> Mandatory. </b> <a href="#session">Session</a>
+
+<p>Response:</p> 
+    + <a href="#timeline">Life Story</a> 
+GET /lifestory/{id}
+> Content-Type: application/json
+{"url":"/lifestory/999"}
+{  
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource was created"
+    },
+    "LifeStory" :
+    {
+        "storyId": 999,
+        "personId" : 999, 
+        "decade": 1930,
+        "visibility": "public",
+        "startDate": "1934",
+        "endDate": "1934",
+        "headline": "Nascita",
+        "text": "Ugo Fantozzi e nato a Genova",
+        "richtext": "/story/999/richtext",
+        "participants": [
+            777,
+            779
+        ],
+        "aboutPersonList": [
+            999,
+            779
+        ],
+        "tags": [
+            "birth",
+            "childhood"
+        ],
+        "mementoList": [
+            {
+                "mementoId": 998,
+                "storyId": 999,
+                "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                "thumbnail": "",
+                "decade": 1930,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Foto di Ugo circa la sua nascita in 1934",
+                "type": "photo",
+                "category": "photo",
+                "cover": "true",
+                "index": 1,
+                "credit": "",
+                "creditURL": "",
+                "text": "",
+                "tags": [
+                    "photo",
+                    "birth"
+                ]
+            }
+        ]    
+    }
+}
+
+
+Update a story
+
+PUT /lifestory/{id}
+> Content-Type: application/json
+{  
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
+    }, 
+    "LifeStory" : {
+        "storyId": 999,
+        "personId" : 999, 
+        "decade": 1930,
+        "visibility": "public",
+        "startDate": "1934",
+        "endDate": "1934",
+        "headline": "Nascita",
+        "text": "Ugo Fantozzi e nato a Genova",
+        "richtext": "/story/999/richtext",
+        "participants": [
+            777,
+            779
+        ],
+        "aboutPersonList": [
+            999,
+            779
+        ],
+        "tags": [
+            "birth",
+            "childhood"
+        ],
+        "mementoList": [
+            {
+                "mementoId": 998,
+                "storyId": 999,
+                "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
+                "thumbnail": "",
+                "decade": 1930,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Foto di Ugo circa la sua nascita in 1934",
+                "type": "photo",
+                "category": "photo",
+                "cover": "true",
+                "index": 1,
+                "credit": "",
+                "creditURL": "",
+                "text": "",
+                "tags": [
+                    "photo",
+                    "birth"
+                ]
+            }
+        ]    
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource was created"
+    }
+    "Lifestory" : {
+        "url": "/person/999"
+    }
+}
+
+
+
+--
+Contextual Reminiscence
+
+<p> Reminiscence is a phenomena that can be fostered when people interact with content that reminds them about 
+their lives. For supporting this, for each user in our system, a semi-automatic <a href="#context">Context</a>
+is prepared consisting of a list of <a href="#contextmemento"> Contextual Mementos</a> that are somehow 
+related to the life stories of the person, including pictures of places where the person has been, 
+music from his youth, people from the different period of his life, events that happened around his own 
+stories. All these content is served through this API to stimulate people to reminisce. </p> 
+
+<p> The context is semi-automatic because it starts with an automatic set of mementos, created by the 
+<a href="http://docs.lifecontext.apiary.io/>Lifecontext API</a>, but can later be updated by 
+a list of human curators that know the person who is going to be stimulated (e.g., his/her family). 
+</p> 
+
+<p> To further stimulate (or facilitate the practice of reminiscence to people), relevant contextual
+<a href="#question"> Questions</a> surround each contextual memento, to which the person can reply 
+by creating a new story. Questions also appear when there are no stories in a decade, as an starter
+for storytelling</p>
+
+<p><pre><code>
+<a id="contextmemento"><b>The Contextual Memento Resource</b></a>
+    "ContextMemento" : {
+        "contextMementoId" : 999,
+        "contextId" : 999,                 
+        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+        "thumbnail": "",
+        "decade": 1930,
+        "startDate": "",
+        "endDate": "",
+        "participants" : [ <person ids of people visible in the memento> ],
+        "headline": "Foto di Ugo circa la sua nascita in 1934",
+        "type": "photo",
+        "category" : "photo", 
+        "index": 1,
+        "credit" : "Wikipedia",
+        "creditURL : "<url to the source> ",
+        "text": "MG M del 1930 ovvero la prima MG Midget",
+        "tags": [ "photo", "automobile", "ogetto" ], 
+        "questionList": [ <list of question resources that can trigger discussion and reminiscence around this memento> ]      
+    }
+</pre></code></p>
+
+<p><pre><code>
+<a id="question"><b>The Question Resource</b></a>
+    "Question" : {
+        "questionId": 789,
+        "question": "Ti ricordi della prima volta che hai guidato una macchina?",
+        "locale":"it_IT", 
+        "tags": [
+            "automobile",
+            "ogetto"
+        ]
+    }
+</pre></code></p>
+
+<p><pre><code>
+<a id="context"><b>The Context Resource</b></a>
+    "Context" : {
+        "contextId" : 999,
+        "forPersonId" : 999,
+        "title" : "The contextual reminiscence multimedia for Ugo Fantozzi",
+        "subtitle" : "A set of old public collective memory items that can help Ugo Fantozzi remember his life",
+        "curators" : [ <person ids of the people with full access to this timeline> ],
+        "mementoList" : [ <list of life stories that belong to this timeline> ]
+    }
+}
+</pre></code></p>
+
+--
+
+Get the context for a person
+
+GET /person/{id}/context
+> Content-Type: application/json
+{"url":"/person/999/context"}
+{  
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource was created"
+    },
+    "Context": {
+        "contextId": 999,
+        "forPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "mementoList": [
+            {
+                "contextMementoId": 999,
+                "contextId": 999,
+                "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+                "thumbnail": "",
+                "headline": "MG M - 1930",
+                "decade": 1930,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "type": "photo",
+                "category": "photo",
+                "index": 2,
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "text": "MG M del 1930 ovvero la prima MG Midget",
+                "tags": [
+                    "photo",
+                    "automobile",
+                    "ogetto"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    },
+                    {
+                        "questionId": 998,
+                        "question": "Hai mai guidato una macchina come questa?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    }
+                ]
+            },
+            {
+                "contextMementoId": 997,
+                "contextId": 999,
+                "url": "http://farm3.staticflickr.com/2781/4437292021_3f6b977f8a.jpg",
+                "thumbnail": "",
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Monte Gazzo 21",
+                "type": "photo",
+                "category": "photo",
+                "index": 2,
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "text": "1960: veduta area del Santuario del Monte Gazzo.",
+                "tags": [
+                    "photo",
+                    "landscape"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 997,
+                        "question": "Riconosci questo posto?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    },
+                    {
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    }
+                ]
+            },
+            {
+                "contextMementoId": 996,
+                "contextId": 999,
+                "url": "https://www.youtube.com/watch?feature=player_detailpage&v=78LXfimeh8g",
+                "thumbnail": "",
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Claudio Villa in Rai Due",
+                "type": "music",
+                "category": "music",
+                "index": 3,
+                "credit": "Uploaded by Youtube user Kartastone",
+                "creditURL": "https://www.youtube.com/user/Kartastone?feature=watch",
+                "text": "",
+                "tags": [
+                    "musica",
+                    "youtube",
+                    "musicista",
+                    "video"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 997,
+                        "question": "Ti piace questa musica?",
+                        "tags": [
+                            "musica"
+                        ]
+                    },
+                    {
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+Get a context by ID
+
+GET /context/{id}
+> Content-Type: application/json
+{"url":"/context/999"}
+{  
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource was created"
+    },
+    "Context": {
+        "contextId": 999,
+        "forPersonId": 999,
+        "curators": [
+            777,
+            778,
+            779
+        ],
+        "mementoList": [
+            {
+                "contextMementoId": 999,
+                "contextId": 999,
+                "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+                "thumbnail": "",
+                "headline": "MG M - 1930",
+                "decade": 1930,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "type": "photo",
+                "category": "photo",
+                "index": 2,
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "text": "MG M del 1930 ovvero la prima MG Midget",
+                "tags": [
+                    "photo",
+                    "automobile",
+                    "ogetto"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    },
+                    {
+                        "questionId": 998,
+                        "question": "Hai mai guidato una macchina come questa?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    }
+                ]
+            },
+            {
+                "contextMementoId": 997,
+                "contextId": 999,
+                "url": "http://farm3.staticflickr.com/2781/4437292021_3f6b977f8a.jpg",
+                "thumbnail": "",
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Monte Gazzo 21",
+                "type": "photo",
+                "category": "photo",
+                "index": 2,
+                "credit": "Some rights reserved by ciric",
+                "creditURL": "",
+                "text": "1960: veduta area del Santuario del Monte Gazzo.",
+                "tags": [
+                    "photo",
+                    "landscape"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 997,
+                        "question": "Riconosci questo posto?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    },
+                    {
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    }
+                ]
+            },
+            {
+                "contextMementoId": 996,
+                "contextId": 999,
+                "url": "https://www.youtube.com/watch?feature=player_detailpage&v=78LXfimeh8g",
+                "thumbnail": "",
+                "decade": 1960,
+                "startDate": "",
+                "endDate": "",
+                "participants": [],
+                "headline": "Claudio Villa in Rai Due",
+                "type": "music",
+                "category": "music",
+                "index": 3,
+                "credit": "Uploaded by Youtube user Kartastone",
+                "creditURL": "https://www.youtube.com/user/Kartastone?feature=watch",
+                "text": "",
+                "tags": [
+                    "musica",
+                    "youtube",
+                    "musicista",
+                    "video"
+                ],
+                "questionList": [
+                    {
+                        "questionId": 997,
+                        "question": "Ti piace questa musica?",
+                        "tags": [
+                            "musica"
+                        ]
+                    },
+                    {
+                        "questionId": 996,
+                        "question": "Lei è mai stat in questo castello?",
+                        "tags": [
+                            "landscape",
+                            "castell"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+Get a contextual memento
+
+GET /context/{id}/memento/{id}
+> Content-Type: application/json
+{"url":"/context/999"}
+{  
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource was created"
+    },
+    "Memento": {
+        "contextMementoId": 999,
+        "contextId": 999,
+        "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+        "thumbnail": "",
+        "headline": "MG M - 1930",
+        "decade": 1930,
+        "startDate": "",
+        "endDate": "",
+        "participants": [],
+        "type": "photo",
+        "category": "photo",
+        "index": 2,
+        "credit": "Some rights reserved by ciric",
+        "creditURL": "",
+        "text": "MG M del 1930 ovvero la prima MG Midget",
+        "tags": [
+            "photo",
+            "automobile",
+            "ogetto"
+        ],
+        "questionList": [
+                    {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    },
+                    {
+                        "questionId": 998,
+                        "question": "Hai mai guidato una macchina come questa?",
+                        "tags": [
+                            "automobile",
+                            "ogetto"
+                        ]
+                    }
+                ]
+    }
+}
+
+
+Add a memento to the context of a person
+
+POST /context/{id}/memento
+> Content-Type: application/json
+{"url":"/context/999/memento"}
+{  
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
+    },
+    "Memento": {
+        "contextMementoId": 999,
+        "contextId": 999,
+        "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+        "thumbnail": "",
+        "headline": "MG M - 1930",
+        "decade": 1930,
+        "startDate": "",
+        "endDate": "",
+        "participants": [],
+        "type": "photo",
+        "category": "photo",
+        "index": 2,
+        "credit": "Some rights reserved by ciric",
+        "creditURL": "",
+        "text": "MG M del 1930 ovvero la prima MG Midget",
+        "tags": [
+            "photo",
+            "automobile",
+            "ogetto"
+        ]
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource was created"
+    }, 
+    "Memento" : {
+        "url":"/context/999/memento/999
+    }
+}
+
+Update a memento in the context of a person
+
+PUT /context/{id}/memento
+> Content-Type: application/json
+{"url":"/context/999/memento"}
+{  
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
+    },
+    "Memento": {
+        "contextMementoId": 999,
+        "contextId": 999,
+        "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
+        "thumbnail": "",
+        "headline": "MG M - 1930",
+        "decade": 1930,
+        "startDate": "",
+        "endDate": "",
+        "participants": [],
+        "type": "photo",
+        "category": "photo",
+        "index": 2,
+        "credit": "Some rights reserved by ciric",
+        "creditURL": "",
+        "text": "MG M del 1930 ovvero la prima MG Midget",
+        "tags": [
+            "photo",
+            "automobile",
+            "ogetto"
+        ]
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource was created"
+    }, 
+    "Memento" : {
+        "url":"/context/999/memento/999
+    }
+}
+
+Delete a memento from the context of a person
+
+DELETE /context/{id}/memento/{id}
+> Content-Type: application/json
+{"url":"/context/999/memento/999"}
+{  
+    "Session" : {
+        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
+    }
+}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource was deleted"
+    }
+}
+
+Get list of questions for a person around a decade of his life
+GET /person/{id}/question
+> Content-Type: application/json
+{ "url":"/person/999/question/1940"}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": "1", 
+        "status_message":"Resource exists"
+    },
+        "QuestionList": [
+            {
+                {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "decade" : 1990,
+                        "tags": [
+                            "automobile",
+                            "ogetto, giovinezza"
+                        ]
+                    }
+            }
+        ]
+}
+
+Get questions for a person around a decade of his life
+GET /person/{id}/question/{decade}
+> Content-Type: application/json
+{ "url":"/person/999/question/1940"}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": "1", 
+        "status_message":"Resource exists"
+    },
+        "QuestionList": [
+            {
+                {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "tags": [
+                            "automobile",
+                            "ogetto, giovinezza"
+                        ]
+                    }
+            }
+        ]
+}
+
+
+Get a random question based on birthyear and a focus year
+
+GET /question/{birthyear}/{focusyear}
+> Content-Type: application/json
+{ "url":"/question/1940/1948"}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": "1", 
+        "status_message":"Resource exists"
+    },
+        "QuestionList": [
+            {
+                {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "tags": [
+                            "automobile",
+                            "ogetto, giovinezza"
+                        ]
+                    }
+            }
+        ]
+}
+
+
+Question for a life chapter 
+
+GET /question/{lifechapter}
+> Content-Type: application/json
+{ "url":"/question/childhood"}
+< 200
+< Content-Type: application/json
+{  
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"Resource exists"
+    },
+        "QuestionList": [
+            {
+                {
+                        "questionId": 999,
+                        "question": "Riconosci questa macchina?",
+                        "tags": [
+                            "automobile",
+                            "ogetto, giovinezza"
+                        ]
+                    }
+            }
+        ]
+}
+
+
+-- 
+Additional Resources
+
+<p><pre><code>
+<a id="response_status"><b>The Response Status Resource (complete):</b></a>
+    "Response_Status" : {
+        "status_code": 1, 
+        "status_message":"User was created"   
+    },    
+</pre></code></code>
+--
+
+
+
+-- 
+Mock APIs
+
+Get person 998
+Get person 997
+Get timeline of person 997
+Get timeline of person 998
+Get context for person 997
+Get context of person 998
+Get questions for person 997
+Get questions for person 998
+
+--
+
+
+
+

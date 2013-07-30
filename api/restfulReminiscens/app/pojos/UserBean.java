@@ -22,28 +22,24 @@ public class UserBean implements Serializable {
 
 	public Long userId;
 	
-	@Required 
-	@NotNull
-	public Long personId;
-    private PersonBean person;
-    private String nickname;
-    
     @Required 
 	@NotNull
-    private String email;
-    private String lang = "it_IT";
-    private Boolean email_verified = Boolean.FALSE;
-    private Boolean nickname_verified = Boolean.FALSE;
-    private String profile_pic;
-    @JsonIgnore
-    private String cryptpass;
-    private UserType conf_type =  UserType.TEST;
-   
+    private String email;    
+    private String username;
+    private String profilePic;
+    private String locale = "it_IT";
+    private Boolean emailVerified = Boolean.FALSE;
+    private Boolean usernameVerified = Boolean.FALSE;
+    private UserType confType =  UserType.TEST;
 	private boolean active;
-    
     @JodaDateTime(format="yyyy-MM-dd HH:mm:ss")
-    private DateTime creationDate;
+    private DateTime creationDate;    
+    private String sessionKey;
 
+//	@Required 
+//	@NotNull
+//	public Long personId;
+    private PersonBean person;
 	/**
 	 * @return the userId
 	 */
@@ -58,156 +54,78 @@ public class UserBean implements Serializable {
 		this.userId = userId;
 	}
 
-	/**
-	 * @return the personId
-	 */
-	public Long getPersonId() {
-		return personId;
-	}
-
-	/**
-	 * @param personId the personId to set
-	 */
-	public void setPersonId(Long personId) {
-		this.personId = personId;
-	}
-
-	/**
-	 * @return the person
-	 */
-	public PersonBean getPerson() {
-		return person;
-	}
-
-	/**
-	 * @param person the person to set
-	 */
-	public void setPerson(PersonBean person) {
-		this.person = person;
-	}
-
-	/**
-	 * @return the nickname
-	 */
-	public String getNickname() {
-		return nickname;
-	}
-
-	/**
-	 * @param nickname the nickname to set
-	 */
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
-	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-	/**
-	 * @param email the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	/**
-	 * @return the lang
-	 */
-	public String getLang() {
-		return lang;
-	}
-
-	/**
-	 * @param lang the lang to set
-	 */
-	public void setLang(String lang) {
-		this.lang = lang;
-	}
-
-	/**
-	 * @return the email_verified
-	 */
-	public Boolean getEmail_verified() {
-		return email_verified;
-	}
-
-	/**
-	 * @param email_verified the email_verified to set
-	 */
-	public void setEmail_verified(Boolean email_verified) {
-		this.email_verified = email_verified;
-	}
-
-	/**
-	 * @return the nickname_verified
-	 */
-	public Boolean getNickname_verified() {
-		return nickname_verified;
-	}
-
-	/**
-	 * @param nickname_verified the nickname_verified to set
-	 */
-	public void setNickname_verified(Boolean nickname_verified) {
-		this.nickname_verified = nickname_verified;
-	}
-
-	/**
-	 * @return the profile_pic
-	 */
-	public String getProfile_pic() {
-		return profile_pic;
-	}
-
-	/**
-	 * @param profile_pic the profile_pic to set
-	 */
-	public void setProfile_pic(String profile_pic) {
-		this.profile_pic = profile_pic;
-	}
-
-	/**
-	 * @return the cryptpass
-	 */
-	public String getCryptpass() {
-		return cryptpass;
-	}
-
-	/**
-	 * @param cryptpass the cryptpass to set
-	 */
-	public void setCryptpass(String cryptpass) {
-		this.cryptpass = cryptpass;
-	}
-
-	/**
-	 * @return the conf_type
-	 */
-	public UserType getConfType() {
-		return conf_type;
-	}
-
-	/**
-	 * @param conf_type the conf_type to set
-	 */
-	public void setConfType(UserType conf_type) {
-		this.conf_type = conf_type;
-	}
-
-	public DateTime getCreationDate() {
-		return creationDate;
-	}
+//	/**
+//	 * @return the personId
+//	 */
+//	public Long getPersonId() {
+//		return personId;
+//	}
+//
+//	/**
+//	 * @param personId the personId to set
+//	 */
+//	public void setPersonId(Long personId) {
+//		this.personId = personId;
+//	}
 
 	public String getCreationDateAsString() {
 		return creationDate == null ? null : creationDate.toString("yyyy-MM-dd HH:mm:ss");
 	}
 
-	public void setCreationDate(DateTime creation_date) {
-		this.creationDate = creation_date;
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
+	}
+
+	public String getLocale() {
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+
+	public Boolean getEmailVerified() {
+		return emailVerified;
+	}
+
+	public void setEmailVerified(Boolean emailVerified) {
+		this.emailVerified = emailVerified;
+	}
+
+	public Boolean getUsernameVerified() {
+		return usernameVerified;
+	}
+
+	public void setUsernameVerified(Boolean usernameVerified) {
+		this.usernameVerified = usernameVerified;
+	}
+
+	public UserType getConfType() {
+		return confType;
+	}
+
+	public void setConfType(UserType confType) {
+		this.confType = confType;
 	}
 
 	public boolean isActive() {
@@ -217,5 +135,30 @@ public class UserBean implements Serializable {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-    
+
+	public String getSessionKey() {
+		return sessionKey;
+	}
+
+	public void setSessionKey(String sessionKey) {
+		this.sessionKey = sessionKey;
+	}
+
+	public PersonBean getPerson() {
+		return person;
+	}
+
+	public void setPerson(PersonBean person) {
+		this.person = person;
+	}
+
+	public void setCreationDate(DateTime creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public DateTime getCreationDate() {
+		return creationDate;
+	}
+
+	    
 }

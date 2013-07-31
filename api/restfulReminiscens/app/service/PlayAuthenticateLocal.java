@@ -14,7 +14,9 @@ import play.mvc.Controller;
 import play.mvc.Http.Context;
 import play.mvc.Http.Session;
 import play.mvc.Result;
+import pojos.ResponseStatusBean;
 import pojos.UserBean;
+import providers.MyUsernamePasswordAuthUser;
 import utils.PlayDozerMapper;
 
 import com.feth.play.module.pa.PlayAuthenticate;
@@ -23,6 +25,7 @@ import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 
 import controllers.routes;
+import enums.ResponseStatus;
 
 public class PlayAuthenticateLocal extends PlayAuthenticate {
 
@@ -88,7 +91,7 @@ public class PlayAuthenticateLocal extends PlayAuthenticate {
 		
 		models.User user = models.User.getByEmail(loginUser.getId());
 		UserBean u = PlayDozerMapper.getInstance().map(user, UserBean.class);
-		u.setSessionKey("PLAY_SESSION=" + signed + "-" + encoded);
+		u.setSessionKey(signed + "-" + encoded);
 //		return Controller.ok(toJson("PLAY_SESSION=" + signed + "-" + encoded));
 		return Controller.ok(toJson(u));
 	}
@@ -102,20 +105,36 @@ public class PlayAuthenticateLocal extends PlayAuthenticate {
 			// return Controller.notFound(Messages.get(
 			// "playauthenticate.core.exception.provider_not_found",
 			// provider));
-			return Controller.badRequest(Messages.get(
-					"playauthenticate.core.exception.provider_not_found",
-					provider));
+			ResponseStatusBean response = new ResponseStatusBean();
+			response.setResponseStatus(ResponseStatus.NOTAVAILABLE);
+			response.setStatusMessage("playauthenticate.core.exception.provider_not_found="+provider);
+			return Controller.notFound(toJson(response));
+//			return Controller.badRequest(
+//					Messages.get(
+//							"playauthenticate.core.exception.provider_not_found",
+//							provider));
 		}
 		try {
 			final Object o = ap.authenticate(context, payload);
 			if (o instanceof String) {
 				if ("NOT_FOUND".equals(o)) {
-					return Controller
-							.notFound(Messages
-									.get("playauthenticate.password.login.unknown_user_or_pw"));
+					ResponseStatusBean response = new ResponseStatusBean();
+					response.setResponseStatus(ResponseStatus.UNAUTHORIZED);
+					response.setStatusMessage("playauthenticate.password.login.unknown_user_or_pw");
+					return Controller.unauthorized(toJson(response));
+//					return Controller.unauthorized(
+//						Messages.get("playauthenticate.password.login.unknown_user_or_pw"));
 				} else if (routes.Signup.unverified().url().equals(o)) {
-					return Controller.ok(Messages
-							.get("playauthenticate.verify.email.cta"));
+//					ResponseStatusBean response = new ResponseStatusBean();
+//					response.setResponseStatus(ResponseStatus.UNAUTHORIZED);
+//					response.setStatusMessage("playauthenticate.verify.email.cta");
+//					
+					// TODO changed the process so that the signup method returns the new user created
+					// in order not to need to retrieve it from DB
+						ResponseStatusBean response = new ResponseStatusBean();
+						response.setResponseStatus(ResponseStatus.UNAUTHORIZED);
+						response.setStatusMessage("playauthenticate.verify.email.cta");
+						return Controller.ok(toJson(response));					
 				} else
 					// TODO change this avoiding redirect
 					// return Controller.redirect((String) o);
@@ -153,6 +172,7 @@ public class PlayAuthenticateLocal extends PlayAuthenticate {
 				// check if local user still exists - it might have been
 				// deactivated/deleted,
 				// so this is a signup, not a link
+				
 				if (isLoggedIn) {
 					oldIdentity = getUserService().getLocalIdentity(oldUser);
 					isLoggedIn &= oldIdentity != null;
@@ -242,8 +262,10 @@ public class PlayAuthenticateLocal extends PlayAuthenticate {
 
 				return loginAndRedirect(context, loginUser);
 			} else {
-				return Controller.internalServerError(Messages
-						.get("playauthenticate.core.exception.general"));
+				ResponseStatusBean response = new ResponseStatusBean();
+				response.setResponseStatus(ResponseStatus.SERVERERROR);
+				response.setStatusMessage("playauthenticate.core.exception.general");
+				return Controller.internalServerError(toJson(response));
 			}
 		} catch (final AuthException e) {
 			final Call c = getResolver().onException(e);
@@ -253,9 +275,17 @@ public class PlayAuthenticateLocal extends PlayAuthenticate {
 			} else {
 				final String message = e.getMessage();
 				if (message != null) {
-					return Controller.internalServerError(message);
+					ResponseStatusBean response = new ResponseStatusBean();
+					response.setResponseStatus(ResponseStatus.SERVERERROR);
+					response.setStatusMessage(message);
+					return Controller.internalServerError(toJson(response));
+					//return Controller.internalServerError(message);
 				} else {
-					return Controller.internalServerError();
+					ResponseStatusBean response = new ResponseStatusBean();
+					response.setResponseStatus(ResponseStatus.SERVERERROR);
+					response.setStatusMessage("Internal server error");
+					return Controller.internalServerError(toJson(response));
+					//return Controller.internalServerError();
 				}
 			}
 		}

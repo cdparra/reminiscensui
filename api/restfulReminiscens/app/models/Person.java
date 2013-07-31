@@ -83,7 +83,7 @@ public class Person extends Model {
     }
     
     public static Person createObject(Person person){
-        person.save();
+        //person.save();
         return person;
     }
     

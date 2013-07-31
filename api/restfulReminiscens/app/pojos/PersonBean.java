@@ -2,10 +2,10 @@ package pojos;
 
 
 import java.io.Serializable;
-import utils.JodaDateTime;
 import play.data.validation.Constraints.*;
 
 import org.joda.time.DateTime;
+import utils.JodaDateTime;
 
 import com.avaje.ebean.validation.NotNull;
 
@@ -24,10 +24,10 @@ public class PersonBean implements Serializable {
 	@NotNull
 	private String lastname;
 
-	@JodaDateTime(format = "yyyy-MM-dd HH:mm:ss")
+    @JodaDateTime(format="yyyy-MM-dd HH:mm:ss")
 	private DateTime birthdate;
 
-	@JodaDateTime(format = "yyyy-MM-dd HH:mm:ss")
+    @JodaDateTime(format="yyyy-MM-dd HH:mm:ss")
 	private DateTime deathdate;
 	
 	private String gender;
@@ -116,4 +116,11 @@ public class PersonBean implements Serializable {
 	public void setFamous(FamousPersonBean famous) {
 		this.famous = famous;
 	}		
+
+	public void setBirthplaceId(Long birthplaceId) {
+		if (birthplace == null) {
+			birthplace = new CityBean();
+		}
+		this.birthplace.setCityId(birthplaceId);
+	}
 }

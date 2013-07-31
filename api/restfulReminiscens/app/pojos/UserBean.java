@@ -3,15 +3,13 @@ package pojos;
 
 import java.io.Serializable;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.joda.time.DateTime;
 
 import play.data.validation.Constraints.Required;
 
 import com.avaje.ebean.validation.NotNull;
 
 import enums.UserType;
-
+import org.joda.time.DateTime;
 import utils.JodaDateTime;
 
 public class UserBean implements Serializable {
@@ -30,7 +28,7 @@ public class UserBean implements Serializable {
     private String locale = "it_IT";
     private Boolean emailVerified = Boolean.FALSE;
     private Boolean usernameVerified = Boolean.FALSE;
-    private UserType confType =  UserType.TEST;
+//    private UserType confType =  UserType.TEST;
 	private boolean active;
     @JodaDateTime(format="yyyy-MM-dd HH:mm:ss")
     private DateTime creationDate;    
@@ -101,7 +99,11 @@ public class UserBean implements Serializable {
 	}
 
 	public void setLocale(String locale) {
-		this.locale = locale;
+		if (locale == null) {
+		    this.locale = "it_IT";
+		} else {
+			this.locale = locale;
+		}
 	}
 
 	public Boolean getEmailVerified() {
@@ -120,13 +122,13 @@ public class UserBean implements Serializable {
 		this.usernameVerified = usernameVerified;
 	}
 
-	public UserType getConfType() {
-		return confType;
-	}
-
-	public void setConfType(UserType confType) {
-		this.confType = confType;
-	}
+//	public UserType getConfType() {
+//		return confType;
+//	}
+//
+//	public void setConfType(UserType confType) {
+//		this.confType = confType;
+//	}
 
 	public boolean isActive() {
 		return active;

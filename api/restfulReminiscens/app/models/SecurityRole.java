@@ -15,6 +15,7 @@
  */
 package models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -32,8 +33,10 @@ public class SecurityRole extends Model implements Role {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name="role_id")
 	public Long id;
 
+	@Column(name="name")
 	public String roleName;
 
 	public static final Finder<Long, SecurityRole> find = new Finder<Long, SecurityRole>(

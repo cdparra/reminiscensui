@@ -41,7 +41,7 @@ public class City extends Model {
 	public static Model.Finder<Long,City> find = new Model.Finder<Long, City>(
             Long.class,City.class
     );
-    
+
     public static List<City> all(){
         return find.all();
     }

@@ -45,6 +45,9 @@ public class Signup extends Controller {
 
 	public static Result unverified() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
+	
+		// return the User
+		
 		return ok(toJson(Messages.get("playauthenticate.verify.email.cta"))); 
 //TODO		return ok(unverified.render());
 	}
@@ -53,6 +56,7 @@ public class Signup extends Controller {
 
 	public static Result forgotPassword(final String email) {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
+		@SuppressWarnings("unused")
 		Form<MyIdentity> form = FORGOT_PASSWORD_FORM;
 		if (email != null && !email.trim().isEmpty()) {
 			form = FORGOT_PASSWORD_FORM.fill(new MyIdentity(email));

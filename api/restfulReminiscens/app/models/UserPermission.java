@@ -1,5 +1,6 @@
 package models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -18,8 +19,10 @@ public class UserPermission extends Model implements Permission {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name="permission_id")
 	public Long id;
 
+	@Column
 	public String value;
 
 	public static final Model.Finder<Long, UserPermission> find = new Model.Finder<Long, UserPermission>(

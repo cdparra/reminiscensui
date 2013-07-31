@@ -2,15 +2,16 @@ package controllers;
 
 import static play.libs.Json.toJson;
 
+import java.io.File;
 import java.util.List;
 
 import models.User;
 import play.data.Form;
-import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Http.Session;
 import play.mvc.Result;
 import pojos.CityBean;
+import pojos.ResponseStatusBean;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
@@ -19,6 +20,7 @@ import views.html.index;
 import com.feth.play.module.pa.PlayAuthenticate;
 
 import delegates.ApplicationDelegate;
+import enums.ResponseStatus;
 
 public class Application extends Controller {
 	
@@ -51,7 +53,10 @@ public class Application extends Controller {
 			// User did not fill everything properly try to put the errors in
 			// the response
 			// return badRequest(signup.render(filledForm));
-			return badRequest();
+			ResponseStatusBean response = new ResponseStatusBean();
+			response.setResponseStatus(ResponseStatus.BADREQUEST);
+			response.setStatusMessage("play.authenticate.filledFromHasErrors:"+filledForm.errorsAsJson());
+			return badRequest(toJson(response));
 		} else {
 			// Everything was filled
 			// do something with your part of the form before handling the user
@@ -75,8 +80,12 @@ public class Application extends Controller {
 	}
 
 	public static Result onLoginUserNotFound() {
-		return notFound(Messages
-				.get("playauthenticate.password.login.unknown_user_or_pw"));
+		ResponseStatusBean response = new ResponseStatusBean();
+		response.setResponseStatus(ResponseStatus.NODATA);
+		response.setStatusMessage("playauthenticate.password.login.unknown_user_or_pw");
+		return notFound(toJson(response));
+//		return notFound(Messages
+//				.get("playauthenticate.password.login.unknown_user_or_pw"));
 	}
 
 	// Util calls
@@ -105,4 +114,19 @@ public class Application extends Controller {
 		List<CityBean> bean = ApplicationDelegate.getInstance().getCityByName(cityName);
 		return bean != null ? ok(toJson(bean)) : notFound();		
 	}
+
+	public static Result upload() {
+		  play.mvc.Http.MultipartFormData body = request().body().asMultipartFormData();
+		  play.mvc.Http.MultipartFormData.FilePart picture = body.getFile("picture");
+		  if (picture != null) {
+		    String fileName = picture.getFilename();
+		    String contentType = picture.getContentType(); 
+		    File file = picture.getFile();
+		    return ok("File uploaded");
+		  } else {
+		    flash("error", "Missing file");
+		    return redirect(routes.Application.index());    
+		  }
+		}
+
 }

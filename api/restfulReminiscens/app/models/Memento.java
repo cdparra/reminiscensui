@@ -7,8 +7,6 @@ import javax.persistence.*;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import enums.MementoType;
-
 import play.db.ebean.Model;
 
 @Entity

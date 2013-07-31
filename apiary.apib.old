@@ -1,10 +1,10 @@
-HOST: http://test.reminiscens.me/api/
+HOST: http://test.reminiscens.me/lifeapi/
 
---- Reminiscens RESTful Explorelife API version 0.1 ---
+--- Reminiscens Life API version 1.0 ---
 ---
-This RESTful API provides HTTP access to resources that support the Reminiscens' tablet app for stimulating elderly 
-and their families in sharing memories and motivate conversation by exploring content related to these memories' 
-place and period of time. The goal is to stimulate a healthy practice of positive reminiscence that will benefit 
+Reminiscens Life API is a RESTful API that provides HTTP access to resources that support the Reminiscens' tablet application 
+for stimulating elderly and their families in sharing memories and motivate conversation by exploring contextual content for these 
+memories, based on their place and period of time. The goal is to stimulate a healthy practice of positive reminiscence that will benefit 
 elders' subjective wellbeing. 
 
 <h3> About the Reminiscens Project</h3>
@@ -17,78 +17,267 @@ reminisce. It is work in progress, towards the finalization of a Ph.D. in Inform
 ---
 
 --
-User management 
-<p> The user management section of this API groups the endpoints related to craating and maintaing sessions and 
-users. These are the entry points to Reminiscens' services</p>
-
-<p> The <a href="#session">Session</a> resource is where the experience begins. Applications create a session using 
-either an username/password pair or an authentication token provided by a third party service (e.g., facebook, 
-google). After creating the session, the created session instance must be included in all of the API calls. Is the 
-only non-RESTful element of this API (but implemented in the most RESTful way possible). Sessions are made of: </p>
+Resource Beans
  
- + **auth_token:** An authentication token identifying the session
- + **expiration:** Duration of the token in minutes                                       
-
+<h3><b><a id="session">Session Resource:</a></b></h3>
 <p><pre><code>
-<a id="session"><b>The Session Resource:</b></a>
-    "Session" : {
-        "auth_token" : "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"                                  
-    }
+{
+    "sessionKey" : "[session token]-[encoded user information]"                                  
+}
 </pre></code></p>
 
-<p>Various authentication services can be used for login. The <a href="#login">Login</a> login resource contains by: 
+<p> The <a href="#session">Session</a> resource is where the experience begins. Applications create a session when signing
+in to the application with an username/password pair or an authentication token provided by a third party service (e.g., facebook, 
+google). Sessions are composed by a simple **sessionKey** containing all the information about the user and the authentication service 
+provider. After creating the session, the created sessionKey must be included in all of the API calls as a header with the 
+key <b>PLAY_SESSION</b> Is the only non-RESTful element of this API (but implemented in the most RESTful way possible).
+
+<h3><b><a id="login">Login Resource:</a></b></h3>
+<p><pre><code>
+{
+    "email"    : "[user email]",
+    "password" : "[the password]",
+    "provider" : "[facebook|google|password]"
+}
+</pre></code></p>
+<p>The <a href="#login">Login</a> resource it is used only once, for signing in. It is composed by: </p>
+
+ + **email:** user email for login
+ + **password:** authentication string provided by the service. 
+ + **(OPTIONAL) provider:** the name of the authentication service provider (facebook, google, )
+
+Various authentication services can be used for login, but currently, only our own email/password service is available (named "password").
+
+<h3><b><a id="user">The User Resource:</a></b></h3>
+<p><pre><code>
+{
+    "userId"                : [user unique identificator],
+    "email"                 : "[user's registered email]",
+    "username"              : "[username to be used for authentication in the future]",
+    "profilePic"            : "[URL to a profile picture]",
+    "locale"                : "[User's language of preference]",
+    "emailVerified"         : [true or false, indicate if the user has verified his email],
+    "usernameVerified"      : [true or false, indicate if the user has verified/updated his username (generated first by the system)],
+    "creationDate"          : [date in which the user signed up, in unix timestamp format],
+    "creationDateAsString"  : "[date in which the user signed up, in 'yyyy-MM-dd HH:mm:ss' format]",
+    "sessionKey"            : "[session key generated after login]",
+    "person" : { 
+        "[person attributes]":"[person values]" 
+    }
+}
+</pre></code></p>
+<p>An <a href="#user">User</a> resource represents the aggregated information of the account (for authentication) and of the person using
+the system. Although not currently implemented, non verified accounts will be limited to no more than 10 stories and 50 mementos. 
+
+Moreover, for signup a new User,  **<a href="#"person>Person</a>** information must include at least: 
+
+ + **firstname:** person's firstname 
+ + **lastname:** person's lastname 
+ + **birthdate:** person's birthdate in "yyyy-MM-dd HH:mm:ss" format (notice that time must be introduced)
+ + **birthplace:** person's birthplace, represented by a <a href="#city">City</a> resource   
+
+Notice that there is a separation between the entities 
+<a href="#user">User</a> and <a href="#person">Person</a>. A person might exist in our dataset wihtout user 
+information, referring to people that is mentioned in life stories or to <a href="publicmemento">Famous People</a> 
+whose information is public and are available in our historical knowledge base, used to stimulate reminiscence.
+
 </p>
 
- + **provider:** the name of the authentication service provider (facebook, google, reminiscens)
- + **user:** user email or nickname for login
- + **authstring:** authentication string provided by the service. For reminiscens, authString = bcrypt(password) 
-
-<p> For a javascript implementation of Bcrypt, checkout <a href="https://code.google.com/p/javascript-bcrypt/">JsBCrypt</a></p>
-
+<h3><b><a id="person">Person Resource:</a></b></h3>
 <p><pre><code>
-<a id="login"><b>The Login Resource:</b></a>
-    "Login":{
-        "provider" : "reminiscens", 
-        "user" : "ugo.fantozzi@gmail.com",
-        "authstring" : "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"          
+{
+    "personId"          : [person's unique id],
+    "firstname"         : "[person's firstname]",
+    "lastname"          : "[person's lastname]",
+    "birthdate"         : [person's birthdate in unix timestamp format],
+    "birthdateAsString" : "[person's birthdate in 'yyyy-MM-dd HH:mm:ss' format]",
+    "gender"            : "[person's gender, i.e., male, female]",
+    "famousId"          : [id of the famous person record, if this is a famous historical person],
+    "famous" : {
+        "[The famous person record]" : "[The famous person record values]"
+    },
+    "birthplace": {
+        "[City attributes]" : "[Citty values]"
+    }
+}
+</pre></code></p>
+
+<p> Every user is a <a href="#person">Person</a> with many <a href="#person">Life Stories</a> to share. Every person 
+is identified by one unique <code>id</code> and has at least a firstname, a lastname, a birthdate and birhtplace. A person can 
+exist without a <a href="#user">User</a> associated to it, in which case the person refers to a public figure, existing in our 
+historical knowledge base, or it is simply a named mentioned within a story or multimedia 
+(see the <a href="http://docs.reminiscens.apiary.io/">Lifecontext API</a> to know more about this knolwedge base)</p>
+
+<h3><b><a id="lifestory">Life Story Resource (TO UPDATE):</a></b></h3>
+<p><pre><code>
+    "LifeStory" : {
+        "storyId": [lifestory id],
+        "decade": 1930,
+        "visibility":"public",
+        "startDate": "1934,7,7 0:00:00",
+        "endDate": "1934,7,7 0:00:00",
+        "headline": "Nascita",
+        "text": "Ugo Fantozzi e nato a Genova",
+        "richtext": "/story/999/richtext",
+        "participants" : [ <person ids of people that particpated in the story> ],
+        "aboutPersonList : [ <person ids of people that is focus of the story, one the timeline's owner> ], 
+        "createdBy" : 999, 
+        "tags":  ["birth", "childhood", ...],
+        "mementoList": [ <list of mementos (i.e., resources related to this story> ]
     }
 </pre></code></p>
 
-Then we have <b>Users</b> endpoints, giving access to all the operations available on user data, including also his
-<a href="#person">Person</a> profile information. Notice that there is a separation between the entities 
-<a href="#user">User</a> and <a href="#person">Person</a>. A person might exist in our dataset wihtout user 
-information, referring to people that is mentioned in life stories or public historical records that we used
-to stimulate reminiscence
 
-<p>An <a href="#user">User</a> includes the following information: </p>
+<p> 
+TODO: RESOURCES BELOW ARE STILL TO BE UPDATED 
+Every person has <a href="#lifestory"> Life Stories</a> that together form a <a href="#timeline">Timeline</a>. Each 
+life story has also a list of multimedia attached to it, referred to as <a href="#memento">Mementos</a>, which are 
+picture, audio or video resources that remind to that story. Mementos are also part of the contextual recommendations, 
+in which case they come from the reminiscens knowledge base. Only the person who owns these stories and people in his/her friend list can access and view his stories in the timeline.
+Some stories might be marked as "public", and only those are viewable by all. A person can also have
+Timeline Curators, who can access and edit thes stories in his/her timeline</p>
 
- + **user_email:** user's registered email
- + **user_id:** user unique identificator
- + **nickname:** username used for authentication
- + **email_verified:** user has verified that this account belongs to him. Non verified accounts are limited 
-to no more than 10 stories and 50 mementos
- + **nicknameverified:** user has verified/updated his username (generated first by the system)
- + **user_profilepicture:** URL to a profile picture
- + A **<a href="#"person>Person</a>**, including at least: 
-  + **fullname:** person's fullname 
-  + **birthdate:** person's birthdate in dd/mm/yyyy format
-  + **birthplace:** person's textual name of the birthplace
-
+<h3><b><a id="memento">Memento Resource (TO UPDATE)</a></b></h3>
 <p><pre><code>
-<a id="user"><b>The User Resource:</b></a>
-    "User" : {
-        "userId" : 999,
-        "personId" : 999,
-        "nickname":"ugo.fantozzi", 
-        "user_email": "ugo.fantozzi@gmail.com", 
-        "email_verified": "true", 
-        "nickname_verified": "true",        
-        "profile_pic":"http://www.flickr.com/photos/mykalburns/2807451879/",
+    "Memento" : {
+        "mementoId" : 999,
+        "storyId" : 999,                 
+        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+        "thumbnail": "",
+        "decade": 1930,
+        "startDate": "",
+        "endDate": "",
+        "participants" : [ <person ids of people visible in the memento> ],
+        "headline": "Foto di Ugo circa la sua nascita in 1934",
+        "type": "photo",
+        "category" : "photo", 
+        "cover": "true",
+        "index": 1,
+        "credit" : "Wikipedia",
+        "creditURL : "<url to the source> ",
+        "text": "MG M del 1930 ovvero la prima MG Midget",
+        "tags": [ "photo", "automobile", "ogetto" ]
     }
 </pre></code></p>
+
+<h3><b><a id="timeline">The Timeline Resource (TO UPDATE)</a></b></h3>
+<p><pre><code>
+    "Timeline" : {
+        "timelineId" : 999,
+        "aboutPersonId" : 999,
+        "curators" : [ <person ids of the people with full access to this timeline> ],
+        "storyList" : [ <list of life stories that belong to this timeline> ]
+    }
+}
+</pre></code></p>
+
+<h3><b><a id="city">City Resource (TO UPDATE)</a></b></h3>
+<p><pre><code>
+{
+    "cityId"    : 9092,
+    "name"      : "Luque",
+    "country"   : { },
+    "lat"       : -25.27,
+    "lon"       : -57.487222
+}
+</p></pre></code>
+
+
+<h3><b><a id="country">Country Resource (TO UPDATE)</a></b></h3>
+<p><pre><code>
+{
+    "countryId"     : 172,
+    "short_name"    : "Paraguay",
+    "spanish_name"  : "Paraguay",
+    "italian_name"  : null
+}
+</p></pre></code>
+
+<h3><b><a id="contextmemento">Public Memento Resource (TO UPDATE)</a></b></h3>
+<p><pre><code>
+    "ContextMemento" : {
+        "contextMementoId" : 999,
+        "contextId" : 999,                 
+        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
+        "thumbnail": "",
+        "decade": 1930,
+        "startDate": "",
+        "endDate": "",
+        "participants" : [ <person ids of people visible in the memento> ],
+        "headline": "Foto di Ugo circa la sua nascita in 1934",
+        "type": "photo",
+        "category" : "photo", 
+        "index": 1,
+        "credit" : "Wikipedia",
+        "creditURL : "<url to the source> ",
+        "text": "MG M del 1930 ovvero la prima MG Midget",
+        "tags": [ "photo", "automobile", "ogetto" ], 
+        "questionList": [ <list of question resources that can trigger discussion and reminiscence around this memento> ]      
+    }
+</pre></code></p>
+
+<h3><b><a id="question">Question Resource (TO UPDATE)</a></b></h3>
+<p><pre><code>
+    "Question" : {
+        "questionId": 789,
+        "question": "Ti ricordi della prima volta che hai guidato una macchina?",
+        "locale":"it_IT", 
+        "tags": [
+            "automobile",
+            "ogetto"
+        ]
+        "translations" : [ { } ]
+    }
+</pre></code></p>
+
+<h3><b><a id="translation">Question Translation Resource (TO UPDATE)</a></b></h3>
+<p><pre><code>
+{
+    "questionId": 789,
+    "question": "Ti ricordi della prima volta che hai guidato una macchina?",
+    "locale":"it_IT", 
+    "tags": [
+        "automobile",
+        "ogetto"
+    ]
+}
+</pre></code></p>
+
+<h3><b><a id="context">Context Resource (TO UPDATE)</a></b></h3>
+<p><pre><code>
+    "Context" : {
+        "contextId" : 999,
+        "forPersonId" : 999,
+        "title" : "The contextual reminiscence multimedia for Ugo Fantozzi",
+        "subtitle" : "A set of old public collective memory items that can help Ugo Fantozzi remember his life",
+        "curators" : [ <person ids of the people with full access to this timeline> ],
+        "mementoList" : [ <list of life stories that belong to this timeline> ]
+    }
+}
+</pre></code></p>
+
+<h3><b><a id="response_status">Response Status Resource (TODO):</a></b></h3>
+<p><pre><code>
+{
+    "status_code": "BADREQUEST", 
+    "status_message":"User was created",
+    "errorTrace" : "[error complete trace for sending to developers]" 
+}    
+</pre></code></code>
+
+<p><b>Observation:</b>for every date information in the response, there will be both the Unix Timestamp (e.g., "date" : 1357016400000) 
+representaion and the string representation (e.g., "dateAsString" : "2013-01-01 00:00:00"</p> 
 --
 
-<p><b>Create a session endpoint.</b> </p>
+--
+User management endpoints
+<p> The user management section of this API groups the endpoints related to signing up, in and out of the application. 
+These are the entry points to Reminiscens' services</p>
+<p> <b><a href="user">Users</a></b> endpoints are also included, giving access to operations on user data, including also his
+<a href="#person">Person</a> profile information. </p>
+--
+
+<p><b>Signing in and creating a session.</b> </p>
 
 <p>Request: </p>
 
@@ -96,633 +285,168 @@ to no more than 10 stories and 50 mementos
 
 <p>Response:</p>
 
- + The newly created <a href="#session">Session</a> 
- + The <a href="#user">User</a> that created the session.
- + The <a href="#person">Person</a> related to the user.
- + The <a href="#timeline">Timeline</a> of the person.
- + The <a href="#context">Context</a> for reminiscence of the person.
+ + The newly created <a href="#session">Session</a> as part of <a href="#user">User</a> resource that created the session.
+ 
+<p>Below and example of the HTTP request for login implemented in Javascript. In the future, we will the 
+support password that are not send in clear text 
+</p>
+<script src="https://gist.github.com/cdparra/6111666.js"></script>
 
-<p><pre><code>
-Example of Javascript code for creating a <a href="#session">Session</a>, using our own authentication service 
-based on user email and password.)</p>
-    var passSha1 = $.sha1($("#password").val() + salt);
-    var sessionData = new Object;
-    sessionData.name = "reminiscens";
-    sessionData.authString = $("#email").val() + "!_-_!" + passSha1;                    
-    $.ajax({
-        type: "POST",
-        url: "resources/session",
-        data: JSON.stringify(sessionData),
-        async: false,
-        success: function (data) {
-            alert("ok");
-        },
-        error: function (data) {
-            alert("error");
-        },
-        dataType: "json",
-            contentType: "application/json"
-        });
-</pre></code></p>
-
-POST /session
+POST /login
 > Content-Type: application/json
 {  
-    "Service":{
-        "name": "reminiscens"
-        "authString": "ugo.fantozzi@gmail.com!_-_!a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"  
-    }
+    "email": "reminiscensapp+4@gmail.com",
+    "password": "testing-password"
 }
 < 200
 < Content-Type: application/json
 {
-    "Response_Status": {
-        "status_code": 1,
-        "status_message": "Session was created"
-    },
-    "Session": {
-        "auth_token": "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
-    },
-    "User": {
-        "userId": 6,
-        "personId": 5,
-        "lang":"it_IT",
-        "nickname": "ugo.fantozzi",
-        "user_email": "ugo.fantozzi@gmail.com",
-        "email_verified": "true",
-        "nickname_verified": "true",
-        "profile_pic": "http://farm4.staticflickr.com/3085/2807451879_c132dd1bf8_o.jpg"
-    },
-    "Person": {
-        "personId": 5,
-        "firstname": "Ugo",
-        "lastname": "Fantozzi",
-        "birthdate": -1119920400000,
+    "userId": 4,
+    "email": "reminiscensapp+4@gmail.com",
+    "username": "yparra.test",
+    "profilePic": "https://dl.dropboxusercontent.com/u/2797542/timeline/fliaparra/ygnacio/profile.JPG",
+    "locale": "es_ES",
+    "emailVerified": true,
+    "usernameVerified": true,
+    "active": true,
+    "creationDate": 1357016400000,
+    "sessionKey": "6500442a574245339a98eb5a2c690af368058d6f-pa.u.exp%3A1376397116201%00pa.p.id%3Apassword%00pa.u.id%3Areminiscensapp%2B4%40gmail.com",
+    "person": {
+        "personId": 3,
+        "firstname": "Ygnacio",
+        "lastname": "Parra",
+        "birthdate": -881866800000,
         "deathdate": null,
+        "gender": "male",
         "birthplace": {
-            "cityId": 2283,
-            "name": "Genova",
-            "region": "Liguria",
+            "cityId": 9092,
+            "name": "Luque",
             "country": {
-                "countryId": 109,
-                "short_name": "Italy",
-                "long_namev: "Italian Republic",
-                "iso2": "IT",
-                "iso3": "ITA",
-                "numcode": "380",
-                "un_member": "yes",
-                "calling_code": "39",
-                "cctld": ".jm",
-                "spanish_name": "Italia",
+                "countryId": 172,
+                "short_name": "Paraguay",
+                "spanish_name": "Paraguay",
                 "italian_name": null
             },
-            "lat": 44.40565,
-            "lon": 8.946256
-        }
-        "birthdateAsString": "1934-07-07 00:00:00",
+            "lat": -25.27,
+            "lon": -57.487222
+        },
+        "famous": null,
+        "famousId": null,
+        "birthdateAsString": "1942-01-21 00:00:00",
         "deathdateAsString": null
     },
-    "Timeline": {
-        "timelineId": 999,
-        "aboutPersonId": 999,
-        "curators": [
-            777,
-            778,
-            779
-        ],
-        "storyList": [
-            {
-                "storyId": 999,
-                "decade": 1930,
-                "visibility":"public",
-                "startDate": "1934,7,7 0:00:00",
-                "endDate": "1934,7,7 0:00:00",
-                "headline": "Nascita",
-                "text": "Ugo Fantozzi e nato a Genova",
-                "richtext": "/story/999/richtext",
-                "participants": [
-                    777,
-                    779
-                ],
-                "aboutPersonList": [
-                    999,
-                    779
-                ],
-                "createdBy": 999,
-                "tags": [
-                    "birth",
-                    "childhood"
-                ],
-                "mementoList": [
-                    {
-                        "mementoId": 998,
-                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
-                        "credit": "Burns! http://www.flickr.com/photos/mykalburns/",
-                        "caption": "Foto di Ugo circa la sua nascita in 1934",
-                        "thumbnail": "",
-                        "type": "picture",
-                        "cover": "true",
-                        "index": 1
-                    },
-                    {
-                        "mementoId": 997,
-                        "url": "https://soundcloud.com/er_murena/fantozzi-all",
-                        "credit": "er_murena @ soundcloud! https://soundcloud.com/er_murena",
-                        "caption": "Ugo's music",
-                        "thumbnail": "",
-                        "type": "audio",
-                        "cover": "false",
-                        "index": 2
-                    }
-                ]
-            },
-            {
-                "storyId": 998,
-                "decade": 1960,
-                "visibility":"private",
-                "startDate": "1960,9,9 0:00:00",
-                "endDate": "1960,9,9 0:00:00",
-                "headline": "Matrimonio",
-                "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",
-                "richtext": "/story/998/richtext",
-                "participants": [
-                    777
-                ],
-                "aboutPersonList": [
-                    999
-                ],
-                "createdBy": 777,
-                "tags": [
-                    "matrimonio",
-                    "adulthood",
-                    "milestone"
-                ],
-                "mementoList": [
-                    {
-                        "mementoId": 999,
-                        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
-                        "credit": "Wikipedia",
-                        "caption": "",
-                        "thumbnail": "",
-                        "type": "photo",
-                        "cover": "false",
-                        "index": 2
-                    }
-                ]
-            }
-        ]
-    },
-    "Context": {
-        "contextId": 999,
-        "forPersonId": 999,
-        "curators": [
-            777,
-            778,
-            779
-        ],
-        "mementoList": [
-            {
-                "contextMementoId": 999,
-                "contextId": 999,
-                "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
-                "thumbnail": "",
-                "headline": "MG M - 1930",
-                "decade": 1930,
-                "startDate": "",
-                "endDate": "",
-                "participants": [],
-                "type": "photo",
-                "category": "photo",
-                "index": 2,
-                "credit": "Some rights reserved by ciric",
-                "creditURL": "",
-                "text": "MG M del 1930 ovvero la prima MG Midget",
-                "tags": [
-                    "photo",
-                    "automobile",
-                    "ogetto"
-                ],
-                "questionList": [
-                    {
-                        "questionId": 999,
-                        "question": "Riconosci questa macchina?",
-                        "tags": [
-                            "automobile",
-                            "ogetto"
-                        ]
-                    },
-                    {
-                        "questionId": 998,
-                        "question": "Hai mai guidato una macchina come questa?",
-                        "tags": [
-                            "automobile",
-                            "ogetto"
-                        ]
-                    }
-                ]
-            },
-            {
-                "contextMementoId": 997,
-                "contextId": 999,
-                "url": "http://farm3.staticflickr.com/2781/4437292021_3f6b977f8a.jpg",
-                "thumbnail": "",
-                "decade": 1960,
-                "startDate": "",
-                "endDate": "",
-                "participants": [],
-                "headline": "Monte Gazzo 21",
-                "type": "photo",
-                "category": "photo",
-                "index": 2,
-                "credit": "Some rights reserved by ciric",
-                "creditURL": "",
-                "text": "1960: veduta area del Santuario del Monte Gazzo.",
-                "tags": [
-                    "photo",
-                    "landscape"
-                ],
-                "questionList": [
-                    {
-                        "questionId": 997,
-                        "question": "Riconosci questo posto?",
-                        "tags": [
-                            "landscape",
-                            "castell"
-                        ]
-                    },
-                    {
-                        "questionId": 996,
-                        "question": "Lei è mai stat in questo castello?",
-                        "tags": [
-                            "landscape",
-                            "castell"
-                        ]
-                    }
-                ]
-            },
-            {
-                "contextMementoId": 996,
-                "contextId": 999,
-                "url": "https://www.youtube.com/watch?feature=player_detailpage&v=78LXfimeh8g",
-                "thumbnail": "",
-                "decade": 1960,
-                "startDate": "",
-                "endDate": "",
-                "participants": [],
-                "headline": "Claudio Villa in Rai Due",
-                "type": "music",
-                "category": "music",
-                "index": 3,
-                "credit": "Uploaded by Youtube user Kartastone",
-                "creditURL": "https://www.youtube.com/user/Kartastone?feature=watch",
-                "text": "",
-                "tags": [
-                    "musica",
-                    "youtube",
-                    "musicista",
-                    "video"
-                ],
-                "questionList": [
-                    {
-                        "questionId": 997,
-                        "question": "Ti piace questa musica?",
-                        "tags": [
-                            "musica"
-                        ]
-                    },
-                    {
-                        "questionId": 996,
-                        "question": "Lei è mai stat in questo castello?",
-                        "tags": [
-                            "landscape",
-                            "castell"
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
+    "creationDateAsString": "2013-01-01 00:00:00"
 }
 +++++
 < 401
 < Content-Type: application/json
 {  
-    "status_code": 41, 
-    "status_message":"Auth string is not valid"
+    "responseStatus": "UNAUTHORIZED",
+    "statusMessage": "playauthenticate.password.login.unknown_user_or_pw",
+    "errorTrace": null
 }
 +++++
-< 501
+< 404
 < Content-Type: application/json
 {  
-    "status_code": 51, 
-    "status_message":"The resource you tried to create is incomplete"
+    "status_code": "NOTAVAILABLE", 
+    "status_message":"playauthenticate.core.exception.provider_not_found=facebook",
+    "errorTrace": null
 }
 +++++
-< 501
+< 500
 < Content-Type: application/json
 {  
-    "status_code": 52, 
-    "status_message":"The resource you tried to create already exists"
+    "status_code": "SERVERERROR", 
+    "status_message":"playauthenticate.core.exception.general"
 }
 
-<p><b>Create <a href="#user">User</a> endpoint </b></p>
+<p><b>Signup a new <a href="#user">User</a> endpoint </b></p>
 <p>Request:</p>
  
  + A <a href="#user">User</a> including: 
-    + <b>Mandatory.</b> user_email.
+    + <b>Mandatory.</b> email.
+    + <b>Mandatory.</b> password. (which is stored encrypted with BCrypt)
+    + <b>Mandatory.</b> repeatedPassword
     + A <a href="#person">Person</a>. resource with:  
-        + <b>Mandatory.</b> fullname 
-        + <b>Mandatory.</b> birthdate
-        + <b>Mandatory.</b> birthplace
+        + <b>Mandatory.</b> firstname  
+        + <b>Mandatory.</b> lastname
+        + <b>Mandatory.</b> birthdate (in "yyyy-MM-dd HH:mm:ss" format)
+        + <b>Mandatory.</b> birthplaceId of the <a href="#city">City</a> resource in which the person was born.
+        
+<p><b>Observation: </b> A list of cities that we currently support, with their respective IDs, can be downloaded from 
+<a href="http://test.reminiscens.me/lifeapi/city"> here</a></p>
 
 <p>Response: </p> 
 
- + The newly created <a href="#user">User</a> resource with a generated nickname
- + The newly created <a href="#person">Person</a> resource with the provided details (as part of the user data object)
- + The <a href="#timeline">Timeline</a> of the person with the first event: his/her birth
- + The <a href="#context">Context</a> reminiscence recommendations for the person based on her first event: his/her birth
- + A <a href="#response_status">Response status</a> resource (included in most api calls responses to gie further details of errors) 
- + A new <a href ="#session"> Session </a> for the user
+ + The newly created <a href="#user">User</a> resource with a generated nickname and corresponding <a href="#person">Person</a> 
+and <a href ="#session"> Session </a> key
 
-POST /user
+POST /signup
 > Content-Type: application/json
-{   
-    "User" : {
-        "user_email":"ugo.fantozzi@gmail.com"
-    },
-    "Person" : {
-            "firstname": "Ugo Fantozzi",
-            "birthdate": "07/07/1934>", 
-            "birthplace": "Genova, Italia"
-    }
+{  
+    "email":"resminiscensapp+99@gmail.com",
+    "password":"testing-password",
+    "repeatPassword":"testing-password",
+    "name":"Testing user",
+    "person": {
+        "firstname"  : "Testing",
+        "lastname"   : "User",
+        "birthdate"  : "1984-06-21 12:00:00",
+        "birthplaceId" : 9091
+  }
 }
 < 200
 < Content-Type: application/json
 {
-    "User": {
-        "userId": 999,
-        "personId" : 999,
-        "lang":"it_IT",
-        "user_email": "ugo.fantozzi@gmail.com",
-        "nickname": "ugo.fantozzi98832",
-        "email_verified": "false",
-        "nickname_verified": "false"
-    },
-    "Person": {
-        "personId": 999,
-        "userId" : 999,
-        "fullname": "Ugo Fantozzi",
-        "birthdate": "07/07/1934",
-        "birthplace": "Genova, Italia"
-    },
-    "Timeline": {
-        "timelineId": 999,
-        "aboutPersonId": 999,
-        "curators": [
-            777,
-            778,
-            779
-        ],
-        "storyList": [
-            {
-                "storyId": 999,
-                "decade": 1930,
-                "visibility":"public",
-                "startDate": "1934,7,7 0:00:00",
-                "endDate": "1934,7,7 0:00:00",
-                "headline": "Nascita",
-                "text": "Ugo Fantozzi e nato a Genova",
-                "richtext": "/story/999/richtext",
-                "participants": [
-                    777,
-                    779
-                ],
-                "aboutPersonList": [
-                    999,
-                    779
-                ],
-                "createdBy": 999,
-                "tags": [
-                    "birth",
-                    "childhood"
-                ],
-                "mementoList": [
-                    {
-                        "mementoId": 998,
-                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
-                        "credit": "Burns! http://www.flickr.com/photos/mykalburns/",
-                        "caption": "Foto di Ugo circa la sua nascita in 1934",
-                        "thumbnail": "",
-                        "type": "picture",
-                        "cover": "true",
-                        "index": 1
-                    },
-                    {
-                        "mementoId": 997,
-                        "url": "https://soundcloud.com/er_murena/fantozzi-all",
-                        "credit": "er_murena @ soundcloud! https://soundcloud.com/er_murena",
-                        "caption": "Ugo's music",
-                        "thumbnail": "",
-                        "type": "audio",
-                        "cover": "false",
-                        "index": 2
-                    }
-                ]
+    "userId": 99,
+    "email": "reminiscensapp+99@gmail.com",
+    "username": "testing.user99",
+    "profilePic": null,
+    "locale": null,
+    "emailVerified": true,
+    "usernameVerified": true,
+    "active": true,
+    "creationDate": 1357016400000,
+    "sessionKey": "6500442a574245339a98eb5a2c690af368058d6f-pa.u.exp%3A1376397116201%00pa.p.id%3Apassword%00pa.u.id%3Areminiscensapp%2B4%40gmail.com",
+    "person": {
+        "personId": 99,
+        "firstname": "Testing",
+        "lastname": "user",
+        "birthdate": -881866800000,
+        "gender": null,
+        "birthplace": {
+            "cityId": 9092,
+            "name": "Luque",
+            "country": {
+                "countryId": 172,
+                "short_name": "Paraguay",
+                "spanish_name": "Paraguay",
+                "italian_name": null
             },
-            {
-                "storyId": 998,
-                "decade": 1960,
-                "visibility":"private",
-                "startDate": "1960,9,9 0:00:00",
-                "endDate": "1960,9,9 0:00:00",
-                "headline": "Matrimonio",
-                "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",
-                "richtext": "/story/998/richtext",
-                "participants": [
-                    777
-                ],
-                "aboutPersonList": [
-                    999
-                ],
-                "createdBy": 777,
-                "tags": [
-                    "matrimonio",
-                    "adulthood",
-                    "milestone"
-                ],
-                "mementoList": [
-                    {
-                        "mementoId": 999,
-                        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
-                        "credit": "Wikipedia",
-                        "caption": "",
-                        "thumbnail": "",
-                        "type": "photo",
-                        "cover": "false",
-                        "index": 2
-                    }
-                ]
-            }
-        ]
+            "lat": -25.27,
+            "lon": -57.487222
+        },
+        "famous": null,
+        "famousId": null,
+        "birthdateAsString": "1942-01-21 00:00:00",
     },
-    "Context": {
-        "contextId": 999,
-        "forPersonId": 999,
-        "curators": [
-            777,
-            778,
-            779
-        ],
-        "mementoList": [
-            {
-                "contextMementoId": 999,
-                "contextId": 999,
-                "url": "http://farm8.staticflickr.com/7230/7262518946_81794f46d0_o.jpg",
-                "thumbnail": "",
-                "headline": "MG M - 1930",
-                "decade": 1930,
-                "startDate": "",
-                "endDate": "",
-                "participants": [],
-                "type": "photo",
-                "category": "photo",
-                "index": 2,
-                "credit": "Some rights reserved by ciric",
-                "creditURL": "",
-                "text": "MG M del 1930 ovvero la prima MG Midget",
-                "tags": [
-                    "photo",
-                    "automobile",
-                    "ogetto"
-                ],
-                "questionList": [
-                    {
-                        "questionId": 999,
-                        "question": "Riconosci questa macchina?",
-                        "tags": [
-                            "automobile",
-                            "ogetto"
-                        ]
-                    },
-                    {
-                        "questionId": 998,
-                        "question": "Hai mai guidato una macchina come questa?",
-                        "tags": [
-                            "automobile",
-                            "ogetto"
-                        ]
-                    }
-                ]
-            },
-            {
-                "contextMementoId": 997,
-                "contextId": 999,
-                "url": "http://farm3.staticflickr.com/2781/4437292021_3f6b977f8a.jpg",
-                "thumbnail": "",
-                "decade": 1960,
-                "startDate": "",
-                "endDate": "",
-                "participants": [],
-                "headline": "Monte Gazzo 21",
-                "type": "photo",
-                "category": "photo",
-                "index": 2,
-                "credit": "Some rights reserved by ciric",
-                "creditURL": "",
-                "text": "1960: veduta area del Santuario del Monte Gazzo.",
-                "tags": [
-                    "photo",
-                    "landscape"
-                ],
-                "questionList": [
-                    {
-                        "questionId": 997,
-                        "question": "Riconosci questo posto?",
-                        "tags": [
-                            "landscape",
-                            "castell"
-                        ]
-                    },
-                    {
-                        "questionId": 996,
-                        "question": "Lei è mai stat in questo castello?",
-                        "tags": [
-                            "landscape",
-                            "castell"
-                        ]
-                    }
-                ]
-            },
-            {
-                "contextMementoId": 996,
-                "contextId": 999,
-                "url": "https://www.youtube.com/watch?feature=player_detailpage&v=78LXfimeh8g",
-                "thumbnail": "",
-                "decade": 1960,
-                "startDate": "",
-                "endDate": "",
-                "participants": [],
-                "headline": "Claudio Villa in Rai Due",
-                "type": "music",
-                "category": "music",
-                "index": 3,
-                "credit": "Uploaded by Youtube user Kartastone",
-                "creditURL": "https://www.youtube.com/user/Kartastone?feature=watch",
-                "text": "",
-                "tags": [
-                    "musica",
-                    "youtube",
-                    "musicista",
-                    "video"
-                ],
-                "questionList": [
-                    {
-                        "questionId": 997,
-                        "question": "Ti piace questa musica?",
-                        "tags": [
-                            "musica"
-                        ]
-                    },
-                    {
-                        "questionId": 996,
-                        "question": "Lei è mai stat in questo castello?",
-                        "tags": [
-                            "landscape",
-                            "castell"
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
-    "Response_Status": {
-        "status_code": "1",
-        "status_message": "User was created"
-    },
-    "Session": {
-        "auth_token": "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
-    }
+    "creationDateAsString": "2013-01-01 00:00:00"
 }
 +++++
-< 401
+< 400
 < Content-Type: application/json
 {  
-    "status_code": "42", 
-    "status_message":"Auth string is not valid"
+    "responseStatus": "BADREQUEST",
+    "statusMessage": "playauthenticate.password.filledFormHasErrors:{person is required}",
+    "errorTrace": null
 }
 +++++
-< 501
+< 500
 < Content-Type: application/json
 {  
-    "status_code": "51", 
-    "status_message":"The resource you tried to create is incomplete"
-}
-+++++
-< 501
-< Content-Type: application/json
-{  
-    "status_code": "52", 
-    "status_message":"The resource you tried to create already exists"
+    "status_code": "SERVERERROR", 
+    "status_message":"playauthenticate.core.exception.general"
 }
 
 <p><b>Update user endpoint</b></p>
@@ -740,61 +464,54 @@ PUT /user/{id}
 > Content-Type: application/json
 {"url":"/user/999"}
 {   
-    "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
-    }, 
-    "User" : {
-        "user_email":"ugo.fantozzi@gmail.com"
-        "nickname":"ugo.fantozzi", 
-        "email_verified": "true", 
-        "nickname_verified": "true", 
-        "profile_pic": "http://farm4.staticflickr.com/3085/2807451879_c132dd1bf8_o.jpg"
-    },
-    "Person" : {
-        "fullname":"Ugo Fantozzi", 
-        "firstname": "Ugo", 
-        "lastname": "Fantozzi", 
-        "birthdate": "07/07/1934", 
-        "birthplace": "Genova, Italia",
-        "birthplace_lat": "44.4056499", 
-        "birthplace_lon": "8.946256",
-        "home":"Trento, Italia",
-        "home_lat": "46.0696924", 
-        "home_lon": "11.1210886",
-        "locale" : "IT_it"
-    }
+  {
+  "email":"reminiscensapp+99@gmail.com",
+  "password":"testing-password",
+  "repeatPassword":"testing-password",
+  "locale":"it_IT",
+  "person": {
+      "firstname"  : "Pinco",
+    "lastname"   : "Pallino",
+    "birthdate"  : "1984-06-21 18:00:00",
+    "birthplaceId" : 9091
+  }
 }
 < 200
 < Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "2", 
-        "status_message":"User was updated"   
-    },    
-    "User" : {
-        "userId" : 999,
-        "personId" : 999,
-        "user_email":"ugo.fantozzi@gmail.com"
-        "nickname":"ugo.fantozzi", 
-        "email_verified": "true", 
-        "nickname_verified": "true", 
-        "profile_pic": "http://farm4.staticflickr.com/3085/2807451879_c132dd1bf8_o.jpg"
+{
+    "userId": 999,
+    "email": "reminiscensapp+99@gmail.com",
+    "username": "testing.user99",
+    "profilePic": null,
+    "locale": "it_IT",
+    "emailVerified": true,
+    "usernameVerified": true,
+    "active": true,
+    "creationDate": 1357016400000,
+    "sessionKey": "6500442a574245339a98eb5a2c690af368058d6f-pa.u.exp%3A1376397116201%00pa.p.id%3Apassword%00pa.u.id%3Areminiscensapp%2B4%40gmail.com",
+    "person": {
+        "personId": 99,
+        "firstname": "Testing",
+        "lastname": "user",
+        "birthdate": -881866800000,
+        "gender": null,
+        "birthplace": {
+            "cityId": 9092,
+            "name": "Luque",
+            "country": {
+                "countryId": 172,
+                "short_name": "Paraguay",
+                "spanish_name": "Paraguay",
+                "italian_name": null
+            },
+            "lat": -25.27,
+            "lon": -57.487222
+        },
+        "famous": null,
+        "famousId": null,
+        "birthdateAsString": "1942-01-21 00:00:00",
     },
-    "Person" : {
-        "personId": 999,
-        "userId" : 999,
-        "fullname":"Ugo Fantozzi", 
-        "firstname": "Ugo", 
-        "lastname": "Fantozzi", 
-        "birthdate": "07/07/1934", 
-        "birthplace": "Genova, Italia",
-        "birthplace_lat": "44.4056499", 
-        "birthplace_lon": "8.946256",
-        "home":"Trento, Italia",
-        "home_lat": "46.0696924", 
-        "home_lon": "11.1210886",
-        "locale" : "IT_it"
-    }
+    "creationDateAsString": "2013-01-01 00:00:00"
 }
 +++++
 < 401
@@ -823,148 +540,54 @@ PUT /user/{id}
     }
 }
 
-<p><b>Delete the user endpoint</b></p>
+<p><b>Soft Delete user endpoint</b></p>
 <p>Request: </p>
  
  + The <a href="#user">Session</a> to delete (only the user itself and his/her main curators can delete 
  the user (which means deleting all of his/her data too)
  
 DELETE /user/{id}
-> Content-Type: text/json
+> Accept: text/json
 {"url":"/user/999"}
-{   
-    "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
-    }
-}
 < 200
 < Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": "2", 
-        "status_message":"User was deleted"   
-    }
+{
+    "responseStatus": "OK",
+    "statusMessage": "Entity deleted with success",
+    "errorTrace": null
 }
-+++++
-< 401
+
+<p><b>Hard Delete user endpoint</b></p>
+<p>Request: </p>
+ 
+ + The <a href="#user">Session</a> to delete (only the user itself and his/her main curators can delete 
+ the user (which means deleting all of his/her data too)
+ 
+DELETE /user/{id}/force
+> Accept: text/json
+{"url":"/user/999"}
+< 200
 < Content-Type: application/json
-{  
-    "Response_Status": {
-        "status_code": "42", 
-        "status_message":"Auth string is not valid"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{   
-    "Response_Status": {
-        "status_code": "51", 
-        "status_message":"The resource you tried to create is incomplete"
-    }
-}
-+++++
-< 501
-< Content-Type: application/json
-{  
-    "Response_Status": {
-        "status_code": "52", 
-        "status_message":"The resource you tried to create already exists"
-    }
+{
+    "responseStatus": "OK",
+    "statusMessage": "Entity deleted with success",
+    "errorTrace": null
 }
 
 --
-People, Life Stories and Timelines
-<p> Every user is a <a href="#person">Person</a> with many <a href="#person">Life Stories</a> to share. In this section 
-we group API endpoints that allow applications to access personal information and stories of both public people and registered 
-<a href="#user">Users</a> that interact with the system by adding, visualizing or editing life stories and exploring the 
-surrounding <a href="#context">Context</a> (composed by public related content). Every person is identified by one unique 
-<code>id</code> and has at least fullname, a birthdate and birhtplace.</p>. A person can exist without a <a href="#user">User</a> 
-associated to it, in which case the person refers to a public figure, existing in our historical knowledge base (see the 
-<a href="http://docs.reminiscens.apiary.io/">Lifecontext API</a> to know more about this knolwedge base)</p>
+People, Life Stories and Timelines  (TO UPDATE)
 
-<p>Through this API, users can only access a person's available information from their URI and if it has privileges. 
-For creation and update operations, the <a href="#user">User</a> endpoint must be used</p>
+<p> In this section we group API endpoints that allow applications to access personal information and 
+stories of both public people and registered <a href="#user">Users</a> that interact with the system by adding, 
+visualizing or editing life stories and exploring the surrounding <a href="#context">Context</a> 
+(composed by public related content).</p>
 
-<p><pre><code>
-<a id="person"><b>The Person Resource (complete):</b></a>
-    "Person": {
-        "personId": 999,
-        "userId": 999,
-        "fullname": "Ugo Fantozzi",
-        "firstname": "Ugo",
-        "lastname": "Fantozzi",
-        "birthdate": "07/07/1934",
-        "birthplace": "Genova, Italia",
-        "birthplace_lat": "44.4056499",
-        "birthplace_lon": "8.946256",
-        "home": "Trento, Italia",
-        "home_lat": "46.0696924",
-        "home_lon": "11.1210886",
-        "locale": "IT_it"
-    }
-</pre></code></p>
+<p> The life API provides endpoints to read, update, delete and create life stories and multimedia related to 
+them (i.e., mementos). Moreover, stories and mementos are organized in a timeline that is about a particular
+person (that represents the user or a friend of the user). </p>
 
-<p> Every person has <a href="#lifestory"> Life Stories</a> that together form a <a href="#timeline">Timeline</a>. Each 
-life story has also a list of <a href="#memento"> Mementos</a> or multimedia resources that remind to that story (pictures, 
-videos, audio storytelling, etc.). Mementos are also part of the contextual recommendations, only there 
-Only the person who owns these stories and people in his/her friend list can access and view his stories in the timeline.
-Some stories might be marked as "public", and only those are viewable by all. A person can also have
-Timeline Curators, who can access and edit thes stories in his/her timeline</p>
-
-<p><pre><code>
-<a id="lifestory"><b>The Life Story Resource:</b></a>
-    "LifeStory" : {
-        "storyId": 999,
-        "decade": 1930,
-        "visibility":"public",
-        "startDate": "1934,7,7 0:00:00",
-        "endDate": "1934,7,7 0:00:00",
-        "headline": "Nascita",
-        "text": "Ugo Fantozzi e nato a Genova",
-        "richtext": "/story/999/richtext",
-        "participants" : [ <person ids of people that particpated in the story> ],
-        "aboutPersonList : [ <person ids of people that is focus of the story, one the timeline's owner> ], 
-        "createdBy" : 999, 
-        "tags":  ["birth", "childhood", ...],
-        "mementoList": [ <list of mementos (i.e., resources related to this story> ]
-    }
-</pre></code></p>
-
-<p><pre><code>
-<a id="memento"><b>The Memento Resource</b></a>
-    "Memento" : {
-        "mementoId" : 999,
-        "storyId" : 999,                 
-        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
-        "thumbnail": "",
-        "decade": 1930,
-        "startDate": "",
-        "endDate": "",
-        "participants" : [ <person ids of people visible in the memento> ],
-        "headline": "Foto di Ugo circa la sua nascita in 1934",
-        "type": "photo",
-        "category" : "photo", 
-        "cover": "true",
-        "index": 1,
-        "credit" : "Wikipedia",
-        "creditURL : "<url to the source> ",
-        "text": "MG M del 1930 ovvero la prima MG Midget",
-        "tags": [ "photo", "automobile", "ogetto" ]
-    }
-</pre></code></p>
-
-
-<p><pre><code>
-<a id="timeline"><b>The Timeline Resource</b></a>
-    "Timeline" : {
-        "timelineId" : 999,
-        "aboutPersonId" : 999,
-        "curators" : [ <person ids of the people with full access to this timeline> ],
-        "storyList" : [ <list of life stories that belong to this timeline> ]
-    }
-}
-</pre></code></p>
+<p>Through these endpoints, users can only access a person's available information. For creation and update operations on the 
+<a href="person">Person</a> resource, the <a href="#user">User's</a> endpoints must be used</p>
 --
 
 <p> Get the basic information related to the Person identified by <code>id</code>
@@ -977,52 +600,33 @@ Timeline Curators, who can access and edit thes stories in his/her timeline</p>
 
 GET /person/{id}
 > Accept: application/json
-{"url":"/person/999"}
-{ 
-    "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5"
-    }
-}
+{"url":"/person/3"}
 < 200 
 < Content-Type: application/json
-{ 
-    "Response_Status" : { 
-        "status_code": 1, 
-        "status_message":"OK"
-    },
-    "Person": {
-        "personId": 999,
-        "userId": 999,
-        "fullname": "Ugo Fantozzi",
-        "firstname": "Ugo",
-        "lastname": "Fantozzi",
-        "birthdate": "07/07/1934",
-        "birthplace": "Genova, Italia",
-        "birthplace_lat": "44.4056499",
-        "birthplace_lon": "8.946256",
-        "home": "Trento, Italia",
-        "home_lat": "46.0696924",
-        "home_lon": "11.1210886",
-        "locale": "IT_it"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
-{  
-    "Response_Status" : {
-        "status_code": 41, 
-        "status_message":"Auth token is not valid"
-    }
-}
-+++++
-< 401
-< Content-Type: application/json
+< PLAY_SESSION: 6500442a574245339a98eb5a2c690af368058d6f-pa.u.exp%3A1376397116201%00pa.p.id%3Apassword%00pa.u.id%3Areminiscensapp%2B4%40gmail.com
 {
-    "Response_Status" : {
-        "status_code": 42, 
-        "status_message":"Session ID is not valid"
-    }
+    "personId": 3,
+    "firstname": "Ygnacio",
+    "lastname": "Parra",
+    "birthdate": -881866800000,
+    "deathdate": null,
+    "gender": "male",
+    "birthplace": {
+        "cityId": 9092,
+        "name": "Luque",
+        "country": {
+            "countryId": 172,
+            "short_name": "Paraguay",
+            "spanish_name": "Paraguay",
+            "italian_name": null
+        },
+        "lat": -25.27,
+        "lon": -57.487222
+    },
+    "famous": null,
+    "famousId": null,
+    "birthdateAsString": "1942-01-21 00:00:00",
+    "deathdateAsString": null
 }
 
 <p> Get the timeline of life stories of a person: </p>
@@ -1036,140 +640,602 @@ GET /person/{id}
  
 GET /person/{id}/timeline
 > Accept: application/json
-{"url":"/person/999/timeline"}
-{ 
-    "Session" : {
-        "auth_token" : "054b13b875efac0604bfa8f21ab92dc26e1e34f5" 
-    }
-}
+{"url":"/person/3/timeline"}
 < 200 
 < Content-Type: application/json
+< PLAY_SESSION:  
 { 
-    "Timeline": {
-        "timelineId": 999,
-        "aboutPersonId": 999,
-        "curators": [
-            777,
-            778,
-            779
-        ],
-        "storyList": [
-            {
-                "storyId": 999,
-                "decade": 1930,
-                "visibility": "public",
-                "startDate": "1934,7,7 0:00:00",
-                "endDate": "1934,7,7 0:00:00",
-                "headline": "Nascita",
-                "text": "Ugo Fantozzi e nato a Genova",
-                "richtext": "/story/999/richtext",
-                "participants": [
-                    777,
-                    779
-                ],
-                "aboutPersonList": [
-                    999,
-                    779
-                ],
-                "createdBy": 999,
-                "tags": [
-                    "birth",
-                    "childhood"
-                ],
-                "mementoList": [
+    "aboutPerson": {
+        "personId": 3,
+        "firstname": "Ygnacio",
+        "lastname": "Parra",
+        "birthdate": -881866800000,
+        "deathdate": null,
+        "gender": "male",
+        "birthplace": {
+            "cityId": 9092,
+            "name": "Luque",
+            "country": {
+                "countryId": 172,
+                "short_name": "Paraguay",
+                "spanish_name": "Paraguay",
+                "italian_name": null
+            },
+            "lat": -25.27,
+            "lon": -57.487222
+        },
+        "famous": null,
+        "famousId": null,
+        "birthdateAsString": "1942-01-21 00:00:00",
+        "deathdateAsString": null
+    },
+    "storyList": [
+        {
+            "lifeStoryId": 25,
+            "headline": "Birth",
+            "text": "\"Ygnacio is Born in Luque, Paraguay\"",
+            "richtext": null,
+            "creationDate": 1348696800000,
+            "locale": "en_US",
+            "location": {
+                "locationId": 2,
+                "location_textual": "Creator Birthplace",
+                "name": "República de Luque",
+                "country": "Paraguay",
+                "region": null,
+                "cityName": "Luque",
+                "coordinates_trust": null,
+                "lat": -25.262085,
+                "lon": -57.489109,
+                "locale": null,
+                "city": {
+                    "cityId": 9092,
+                    "name": "Luque",
+                    "country": {
+                        "countryId": 172,
+                        "short_name": "Paraguay",
+                        "spanish_name": "Paraguay",
+                        "italian_name": null
+                    },
+                    "lat": -25.27,
+                    "lon": -57.487222
+                },
+                "accuracy": 1
+            },
+            "question": {
+                "questionId": 376,
+                "question": "When and where were you born?",
+                "category": "Thoughtful",
+                "chapter": "The Basics",
+                "locale": "en_EN",
+                "ranking": 12348,
+                "translations": [
                     {
-                        "mementoId": 998,
-                        "storyId": 999,
-                        "url": "http://www.flickr.com/photos/mykalburns/2807451879/",
-                        "thumbnail": "",
-                        "decade": 1930,
-                        "startDate": "",
-                        "endDate": "",
-                        "participants": [],
-                        "headline": "Foto di Ugo circa la sua nascita in 1934",
-                        "type": "photo",
-                        "category": "photo",
-                        "cover": "true",
-                        "index": 1,
-                        "credit": "",
-                        "creditURL": "",
-                        "text": "",
-                        "tags": [
-                            "photo",
-                            "birth"
-                        ]
+                        "translationId": 1375,
+                        "questionId": 376,
+                        "question_text": "Quando e dove sei nato?",
+                        "category": "Riflessivo",
+                        "chapter": "Le nozioni di base",
+                        "locale": "it_IT"
                     },
                     {
-                        "mementoId": 997,
-                        "storyId": 999,
-                        "url": "https://soundcloud.com/er_murena/fantozzi-all",
-                        "thumbnail": "",
-                        "decade": 1930,
-                        "startDate": "",
-                        "endDate": "",
-                        "participants": [
-                            999
-                        ],
-                        "headline": "Ugo's music",
-                        "type": "audio",
-                        "category": "",
-                        "cover": "false",
-                        "index": 2,
-                        "credit": "er_murena @ soundcloud!",
-                        "creditURL": "https://soundcloud.com/er_murena",
-                        "text": "",
-                        "tags": [
-                            "audio",
-                            "storytelling"
-                        ]
+                        "translationId": 2375,
+                        "questionId": 376,
+                        "question_text": "¿Cuándo y dónde nació?",
+                        "category": "Pensativo",
+                        "chapter": "Los fundamentos",
+                        "locale": "es_ES"
                     }
                 ]
             },
-            {
-                "storyId": 998,
-                "decade": 1960,
-                "visibility": "private",
-                "startDate": "1960,9,9 0:00:00",
-                "endDate": "1960,9,9 0:00:00",
-                "headline": "Matrimonio",
-                "text": "Sposa a Pina Fantozzi, ragazza con chi ha frequentato la Scuola Elementare \"\"Raffaello Sanzio\"\" a Trento ",
-                "richtext": "/story/998/richtext",
-                "participants": [
-                    777
-                ],
-                "aboutPersonList": [
-                    999
-                ],
-                "createdBy": 777,
-                "tags": [
-                    "matrimonio",
-                    "adulthood",
-                    "milestone"
-                ],
-                "mementoList": [
-                    {
-                        "mementoId": 999,
-                        "storyId": 999,
-                        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
-                        "thumbnail": "",
-                        "headline": "",
-                        "decade": 1930,
-                        "startDate": "",
-                        "endDate": "",
-                        "participants": [],
-                        "type": "photo",
-                        "category": "photo",
-                        "cover": "false",
-                        "index": 2,
-                        "credit": "Wikipedia",
-                        "creditURL": "",
-                        "text": "",
-                        "tags": []
-                    }
-                ]
-            }
-        ]
-    }
+            "startDate": {
+                "fuzzyDateId": 10483,
+                "textual_date": null,
+                "exactDate": -881892000000,
+                "decade": null,
+                "year": null,
+                "month": null,
+                "day": null,
+                "accuracy": 11,
+                "locale": null,
+                "exactDateAsString": "1942-01-21 00:00:00"
+            },
+            "synced": false,
+            "participationList": [
+                {
+                    "participationId": 24,
+                    "contributorId": 2,
+                    "personId": 3,
+                    "protagonist": true,
+                    "lifeStoryId": 25
+                }
+            ],
+            "mementoList": [
+                {
+                    "mementoId": 25,
+                    "headline": "A picture of Ygnacio around his birth in 1942",
+                    "text": null,
+                    "type": "PHOTO",
+                    "url": "https://dl.dropbox.com/u/2797542/timeline/fliaparra/ygnacio/Viejos%20tiempos%202.JPG",
+                    "thumbnailUrl": null,
+                    "category": "PICTURE",
+                    "isCover": true,
+                    "position": 1,
+                    "publicMemento": false,
+                    "location": null,
+                    "startDate": null,
+                    "participants": [],
+                    "lifeStoryId": 25
+                }
+            ],
+            "contributorId": 2,
+            "creationDateAsString": "2012-09-27 00:00:00"
+        },
+        {
+            "lifeStoryId": 26,
+            "headline": "Futbol Player",
+            "text": "Futbol Player of Central FC",
+            "richtext": null,
+            "creationDate": 1348696800000,
+            "locale": "en_US",
+            "location": {
+                "locationId": 2,
+                "location_textual": "Creator Birthplace",
+                "name": "República de Luque",
+                "country": "Paraguay",
+                "region": null,
+                "cityName": "Luque",
+                "coordinates_trust": null,
+                "lat": -25.262085,
+                "lon": -57.489109,
+                "locale": null,
+                "city": {
+                    "cityId": 9092,
+                    "name": "Luque",
+                    "country": {
+                        "countryId": 172,
+                        "short_name": "Paraguay",
+                        "spanish_name": "Paraguay",
+                        "italian_name": null
+                    },
+                    "lat": -25.27,
+                    "lon": -57.487222
+                },
+                "accuracy": 1
+            },
+            "question": null,
+            "startDate": {
+                "fuzzyDateId": 10484,
+                "textual_date": null,
+                "exactDate": -293850000000,
+                "decade": null,
+                "year": null,
+                "month": null,
+                "day": null,
+                "accuracy": 11,
+                "locale": null,
+                "exactDateAsString": "1960-09-09 00:00:00"
+            },
+            "synced": false,
+            "participationList": [
+                {
+                    "participationId": 25,
+                    "contributorId": 1,
+                    "personId": 3,
+                    "protagonist": true,
+                    "lifeStoryId": 26
+                }
+            ],
+            "mementoList": [
+                {
+                    "mementoId": 26,
+                    "headline": null,
+                    "text": null,
+                    "type": "PHOTO",
+                    "url": "https://dl.dropbox.com/u/2797542/timeline/fliaparra/ygnacio/Papa%20y%20su%20Equipo%20de%20futbol%20-%20Deportes%20en%20el%20Recuerdo.JPG",
+                    "thumbnailUrl": null,
+                    "category": "PICTURE",
+                    "isCover": true,
+                    "position": 1,
+                    "publicMemento": false,
+                    "location": null,
+                    "startDate": null,
+                    "participants": [],
+                    "lifeStoryId": 26
+                }
+            ],
+            "contributorId": 2,
+            "creationDateAsString": "2012-09-27 00:00:00"
+        },
+        {
+            "lifeStoryId": 27,
+            "headline": "Sociologist",
+            "text": "Studying Sociology in Metropolitan Seminar",
+            "richtext": null,
+            "creationDate": 1348696800000,
+            "locale": "en_US",
+            "location": {
+                "locationId": 2,
+                "location_textual": "Creator Birthplace",
+                "name": "República de Luque",
+                "country": "Paraguay",
+                "region": null,
+                "cityName": "Luque",
+                "coordinates_trust": null,
+                "lat": -25.262085,
+                "lon": -57.489109,
+                "locale": null,
+                "city": {
+                    "cityId": 9092,
+                    "name": "Luque",
+                    "country": {
+                        "countryId": 172,
+                        "short_name": "Paraguay",
+                        "spanish_name": "Paraguay",
+                        "italian_name": null
+                    },
+                    "lat": -25.27,
+                    "lon": -57.487222
+                },
+                "accuracy": 1
+            },
+            "question": null,
+            "startDate": {
+                "fuzzyDateId": 10485,
+                "textual_date": null,
+                "exactDate": -102042000000,
+                "decade": null,
+                "year": null,
+                "month": null,
+                "day": null,
+                "accuracy": 11,
+                "locale": null,
+                "exactDateAsString": "1966-10-08 00:00:00"
+            },
+            "synced": false,
+            "participationList": [
+                {
+                    "participationId": 26,
+                    "contributorId": 1,
+                    "personId": 3,
+                    "protagonist": true,
+                    "lifeStoryId": 27
+                }
+            ],
+            "mementoList": [
+                {
+                    "mementoId": 27,
+                    "headline": null,
+                    "text": null,
+                    "type": "PHOTO",
+                    "url": "https://dl.dropbox.com/u/2797542/timeline/fliaparra/ygnacio/Papa%20y%20companheros.JPG",
+                    "thumbnailUrl": null,
+                    "category": "PICTURE",
+                    "isCover": true,
+                    "position": 1,
+                    "publicMemento": false,
+                    "location": null,
+                    "startDate": null,
+                    "participants": [],
+                    "lifeStoryId": 27
+                }
+            ],
+            "contributorId": 2,
+            "creationDateAsString": "2012-09-27 00:00:00"
+        },
+        {
+            "lifeStoryId": 28,
+            "headline": "Marriage",
+            "text": "Wedding with Aurora",
+            "richtext": null,
+            "creationDate": 1348696800000,
+            "locale": "en_US",
+            "location": {
+                "locationId": 2,
+                "location_textual": "Creator Birthplace",
+                "name": "República de Luque",
+                "country": "Paraguay",
+                "region": null,
+                "cityName": "Luque",
+                "coordinates_trust": null,
+                "lat": -25.262085,
+                "lon": -57.489109,
+                "locale": null,
+                "city": {
+                    "cityId": 9092,
+                    "name": "Luque",
+                    "country": {
+                        "countryId": 172,
+                        "short_name": "Paraguay",
+                        "spanish_name": "Paraguay",
+                        "italian_name": null
+                    },
+                    "lat": -25.27,
+                    "lon": -57.487222
+                },
+                "accuracy": 1
+            },
+            "question": null,
+            "startDate": {
+                "fuzzyDateId": 10486,
+                "textual_date": null,
+                "exactDate": 1724400000,
+                "decade": null,
+                "year": null,
+                "month": null,
+                "day": null,
+                "accuracy": 11,
+                "locale": null,
+                "exactDateAsString": "1970-01-21 00:00:00"
+            },
+            "synced": false,
+            "participationList": [
+                {
+                    "participationId": 27,
+                    "contributorId": 1,
+                    "personId": 3,
+                    "protagonist": true,
+                    "lifeStoryId": 28
+                }
+            ],
+            "mementoList": [
+                {
+                    "mementoId": 28,
+                    "headline": null,
+                    "text": null,
+                    "type": "PHOTO",
+                    "url": "https://dl.dropbox.com/u/2797542/timeline/fliaparra/ygnacio/Papa%20y%20Mama%2050tenerio%20Abuelos%201981%20-%203.JPG",
+                    "thumbnailUrl": null,
+                    "category": "PICTURE",
+                    "isCover": true,
+                    "position": 1,
+                    "publicMemento": false,
+                    "location": null,
+                    "startDate": null,
+                    "participants": [],
+                    "lifeStoryId": 28
+                }
+            ],
+            "contributorId": 2,
+            "creationDateAsString": "2012-09-27 00:00:00"
+        },
+        {
+            "lifeStoryId": 29,
+            "headline": "First Child",
+            "text": "Oscar is Born",
+            "richtext": null,
+            "creationDate": 1348696800000,
+            "locale": "en_US",
+            "location": {
+                "locationId": 2,
+                "location_textual": "Creator Birthplace",
+                "name": "República de Luque",
+                "country": "Paraguay",
+                "region": null,
+                "cityName": "Luque",
+                "coordinates_trust": null,
+                "lat": -25.262085,
+                "lon": -57.489109,
+                "locale": null,
+                "city": {
+                    "cityId": 9092,
+                    "name": "Luque",
+                    "country": {
+                        "countryId": 172,
+                        "short_name": "Paraguay",
+                        "spanish_name": "Paraguay",
+                        "italian_name": null
+                    },
+                    "lat": -25.27,
+                    "lon": -57.487222
+                },
+                "accuracy": 1
+            },
+            "question": null,
+            "startDate": {
+                "fuzzyDateId": 10487,
+                "textual_date": null,
+                "exactDate": 39135600000,
+                "decade": null,
+                "year": null,
+                "month": null,
+                "day": null,
+                "accuracy": 11,
+                "locale": null,
+                "exactDateAsString": "1971-03-30 00:00:00"
+            },
+            "synced": false,
+            "participationList": [
+                {
+                    "participationId": 28,
+                    "contributorId": 1,
+                    "personId": 3,
+                    "protagonist": true,
+                    "lifeStoryId": 29
+                }
+            ],
+            "mementoList": [
+                {
+                    "mementoId": 29,
+                    "headline": null,
+                    "text": null,
+                    "type": "PHOTO",
+                    "url": "https://dl.dropbox.com/u/2797542/timeline/fliaparra/ygnacio/Oscar%20Bautismo%20con%20Mama.JPG",
+                    "thumbnailUrl": null,
+                    "category": "PICTURE",
+                    "isCover": true,
+                    "position": 1,
+                    "publicMemento": false,
+                    "location": null,
+                    "startDate": null,
+                    "participants": [],
+                    "lifeStoryId": 29
+                }
+            ],
+            "contributorId": 2,
+            "creationDateAsString": "2012-09-27 00:00:00"
+        },
+        {
+            "lifeStoryId": 30,
+            "headline": "Professor",
+            "text": "Guarani Professor in International School",
+            "richtext": null,
+            "creationDate": 1348696800000,
+            "locale": "en_US",
+            "location": {
+                "locationId": 2,
+                "location_textual": "Creator Birthplace",
+                "name": "República de Luque",
+                "country": "Paraguay",
+                "region": null,
+                "cityName": "Luque",
+                "coordinates_trust": null,
+                "lat": -25.262085,
+                "lon": -57.489109,
+                "locale": null,
+                "city": {
+                    "cityId": 9092,
+                    "name": "Luque",
+                    "country": {
+                        "countryId": 172,
+                        "short_name": "Paraguay",
+                        "spanish_name": "Paraguay",
+                        "italian_name": null
+                    },
+                    "lat": -25.27,
+                    "lon": -57.487222
+                },
+                "accuracy": 1
+            },
+            "question": null,
+            "startDate": {
+                "fuzzyDateId": 10488,
+                "textual_date": null,
+                "exactDate": 339807600000,
+                "decade": null,
+                "year": null,
+                "month": null,
+                "day": null,
+                "accuracy": 11,
+                "locale": null,
+                "exactDateAsString": "1980-10-08 00:00:00"
+            },
+            "synced": false,
+            "participationList": [
+                {
+                    "participationId": 29,
+                    "contributorId": 1,
+                    "personId": 3,
+                    "protagonist": true,
+                    "lifeStoryId": 30
+                }
+            ],
+            "mementoList": [
+                {
+                    "mementoId": 30,
+                    "headline": null,
+                    "text": null,
+                    "type": "PHOTO",
+                    "url": "https://dl.dropbox.com/u/2797542/timeline/fliaparra/ygnacio/Papa%20Ensenhando.JPG",
+                    "thumbnailUrl": null,
+                    "category": "PICTURE",
+                    "isCover": true,
+                    "position": 1,
+                    "publicMemento": false,
+                    "location": null,
+                    "startDate": null,
+                    "participants": [],
+                    "lifeStoryId": 30
+                }
+            ],
+            "contributorId": 2,
+            "creationDateAsString": "2012-09-27 00:00:00"
+        },
+        {
+            "lifeStoryId": 31,
+            "headline": "Today",
+            "text": "Ygnacio lives in Luque, Paraguay",
+            "richtext": null,
+            "creationDate": 1348696800000,
+            "locale": "en_US",
+            "location": {
+                "locationId": 2,
+                "location_textual": "Creator Birthplace",
+                "name": "República de Luque",
+                "country": "Paraguay",
+                "region": null,
+                "cityName": "Luque",
+                "coordinates_trust": null,
+                "lat": -25.262085,
+                "lon": -57.489109,
+                "locale": null,
+                "city": {
+                    "cityId": 9092,
+                    "name": "Luque",
+                    "country": {
+                        "countryId": 172,
+                        "short_name": "Paraguay",
+                        "spanish_name": "Paraguay",
+                        "italian_name": null
+                    },
+                    "lat": -25.27,
+                    "lon": -57.487222
+                },
+                "accuracy": 1
+            },
+            "question": null,
+            "startDate": {
+                "fuzzyDateId": 10489,
+                "textual_date": null,
+                "exactDate": 1344204000000,
+                "decade": null,
+                "year": null,
+                "month": null,
+                "day": null,
+                "accuracy": 11,
+                "locale": null,
+                "exactDateAsString": "2012-08-06 00:00:00"
+            },
+            "synced": false,
+            "participationList": [
+                {
+                    "participationId": 30,
+                    "contributorId": 1,
+                    "personId": 3,
+                    "protagonist": true,
+                    "lifeStoryId": 31
+                },
+                {
+                    "participationId": 102,
+                    "contributorId": 1,
+                    "personId": 6,
+                    "protagonist": false,
+                    "lifeStoryId": 31
+                }
+            ],
+            "mementoList": [
+                {
+                    "mementoId": 31,
+                    "headline": null,
+                    "text": null,
+                    "type": "PHOTO",
+                    "url": "https://dl.dropbox.com/u/2797542/timeline/fliaparra/ygnacio/profile.JPG",
+                    "thumbnailUrl": null,
+                    "category": "PICTURE",
+                    "isCover": true,
+                    "position": 1,
+                    "publicMemento": false,
+                    "location": null,
+                    "startDate": null,
+                    "participants": [],
+                    "lifeStoryId": 31
+                }
+            ],
+            "contributorId": 2,
+            "creationDateAsString": "2012-09-27 00:00:00"
+        }
+    ],
+    "curators": null
 }
 
 <p> Synch local timeline </p>
@@ -1625,7 +1691,7 @@ PUT /lifestory/{id}
 
 
 --
-Contextual Reminiscence
+Contextual Reminiscence  (TO UPDATE)
 
 <p> Reminiscence is a phenomena that can be fostered when people interact with content that reminds them about 
 their lives. For supporting this, for each user in our system, a semi-automatic <a href="#context">Context</a>
@@ -1635,7 +1701,7 @@ music from his youth, people from the different period of his life, events that 
 stories. All these content is served through this API to stimulate people to reminisce. </p> 
 
 <p> The context is semi-automatic because it starts with an automatic set of mementos, created by the 
-<a href="http://docs.lifecontext.apiary.io/>Lifecontext API</a>, but can later be updated by 
+<a href="http://docs.lifecontext.apiary.io/">Lifecontext API</a>, but can later be updated by 
 a list of human curators that know the person who is going to be stimulated (e.g., his/her family). 
 </p> 
 
@@ -1643,55 +1709,6 @@ a list of human curators that know the person who is going to be stimulated (e.g
 <a href="#question"> Questions</a> surround each contextual memento, to which the person can reply 
 by creating a new story. Questions also appear when there are no stories in a decade, as an starter
 for storytelling</p>
-
-<p><pre><code>
-<a id="contextmemento"><b>The Contextual Memento Resource</b></a>
-    "ContextMemento" : {
-        "contextMementoId" : 999,
-        "contextId" : 999,                 
-        "url": "https://dl.dropbox.com/u/2797542/timeline/fantozzi/Fantozzi_il_ritorno.png",
-        "thumbnail": "",
-        "decade": 1930,
-        "startDate": "",
-        "endDate": "",
-        "participants" : [ <person ids of people visible in the memento> ],
-        "headline": "Foto di Ugo circa la sua nascita in 1934",
-        "type": "photo",
-        "category" : "photo", 
-        "index": 1,
-        "credit" : "Wikipedia",
-        "creditURL : "<url to the source> ",
-        "text": "MG M del 1930 ovvero la prima MG Midget",
-        "tags": [ "photo", "automobile", "ogetto" ], 
-        "questionList": [ <list of question resources that can trigger discussion and reminiscence around this memento> ]      
-    }
-</pre></code></p>
-
-<p><pre><code>
-<a id="question"><b>The Question Resource</b></a>
-    "Question" : {
-        "questionId": 789,
-        "question": "Ti ricordi della prima volta che hai guidato una macchina?",
-        "locale":"it_IT", 
-        "tags": [
-            "automobile",
-            "ogetto"
-        ]
-    }
-</pre></code></p>
-
-<p><pre><code>
-<a id="context"><b>The Context Resource</b></a>
-    "Context" : {
-        "contextId" : 999,
-        "forPersonId" : 999,
-        "title" : "The contextual reminiscence multimedia for Ugo Fantozzi",
-        "subtitle" : "A set of old public collective memory items that can help Ugo Fantozzi remember his life",
-        "curators" : [ <person ids of the people with full access to this timeline> ],
-        "mementoList" : [ <list of life stories that belong to this timeline> ]
-    }
-}
-</pre></code></p>
 
 --
 
@@ -2265,23 +2282,8 @@ GET /question/{lifechapter}
         ]
 }
 
-
 -- 
-Additional Resources
-
-<p><pre><code>
-<a id="response_status"><b>The Response Status Resource (complete):</b></a>
-    "Response_Status" : {
-        "status_code": 1, 
-        "status_message":"User was created"   
-    },    
-</pre></code></code>
---
-
-
-
--- 
-Mock APIs
+Mock APIs  (TO UPDATE)
 
 Get person 998
 Get person 997
@@ -2293,7 +2295,3 @@ Get questions for person 997
 Get questions for person 998
 
 --
-
-
-
-

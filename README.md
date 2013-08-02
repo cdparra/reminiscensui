@@ -21,4 +21,7 @@ For the UI, we are using web technologies (jQuery, twitter bootstrap, backbone.j
 phonegap. 
 
 Please, be gentle. This is all work-in-progress made by students that learning by doing :-). Of course, feedback is always
-welcome!
+
+reminiscensui
+
+HTML5/CSS/Javascript UI for the reminiscens applicaiton, wrapped with Phonegap to create builds for iOS and Android

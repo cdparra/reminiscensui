@@ -2,7 +2,6 @@ import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.util.Locale;
 
-import models.User;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -11,20 +10,11 @@ import play.Application;
 import play.GlobalSettings;
 import play.data.format.Formatters;
 import play.mvc.Action;
-import play.mvc.Call;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 
-import com.feth.play.module.pa.PlayAuthenticate;
-import com.feth.play.module.pa.PlayAuthenticate.Resolver;
-import com.feth.play.module.pa.exceptions.AccessDeniedException;
-import com.feth.play.module.pa.exceptions.AuthException;
-
-import controllers.routes;
-
 public class Global extends GlobalSettings {
-
 	// @SuppressWarnings("rawtypes")
 	// @Override
 	// public Action onRequest(Request request, Method actionMethod) {

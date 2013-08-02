@@ -110,5 +110,6 @@ GET     /country/:countryId/city        controllers.Application.getCitiesByCount
 GET     /country/:countryName/city      controllers.Application.getCitiesByCountryName(countryName: String)
 GET     /city/sync/:lastCityId          controllers.Application.getNewCities(lastCityId: Long)
 GET     /city/:cityName                 controllers.Application.getCitiesByCountryName(cityName: String)
-
+GET     /upload                         controllers.Application.testUpload()
+POST    /upload                         controllers.Application.upload()
 

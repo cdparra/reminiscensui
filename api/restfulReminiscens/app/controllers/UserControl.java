@@ -75,6 +75,7 @@ public class UserControl extends Controller {
 		}
     }
 
+   
    public static Result deleteUser(Long uid) {
 		try {
 			UserDelegate.getInstance().deleteUser(uid);

@@ -2,8 +2,8 @@ package utils;
 
 //import pojos.MemberShipBean;
 
-import com.typesafe.plugin.MailerAPI;
-import com.typesafe.plugin.MailerPlugin;
+//import com.typesafe.plugin.MailerAPI;
+//import com.typesafe.plugin.MailerPlugin;
 
 
 public class EmailUtil {

@@ -391,13 +391,19 @@ public class MyUsernamePasswordAuthProvider
 
 		final Lang lang = Lang.preferred(ctx.request().acceptLanguages());
 		final String langCode = lang.code();
-
+		
+		String locale = langCode;
+		
+		if (user.getLocale()!=null) {
+			locale = user.getLocale();
+		}
+		
+		String fullName = user.getPerson().getFirstname()+" "+user.getPerson().getLastname();
+		String email = user.getEmail();
 		final String html = getEmailTemplate(
-				"views.html.account.email.verify_email", user.getLocale(), url, token,
-				user.getPerson().getFirstname(), user.getEmail());
+				"views.html.account.email.verify_email", locale, url, token,fullName, email);
 		final String text = getEmailTemplate(
-				"views.txt.account.email.verify_email", user.getLocale(), url, token,
-				user.getPerson().getFirstname(), user.getEmail());
+				"views.txt.account.email.verify_email", locale, url, token,fullName, email);
 
 		return new Body(text, html);
 	}

@@ -1,15 +1,11 @@
 package controllers;
 
 
-import play.data.Form;
 import play.data.format.Formats.NonEmpty;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.i18n.Messages;
 import play.mvc.Controller;
-//import views.html.account.*;
-
-import static play.data.Form.form;
 
 public class Account extends Controller {
 
@@ -63,8 +59,8 @@ public class Account extends Controller {
 		}
 	}
 
-	private static final Form<Accept> ACCEPT_FORM = form(Accept.class);
-	private static final Form<Account.PasswordChange> PASSWORD_CHANGE_FORM = form(Account.PasswordChange.class);
+//	private static final Form<Accept> ACCEPT_FORM = form(Accept.class);
+//	private static final Form<Account.PasswordChange> PASSWORD_CHANGE_FORM = form(Account.PasswordChange.class);
 
 //	@SubjectPresent
 //	public static Result link() {

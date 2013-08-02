@@ -26,6 +26,20 @@ public class UserControl extends Controller {
 		return bean != null ? ok(toJson(bean)) : notFound();
     }
 
+    public static Result getUserByEmail() {
+    	Form<UserBean> filledForm = userForm.bindFromRequest();
+    	if (filledForm.hasErrors()) {
+			ResponseStatusBean res = new ResponseStatusBean(
+					ResponseStatus.BADREQUEST,
+					"Body of request misses some information or it is malformed");
+			return badRequest(toJson(res));
+		} else {
+			UserBean userBean = filledForm.get();
+			UserBean bean = UserDelegate.getInstance().getUserByEmail(userBean.getEmail());
+			return bean != null ? ok(toJson(bean)) : notFound();
+		}
+    }
+    
     public static Result createUser() {
     	Form<UserBean> filledForm = userForm.bindFromRequest();
 		if (filledForm.hasErrors()) {

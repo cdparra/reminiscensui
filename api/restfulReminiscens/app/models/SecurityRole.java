@@ -15,8 +15,10 @@
  */
 package models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import play.db.ebean.Model;
 import be.objectify.deadbolt.core.models.Role;
@@ -25,6 +27,7 @@ import be.objectify.deadbolt.core.models.Role;
  * @author Steve Chaloner (steve@objectify.be)
  */
 @Entity
+@Table(name="Security_Role")
 public class SecurityRole extends Model implements Role {
 	/**
 	 * 
@@ -32,8 +35,10 @@ public class SecurityRole extends Model implements Role {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name="role_id")
 	public Long id;
 
+	@Column(name="name")
 	public String roleName;
 
 	public static final Finder<Long, SecurityRole> find = new Finder<Long, SecurityRole>(

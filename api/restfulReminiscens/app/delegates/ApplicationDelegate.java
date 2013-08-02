@@ -14,7 +14,9 @@ public class ApplicationDelegate {
 	}
 
 	public List<CityBean> getCities () {
-		List<models.City> modelCities = models.City.all();
+		List<models.City> 
+			modelCities = 
+				models.City.all();
 		List<CityBean> pojosCities = new ArrayList<CityBean>();
 		for (models.City city : modelCities) {
 			CityBean cityBean = PlayDozerMapper.getInstance().map(

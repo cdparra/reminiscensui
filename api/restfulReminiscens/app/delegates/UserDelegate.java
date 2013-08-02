@@ -32,6 +32,17 @@ public class UserDelegate {
         }
     }
 
+    public UserBean getUserByEmail(String email) {
+        models.User user = models.User.getByEmail(email);
+        if (user != null) {
+        	UserBean userBean = PlayDozerMapper.getInstance().map(user, UserBean.class);
+        	return userBean;
+        } else {
+        	return null; 
+        }
+    }
+
+
     public void create(UserBean userBean){
         models.User user = PlayDozerMapper.getInstance().map(userBean, models.User.class);
         models.User.create(user);

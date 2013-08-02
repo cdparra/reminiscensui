@@ -2,8 +2,6 @@ package pojos;
 
 import java.io.Serializable;
 
-import enums.LocationAccuracy;
-
 public class LocationBean implements Serializable {
 
     /**
@@ -27,7 +25,7 @@ public class LocationBean implements Serializable {
 
 	private CityBean city;
 	
-	private LocationAccuracy accuracy;
+	private Long accuracy;
 //	private String description;
 //	private String environment;
 //	private String continent;
@@ -162,10 +160,10 @@ public class LocationBean implements Serializable {
 	public void setCity(CityBean city) {
 		this.city = city;
 	}
-	public LocationAccuracy getAccuracy() {
+	public Long getAccuracy() {
 		return accuracy;
 	}
-	public void setAccuracy(LocationAccuracy accuracy) {
+	public void setAccuracy(Long accuracy) {
 		this.accuracy = accuracy;
 	}
 }

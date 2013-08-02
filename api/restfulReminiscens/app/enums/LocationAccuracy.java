@@ -17,6 +17,7 @@ package enums;
  *
  */
 public enum LocationAccuracy {
+	NOTAVAILABLE,
     WORLD, 
     CONTINENT, 
     COUNTRY, 

@@ -9,12 +9,27 @@
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 # User and Authentication Management Management
-#GET     /user                           controllers.UserControlControl.getUsers()
 GET     /user/:uid                      controllers.UserControl.getUser(uid: Long)
-POST    /user                           controllers.UserControl.createUser()
+POST    /user/email                     controllers.UserControl.getUserByEmail()
 PUT     /user/:uid                      controllers.UserControl.updateUser(uid: Long)
 DELETE  /user/:uid                      controllers.UserControl.deleteUser(uid: Long)
 DELETE  /user/:uid/force                controllers.UserControl.deleteUserForce(uid: Long)
+
+## UM based on play-authenticate
+POST    /signup                         controllers.Application.doSignup()
+POST    /login                          controllers.Application.doLogin()
+
+#used to verify the email
+GET     /accounts/verify/:token         controllers.Signup.verify(token: String)
+GET     /accounts/unverified            controllers.Signup.unverified()
+GET     /accounts/exists                controllers.Signup.exists()
+GET    /login/denied                    controllers.Application.onLoginUserNotFound()
+
+
+
+# User management deprecated actions
+#GET     /user                           controllers.UserControlControl.getUsers()
+#POST    /user                           controllers.UserControl.createUser()
 #POST    /signup                         controllers.UserControl.signup()
 #POST    /login                          controllers.UserControl.login()
 #PUT     /login                          controllers.UserControl.updateLogin(sid: Long)
@@ -27,13 +42,6 @@ GET     /login/:id                      controllers.Restricted.id(id: String)
 GET     /logout                         com.feth.play.module.pa.controllers.Authenticate.logout()
 GET     /authenticate/:provider         controllers.AuthenticateLocal.authenticate(provider: String)
 GET     /authenticate/:provider/denied  controllers.Application.oAuthDenied(provider: String)
-POST    /signup                         controllers.Application.doSignup()
-#used to verify the email
-GET     /accounts/verify/:token         controllers.Signup.verify(token: String)
-GET     /accounts/unverified            controllers.Signup.unverified()
-GET     /accounts/exists                controllers.Signup.exists()
-POST    /login                          controllers.Application.doLogin()
-GET    /login/denied                    controllers.Application.onLoginUserNotFound()
 
 # People, Life Stories and Timeline
 GET     /person                         controllers.PersonControl.getPersonAll()

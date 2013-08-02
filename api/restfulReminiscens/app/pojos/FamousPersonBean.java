@@ -25,7 +25,7 @@ public class FamousPersonBean implements Serializable {
 	@JodaDateTime(format = "yyyy-MM-dd HH:mm:ss")
 	private DateTime lastUpdate;
 	
-	// Knowledge Base Famouse Person Resources specific attributes
+	// Knowledge Base Famous Person Resources specific attributes
 	private String fullname;
 	private String firstname;
 	private String lastname;
@@ -38,7 +38,7 @@ public class FamousPersonBean implements Serializable {
 	private String status;
 	private String creatorType;
 	@JodaDateTime(format = "yyyy-MM-dd HH:mm:ss")
-	private DateTime dateAdded;
+	private DateTime creationDate;
 	public Long getFamousId() {
 		return famousId;
 	}
@@ -156,14 +156,14 @@ public class FamousPersonBean implements Serializable {
 	public void setCreatorType(String creatorType) {
 		this.creatorType = creatorType;
 	}
-	public DateTime getDateAdded() {
-		return dateAdded;
+	public DateTime getCreationDate() {
+		return creationDate;
 	}
-    public String getDateAddedAsString() {
-		return dateAdded != null ? dateAdded.toString("yyyy-MM-dd HH:mm:ss") : null;
+    public String getCreationDateAsString() {
+		return creationDate != null ? creationDate.toString("yyyy-MM-dd HH:mm:ss") : null;
 	}
-	public void setDateAdded(DateTime dateAdded) {
-		this.dateAdded = dateAdded;
+	public void setCreationDate(DateTime dateAdded) {
+		this.creationDate = dateAdded;
 	}
 	
 	

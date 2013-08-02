@@ -32,14 +32,19 @@ public class LinkedAccount extends Model {
 	@JoinColumn(name="user_id")
 	private User user;
 
+	@Column(name="provider_user_id")
 	private String providerUserId;
+
+	@Column(name="provider_key")
 	private String providerKey;
 
 	public static final Finder<Long, LinkedAccount> find = new Finder<Long, LinkedAccount>(
 			Long.class, LinkedAccount.class);
 
 	public static LinkedAccount findByProviderKey(final User user, String key) {
-		return find.where().eq("user", user).eq("providerKey", key)
+		return find.where().
+				eq("user.userId", user.getUserId()).
+				eq("providerKey", key)
 				.findUnique();
 	}
 

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.text.ParseException;
 
 import org.joda.time.DateTime;
-
 import utils.JodaDateTime;
 
 public class FuzzyDateBean implements Serializable {

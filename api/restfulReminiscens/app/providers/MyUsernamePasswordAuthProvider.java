@@ -24,6 +24,7 @@ import play.i18n.Messages;
 import play.mvc.Call;
 import play.mvc.Http.Context;
 import play.mvc.Result;
+import pojos.PersonBean;
 import service.PlayAuthenticateLocal;
 
 import com.feth.play.module.mail.Mailer.Mail.Body;
@@ -100,11 +101,19 @@ public class MyUsernamePasswordAuthProvider
 		@MinLength(5)
 		public String repeatPassword;
 
-		@Required
 		public String name;
-
+		
+		@Required
+		public PersonBean person;
+		
+		public Long userId;
+		
 		public String validate() {
 			if (password == null || !password.equals(repeatPassword)) {
+//				ResponseStatusBean response = ResponseStatusBean();
+//				response.setResponseStatus(ResponseStatus.BADREQUEST);
+//				response.setStatusMessage("playauthenticate.password.signup.error.passwords_not_same");
+//				return 				
 				return Messages
 						.get("playauthenticate.password.signup.error.passwords_not_same");
 			}
@@ -142,13 +151,18 @@ public class MyUsernamePasswordAuthProvider
 			}
 		}
 		// The user either does not exist or is inactive - create a new one
-		@SuppressWarnings("unused")
 		final User newUser = User.create(user);
+		user.setUserId(newUser.getUserId());
 		// Usually the email should be verified before allowing login, however
 		// if you return
 		// return SignupResult.USER_CREATED;
 		// then the user gets logged in directly
-		return SignupResult.USER_CREATED_UNVERIFIED;
+		//return SignupResult.USER_CREATED_UNVERIFIED;
+		
+		// TODO Send verification mail even if we log in the user directly
+		// TODO verify that the email is correct and valid
+		
+		return SignupResult.USER_CREATED;
 	}
 
 	@Override
@@ -379,10 +393,10 @@ public class MyUsernamePasswordAuthProvider
 		final String langCode = lang.code();
 
 		final String html = getEmailTemplate(
-				"views.html.account.email.verify_email", langCode, url, token,
+				"views.html.account.email.verify_email", user.getLocale(), url, token,
 				user.getPerson().getFirstname(), user.getEmail());
 		final String text = getEmailTemplate(
-				"views.txt.account.email.verify_email", langCode, url, token,
+				"views.txt.account.email.verify_email", user.getLocale(), url, token,
 				user.getPerson().getFirstname(), user.getEmail());
 
 		return new Body(text, html);

@@ -154,8 +154,8 @@ public class Application extends Controller {
 			File uploadFile = file.getFile();
 			String filesBaseURL = "http://test.reminiscens.me/files";
 			
-//			File localFile = new File(fullPath);
-//			uploadFile.renameTo(localFile);
+			File localFile = new File(fullPath);
+			uploadFile.renameTo(localFile);
 //			
 			Logger.root().debug("Uploading File....");
 			Logger.root().debug("--> fileName=" + fileName);
@@ -174,10 +174,10 @@ public class Application extends Controller {
 			// BCrypt.hashpw(fileName, arg1)
 
 			// TODO 4. Save File in server
-//			Logger.root().debug("Saving File....");
-//			Logger.root().debug("--> fileName=" + fileName);
-//			Logger.root().debug("--> contentType=" + contentType);
-//			Logger.root().debug("--> localFile=" + localFile);
+			Logger.root().debug("Saving File....");
+			Logger.root().debug("--> fileName=" + fileName);
+			Logger.root().debug("--> contentType=" + contentType);
+			Logger.root().debug("--> localFile=" + localFile);
 
 			// TODO 5. Save File metadata in Database
 

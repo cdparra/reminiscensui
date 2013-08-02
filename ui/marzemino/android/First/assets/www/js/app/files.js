@@ -8,7 +8,7 @@ $(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
     var url = window.location.hostname === 'localhost' ?
-                '//localhost/lifeapi/upload' : 'lifeapi/upload/';
+                '//test.reminiscens.me/lifeapi/upload' : '//test.reminiscens.me/lifeapi/upload/';
     $('#fileupload').fileupload({
         url: url,
         dataType: 'json',

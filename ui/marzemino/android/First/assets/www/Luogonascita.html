@@ -74,7 +74,6 @@ body {
 	text-align: center;
 	height: 100px;
 	width: 450px;
-	vertical-align: central;
 	margin: auto;
 }
 </style>
@@ -84,6 +83,7 @@ body {
 <div class="cont" style="padding-left:20px;">
   <h3 style="color:#999; float:left;">Dove sei nato?</h3>
     <input style="float:left; margin-top:15px; margin-left:10px;" id="dove" class="typeahead" type="text" placeholder="Luogo Nascita" autofocus/>
+    <span class="tt-dropdown-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"></span>
 </div>
 <div class="cont">
   <button onClick="Redirect()" class="btn btn-primary">avanti</button>

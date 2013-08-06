@@ -3,13 +3,16 @@
 <head>
 <title>Reminiscens</title>
 <script src="cordova-2.4.0.js"></script>
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-<script type="text/javascript" src="js/typeahead/typeahead.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/storage/jquery.storageapi.js"></script>
+<script type="text/javascript" src="js/storage/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/GestioneRegistrazione.js"></script>
+
 <script>  	
      function onLoad(){
           document.addEventListener("deviceready", onDeviceReady, true);
@@ -21,37 +24,23 @@
 	{
 		location.href = "main.html";
 	}
-	 /*$(function() {
-var availableCity = [
-"Trento",
-"Roma",
-"Milano",
-"Treviso"
-];
-$( "#città" ).autocomplete({
-source: availableCity
-});
-});*/
-
+var cities = [];
+var idCities = [];
 $(document).ready(function() {
 		var tmp = $.getJSON('json/cities.json',function(tmp)
-		{ //return timeline	
-			var cities = [];
+		{ //return timeline				
 			for (var i = 0; i < tmp.length; i++) {
 				//alert(tmp[i].name);
    				cities.push(tmp[i].name);
+				idCities.push(tmp[i].cityId);
 			}
-			$('#dove').typeahead({
-				//name: 'cities',
-				//prefetch: 'json/cities.json',
-				local: cities,
-				limit: 10
-			});
-		
-		
+			
+			$('#dove').autocomplete({
+				source:cities,
+				minLength: 3 
+			});		
 		
 		});
-		//alert(tmp);
 		
 });
 </script>
@@ -69,25 +58,16 @@ body {
 	-webkit-border-radius: 10px 10px 10px 10px;
 	border-radius: 10px 10px 10px 10px;
 	background-color:#FFF;
-}
-.cont {
-	text-align: center;
-	height: 100px;
-	width: 450px;
-	margin: auto;
+	text-align:center;
 }
 </style>
 </head>
 <body>
 <div id="divRoot">
-<div class="cont" style="padding-left:20px;">
-  <h3 style="color:#999; float:left;">Dove sei nato?</h3>
-    <input style="float:left; margin-top:15px; margin-left:10px;" id="dove" class="typeahead" type="text" placeholder="Luogo Nascita" autofocus/>
-    <span class="tt-dropdown-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"></span>
-</div>
-<div class="cont">
-  <button onClick="Redirect()" class="btn btn-primary">avanti</button>
-</div>
+  <h3 style="color:#999;">Dove sei nato?</h3>
+   <input style="margin-top:15px; margin-left:10px;" id="dove" type="text" placeholder="Luogo Nascita" autofocus/>
+   </br></br>
+  <button onClick="SavePlaceAndRedirect()" class="btn btn-primary">avanti</button>
 </div>
 </body>
 </html>

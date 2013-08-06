@@ -20,7 +20,7 @@ $(document).ready(function() {
 			if(!DecadeIsEmpty())
 			{
 				MieStorieVisible = RecuperaStorieDecade();
-				//alert(MieStorieVisible[0].titolo);				
+				//alert(MieStorieVisible[0].headline);				
 				if(MieStorieVisible.length<2) //caso in cui ci sia da stampare solo una foto o nessuna
 				{
 					stampaMieFoto(0,MieStorieVisible.length);

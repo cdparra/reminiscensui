@@ -9,6 +9,10 @@
 
 <script type="text/javascript" src="js/json/json2.js"></script>
 <script type="text/javascript" src="js/sha1.js"></script>
+
+<script type="text/javascript" src="js/storage/jquery.storageapi.js"></script>
+<script type="text/javascript" src="js/storage/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/GestioneSessionKey.js"></script>
 <script>  	
      function onLoad(){
           document.addEventListener("deviceready", onDeviceReady, true);
@@ -22,25 +26,49 @@
 	}
 	function Login()
 	{		
-		var passSha1 = $.sha1($("#password").val());
 		var sessionData = new Object;
-		sessionData.name = "reminiscens";
-		sessionData.authString = $("#email").val() + "!_-_!" + passSha1; 
+
+    	sessionData.email = $("#email").val();
+		//alert($("#email").val());
+		//sessionData.email = "reminiscensapp+4@gmail.com";
+
+    	//sessionData.password = $.sha1($("#password").val());
+		sessionData.password = $("#password").val();  
+		//alert($("#password").val());   
+		//sessionData.password = "testing-password";  
 		
-		var xhr = new XMLHttpRequest();		
-		xhr.open('POST', 'http://reminiscens.apiary.io/api/session');		
-		xhr.setRequestHeader("Content-Type", "application/json");		
-		xhr.onreadystatechange = function () {
-  			if (this.readyState == 4) {
-    			if (typeof cb !== "undefined") {
-					cb(this);
-    			}
-			}
-   			else {
-      			alert('Status: '+this.status+'\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'\nBody: '+this.		responseText);
-    		}
-  		};		
-		xhr.send("{  \n    \"Service\":{\n        \"name\": \"reminiscens\"\n        \"authString\": \"" + sessionData.authString + "\"  \n    }\n}");
+		//alert(JSON.stringify(sessionData));         
+
+    	$.ajax({
+        	type: "POST",
+
+        	url: "http://test.reminiscens.me/lifeapi/login",
+
+        	data: JSON.stringify(sessionData),
+			
+			//data:{"email":"reminiscensapp+4@gmail.com","password":"testing-password"},
+
+        	async: false,
+
+        	success: function (data) {
+
+            	//alert(data.sessionKey);
+				SalvaSessionKey(data.sessionKey);
+				//alert(data.userId);
+				SalvaPersonId(data.userId);
+				location.href = "main.html";
+
+        	},
+        	error: function (data) {
+
+        	    alert("L'email o la password inseriti sono sbagliati");
+
+        	},
+        	dataType: "json",
+			
+			contentType: "application/json"
+
+        });
 	}
 </script>
 

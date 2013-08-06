@@ -48,7 +48,10 @@
 <script type="text/javascript" src="js/sha1.js"></script>
 
 <script type="text/javascript" src="js/GestioneSchermate&Menu.js"></script>
-
+<script type="text/javascript" src="js/GestioneSessionKey.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="js/GestioneRegistrazione.js"></script>
+<script type="text/javascript" src="js/GestioneSynchronizeStories.js"></script>
 
 <script>  	
      function onLoad(){
@@ -84,7 +87,7 @@
 	 var NumeroPaginaMieFoto = 0;
 	 var decade = 1940;
 	 var MieStorieVisible = [];
-	 var sessionKey;
+	 var sessionKey = "0d26b8e46fefd08721f7bb48ac5f1df3b5fc96bb-pa.u.exp%3A1376931010147%00pa.p.id%3Apassword%00pa.u.id%3Acdparra%40gmail.com";
 	 var personId;
 	 
 	 function InizializzaStorieDecade()
@@ -195,47 +198,7 @@
 				return MieStorie.DuemilaVenti;
 	  			break;
 		}
-	 }
-	function Login()
-	{		
-		var sessionData = new Object;
-
-    	//sessionData.email = $("#email").val();
-		sessionData.email = "reminiscensapp+4@gmail.com";
-
-    	//sessionData.password = $.sha1($("#password").val());        
-		sessionData.password = "testing-password";             
-
-    	$.ajax({
-        	type: "POST",
-
-        	url: "http://test.reminiscens.me/lifeapi/login",
-
-        	//data: JSON.stringify(sessionData),
-			
-			data:{"email":"reminiscensapp+4@gmail.com","password":"testing-password"},
-
-        	async: false,
-
-        	success: function (data) {
-
-            	//alert(data.sessionKey);
-				var tmp = [];
-				tmp = data.sessionKey.split("=");
-				sessionKey = tmp[1];
-				personId = data.userId;	
-
-        	},
-        	error: function (data) {
-
-        	    alert("error");
-
-        	},
-        	dataType: "json"
-
-        });
-	}
-	
+	 }	
 	
 	function Timeline()
 	{	
@@ -248,7 +211,8 @@
             {
                 request.setRequestHeader("PLAY_SESSION", sessionKey);
             },
-            url: "http://test.reminiscens.me/lifeapi/person/"+3+"/timeline",
+            url: "http://test.reminiscens.me/lifeapi/person/"+personId+"/timeline",
+			//url: "http://test.reminiscens.me/lifeapi/person/"+3+"/timeline",
             //data: "json=" + escape(JSON.stringify(createRequestObject)),
             processData: false,
             dataType: "json",
@@ -269,25 +233,26 @@
 					var mementoList = storyList[i].mementoList;
 					var j = 0;
 					var newStory = new Object;
-					newStory.titolo = storyList[i].text;
-					newStory.dove = "";
-					newStory.quando = storyList[i].startDate.exactDateAsString;
+					newStory.headline = storyList[i].headline;
+					newStory.location = new Object;
+					newStory.location.location_textual = "";
+					newStory.startDate = new Object;
+					newStory.startDate.exactDate = storyList[i].startDate.exactDateAsString;
+					newStory.testo = mementoList[j].text;
 					var vettImm = [];
 					while(mementoList[j] != null)
 					{						
 						if(mementoList[j].category == "PICTURE")
 						{
-							//alert(mementoList[j].url);
-							
-							newStory.testo = mementoList[j].headline; //!!!!!da sistemare perchè devo salvare la descizione di ogni immagine!							
+							//alert(mementoList[j].url);						
 							var Imm = new Object;
-							Imm.src = mementoList[j].url;
+							Imm.url = mementoList[j].url;
 							//alert(Imm.src);s
 							vettImm.push(Imm);							
 						}						
 						j++;
 					}
-					newStory.immagini = vettImm;
+					newStory.mementoList = vettImm;
 					AggiungiStoriaDecade(newStory, storyList[i].startDate.decade);
 					//MieStorie.push(newStory);
 					i++;
@@ -327,11 +292,11 @@
 					afterLoad : function() {
 						if(Storie.length>this.index)
 						{
-    						this.title = "<div><h1>" + Storie[this.index].titolo +"</h1><h5>" + Storie[this.index].testo + "</h5>  </div>";
+    						this.title = "<div><h1>" + Storie[this.index].headline +"</h1><h5>" + Storie[this.index].text + "</h5>  </div>";
 						}
 						else
 						{
-							this.title = "<div><h1>" + MieStorieVisible[this.index - Storie.length].titolo + "</h1><h5>" + MieStorieVisible[this.index - Storie.length].testo + "</h5>  </div>";
+							this.title = "<div><h1>" + MieStorieVisible[this.index - Storie.length].headline + "</h1><h5>" + MieStorieVisible[this.index - Storie.length].text + "</h5>  </div>";
 						}
 						//this.title = "<div><h1>" + "hola" +"</h1> </div>";
    					},
@@ -341,11 +306,36 @@
 				});
 	}
 	
+	/*$(document).ready(function() {
+		var cities = [];
+		var idCities = [];
+		var tmp = $.getJSON('json/cities.json',function(tmp)
+		{ //return timeline				
+			for (var i = 0; i < tmp.length; i++) {
+				//alert(tmp[i].name);
+   				cities.push(tmp[i].name);
+				idCities.push(tmp[i].cityId);
+			}
+			
+			$('#dove').autocomplete({
+				source:cities,
+				minLength: 3 
+			});		
+		
+		});
+		
+	});*/
+	
 	$(document).ready(function() {	
+		var storage =$.localStorage;
+		sessionKey = storage.get('sessionKey');
+		personId = storage.get('personId');
+		//alert(personId);
+		//alert(sessionKey);
 		
 		$("#quando").kendoDatePicker()
 					.closest(".k-widget")
-                                  .attr("id", "datepicker_wrapper");
+                    .attr("id", "datepicker_wrapper");
 		
 		
 		decade = 1940;
@@ -359,93 +349,65 @@
 		
 		var jsonObj = new Object;
 	
-		jsonObj.titolo = "Foto 1";
-		jsonObj.dove = "";
-		jsonObj.quando = "";
-		jsonObj.testo = "2 ottobre 1950 - nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz...";
+		jsonObj.headline = "Foto 1";
+		jsonObj.location = new Object;
+		jsonObj.location.location_textual = "";
+		jsonObj.startDate = new Object;
+		jsonObj.startDate.exactDate = "";
+		jsonObj.text = "2 ottobre 1950 - nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz...";
 		
 		var vettImm = [];
 		var Imm = new Object;
-		Imm.src = "img/comera1.jpg";
+		Imm.url = "img/comera1.jpg";
 		vettImm.push(Imm);
-		jsonObj.immagini = vettImm;
+		jsonObj.mementoList = vettImm;
 		Storie.push(jsonObj);
 		
 		//alert(Storie[0].titolo);
 		
 		var jsonObj = new Object;
 	
-		jsonObj.titolo = "Foto 2";
-		jsonObj.dove = "";
-		jsonObj.quando = "";
-		jsonObj.testo = "09 maggio 1950 - Nasce la comunitÃ  europea...";
+		jsonObj.headline = "Foto 2";
+		jsonObj.location = new Object;
+		jsonObj.location.location_textual = "";
+		jsonObj.startDate = new Object;
+		jsonObj.startDate.exactDate = "";
+		jsonObj.text = "09 maggio 1950 - Nasce la comunitÃ  europea...";
 		
 		var vettImm = [];
 		var Imm = new Object;
-		Imm.src = "img/comera3.jpg";
+		Imm.url = "img/comera3.jpg";
 		vettImm.push(Imm);
-		jsonObj.immagini = vettImm;
+		jsonObj.mementoList = vettImm;
 		Storie.push(jsonObj);
 		
 		
 		
-		var jsonObj = new Object;
+		/*var jsonObj = new Object;
 	
-		jsonObj.titolo = "Foto 3";
-		jsonObj.dove = "";
-		jsonObj.quando = "";
-		jsonObj.testo = "26 gennaio 1950 - L'india diventa una repubblica..";
+		jsonObj.headline = "Foto 3";
+		jsonObj.location = new Object;
+		jsonObj.location.location_textual = "";
+		jsonObj.startDate = new Object;
+		jsonObj.startDate.exactDate = "";
+		jsonObj.text = "26 gennaio 1950 - L'india diventa una repubblica..";
 		
 		var vettImm = [];
 		var Imm = new Object;
-		Imm.src = "img/comera2.jpg";
+		Imm.url = "img/comera2.jpg";
 		vettImm.push(Imm);
-		jsonObj.immagini = vettImm;
-		Storie.push(jsonObj);
+		jsonObj.mementoList = vettImm;
+		Storie.push(jsonObj);*/
 		
-		/*<div class="immagini">
-            <div class="text"> 26 gennaio 1950 - L'india diventa una repubblica </div>
-            <img src="img/comera2.jpg" /> </div>*/
-		
-		var left, width,j = 0; 
-		for (i=0; i<Storie.length - 1; i++) { 
-		
-		//var img = new Image();
-		
-		/*img.onload = function() {
-  			//alert(this.width + 'x' + this.height);
-			width = this.width;
-			left = (440 - this.width)/2;
-			//alert(width);
-			a(j,width,left);
-			j++;
-		}
-		img.src = Storie[i].immagini[0].src;*/
-		//alert(img.width);
-		//alert (width);
-			document.getElementById("divFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + Storie[i].immagini[0].src + "' title='" + Storie[i].titolo + "' > <img src='" + Storie[i].immagini[0].src + "' alt='' /> </a>";
-			document.getElementById("divStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;' <a class='fancybox' rel='gallery2' href='" + Storie[i].immagini[0].src + "' title='" + Storie[i].titolo + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + Storie[i].immagini[0].src + "' alt='' /> </a></div><div class='text'>" + Storie[i].testo +"</div></div></br></br>";
+		for (i=0; i<Storie.length; i++) { 
+			document.getElementById("divFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + Storie[i].mementoList[0].url + "' title='" + Storie[i].headline + "' > <img src='" + Storie[i].mementoList[0].url + "' alt='' /> </a>";
+			document.getElementById("divStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;' <a class='fancybox' rel='gallery2' href='" + Storie[i].mementoList[0].url + "' title='" + Storie[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + Storie[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + Storie[i].text +"</div></div></br></br>";
 		}
 		
 		
-		Login();
+		//Login();
 		Timeline();
 });
-
-/*function a(i,w,l)
-{
-	//alert(i);
-	var c = document.getElementById(i);
-	document.getElementById(i).style.width = w;
-	document.getElementById(i).style.left = l;
-	//alert(w);
-	$("#" + i).css({
-        "width": w		
-    });
-	$("#" + i).css({
-        "left": l		
-    });
-}*/
 
 function controlloStampaPagine()
 {
@@ -462,13 +424,6 @@ function controlloStampaPagine()
 
 function DecadeIsEmpty()
 {
-	/*for(var i = 0; i<MieStorie.length;i++)
-	{
-		if(MieStorie[i].decade == decade)
-			return false;
-	}
-	return true;*/
-	//alert(decade);
 	switch(parseInt(decade))
 		{
 			case 1900:
@@ -600,9 +555,9 @@ function stampaMieFoto(inizio, fine)
 	for (i=inizio; i<fine; i++) { 
 						
 		//alert(MieStorie[i].immagini[0].src);
-		if(MieStorieVisible[i].immagini[0] != null)
+		if(MieStorieVisible[i].mementoList[0] != null)
 		{
-			document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + MieStorieVisible[i].immagini[0].src + "' title='" + MieStorieVisible[i].titolo + "' > <img src='" + MieStorieVisible[i].immagini[0].src + "' class='immaginiFoto' alt='' /> </a></br>";
+			document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img src='" + MieStorieVisible[i].mementoList[0].url + "' class='immaginiFoto' alt='' /> </a></br>";
 		}
 		else
 		{
@@ -621,14 +576,14 @@ function stampaMieStorie(inizio, fine)
 	for (i=inizio; i<fine; i++) { 
 						
 		//alert(MieStorie[i].immagini[0].src);
-		if(MieStorieVisible[i].immagini[0] != null)
+		if(MieStorieVisible[i].mementoList[0] != null)
 		{
 			/*document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + MieStorieVisible[i].immagini[0].src + "' title='" + MieStorieVisible[i].titolo + "' > <img src='" + MieStorieVisible[i].immagini[0].src + "' class='immaginiFoto' alt='' /> </a></br>";*/
-			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;' <a class='fancybox' rel='gallery2' href='" + MieStorieVisible[i].immagini[0].src + "' title='" + MieStorieVisible[i].titolo + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + MieStorieVisible[i].immagini[0].src + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].testo +"</div></div></br>";
+			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;' <a class='fancybox' rel='gallery2' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div></br>";
 		}
 		else
 		{
-			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;' <a class='fancybox' rel='gallery2' href='" + "images/story-book.jpg" + "' title='" + MieStorieVisible[i].titolo + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + "images/story-book.jpg" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].testo +"</div></div></br>";
+			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;' <a class='fancybox' rel='gallery2' href='" + "images/story-book.jpg" + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + "images/story-book.jpg" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div></br>";
 		}
 	}
 }

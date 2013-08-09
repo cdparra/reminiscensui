@@ -20,7 +20,6 @@
 <script type="text/javascript" src="js/recorder.js"></script>
 <script type="text/javascript" src="js/GestioneKendoEditor.js"></script>
 <script type="text/javascript" src="js/GestioneFoto.js"></script>
-
 <script type="text/javascript" src="js/GestioneRecorderHTML.js"></script>
 <script type="text/javascript" src="js/storage/jquery.storageapi.js"></script>
 <script type="text/javascript" src="js/storage/jquery.cookie.js"></script>
@@ -44,14 +43,20 @@
 
 <!-- Add jQuery library --><!--<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>-->
 
-
 <script type="text/javascript" src="js/sha1.js"></script>
-
 <script type="text/javascript" src="js/GestioneSchermate&Menu.js"></script>
-<script type="text/javascript" src="js/GestioneSessionKey.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script type="text/javascript" src="js/GestioneRegistrazione.js"></script>
 <script type="text/javascript" src="js/GestioneSynchronizeStories.js"></script>
+<script type="text/javascript" src="js/app/files.js"></script>
+	<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="js/lib/jquery.file.upload/js/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="js/lib/jquery.file.upload/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="js/lib/jquery.file.upload/js/jquery.fileupload.js"></script>
+<script type="text/javascript" src="js/GestioneVariabiliPersona.js">
+</script><script type="text/javascript" src="js/GestioneQuestion.js"></script>
 
 <script>  	
      function onLoad(){
@@ -66,7 +71,7 @@
 		//alert(editor.value());
 		$("#debug").text(editor.value());
 	 }
-	 function storage() {
+	 /*function storage() {
 		/*var storage =$.localStorage;
 		//alert(storage.get('prova'));
 		//var obj = JSON.parse(storage.get('prova'));
@@ -77,7 +82,7 @@
 		//EliminaIntestazioneDataImg();
 		
 		//alert();
-	 }
+	 //}
 	 
 	 
 	 var tokern;
@@ -87,8 +92,12 @@
 	 var NumeroPaginaMieFoto = 0;
 	 var decade = 1940;
 	 var MieStorieVisible = [];
-	 var sessionKey = "0d26b8e46fefd08721f7bb48ac5f1df3b5fc96bb-pa.u.exp%3A1376931010147%00pa.p.id%3Apassword%00pa.u.id%3Acdparra%40gmail.com";
+	 var sessionKey;
 	 var personId;
+	 var imgStoria = [];
+	 var birthYear;
+	 var personalQuestion = [];
+	 var decadeQuestion = [];
 	 
 	 function InizializzaStorieDecade()
 	 {
@@ -207,15 +216,16 @@
 		/*$.getJSON("http://test.reminiscens.me/lifeapi/person/3/timeline",function(timeline)*/
 		$.ajax({
             type:"GET",
-            beforeSend: function (request)
+            /*beforeSend: function (request)
             {
                 request.setRequestHeader("PLAY_SESSION", sessionKey);
-            },
-            url: "http://test.reminiscens.me/lifeapi/person/"+personId+"/timeline",
-			//url: "http://test.reminiscens.me/lifeapi/person/"+3+"/timeline",
+            },*/
+           //url: "http://test.reminiscens.me/lifeapi/person/"+personId+"/timeline",
+			url: "http://test.reminiscens.me/lifeapi/person/"+3+"/timeline",
             //data: "json=" + escape(JSON.stringify(createRequestObject)),
             processData: false,
             dataType: "json",
+			contentType:"application/json",
         	error: function (data) {
 
         	    alert("error");
@@ -238,7 +248,7 @@
 					newStory.location.location_textual = "";
 					newStory.startDate = new Object;
 					newStory.startDate.exactDate = storyList[i].startDate.exactDateAsString;
-					newStory.testo = mementoList[j].text;
+					newStory.text = storyList[i].text;
 					var vettImm = [];
 					while(mementoList[j] != null)
 					{						
@@ -279,6 +289,8 @@
 		/*);
 	}*/
 				//alert(msg.aboutPerson.personId);
+				
+				GestioneSchermate();
             }
         	
    		});
@@ -287,17 +299,21 @@
  	
 	function aggiungiEventoFancyBox()
 	{
-		$(".fancybox").fancybox({
+		$(".fancyboxStorie").fancybox({
 					'showCloseButton'	: false,
 					afterLoad : function() {
-						if(Storie.length>this.index)
-						{
+						alert(Storie.length);
     						this.title = "<div><h1>" + Storie[this.index].headline +"</h1><h5>" + Storie[this.index].text + "</h5>  </div>";
-						}
-						else
-						{
-							this.title = "<div><h1>" + MieStorieVisible[this.index - Storie.length].headline + "</h1><h5>" + MieStorieVisible[this.index - Storie.length].text + "</h5>  </div>";
-						}
+						//this.title = "<div><h1>" + "hola" +"</h1> </div>";
+   					},
+					'helpers' : { 
+    					title : { type : 'inside' }
+   					} // helpers
+				});
+		$(".fancyboxMieStorie").fancybox({
+					'showCloseButton'	: false,
+					afterLoad : function() {
+							this.title = "<div><h1>" + MieStorieVisible[this.index].headline + "</h1><h5>" + MieStorieVisible[this.index].text + "</h5>  </div>";
 						//this.title = "<div><h1>" + "hola" +"</h1> </div>";
    					},
 					'helpers' : { 
@@ -326,12 +342,25 @@
 		
 	});*/
 	
-	$(document).ready(function() {	
+	$(document).ready(function() {
+		$.ajaxSetup({
+    			beforeSend: function(xhr) {
+        			xhr.setRequestHeader("PLAY_SESSION", sessionKey);
+    			}
+		});	
+		
+			
 		var storage =$.localStorage;
-		sessionKey = storage.get('sessionKey');
-		personId = storage.get('personId');
+		sessionKey = GetSessionKey();
+		personId = GetPersonId();
+		birthYear = GetPersonBirthDate().split('-')[0];
+		//alert(birthYear);
 		//alert(personId);
 		//alert(sessionKey);
+		
+		
+		
+		
 		
 		$("#quando").kendoDatePicker()
 					.closest(".k-widget")
@@ -344,6 +373,9 @@
 		$("#TueFotoDelTempo").text("Le tue foto attorno al " + decade);
 		$("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
 		$("#TueStorieDelTempo").text("Le tue storie nel " + decade);
+		
+		
+		downloadQuestion(birthYear,decade);
 	
 					
 		
@@ -400,8 +432,8 @@
 		Storie.push(jsonObj);*/
 		
 		for (i=0; i<Storie.length; i++) { 
-			document.getElementById("divFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + Storie[i].mementoList[0].url + "' title='" + Storie[i].headline + "' > <img src='" + Storie[i].mementoList[0].url + "' alt='' /> </a>";
-			document.getElementById("divStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;' <a class='fancybox' rel='gallery2' href='" + Storie[i].mementoList[0].url + "' title='" + Storie[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + Storie[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + Storie[i].text +"</div></div></br></br>";
+			document.getElementById("divFotoDelTempo").innerHTML += "<a class='fancyboxStorie' rel='gallery1' href='" + Storie[i].mementoList[0].url + "' title='" + Storie[i].headline + "' > <img src='" + Storie[i].mementoList[0].url + "' alt='' /> </a>";
+			document.getElementById("divStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxStorie' rel='gallery3' href='" + Storie[i].mementoList[0].url + "' title='" + Storie[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + Storie[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + Storie[i].text +"</div></div></br></br>";
 		}
 		
 		
@@ -557,7 +589,7 @@ function stampaMieFoto(inizio, fine)
 		//alert(MieStorie[i].immagini[0].src);
 		if(MieStorieVisible[i].mementoList[0] != null)
 		{
-			document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img src='" + MieStorieVisible[i].mementoList[0].url + "' class='immaginiFoto' alt='' /> </a></br>";
+			document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancyboxMieStorie' rel='gallery2' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img src='" + MieStorieVisible[i].mementoList[0].url + "' class='immaginiFoto' alt='' /> </a></br>";
 		}
 		else
 		{
@@ -579,11 +611,11 @@ function stampaMieStorie(inizio, fine)
 		if(MieStorieVisible[i].mementoList[0] != null)
 		{
 			/*document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + MieStorieVisible[i].immagini[0].src + "' title='" + MieStorieVisible[i].titolo + "' > <img src='" + MieStorieVisible[i].immagini[0].src + "' class='immaginiFoto' alt='' /> </a></br>";*/
-			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;' <a class='fancybox' rel='gallery2' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div></br>";
+			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div></br>";
 		}
 		else
 		{
-			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;' <a class='fancybox' rel='gallery2' href='" + "images/story-book.jpg" + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + "images/story-book.jpg" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div></br>";
+			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "images/story-book.jpg" + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + "images/story-book.jpg" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div></br>";
 		}
 	}
 }
@@ -598,56 +630,71 @@ function YearToDecade(anno)
 </head>
 <body>
 <div id="divRoot">
-  <input class="timeline" id="1940" type="image" src="button/1940.jpg">
-  <input class="timeline" id="1950" type="image" src="button/1950.jpg">
-  <input class="timeline" id="1960" type="image" src="button/1960.jpg">
-  <input class="timeline" id="1970" type="image" src="button/1970.jpg">
-  <input class="timeline" id="1980" type="image" src="button/1980.jpg">
-  <input class="timeline" id="1990" type="image" src="button/1990.jpg">
-  <br/>
-  <div id="centrale">
-    <div id="NoResults" style="display:none;">
-      <div style="background-color:#FFF; padding-bottom:30px; padding-top:100px;">
-        <label id="lbldebug">Non ci sono ancora storie del 1950!</label>
-      </div>
-      <button style="margin-top:40px;" class="btn btn-large btn-primary" onClick="ApriOverlay();">Raccontaci una</button>
+<input class="timeline" id="1940" type="image" src="button/1940.jpg">
+<input class="timeline" id="1950" type="image" src="button/1950.jpg">
+<input class="timeline" id="1960" type="image" src="button/1960.jpg">
+<input class="timeline" id="1970" type="image" src="button/1970.jpg">
+<input class="timeline" id="1980" type="image" src="button/1980.jpg">
+<input class="timeline" id="1990" type="image" src="button/1990.jpg">
+<br/>
+<div id="centrale">
+  <div id="NoResults" style="display:none;">
+    <div style="background-color:#FFF; padding-bottom:30px; padding-top:100px;">
+      <label id="lbldebug">Non ci sono ancora storie del 1950!</label>
     </div>
-    <div id="Results">
-      <div class="navbar">
-        <div class="navbar-inner">
-          <ul class="nav">
-            <li class="active" id="liFoto"><a href="#">Foto</a> </li>
-            <li id="liStorie"><a href="#">Storie</a></li>
-            <li id="liCanzoni"><a href="#">Canzoni</a></li>
-            <li id="liFamosi"><a href="#">Famosi</a></li>
-            <li id="liRaccontaci"><a href="#">Raccontaci</a></li>
-          </ul>
-        </div>
+    <button style="margin-top:40px;" id="RaccontaciUnaStoria" class="btn btn-large btn-primary" onClick="ApriOverlay();">Raccontaci una storia</button>
+    <br>
+    
+    <div class="divFoto" style="height:300px; margin-top:100px; padding-left:5px; padding-right:5px; width:440px;">
+    	<h3>Domande sul periodo</h3>    
+   		<button style="margin-top:40px;" id="FirstDecadeQuestionEmpty" class="btn btn-primary" onClick="ApriOverlay(this.id);"></button>
+        <br>
+    	<button style="margin-top:40px;" id="SecondDecadeQuestionEmpty" class="btn btn-primary" onClick="ApriOverlay(this.id);"></button>
+    </div>
+    
+    <div class="divFoto" style="height:300px;margin-top:100px;padding-left:5px; padding-right:5px;width:440px;">
+    	<h3>Domande personali sul periodo</h3>  
+    	<button style="margin-top:40px;" id="FirstPersonalQuestionEmpty" class="btn btn-primary" onClick="ApriOverlay(this.id);"></button>
+        <br>
+    	<button style="margin-top:40px;" id="SecondPersonalQuestionEmpty" class="btn btn-primary" onClick="ApriOverlay(this.id);"></button>
+    </div>
+    
+  </div>
+  <div id="Results" style="display:none;">
+    <div class="navbar">
+      <div class="navbar-inner">
+        <ul class="nav">
+          <li class="active" id="liFoto"><a href="#">Foto</a> </li>
+          <li id="liStorie"><a href="#">Storie</a></li>
+          <li id="liCanzoni"><a href="#">Canzoni</a></li>
+          <li id="liFamosi"><a href="#">Famosi</a></li>
+          <li id="liRaccontaci"><a href="#">Raccontaci</a></li>
+        </ul>
       </div>
-      <div id="Foto">
-        <div class="divFoto">
-          <h3 id="FotoDelTempo">Com'era questo posto attorno al 1950</h3>
-          <div id="divFotoDelTempo">          
+    </div>
+    <div id="Foto">
+      <div class="divFoto">
+        <h3 id="FotoDelTempo">Com'era questo posto attorno al 1950</h3>
+        <div id="divFotoDelTempo"> 
           <!--<a class="fancybox" rel="gallery1" href="img/comera1.jpg" title="2 ottobre 1950 - nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz..."> <img src="img/comera1.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/comera3.jpg" title="09 maggio 1950 - Nasce la comunitÃ  europea..."> <img src="img/comera3.jpg" alt="" /> </a> 
-          <a class="fancybox" rel="gallery1" href="img/comera2.jpg" title="26 gennaio 1950 - L'india diventa una repubblica.."> <img src="img/comera2.jpg" alt="" /> </a> -->
-          </div>
-          </div>
-        <div class="divFoto">
-          <h3 id="TueFotoDelTempo">Le tue foto attorno al 1950</h3>
-          <div id="divMieFotoDelTempo"> 
-                  
+          <a class="fancybox" rel="gallery1" href="img/comera2.jpg" title="26 gennaio 1950 - L'india diventa una repubblica.."> <img src="img/comera2.jpg" alt="" /> </a> --> 
+        </div>
+      </div>
+      <div class="divFoto">
+        <h3 id="TueFotoDelTempo">Le tue foto attorno al 1950</h3>
+        <div id="divMieFotoDelTempo"> 
+          
           <!--<a class="fancybox" rel="gallery1" href="img/tuefoto1.jpg" title="Foto 1"> <img src="img/tuefoto1.jpg" alt=""/> </a> 
           <a class="fancybox" rel="gallery1" href="img/tuefoto2.jpg" title="Foto 2"> <img src="img/tuefoto2.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/tuefoto3.jpg" title="Foto 3"> <img src="img/tuefoto3.jpg" alt="" /> </a>--> </div>
-          </div>
       </div>
-      <div id="Storie" style="display:none;">
-        <div class="divFoto">
-          <h3 id="StorieDelTempo">Che cosa succedeva nel 1950</h3>
-          <div id="divStorieDelTempo"> 
-          </div>
-          <!--<div class="immagini">
+    </div>
+    <div id="Storie" style="display:none;">
+      <div class="divFoto">
+        <h3 id="StorieDelTempo">Che cosa succedeva nel 1950</h3>
+        <div id="divStorieDelTempo"> </div>
+        <!--<div class="immagini">
             <div class="text"> 26 gennaio 1950 - L'india diventa una repubblica </div>
             <img src="img/comera2.jpg" /> </div>
           <div class="immagini">
@@ -656,12 +703,11 @@ function YearToDecade(anno)
           <div class="immagini">
             <div class="text"> 09 maggio 1950 - Nasce la comunità europea... </div>
             <img src="img/comera3.jpg" /> </div>
--->        </div>
-        <div class="divFoto">
-          <h3 id="TueStorieDelTempo">Le tue storie nel 1950</h3>
-          <!--<img src="img/tuefoto2.jpg" /> </div>-->
-          <div id="divMieStorieDelTempo"> 
-          </div>
+--> 	</div>
+      <div class="divFoto">
+        <h3 id="TueStorieDelTempo">Le tue storie nel 1950</h3>
+        <!--<img src="img/tuefoto2.jpg" /> </div>-->
+        <div id="divMieStorieDelTempo"> </div>
       </div>
     </div>
     <div id="Canzoni" style="display:none;">
@@ -693,13 +739,19 @@ function YearToDecade(anno)
           quella stagione politica che va...</h6>
       </div>
     </div>
+    <div style="width: 450px;margin-left:30px;margin-right:30px;float: left;margin-top:-20px;">
+    	<button id="DecadeQuestionNotEmpty" class="btn btn-primary" onClick="ApriOverlay(this.id);"></button>
+    </div>
+    <div style="width: 450px;margin-left:30px;margin-right:30px;float: left;margin-top:-20px;">
+    	<button id="PersonalQuestionNotEmpty" class="btn btn-primary" onClick="ApriOverlay(this.id);"></button>
+    </div>
   </div>
   <div class="overlay" id="overlay" style="display: none;"></div>
   <!--contenuto overlay-->
   <div id="box">
     <div style="background-color:#D5D5D5; padding-top:10px;">
       <div style="background-color:#A05152; padding-bottom:10px; padding-top:10px;">
-        <label>raccontaci la tua storia</label>
+        <label id="titleBox">raccontaci la tua storia</label>
         <button id="salva" onClick="salvaStoria();" class="btn btn-primary">Salva</button>
       </div>
       <div style="margin-top:10px; color:#000; margin-left:20px; margin-right:20px;">
@@ -716,15 +768,15 @@ function YearToDecade(anno)
             <label for="quando" style="float:left;margin-top:3px; margin-left:30px;">Quando:</label>
             <!--<input id="dove" style="float:left; margin-left:3px;" type="text" class="input-xlarge"/>-->
             <div style="float:left; margin-left:15px;">
-            <input id="quando" value="10/10/2011" />
+              <input id="quando" value="10/10/2011" />
             </div>
             </br>
           </div>
         </form>
       </div>
       <div style="float:left; margin:20px;"> 
-        <!--<button onClick="editor();">Editor</button>-->
-        <!--<input type="image" src="button/buttonFoto.jpg" onClick="capturePhoto();">-->
+        <!--<button onClick="editor();">Editor</button>--> 
+        <!--<input type="image" src="button/buttonFoto.jpg" onClick="capturePhoto();">--> 
         <br/>
         <input id="record" type="image" style="margin-top:10px;" src="button/buttonMicrofono.jpg" onClick="record();">
         <br/>
@@ -732,9 +784,19 @@ function YearToDecade(anno)
         <input id="play" type="image" style="margin-top:10px; visibility:hidden;" src="button/buttonPlay.png" onClick="play();">
         <input id="stop" type="image" style="margin-top:10px; margin-left:2px; visibility:hidden;" src="button/buttonStop.png" onClick="stop();">
       </div>
-      <textarea  id="editor" rows="10" cols="30" style="width:620px;height:400px; float:left;">
+      <div style="float:left; margin-right:20px;"> <span class="btn btn-success fileinput-button">
+        		<input id="fileupload" type="file" name="files[]" multiple>
+        </span> <br><br>        
+        <div id="progress" class="progress progress-success progress-striped">
+          <div class="bar"></div>
+        </div>
+        <div id="imgInput">
+        </div>
+      </div>
+        <textarea  id="editor" rows="10" cols="30" style="width:480px;height:525px; float:left;">
     
-    	</textarea>
+      </textarea>
+      
     </div>
     <img src="images/X.png" class="chiudi" /> </div>
 </div>

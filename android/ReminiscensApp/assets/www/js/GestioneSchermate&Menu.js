@@ -7,15 +7,21 @@ function nascondiDiv()
 		document.getElementById("Famosi").style.display="none";
 	}
 
-$(document).ready(function() {
-	$('.timeline').click(function(){
+function GestioneSchermate(clickdecade)
+{
 			nascondiDiv();
-            decade = $(this).attr("id");  
+			if(clickdecade != null) //per gestire il fatto che la prima volta non ho storie e quindi devo fare vedere
+									//la schermata del racconta storie e domande
+			{
+            	decade = clickdecade;  
+			}
 			$("#lbldebug").text("Non ci sono ancora storie del " + decade + "!");
 			$("#FotoDelTempo").text("Com'era questo posto attorno al " + decade);
 			$("#TueFotoDelTempo").text("Le tue foto attorno al " + decade);
 			$("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
 			$("#TueStorieDelTempo").text("Le tue storie nel " + decade);
+			
+			downloadQuestion(birthYear,decade);
 			
 			if(!DecadeIsEmpty())
 			{
@@ -31,7 +37,7 @@ $(document).ready(function() {
 					stampaMieFoto(0,2);
 					stampaMieStorie(0,2);
 				}
-				aggiungiEventoFancyBox()
+				aggiungiEventoFancyBox();
 				document.getElementById("Foto").style.display="inherit";
 				document.getElementById("Results").style.display="inherit";
 				document.getElementById("NoResults").style.display="none";
@@ -58,6 +64,12 @@ $(document).ready(function() {
 				document.getElementById("NoResults").style.display="inherit";
 				document.getElementById("Results").style.display="none";
 			}*/
+}
+
+
+$(document).ready(function() {
+	$('.timeline').click(function(){
+			GestioneSchermate($(this).attr("id"));			
         });
 		/*applica la classe active al menù nav bar di bootstrap quando viene cliccato*/
 		$('.navbar li').click(function(e) {

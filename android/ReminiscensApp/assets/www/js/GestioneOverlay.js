@@ -28,7 +28,7 @@ $(document).ready(function() {
     $("#box").css({
         "top": percentualeY + "%"
     });*/
-	var width = $("#box").width() + 100;
+	var width = $("#box").width();
 	var PosX = ($(window).width() - width) / 2;
     var percentualeX = PosX / $(window).width() * 100;
     $("#box").css({
@@ -70,7 +70,18 @@ jQuery(window).bind('resize', function () {
 	CentroCaricamento();
 });
 
-function ApriOverlay() { 
+function ApriOverlay(clicked_id) {
+	//alert(clicked_id);
+	if(clicked_id == null)
+	{
+		$("#titleBox").html("raccontaci la tua storia");
+	}
+	else
+	{
+		//alert(document.getElementById(clicked_id).innerHTML);
+		$("#titleBox").html(document.getElementById(clicked_id).innerHTML);
+		downloadQuestion(birthYear,decade);
+	}
     CentroOverlay();
     $('#overlay').fadeIn('fast');
     $('#box').fadeIn('slow');

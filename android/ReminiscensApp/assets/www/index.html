@@ -12,7 +12,7 @@
 
 <script type="text/javascript" src="js/storage/jquery.storageapi.js"></script>
 <script type="text/javascript" src="js/storage/jquery.cookie.js"></script>
-<script type="text/javascript" src="js/GestioneSessionKey.js"></script>
+<script type="text/javascript" src="js/GestioneVariabiliPersona.js"></script>
 <script>  	
      function onLoad(){
           document.addEventListener("deviceready", onDeviceReady, true);
@@ -53,9 +53,10 @@
         	success: function (data) {
 
             	//alert(data.sessionKey);
-				SalvaSessionKey(data.sessionKey);
+				SetSessionKey(data.sessionKey);
 				//alert(data.userId);
-				SalvaPersonId(data.userId);
+				SetPersonId(data.userId);				
+				SetPersonBirthDate(data.person.birthdateAsString);
 				location.href = "main.html";
 
         	},

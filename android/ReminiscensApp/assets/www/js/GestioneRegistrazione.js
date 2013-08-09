@@ -78,8 +78,9 @@ function SavePersonAndRedirect()
 
         	success: function (data) {
 					//alert("yeeee");
-					SalvaSessionKey(data.sessionKey);
-					SalvaPersonId(data.userId);
+					SetSessionKey(data.sessionKey);
+					SetPersonId(data.userId);
+					SetBirthDate(data.birthdateAsString);	
 					//alert(data.sessionKey);
 					location.href = "main.html";
 					//alert(data);

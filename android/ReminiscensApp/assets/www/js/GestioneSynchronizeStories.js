@@ -2,7 +2,7 @@
 
 function SaveStoryWithConnection(newStory)
 {
-	alert("ciao");
+	//alert("ciao");
 	$.ajax({
         	type: "POST",
 			
@@ -19,7 +19,7 @@ function SaveStoryWithConnection(newStory)
 
         	success: function (data) {
 					//alert("yeeee");
-					alert(data.lifeStoryId);
+					//alert(data.lifeStoryId);
 
         	},
         	error: function (data) {

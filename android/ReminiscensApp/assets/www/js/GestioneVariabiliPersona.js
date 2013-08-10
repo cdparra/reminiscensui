@@ -29,3 +29,13 @@ function GetPersonBirthDate()
 {
 	return storage.get('personBirthDate');
 }
+
+function SetUserId(Id)
+{
+	storage.set('userId',Id);
+}
+
+function GetUserId()
+{
+	return storage.get('userId');
+}

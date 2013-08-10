@@ -55,7 +55,8 @@
             	//alert(data.sessionKey);
 				SetSessionKey(data.sessionKey);
 				//alert(data.userId);
-				SetPersonId(data.userId);				
+				SetPersonId(data.person.personId);
+				SetUserId(data.userId);
 				SetPersonBirthDate(data.person.birthdateAsString);
 				location.href = "main.html";
 

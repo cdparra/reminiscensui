@@ -42,7 +42,7 @@ function salvaStoria(){
 	//alert(storia);
 	
 	var vettImm = [];
-	alert(imgStoria.length);
+	//alert(imgStoria.length);
 	
 	//var textSplit = editor.value().split("src=\"");
 	var j = 1;
@@ -85,6 +85,9 @@ function salvaStoria(){
 	
 
 	AggiungiStoriaDecade(newStory, decadeStory);
+	
+	stampaMieFoto(0,MieStorieVisible.length);
+	stampaMieStorie(0,MieStorieVisible.length);
 	aggiungiEventoFancyBox();
 	
 	/*var storia = JSON.stringify(jsonObj);	
@@ -92,8 +95,8 @@ function salvaStoria(){
 	//alert(storia);
 	
 	
-	controlloStampaPagine();
-	controlloStampaPagineStorie();
+	/*controlloStampaPagine();
+	controlloStampaPagineStorie();*/
 	
 	var storage = $.localStorage;
 	storage.set('mieStorie',MieStorie);

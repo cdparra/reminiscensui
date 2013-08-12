@@ -273,7 +273,7 @@
 				
 				
 				MieStorieVisible = RecuperaStorieDecade();
-				if(MieStorieVisible.length<2) //caso in cui ci sia da stampare solo una foto o nessuna
+				/*if(MieStorieVisible.length<2) //caso in cui ci sia da stampare solo una foto o nessuna
 				{
 					stampaMieFoto(0,MieStorieVisible.length);
 					stampaMieStorie(0,MieStorieVisible.length);
@@ -282,9 +282,10 @@
 				{
 					stampaMieFoto(0,2);
 					stampaMieStorie(0,2);
-				}	
+				}*/	
 				
-				
+				stampaMieFoto(0,MieStorieVisible.length);
+				stampaMieStorie(0,MieStorieVisible.length);
 				aggiungiEventoFancyBox();
 		/*);
 	}*/
@@ -350,7 +351,7 @@
 		});	
 		
 			
-		var storage =$.localStorage;
+		//var storage =$.localStorage;
 		sessionKey = GetSessionKey();
 		personId = GetPersonId();
 		birthYear = GetPersonBirthDate().split('-')[0];
@@ -433,7 +434,7 @@
 		
 		for (i=0; i<Storie.length; i++) { 
 			document.getElementById("divFotoDelTempo").innerHTML += "<a class='fancyboxStorie' rel='gallery1' href='" + Storie[i].mementoList[0].url + "' title='" + Storie[i].headline + "' > <img src='" + Storie[i].mementoList[0].url + "' alt='' /> </a>";
-			document.getElementById("divStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxStorie' rel='gallery3' href='" + Storie[i].mementoList[0].url + "' title='" + Storie[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + Storie[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + Storie[i].text +"</div></div></br></br>";
+			document.getElementById("divStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxStorie' rel='gallery3' href='" + Storie[i].mementoList[0].url + "' title='" + Storie[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + Storie[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + Storie[i].text +"</div></div>";
 		}
 		
 		
@@ -583,7 +584,7 @@ function stampaMieFoto(inizio, fine)
 	
 	var i;
 	document.getElementById("divMieFotoDelTempo").innerHTML = "";
-	document.getElementById("divMieFotoDelTempo").innerHTML += "<button id='indietro' onClick='indietro'>Indietro</button> <button id='avanti' onClick='avanti'>Avanti</button></br>";
+	//document.getElementById("divMieFotoDelTempo").innerHTML += "<button id='indietro' onClick='indietro'>Indietro</button> <button id='avanti' onClick='avanti'>Avanti</button></br>";
 	for (i=inizio; i<fine; i++) { 
 						
 		//alert(MieStorie[i].immagini[0].src);
@@ -604,18 +605,18 @@ function stampaMieStorie(inizio, fine)
 	
 	var i;
 	document.getElementById("divMieStorieDelTempo").innerHTML = "";
-	document.getElementById("divMieStorieDelTempo").innerHTML += "<button id='indietro' onClick='indietroStorie()'>Indietro</button> <button id='avanti' onClick='avantiStorie()'>Avanti</button></br>";
+	//document.getElementById("divMieStorieDelTempo").innerHTML += "<button id='indietro' onClick='indietroStorie()'>Indietro</button> <button id='avanti' onClick='avantiStorie()'>Avanti</button></br>";
 	for (i=inizio; i<fine; i++) { 
 						
 		//alert(MieStorie[i].immagini[0].src);
 		if(MieStorieVisible[i].mementoList[0] != null)
 		{
 			/*document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + MieStorieVisible[i].immagini[0].src + "' title='" + MieStorieVisible[i].titolo + "' > <img src='" + MieStorieVisible[i].immagini[0].src + "' class='immaginiFoto' alt='' /> </a></br>";*/
-			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div></br>";
+			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";
 		}
 		else
 		{
-			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "images/story-book.jpg" + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;width:220px;' src='" + "images/story-book.jpg" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div></br>";
+			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "images/story-book.jpg" + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + "images/story-book.jpg" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";
 		}
 	}
 }
@@ -669,21 +670,26 @@ function YearToDecade(anno)
           <li id="liCanzoni"><a href="#">Canzoni</a></li>
           <li id="liFamosi"><a href="#">Famosi</a></li>
           <li id="liRaccontaci"><a href="#">Raccontaci</a></li>
+          <li id="liLogout"><a href="#">Logout</a></li>
         </ul>
       </div>
     </div>
     <div id="Foto">
       <div class="divFoto">
         <h3 id="FotoDelTempo">Com'era questo posto attorno al 1950</h3>
-        <div id="divFotoDelTempo"> 
+        <div id="divFotoDelTempo" style="overflow:auto;height:489px;"> 
           <!--<a class="fancybox" rel="gallery1" href="img/comera1.jpg" title="2 ottobre 1950 - nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz..."> <img src="img/comera1.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/comera3.jpg" title="09 maggio 1950 - Nasce la comunitÃ  europea..."> <img src="img/comera3.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/comera2.jpg" title="26 gennaio 1950 - L'india diventa una repubblica.."> <img src="img/comera2.jpg" alt="" /> </a> --> 
+          <!--<img style="width:600px;" src="img/comera3.jpg" alt="" />
+          <img src="img/comera3.jpg" alt="" /><img src="img/comera3.jpg" alt="" />
+          <img src="img/comera3.jpg" alt="" />
+          <img src="img/comera3.jpg" alt="" />-->
         </div>
       </div>
       <div class="divFoto">
-        <h3 id="TueFotoDelTempo">Le tue foto attorno al 1950</h3>
-        <div id="divMieFotoDelTempo"> 
+        <h3 id="TueFotoDelTempo" >Le tue foto attorno al 1950</h3>
+        <div id="divMieFotoDelTempo" style="overflow:auto;height:489px;"> 
           
           <!--<a class="fancybox" rel="gallery1" href="img/tuefoto1.jpg" title="Foto 1"> <img src="img/tuefoto1.jpg" alt=""/> </a> 
           <a class="fancybox" rel="gallery1" href="img/tuefoto2.jpg" title="Foto 2"> <img src="img/tuefoto2.jpg" alt="" /> </a> 
@@ -693,7 +699,7 @@ function YearToDecade(anno)
     <div id="Storie" style="display:none;">
       <div class="divFoto">
         <h3 id="StorieDelTempo">Che cosa succedeva nel 1950</h3>
-        <div id="divStorieDelTempo"> </div>
+        <div id="divStorieDelTempo" style="overflow:auto;height:489px;"> </div>
         <!--<div class="immagini">
             <div class="text"> 26 gennaio 1950 - L'india diventa una repubblica </div>
             <img src="img/comera2.jpg" /> </div>
@@ -707,7 +713,7 @@ function YearToDecade(anno)
       <div class="divFoto">
         <h3 id="TueStorieDelTempo">Le tue storie nel 1950</h3>
         <!--<img src="img/tuefoto2.jpg" /> </div>-->
-        <div id="divMieStorieDelTempo"> </div>
+        <div id="divMieStorieDelTempo" style="overflow:auto;height:489px;"> </div>
       </div>
     </div>
     <div id="Canzoni" style="display:none;">
@@ -790,7 +796,7 @@ function YearToDecade(anno)
         <div id="progress" class="progress progress-success progress-striped">
           <div class="bar"></div>
         </div>
-        <div id="imgInput">
+        <div id="imgInput" style="overflow:auto;height:400px;">
         </div>
       </div>
         <textarea  id="editor" rows="10" cols="30" style="width:480px;height:525px; float:left;">

@@ -27,7 +27,7 @@ function GestioneSchermate(clickdecade)
 			{
 				MieStorieVisible = RecuperaStorieDecade();
 				//alert(MieStorieVisible[0].headline);				
-				if(MieStorieVisible.length<2) //caso in cui ci sia da stampare solo una foto o nessuna
+				/*if(MieStorieVisible.length<2) //caso in cui ci sia da stampare solo una foto o nessuna
 				{
 					stampaMieFoto(0,MieStorieVisible.length);
 					stampaMieStorie(0,MieStorieVisible.length);
@@ -36,7 +36,9 @@ function GestioneSchermate(clickdecade)
 				{
 					stampaMieFoto(0,2);
 					stampaMieStorie(0,2);
-				}
+				}*/
+				stampaMieFoto(0,MieStorieVisible.length);
+				stampaMieStorie(0,MieStorieVisible.length);
 				aggiungiEventoFancyBox();
 				document.getElementById("Foto").style.display="inherit";
 				document.getElementById("Results").style.display="inherit";
@@ -80,7 +82,15 @@ $(document).ready(function() {
 			}
 			var tmp = $this.attr("id");
 			tmp = tmp.substring(2,tmp.length);
-			if(tmp == "Raccontaci")
+			if(tmp == "Logout")
+			{
+				if (!confirm('Sicuro di voler uscire?')) { 
+ 					return;
+				}
+				SetSessionKey("");
+				location.href = "index.html";
+			}
+			else if(tmp == "Raccontaci")
 			{
 				ApriOverlay();
 			}

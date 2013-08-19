@@ -50,7 +50,7 @@ $(function () {
 //					$('#getFileTest').html("<img src='data:image/jpeg;base64,"+data+"' />");
 //			});
 
-			$('#getFileTest').html("<img src="+baseUrl+"/file/" + data.hashcode + "/thumbnail'/><br><br>");
+			$('#getFileTest').html("<img src='"+baseUrl+"/file/" + data.hashcode + "/thumbnail'/><br><br>");
 			
 			$('#progress .bar').css(
                 'width',

@@ -5,7 +5,7 @@
  */
 
 //var reminiscensAPI = "http://test.reminiscens.me/lifeapi";
-var reminiscensAPI = "http://localhost/lifeapi/api";
+var reminiscensAPI = "http://localhost/lifeapi";
 
 function onLoad() {
 	document.addEventListener("deviceready", onDeviceReady, true);

@@ -27,14 +27,28 @@ $(function () {
 				//alert(file.uri);
             });
         },*/
-//		headers:
-//		{
-//			"PLAY_SESSION":sessionKey
-//		},
+		headers:
+		{
+			"PLAY_SESSION":"618b4ad9aa13ff7bd4b785e71eb8d9bbd937d561-pa.u.exp%3A1377189637632%00pa.p.id%3Apassword%00pa.u.id%3Acdparra%40gmail.com"
+		},
 		success:function (data) {
 			//alert(data.uri);
-			document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + data.uri + "'/><br><br>";
-			imgStoria.push(data.uri);
+			$('#thumbnail').html("<img src='" + data.thumbnailURI + "'/><br><br>");
+			$('#medium').html("<img src='" + data.mediumURI + "'/><br><br>");
+			$('#large').html("<img src='" + data.largeURI + "'/><br><br>");
+			$('#original').html("<img src='" + data.uri + "'/><br><br>");
+			
+//			$.ajax({
+//				type: "GET",
+//				url: "http://localhost/lifeapi/file/" + data.hashcode + "/thumbnail", 
+//				beforeSend: function(request) {
+//					request.setRequestHeader("PLAY_SESSION", "618b4ad9aa13ff7bd4b785e71eb8d9bbd937d561-pa.u.exp%3A1377189637632%00pa.p.id%3Apassword%00pa.u.id%3Acdparra%40gmail.com");
+//				}
+//			}).done(function(data) {
+//					$('#getFileTest').html("<img src='data:image/jpeg;base64,"+data+"' />");
+//			});
+
+			$('#getFileTest').html("<img src='http://localhost/lifeapi/file/" + data.hashcode + "/thumbnail'/><br><br>");
 			
 			$('#progress .bar').css(
                 'width',

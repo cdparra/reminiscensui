@@ -29,14 +29,9 @@
 </script>
 
 <style>
-body {
-	background-color: #CCC;
-	background-repeat: repeat-y;
-}
-
 #divRoot {
-	width: 450px;
-	height: 240px;
+	width: 1200px;
+	height: 700px;
 	margin: auto;
 	margin-top: 20px;
 	-moz-border-radius: 10px 10px 10px 10px;
@@ -45,12 +40,16 @@ body {
 	background-color: #FFF;
 }
 
-.cont {
+.container {
 	text-align: center;
-	height: 70px;
-	width: 450px;
+	height: 400px;
+	width: 800px;
 	vertical-align: central;
 	margin: auto;
+}
+
+.well {
+	text-align: left;
 }
 </style>
 
@@ -82,7 +81,13 @@ body {
 				<div class="bar"></div>
 			</div>
 			<!-- The container for the uploaded files -->
-			<div id="files" class="files"></div>
+			<div id="files" class="files">
+				<div id="original"></div>
+				<div id="large"></div>
+				<div id="medium"></div>
+				<div id="thumbnail"></div>
+				<div id="getFileTest"></div>
+			</div>
 			<br>
 
 			<div class="well">
@@ -132,5 +137,5 @@ body {
 	<script src="js/lib/jquery.file.upload/js/jquery.iframe-transport.js"></script>
 	<!-- The basic File Upload plugin -->
 	<script src="js/lib/jquery.file.upload/js/jquery.fileupload.js"></script>
-	<script src="js/app/files.js"></script>
+	<script src="js/app/files-local.js"></script>
 </html>

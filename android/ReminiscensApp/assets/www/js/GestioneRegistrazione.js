@@ -68,7 +68,7 @@ function SavePersonAndRedirect()
     	$.ajax({
         	type: "POST",
 
-        	url: "http://test.reminiscens.me/lifeapi/signup",
+        	url: "http://test.reminiscens.me/lifeapi/user/signup",
 
         	data: JSON.stringify(dataSignup),
 			

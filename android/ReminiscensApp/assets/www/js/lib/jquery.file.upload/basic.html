@@ -84,7 +84,7 @@
         <div class="bar"></div>
     </div>
     <!-- The container for the uploaded files -->
-    <div id="files" class="files"></div>
+    <div id="files" class="files"> </div>
     <br>
     <div class="well">
         <h3>Demo Notes</h3>
@@ -113,7 +113,7 @@ $(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
     var url = window.location.hostname === 'localhost' ?
-                '//localhost/' : 'lifeapi/upload/';
+                '//localhost/lifeapi/upload' : '//test.reminiscens.me/lifeapi/upload';
     $('#fileupload').fileupload({
         url: url,
         dataType: 'json',

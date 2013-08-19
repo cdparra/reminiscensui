@@ -7,8 +7,10 @@
 $(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
-    var url = window.location.hostname === 'localhost' ?
-                '//localhost/lifeapi/upload' : '//test.reminiscens.me/lifeapi/upload';
+    var baseUrl = window.location.hostname === 'localhost' ?
+                '//localhost/lifeapi' : '//test.reminiscens.me/lifeapi';
+    var url = baseUrl+'/upload';
+
     $('#fileupload').fileupload({
         url: url,
         dataType: 'json',
@@ -48,7 +50,7 @@ $(function () {
 //					$('#getFileTest').html("<img src='data:image/jpeg;base64,"+data+"' />");
 //			});
 
-			$('#getFileTest').html("<img src='http://localhost/lifeapi/file/" + data.hashcode + "/thumbnail'/><br><br>");
+			$('#getFileTest').html("<img src="+baseUrl+"'/file/" + data.hashcode + "/thumbnail'/><br><br>");
 			
 			$('#progress .bar').css(
                 'width',

@@ -4,6 +4,11 @@
 /*var personalQuestion = [];
 var decadeQuestione = [];*/
 
+function newQuestion()
+{
+	downloadQuestion(birthYear,decade);
+}
+
 function downloadQuestion(birthYear,decade)
 {
 	

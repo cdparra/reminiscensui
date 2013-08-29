@@ -46,7 +46,7 @@ function salvaStoria(){
 	
 	//var textSplit = editor.value().split("src=\"");
 	var j = 1;
-	for(var i =0;i<imgStoria.length;i++) //ciclo ogni 2 per cercare contenuto del src
+	for(var i =0;i<imgStoriaUrl.length;i++) //ciclo ogni 2 per cercare contenuto del src
 	{
 		/*var Imm = new Object;
 		var tmp = textSplit[i].split("\""); //estraggo contenuto src
@@ -66,9 +66,10 @@ function salvaStoria(){
 		Imm.public_memento = false;
 		vettImm.push(Imm);*/
 		var Imm = new Object;
-		Imm.url = imgStoria[i];
+		Imm.url = imgStoriaUrl[i];
+		Imm.fileHashcode = imgStoriaHashcode[i];
 		Imm.type = "photo";
-		Imm.category = "photo";
+		Imm.category = "PICTURE";
 		Imm.isCover = true;
 		Imm.index = j;
 		j++;

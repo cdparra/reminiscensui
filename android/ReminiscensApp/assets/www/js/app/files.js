@@ -8,33 +8,15 @@ $(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
     var url = window.location.hostname === 'localhost' ?
-                '//localhost/lifeapi/upload' : '//test.reminiscens.me/lifeapi/upload';
+                '//test.reminiscens.me/lifeapi/upload' : '//test.reminiscens.me/lifeapi/upload';
     $('#fileupload').fileupload({
         url: url,
         dataType: 'json',
-		/*handleRequest: function (request)
-            {
-                request.setRequestHeader("PLAY_SESSION", sessionKey);
-            },*/
-        /*done: function (e, data) {
-			$('#progress .bar').css(
-                'width',
-                0 + '%'
-            )
-			//alert(e.uri);
-            $.each(data.result.files, function (index, file) {
-                //$('<p/>').text(file.name).appendTo('#files');
-				//alert(file.uri);
-            });
-        },*/
-//		headers:
-//		{
-//			"PLAY_SESSION":sessionKey
-//		},
 		success:function (data) {
 			//alert(data.uri);
-			document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + data.uri + "'/><br><br>";
-			imgStoria.push(data.uri);
+			document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + "http://test.reminiscens.me/files/SMALL_" + data.filename + "'/><br><br>";
+			imgStoriaUrl.push("");
+			imgStoriaHashcode.push(data.hashcode);
 			
 			$('#progress .bar').css(
                 'width',

@@ -6,7 +6,7 @@ body {
 }
 #divRoot {
 	width: 1020px;
-	height: 750px;
+	height: 800px;
 	margin: auto;
 	margin-top: 20px;
 	-moz-border-radius: 10px 10px 10px 10px;
@@ -23,8 +23,8 @@ label {
 }
 #divRoot #centrale {
 	background-color: #999;
-	margin-top: 30px;
-	height: 750px;
+	margin-top: 10px;
+	height: 770px;
 	text-align: center;
 	-webkit-border-bottom-right-radius: 10px;
 	-webkit-border-bottom-left-radius: 10px;
@@ -46,14 +46,17 @@ label {
 }
 .divFoto {
 	float: left;
-	width: 450px;
-	height: 550px;
+	width: 490px;
+	height: 530px;
 	min-height: 100%;
-	margin-left: 30px;
-	margin-right: 30px;
+	margin-left: 10px;
+	margin-right: 10px;
 	margin-top: 10px;
 	margin-bottom: 30px;
 	background-color: #CCC;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;	
+	border-radius: 5px 5px 5px 5px;
 }
 .immagini {
 	margin: 5px 5px 5px 5px;
@@ -69,11 +72,9 @@ label {
 
 .immaginiFoto {
 	margin: 5px 5px 5px 5px;
-	/*position: relative;*/
-	max-width:430px;
-	max-height:200px;
+	width:235px;	
+	float:left;
 	text-align: center;    
-	/*text-align:center;*/	
 }
 
 .text {

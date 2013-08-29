@@ -80,7 +80,7 @@ function ApriOverlay(clicked_id) {
 	{
 		//alert(document.getElementById(clicked_id).innerHTML);
 		$("#titleBox").html(document.getElementById(clicked_id).innerHTML);
-		downloadQuestion(birthYear,decade);
+		//downloadQuestion(birthYear,decade);
 	}
     CentroOverlay();
     $('#overlay').fadeIn('fast');

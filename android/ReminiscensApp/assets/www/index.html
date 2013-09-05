@@ -70,6 +70,13 @@
 
         });
 	}
+	
+	$(document).ready(function() {
+		if(GetSessionKey() != "")
+		{
+			location.href = "main.html";
+		}
+	});
 </script>
 
 <style>

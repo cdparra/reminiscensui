@@ -58,6 +58,7 @@
 <script type="text/javascript" src="js/GestioneVariabiliPersona.js">
 </script><script type="text/javascript" src="js/GestioneQuestion.js"></script>
 
+
 <script>  	
      function onLoad(){
           document.addEventListener("deviceready", onDeviceReady, true);
@@ -96,9 +97,11 @@
 	 var personId;
 	 var imgStoriaUrl = [];
 	 var imgStoriaHashcode = [];
+	 var imgStoriaFilename = [];
 	 var birthYear;
 	 var personalQuestion = [];
 	 var decadeQuestion = [];
+	 
 	 
 	 function InizializzaStorieDecade()
 	 {
@@ -247,6 +250,7 @@
 					newStory.headline = storyList[i].headline;
 					newStory.location = new Object;
 					newStory.location.location_textual = "";
+					newStory.location.city = storyList[i].location.city;
 					newStory.startDate = new Object;
 					newStory.startDate.exactDate = storyList[i].startDate.exactDateAsString;
 					newStory.text = storyList[i].text;
@@ -259,6 +263,7 @@
 							var Imm = new Object;
 							Imm.url = mementoList[j].url;
 							Imm.fileHashcode = mementoList[j].fileHashcode;
+							Imm.thumbnailUrl = mementoList[j].thumbnailUrl;
 							//alert(Imm.src);s
 							vettImm.push(Imm);							
 						}						
@@ -345,7 +350,17 @@
 		
 	});*/
 	
-	$(document).ready(function() {
+	$(document).ready(function() {	
+		
+		var j  = 1;
+		document.getElementById("decade").innerHTML += "<option value='" + 0 +"'>" + "decade" + "</option>";
+		for(var i = 1900;i <= 2020;i = i + 10)
+		{
+			document.getElementById("decade").innerHTML += "<option value='" + j +"'>" + i + "</option>";
+			j++;
+		}
+		
+
 		$.ajaxSetup({
     			beforeSend: function(xhr) {
         			xhr.setRequestHeader("PLAY_SESSION", sessionKey);
@@ -592,13 +607,13 @@ function stampaMieFoto(inizio, fine)
 		//alert(MieStorie[i].immagini[0].src);
 		if(MieStorieVisible[i].mementoList[0] != null)
 		{
-			if(MieStorieVisible[i].mementoList[0].fileHashcode == null)
+			if(MieStorieVisible[i].mementoList[0].thumbnailUrl == null)
 			{
 				document.getElementById("divMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></br></div>";
 			}
 			else  //stampo attraverso hashcode
 			{				
-				document.getElementById("divMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + "http://test.reminiscens.me//lifeapi/file/" + MieStorieVisible[i].mementoList[0].fileHashcode + "/SMALL" + "' title='" + MieStorieVisible[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + "http://test.reminiscens.me//lifeapi/file/" + MieStorieVisible[i].mementoList[0].fileHashcode + "/SMALL" + "' alt='' /> </a></br></div>";
+				document.getElementById("divMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + "http://test.reminiscens.me/file/" + "LARGE_" + MieStorieVisible[i].mementoList[0].thumbnailUrl  + "' title='" + MieStorieVisible[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + "http://test.reminiscens.me//lifeapi/file/" + MieStorieVisible[i].mementoList[0].fileHashcode + "/SMALL" + "' alt='' /> </a></br></div>";
 			}
 				
 		}
@@ -623,16 +638,19 @@ function stampaMieStorie(inizio, fine)
 		{
 			if(MieStorieVisible[i].mementoList[0].fileHashcode == null)
 			{
-				document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";
+				document.getElementById("divMieStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[i].startDate.exactDate + "</h5>	<h5>" + MieStorieVisible[i].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h3 style='text-align:center;'>" + MieStorieVisible[i].headline + "</h3>" + MieStorieVisible[i].text + "</div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /></div></div>";
+				/*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
 			}
 			else
 			{
-				document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "http://test.reminiscens.me//lifeapi/file/" + MieStorieVisible[i].mementoList[0].fileHashcode + "/LARGE" + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + "http://test.reminiscens.me//lifeapi/file/" + MieStorieVisible[i].mementoList[0].fileHashcode + "/THUMBNAIL" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";
+				document.getElementById("divMieStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[i].startDate.exactDate + "</h5>	<h5>" + MieStorieVisible[i].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h3 style='text-align:center;'>" + MieStorieVisible[i].headline + "</h3>" + MieStorieVisible[i].text + "</div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='http://test.reminiscens.me//lifeapi/file/" + MieStorieVisible[i].mementoList[0].fileHashcode + "/THUMBNAIL' alt='' /></div></div>";
+				/*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "http://test.reminiscens.me/file/" + "LARGE_" + MieStorieVisible[i].mementoList[0].thumbnailUrl + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + "http://test.reminiscens.me//lifeapi/file/" + MieStorieVisible[i].mementoList[0].Hashcode + "/THUMBNAIL" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
 			}
 		}
 		else
 		{
-			document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "images/story-book.jpg" + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + "images/story-book.jpg" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";
+			document.getElementById("divMieStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[i].startDate.exactDate + "</h5>	<h5>" + MieStorieVisible[i].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h3 style='text-align:center;'>" + MieStorieVisible[i].headline + "</h3>" + MieStorieVisible[i].text + "</div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
+			/*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "images/story-book.jpg" + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + "images/story-book.jpg" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
 		}
 	}
 }
@@ -642,6 +660,94 @@ function YearToDecade(anno)
 	var tmp = anno/10;
 	//alert(parseInt(tmp));
 	return parseInt(tmp)*10;
+}
+
+function VisualizzaYear()
+{
+	//alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
+	if(document.getElementById("decade").value != 0)
+	{
+		document.getElementById("year").innerHTML = "";
+		var decadeSelect = parseInt(document.getElementById("decade").item(document.getElementById("decade").value).text);
+		var j = 1;
+		document.getElementById("year").innerHTML += "<option value='" + 0 +"'>" + "anno" + "</option>";
+		for(var i = decadeSelect;i <= decadeSelect + 9;i++)
+		{
+			document.getElementById("year").innerHTML += "<option value='" + j +"'>" + i + "</option>";
+			j++;
+		}
+        $('#year').fadeIn('slow');
+	}
+}
+
+function VisualizzaMonth()
+{
+	//alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
+	if(document.getElementById("year").value != 0)
+	{
+		document.getElementById("month").innerHTML = "";
+		var yearSelect = parseInt(document.getElementById("year").item(document.getElementById("year").value).text);
+		document.getElementById("month").innerHTML += "<option value='" + 0 +"'>" + "mese" + "</option>";
+		var tmp = $.getJSON('json/month.json',function(tmp)
+		{ //return timeline				
+			for (var i = 1; i < tmp.length+1; i++) {
+				document.getElementById("month").innerHTML += "<option value='" + i +"'>" + tmp[i-1].name + "</option>";
+			}
+		});
+        $('#month').fadeIn('slow');
+	}
+}
+
+function VisualizzaDay()
+{
+	//alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
+	if(document.getElementById("month").value != 0)
+	{
+		document.getElementById("day").innerHTML = "";
+		var monthSelect = document.getElementById("month").item(document.getElementById("month").value).text;
+		var j = 1;
+		document.getElementById("day").innerHTML += "<option value='" + 0 +"'>" + "giorno" + "</option>";
+		/*for(var i = 1;i <= 31;i++)
+		{
+			document.getElementById("day").innerHTML += "<option value='" + i +"'>" + i + "</option>";
+			j++;
+		}*/
+		switch(monthSelect)
+		{
+			case "Gennaio":
+			case "Marzo":
+			case "Maggio":
+			case "Luglio":
+			case "Agosto":
+			case "Ottobre":
+			case "Dicembre" :
+				for(var i = 1;i <= 31;i++)
+				{
+					document.getElementById("day").innerHTML += "<option value='" + i +"'>" + i + "</option>";
+					j++;
+				}
+				break;
+			case "Aprile":
+			case "Giugno":
+			case "Settembre":
+			case "Novembre":
+				for(var i = 1;i <= 30;i++)
+				{
+					document.getElementById("day").innerHTML += "<option value='" + i +"'>" + i + "</option>";
+					j++;
+				}
+				break;
+			case "Febbraio":
+				for(var i = 1;i <= 28;i++)
+				{
+					document.getElementById("day").innerHTML += "<option value='" + i +"'>" + i + "</option>";
+					j++;
+				}
+				break;
+		}
+		
+        $('#day').fadeIn('slow');
+	}
 }
 </script>
 </head>
@@ -756,8 +862,8 @@ function YearToDecade(anno)
             	<h3>1950</h3>
                 <h5>Trento</h5>
             </div>
-            <div style=" float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px;">
-            <h3>Prova</h3>
+            <div style=" float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;">
+            <h3 style="text-align:center;">Prova</h3>
             nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz...
             </div>
             <div style="float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;">
@@ -835,9 +941,18 @@ function YearToDecade(anno)
             <input id="dove" style="float:left; margin-left:30px;" type="text" class="input-xlarge"/>
             <label for="quando" style="float:left;margin-top:3px; margin-left:30px;">Quando:</label>
             <!--<input id="dove" style="float:left; margin-left:3px;" type="text" class="input-xlarge"/>-->
-            <div style="float:left; margin-left:15px;">
+            <!--<div style="float:left; margin-left:15px;">
               <input id="quando" value="10/10/2011" />
-            </div>
+            </div>-->
+            <select id="decade" size="1" style="width:90px;" onChange="VisualizzaYear();">
+			</select>
+            <!--<input id="year" value=""/>-->
+            <select id="year" size="1" style="width:80px;display:none" onChange="VisualizzaMonth();">
+			</select>
+            <select id="month" size="1" style="width:120px;display:none" onChange="VisualizzaDay();">
+			</select>
+            <select id="day" size="1" style="width:80px;display:none">
+			</select>
             </br>
           </div>
         </form>

@@ -16,7 +16,7 @@ function salvaStoria(){
 	var dove = document.getElementById("dove");
 	//var quando = document.getElementById("quando");
 	var datepicker = $("#quando").data("kendoDatePicker");
-	var quando = datepicker.value();
+	/*var quando = datepicker.value();*/
 	var decadeStory = YearToDecade(quando.getFullYear());
 	//alert(decadeStory);
 	var editor = $("#editor").data("kendoEditor");
@@ -68,6 +68,7 @@ function salvaStoria(){
 		var Imm = new Object;
 		Imm.url = imgStoriaUrl[i];
 		Imm.fileHashcode = imgStoriaHashcode[i];
+		Imm.thumbnailUrl = imgStoriaFilename[i];
 		Imm.type = "photo";
 		Imm.category = "PICTURE";
 		Imm.isCover = true;

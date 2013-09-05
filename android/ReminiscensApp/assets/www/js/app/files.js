@@ -17,6 +17,7 @@ $(function () {
 			document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + "http://test.reminiscens.me/files/SMALL_" + data.filename + "'/><br><br>";
 			imgStoriaUrl.push("");
 			imgStoriaHashcode.push(data.hashcode);
+			imgStoriaFilename.push(data.filename);
 			
 			$('#progress .bar').css(
                 'width',

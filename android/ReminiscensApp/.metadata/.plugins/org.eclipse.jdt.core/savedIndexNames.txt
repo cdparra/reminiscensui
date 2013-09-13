@@ -1,6 +1,0 @@
-INDEX VERSION 1.126+C:\Users\Power\Desktop\github\reminiscensui\android\ReminiscensApp\.metadata\.plugins\org.eclipse.jdt.core
-810761946.index
-2569375943.index
-1100985650.index
-3336167390.index
-1595694945.index

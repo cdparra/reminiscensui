@@ -15,8 +15,9 @@ public class MainActivity extends DroidGap {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.loadUrl("file:///android_asset/www/index.html");
-        super.setIntegerProperty("loadUrlTimeoutValue", 10000);
+        super.setIntegerProperty("loadUrlTimeoutValue", 50000);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -24,9 +25,5 @@ public class MainActivity extends DroidGap {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) 
-    { super.onConfigurationChanged(newConfig); }
     
 }

@@ -43,7 +43,8 @@
     	$.ajax({
         	type: "POST",
 
-        	url: "http://test.reminiscens.me/lifeapi/user/login",
+    	    //url: "http://test.reminiscens.me/lifeapi/user/login",
+        	url: "http://base.reminiscens.me/lifeapi/user/login",
 
         	data: JSON.stringify(sessionData),
 			
@@ -75,7 +76,7 @@
 	}
 	
 	$(document).ready(function() {
-		if(GetSessionKey() != "" && GetSessionKey() != null)
+		if(GetSessionKey() != "" && GetSessionKey()!= null)
 		{
 			location.href = "main.html";
 		}

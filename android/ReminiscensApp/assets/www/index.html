@@ -57,6 +57,8 @@
 				//alert(data.userId);
 				SetPersonId(data.person.personId);				
 				SetPersonBirthDate(data.person.birthdateAsString);
+				SetPersonDeacadeBirthDate(parseInt(data.person.birthdateAsString.split('-')[0]/10)*10);
+				SetPersonYearBirthDate(data.person.birthdateAsString.split('-')[0]);
 				location.href = "main.html";
 
         	},
@@ -112,7 +114,7 @@ body {
     </div>
   <div class="cont" style="padding-left:20px;height:100px;">
     <h3 style="color:#999; float:left;">Password:</h3>
-    <input id="password" style="float:left; margin-top:15px; margin-left:10px;" type="text" placeholder="password">
+    <input id="password" style="float:left; margin-top:15px; margin-left:10px;" type="password" placeholder="password">
   </div>
   <div class="cont">
   	<button onClick="Redirect()" class="btn btn-primary">Registrati</button>

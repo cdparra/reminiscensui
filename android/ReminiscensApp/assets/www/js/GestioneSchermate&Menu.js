@@ -23,9 +23,10 @@ function GestioneSchermate(clickdecade)
 			
 			downloadQuestion(birthYear,decade);
 			
-			if(!DecadeIsEmpty())
+			if(!MiaDecadeIsEmpty())
 			{
-				MieStorieVisible = RecuperaStorieDecade();
+				MieStorieVisible = RecuperaMieStorieDecade();
+				ContextVisible = RecuperaContextDecade();
 				//alert(MieStorieVisible[0].headline);				
 				/*if(MieStorieVisible.length<2) //caso in cui ci sia da stampare solo una foto o nessuna
 				{
@@ -39,6 +40,13 @@ function GestioneSchermate(clickdecade)
 				}*/
 				stampaMieFoto(0,MieStorieVisible.length);
 				stampaMieStorie(0,MieStorieVisible.length);
+				
+				//gestione context
+				stampaFotoContext(0, ContextVisible.picture.length);
+				stampaStorieContext(0, ContextVisible.story.length);
+				stampaCanzoniContext(0, ContextVisible.song.length);
+				stampaFamosiContext(0, ContextVisible.people.length);
+				
 				aggiungiEventoFancyBox();
 				document.getElementById("Foto").style.display="inherit";
 				document.getElementById("Results").style.display="inherit";

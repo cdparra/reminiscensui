@@ -55,3 +55,8 @@ z-index:600;
 position:fixed;
 display: none;
 }
+
+.ui-autocomplete{
+   z-index:+1000;       //Where 50 is just an arbitrary number superior to your form's z-indexes
+   list-style-type: none;
+}

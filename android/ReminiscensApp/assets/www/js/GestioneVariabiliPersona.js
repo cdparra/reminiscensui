@@ -39,3 +39,23 @@ function GetUserId()
 {
 	return storage.get('userId');
 }
+
+function GetPersonDeacadeBirthDate()
+{
+	return storage.get('deacadeBirthDate');	
+}
+
+function SetPersonDeacadeBirthDate(decade)
+{
+	storage.set('deacadeBirthDate',decade);
+}
+
+function GetPersonYearBirthDate()
+{
+	return storage.get('yearBirthDate');	
+}
+
+function SetPersonYearBirthDate(year)
+{
+	storage.set('yearBirthDate',year);
+}

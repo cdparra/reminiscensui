@@ -3,68 +3,80 @@ function salvaStoria(){
 	if (!confirm('Sicuro di voler salvare la tua storia?')) { 
  		return;
 	}
-		
-	//var storage =$.localStorage;
-	//alert(storage.get('prova'));
-	/*if(storage.get('mieStorie')[0].titolo != null)
-	{
-		//alert("ciao");
-		MieStorie = storage.get('mieStorie');
-	}*/
 	
-	var titolo  = document.getElementById("titolo");
-	var dove = document.getElementById("dove");
-	//var quando = document.getElementById("quando");
-	var datepicker = $("#quando").data("kendoDatePicker");
-	/*var quando = datepicker.value();*/
-	var decadeStory = YearToDecade(quando.getFullYear());
-	//alert(decadeStory);
-	var editor = $("#editor").data("kendoEditor");
+	var titolo  = document.getElementById("titolo");	
+	
+	if(titolo.value == "")
+	{
+		alert("Inserire un titolo per la storia!");
+		return;
+	}
+	
+	if(document.getElementById("decade").value == 0)
+	{
+		alert("Inserire almeno la decade!");
+		return;
+	}
+	
+	if(document.getElementById("country").value == 0)
+	{
+		alert("Inserire alemo la nazione!");
+		return;
+	}
 
 	var newStory = new Object;
 	
 	newStory.headline = titolo.value;
-	//newStory.dove = dove.value;
-	//newStory.quando = quando.value;	
-	newStory.text = editor.value();
-	//alert(newStory.text);
 	newStory.contributorId = personId;
 	newStory.locale = "it_IT";
+	var editor = $("#editor").data("kendoEditor");
+	newStory.text = editor.value();
+	
+	if(document.getElementById("placeName").value != "")
+	{
+		placeNameSelect = document.getElementById("placeName").value;
+	}
 	newStory.location = new Object;
-	newStory.location.location_textual = dove.value;
+	newStory.location.country = countrySelect;
+	newStory.location.region = "Trentino-Alto Adige";
+	if(citySelect != "")
+	{
+		newStory.location.city = citySelect;
+		if(placeNameSelect != "")
+		{			
+			newStory.location.placeName = placeNameSelect;
+		}
+	}
+	newStory.location.locale = "it_IT";	
+	
+	
+	if(document.getElementById("day").style.display != "none")
+	{
+		daySelect = parseInt(document.getElementById("day").item(document.getElementById("day").value).text);
+	}
 	newStory.startDate = new Object;
-	newStory.startDate.exactDate = CostruisciData(datepicker);
+	newStory.startDate.decade = decadeSelect;
+	if(yearSelect != "")
+	{
+		newStory.startDate.year = yearSelect;
+		if(monthSelect != "")
+		{
+			newStory.startDate.month = monthSelect;
+			if(daySelect != "")
+			{
+				newStory.startDate.day = daySelect;
+				newStory.startDate.exactDate = yearSelect + "-" + monthSelect + "-" + daySelect + " " + "00:00:00";
+			}
+		}
+	}
+	newStory.startDate.locale = "it_IT";
+	
 	newStory.synced = false;
 	
-	
-	//var storia = JSON.stringify(jsonObj);	
-					
-	//alert(storia);
-	
 	var vettImm = [];
-	//alert(imgStoria.length);
-	
-	//var textSplit = editor.value().split("src=\"");
 	var j = 1;
 	for(var i =0;i<imgStoriaUrl.length;i++) //ciclo ogni 2 per cercare contenuto del src
 	{
-		/*var Imm = new Object;
-		var tmp = textSplit[i].split("\""); //estraggo contenuto src
-		tmp = tmp[0].split(","); //estraggo solo contenuto senza intestazione "data:image/jpeg;base64,"
-		upload(tmp[1],titolo);
-		var storage = $.localStorage;
-		while(storage.get('url') == null){}
-		alert(storage.get('url'));
-		tmp = storage.get('url').split("//");
-		Imm.url = tmp[0] + "//i." + tmp[1] + ".jpg";
-		Imm.type = "photo";
-		Imm.category = "photo";
-		Imm.isCover = true;
-		Imm.index = j;
-		j++;
-		Imm.headline = "prova";
-		Imm.public_memento = false;
-		vettImm.push(Imm);*/
 		var Imm = new Object;
 		Imm.url = imgStoriaUrl[i];
 		Imm.fileHashcode = imgStoriaHashcode[i];
@@ -81,37 +93,33 @@ function salvaStoria(){
 	}
 	
 	newStory.mementoList = vettImm;	//inserisco vettore immagini
-	//MieStorie.push(jsonObj);
 	
-	SaveStoryWithConnection(newStory);
-	
+	//alert(JSON.stringify(newStory));
+	if(isModify) //se sto eseguendo una modifica
+	{		
+		if(idStoryModify!=null)
+		{
+			ModifyStoryWithConnection(newStory, idStoryModify);
+			newStory.lifeStoryId = idStoryModify;
+		}
+		ModificaMieStoriaDecade(newStory, decadeSelect, indexModify);
+	}
+	else //se sto raccontando una nuova storia
+	{
+		SaveStoryWithConnection(newStory);
+		AggiungiMieStoriaDecade(newStory, decadeSelect);
+	}
 
-	AggiungiStoriaDecade(newStory, decadeStory);
 	
+	
+	MieStorieStorieVisible = RecuperaMieStorieDecade();
 	stampaMieFoto(0,MieStorieVisible.length);
 	stampaMieStorie(0,MieStorieVisible.length);
 	aggiungiEventoFancyBox();
 	
-	/*var storia = JSON.stringify(jsonObj);	
-	$("#debug").text(storia);	*/		
-	//alert(storia);
-	
-	
-	/*controlloStampaPagine();
-	controlloStampaPagineStorie();*/
 	
 	var storage = $.localStorage;
 	storage.set('mieStorie',MieStorie);
 	
-	
-	/*$('#overlayCaricamento').fadeOut('fast');
-    $('#caricamento').hide();*/
-	document.getElementById("titolo").value = "";
-	document.getElementById("dove").value = "";
-	document.getElementById("quando").value = "";
-	document.getElementById("imgInput").innerHTML = "";
-	$("#editor").data("kendoEditor").value("");
-	$('#overlay').fadeOut('fast');
-     $('#box').hide();
-	
+	AzzeraVariabiliOverlay();	
 }

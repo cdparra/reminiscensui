@@ -41,15 +41,25 @@ function SavePlaceAndRedirect()
 	
 	//persona.birthplaceId = $("#dove").val();
 	var i = 0;
-	while($("#dove").val()!=cities[i])
+	while(i < cities.length)
 	{
-		i++;
+	    if ($("#dove").val() != cities[i])
+	        i++;
+	    else {
+	        persona.birthplaceId = idCities[i];
+	        break;
+	    }
 	}
-	persona.birthplaceId = idCities[i];
-	//alert(persona.birthplaceId);
+
+	if (persona.birthplaceId == null) {
+	    alert("Devi inserire una città presente nella lista!(prova almeno a inserire 3 lettere)");
+	}
+	else {
+	    storage.set('persona', persona);
+	    location.href = "registraMailPass.html";
+	}
 	
-	storage.set('persona',persona);
-	location.href = "registraMailPass.html";
+	//alert(persona.birthplaceId);	
 	
 }
 
@@ -60,15 +70,16 @@ function SavePersonAndRedirect()
 	var dataSignup = new Object;
 	
 	dataSignup.email = $("#mail").val();
-	dataSignup.password = $("#mail").val();
-	dataSignup.repeatPassword = $("#mail").val();
+	dataSignup.password = $("#pass").val();
+	dataSignup.repeatPassword = $("#passRepeat").val();
 	dataSignup.name = persona.firstname + persona.lastname;
 	dataSignup.person = persona;
 	//alert(JSON.stringify(dataSignup));
     	$.ajax({
         	type: "POST",
 
-        	url: "http://test.reminiscens.me/lifeapi/user/signup",
+        	url: GetBaseUrl() + "/lifeapi/user/signup",
+        	//url: "http://test.reminiscens.me/lifeapi/user/signup",
 
         	data: JSON.stringify(dataSignup),
 			
@@ -80,15 +91,19 @@ function SavePersonAndRedirect()
 					//alert("yeeee");
 					SetSessionKey(data.sessionKey);
 					SetPersonId(data.person.personId);
-					SetBirthDate(data.birthdateAsString);	
+					SetPersonBirthDate(data.birthdateAsString);
 					//alert(data.sessionKey);
 					location.href = "main.html";
 					//alert(data);
 
         	},
         	error: function (data) {
-        	    alert("error");
-
+        	    alert("errore nella registrazione.\nControlla di aver inserito un indirizzo mail corretto. \nControlla di aver inserito una password lunga almeno 5 caratteri. \nControlla di non esserti già registrato con questa mail.");
+        	    /*alert(data.sessionKey);
+        	    if (data.indexOf("Minimumlengthis") != -1)
+        	        alert("Inserire una password con almeno 5 caratteri");
+        	    else if (datas.indexOf("Thisuseralreadyexists") != -1)
+        	        alert("Questo utente esiste già!");*/
         	},
         	dataType: "json",
 			

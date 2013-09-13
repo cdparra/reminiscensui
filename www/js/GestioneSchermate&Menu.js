@@ -76,6 +76,13 @@ function GestioneSchermate(clickdecade)
 			}*/
 }
 
+function Logout() {
+    if (!confirm('Sicuro di voler uscire?')) {
+        return;
+    }
+    SetSessionKey("");
+    location.href = "index.html";
+}
 
 $(document).ready(function() {
 	$('.timeline').click(function(){
@@ -92,11 +99,7 @@ $(document).ready(function() {
 			tmp = tmp.substring(2,tmp.length);
 			if(tmp == "Logout")
 			{
-				if (!confirm('Sicuro di voler uscire?')) { 
- 					return;
-				}
-				SetSessionKey("");
-				location.href = "index.html";
+			    Logout();
 			}
 			else if(tmp == "Raccontaci")
 			{

@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Reminiscens</title>
-<script src="cordova-2.4.0.js"></script>
+<!--<script src="cordova.js"></script>-->
 
 <!--<script src="http://code.jquery.com/jquery.js"></script>-->
 <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -66,12 +66,12 @@
 
 
 <script>  	
-     function onLoad(){
-          document.addEventListener("deviceready", onDeviceReady, true);
-     }
-     function onDeviceReady(){
-          //navigator.notification.alert("PhoneGap is working!!");
-     }	
+     //function onLoad(){
+     //     document.addEventListener("deviceready", onDeviceReady, true);
+     //}
+     //function onDeviceReady(){
+     //     //navigator.notification.alert("PhoneGap is working!!");
+     //}	
 	 function editor()
 	 {
 		var editor = $("#editor").data("kendoEditor");
@@ -121,8 +121,7 @@
 	 var isModify = false;
 	 var idStoryModify = null;
 	 var indexModify;
-	 var indexTimeline = 1;
-	 
+	 var indexTimeline = 1;	 
  	
 	function aggiungiEventoFancyBox()
 	{
@@ -226,7 +225,9 @@
 	}
 	
 	
-	$(document).ready(function() {					
+	$(document).ready(function () {
+	    
+
 		InizializzaValueLocationAndDate();
 		
 		
@@ -571,6 +572,7 @@ function Prova()
     	<button class="btn btn-primary" style="margin-top:2px;" onClick="ApriOverlay('SecondPersonalQuestionEmpty');">Raccontaci!</button>
         <button class="btn btn-primary" style="margin-top:2px;" onClick="newQuestion());">Altra domanda</button>
     </div>
+      <button class="btn btn-primary" style="margin-top:20px;" onclick="Logout();">Logout</button> 
     
   </div>
   <div id="Results" style="display:none;">

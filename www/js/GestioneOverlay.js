@@ -153,7 +153,7 @@ function ApriOverlayModifica(index) {
 		imgStoriaUrl.push("");
 		imgStoriaHashcode.push(MieStorieVisible[index].mementoList[i].fileHashcode);
 		imgStoriaFilename.push(MieStorieVisible[index].mementoList[i].thumbnailUrl);
-		document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + "http://test.reminiscens.me/files/SMALL_" + MieStorieVisible[index].mementoList[i].thumbnailUrl + "'/><br><br>";
+		document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].thumbnailUrl + "'/><br><br>";
 	}
 	
 	if(MieStorieVisible[index].text!= null)

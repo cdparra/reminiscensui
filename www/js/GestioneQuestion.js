@@ -13,8 +13,9 @@ function downloadQuestion(birthYear,decade)
 {
 	
 	$.ajax({
-            type:"GET",
-            url: "http://test.reminiscens.me/lifeapi/question/" + birthYear + "/" + decade + "/",
+	        type: "GET",
+	        url: GetBaseUrl() + "/lifeapi/question/" + birthYear + "/" + decade + "/",
+            //url: "http://test.reminiscens.me/lifeapi/question/" + birthYear + "/" + decade + "/",
             processData: false,
             dataType: "json",
         	error: function (data) {

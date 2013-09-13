@@ -221,8 +221,9 @@ function ContextFunction()
 {
 	InizializzaContextDecade();
 	$.ajax({
-            type:"GET",
-           	url: "http://test.reminiscens.me/lifeapi/context/person/"+GetPersonId(),
+	    type: "GET",
+	    url: GetBaseUrl() + "/lifeapi/context/person/"+GetPersonId(),
+           	//url: "http://test.reminiscens.me/lifeapi/context/person/"+GetPersonId(),
 			/*beforeSend: function (request)
             {
                 request.setRequestHeader("PLAY_SESSION", GetSessionKey());
@@ -232,7 +233,7 @@ function ContextFunction()
 			contentType:"application/json",
         	error: function (data) {
 
-        	    alert("error");
+        	    alert("errore caricamento context");
 
         	},
 			success: function(data) 

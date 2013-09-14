@@ -65,91 +65,88 @@
 <link rel="stylesheet" href="decade-ruler/decade-ruler.css">
 
 
-<script>  	
-     function onLoad(){
-          document.addEventListener("deviceready", onDeviceReady, true);
-     }
-     function onDeviceReady(){
-          //navigator.notification.alert("PhoneGap is working!!");
-     }	
-	 function editor()
-	 {
-		var editor = $("#editor").data("kendoEditor");
-		//alert(editor.value());
-		$("#debug").text(editor.value());
-	 }
-	 /*function storage() {
-		/*var storage =$.localStorage;
-		//alert(storage.get('prova'));
-		//var obj = JSON.parse(storage.get('prova'));
-		alert(storage.get('prova').titolo);
-	 	//$("#debug").text(storage.get('prova'));*/
-		
-		
-		//EliminaIntestazioneDataImg();
-		
-		//alert();
-	 //}
-	 
-	 
-	 var tokern;
-	 var Context = new Object;
-	 var MieStorie = new Object;
-	 var NumeroPaginaMieStorie = 0;
-	 var NumeroPaginaMieFoto = 0;
-	 var decade;
-	 var MieStorieVisible = [];
-	 var ContextVisible = new Object;
-	 var sessionKey;
-	 var personId;
-	 var imgStoriaUrl = [];
-	 var imgStoriaHashcode = [];
-	 var imgStoriaFilename = [];
-	 var birthYear;
-	 var personalQuestion = [];
-	 var decadeQuestion = [];
-	 var decadeSelect = "";
-	 var yearSelect = "";
-	 var monthSelect = "";
-	 var daySelect = "";
-	 var countrySelect = "";
-	 var placeNameSelect = "";
-	 var citySelect = "";
-	 var vettIndexMieStorieVisible = [];
-	 var vettIndexFotoContextVisible = [];
-	 var cities = [];
-	 var isModify = false;
-	 var idStoryModify = null;
-	 var indexModify;
-	 var indexTimeline = 1;
-	 
- 	
-	function aggiungiEventoFancyBox()
-	{
-		$(".fancyboxFotoContext").fancybox({
-					'showCloseButton'	: false,
-					afterLoad : function() {
-						//alert(Storie.length);
-    						this.title = "<div><h1>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].headline +"</h1><h5>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].text + "</h5>  </div>";
-						//this.title = "<div><h1>" + "hola" +"</h1> </div>";
-   					},
-					'helpers' : { 
-    					title : { type : 'inside' }
-   					} // helpers
-				});
-		$(".fancyboxMieStorie").fancybox({
-					'showCloseButton'	: false,
-					afterLoad : function() {
-							this.title = "<div><h1>" + MieStorieVisible[vettIndexMieStorieVisible[this.index]].headline + "</h1><h5>" + MieStorieVisible[vettIndexMieStorieVisible[this.index]].text + "</h5><br>  <button class='btn btn-primary' onClick='ApriOverlayModifica("+ vettIndexMieStorieVisible[this.index] + ");'>Modifica</button></div>";
-						//this.title = "<div><h1>" + "hola" +"</h1> </div>";
-   					},
-					'helpers' : { 
-    					title : { type : 'inside' }
-   					} // helpers
-				});
-	}
-	
-	/*$(document).ready(function() {
+<script>
+    //function onLoad(){
+    //     document.addEventListener("deviceready", onDeviceReady, true);
+    //}
+    //function onDeviceReady(){
+    //     //navigator.notification.alert("PhoneGap is working!!");
+    //}	
+    function editor() {
+        var editor = $("#editor").data("kendoEditor");
+        //alert(editor.value());
+        $("#debug").text(editor.value());
+    }
+    /*function storage() {
+       /*var storage =$.localStorage;
+       //alert(storage.get('prova'));
+       //var obj = JSON.parse(storage.get('prova'));
+       alert(storage.get('prova').titolo);
+       //$("#debug").text(storage.get('prova'));*/
+
+
+    //EliminaIntestazioneDataImg();
+
+    //alert();
+    //}
+
+
+    var tokern;
+    var Context = new Object;
+    var MieStorie = new Object;
+    var NumeroPaginaMieStorie = 0;
+    var NumeroPaginaMieFoto = 0;
+    var decade;
+    var MieStorieVisible = [];
+    var ContextVisible = new Object;
+    var sessionKey;
+    var personId;
+    var imgStoriaUrl = [];
+    var imgStoriaHashcode = [];
+    var imgStoriaFilename = [];
+    var birthYear;
+    var personalQuestion = [];
+    var decadeQuestion = [];
+    var decadeSelect = "";
+    var yearSelect = "";
+    var monthSelect = "";
+    var daySelect = "";
+    var countrySelect = "";
+    var placeNameSelect = "";
+    var citySelect = "";
+    var vettIndexMieStorieVisible = [];
+    var vettIndexFotoContextVisible = [];
+    var cities = [];
+    var isModify = false;
+    var idStoryModify = null;
+    var indexModify;
+    var indexTimeline = 1;
+
+    function aggiungiEventoFancyBox() {
+        $(".fancyboxFotoContext").fancybox({
+            'showCloseButton': false,
+            afterLoad: function () {
+                //alert(Storie.length);
+                this.title = "<div><h1>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].headline + "</h1><h5>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].text + "</h5>  </div>";
+                //this.title = "<div><h1>" + "hola" +"</h1> </div>";
+            },
+            'helpers': {
+                title: { type: 'inside' }
+            } // helpers
+        });
+        $(".fancyboxMieStorie").fancybox({
+            'showCloseButton': false,
+            afterLoad: function () {
+                this.title = "<div><h1>" + MieStorieVisible[vettIndexMieStorieVisible[this.index]].headline + "</h1><h5>" + MieStorieVisible[vettIndexMieStorieVisible[this.index]].text + "</h5><br>  <button class='btn btn-primary' onClick='ApriOverlayModifica(" + vettIndexMieStorieVisible[this.index] + ");'>Modifica</button></div>";
+                //this.title = "<div><h1>" + "hola" +"</h1> </div>";
+            },
+            'helpers': {
+                title: { type: 'inside' }
+            } // helpers
+        });
+    }
+
+    /*$(document).ready(function() {
 		var cities = [];
 		var idCities = [];
 		var tmp = $.getJSON('json/cities.json',function(tmp)
@@ -168,144 +165,134 @@
 		});
 		
 	});*/
-	
-	function InizializzaValueLocationAndDate()
-	{
-		document.getElementById("decade").innerHTML = "";
-		var j  = 1;
-		document.getElementById("decade").innerHTML += "<option value='" + 0 +"'>" + "decade" + "</option>";
-		for(var i = 1900;i <= 2020;i = i + 10)
-		{
-			document.getElementById("decade").innerHTML += "<option value='" + j +"'>" + i + "</option>";
-			j++;
-		}
-		
-		document.getElementById("country").innerHTML = "";
-		document.getElementById("country").innerHTML += "<option value='" + 0 +"'>" + "nazione" + "</option>";
-		document.getElementById("country").innerHTML += "<option value='" + 1 +"'>" + "Italia" + "</option>";
-		
-		//inizializzo le città in raccontaci
-		var tmp = $.getJSON('json/cities.json',function(tmp)
-		{ //return timeline				
-			for (var i = 0; i < tmp.length; i++) {
-				//alert(tmp[i].name);
-   				cities.push(tmp[i].name);
-				//idCities.push(tmp[i].cityId);
-			}
-			
-			$('#city').autocomplete({
-				source:cities,
-				minLength: 3,
-				messages: {
-        			noResults: '',
-        			results: function() {}
-    			}
-			});		
-		
-		});
-		
-		//inizializza lista mesi in raccontaci
-		document.getElementById("month").innerHTML = "";
-		document.getElementById("month").innerHTML += "<option value='" + 0 +"'>" + "mese" + "</option>";
-		var tmp = $.getJSON('json/month.json',function(tmp)
-		{ //return timeline				
-			for (var i = 1; i < tmp.length+1; i++) {
-				document.getElementById("month").innerHTML += "<option value='" + i +"'>" + tmp[i-1].name + "</option>";
-			}
-		});
-	}
-	
-	function AzzeraTimeline()
-	{
-		var today = new Date(); 
-		var decadeToday = parseInt(today.getFullYear()/10)*10;
-		for(var i = GetPersonDeacadeBirthDate(); i<= decadeToday; i= i+10)
-		{
-			document.getElementById(i).className = "decade-button timeline";
-		}
-	}
-	
-	
-	$(document).ready(function() {					
-		InizializzaValueLocationAndDate();
-		
-		
-		//var storage =$.localStorage;
-		sessionKey = GetSessionKey();
-		personId = GetPersonId();
-		//birthYear = GetPersonBirthDate().split('-')[0];
-		birthYear = GetPersonYearBirthDate();
-		
-		$.ajaxSetup({
-    			beforeSend: function(xhr) {
-        			xhr.setRequestHeader("PLAY_SESSION", sessionKey);
-    			}
-		});
-		//alert(birthYear);
-		//alert(personId);
-		//alert(sessionKey);		
-		
-		//decade = 1940;
-		decade = GetPersonDeacadeBirthDate();
-		//alert(decade);
-		$("#lbldebug").text("Non ci sono ancora storie del " + decade + "!");
-		$("#FotoDelTempo").text("Com'era questo posto attorno al " + decade);
-		$("#TueFotoDelTempo").text("Le tue foto attorno al " + decade);
-		$("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
-		$("#TueStorieDelTempo").text("Le tue storie nel " + decade);
-		
-		
-		$('.carousel').carousel({
-			interval: false
-		});
-	 	$(".carousel").bind("slide", function(){
-    		//alert( "ciao" );
-			//document.getElementById("item2").innerHTML = "ciao";
-  		})
-		
-		document.getElementById("timeline" + indexTimeline).innerHTML = "";
-		var today = new Date(); 	
-		var decadeToday = parseInt(today.getFullYear()/10)*10;
-		var numeroSchermateTimeline = ((decadeToday - decade)/10)/6;
-		var decadeCorrente = decade;
-		for(var i = 1; i< 4; i++)
-		{
-			if(numeroSchermateTimeline < i-1)
-			{
-				var elem = document.getElementById('timeline' + i);
-    			elem.parentNode.removeChild(elem);
-			}
-			else
-			{
-				for(var j = 0; j<6;j++)
-				{
-					if(decadeCorrente <= decadeToday)
-					{
-						document.getElementById("timeline" + i).innerHTML += "<div class='decade-button timeline' id='" + decadeCorrente + "'><div class='decade-btn-border'></div><div class='decade-button-text'>" +decadeCorrente + "</div><div class='decade-btn-ruler-line1'></div><div class='decade-btn-ruler-line2'></div><div class='decade-btn-ruler-line3'></div><div class='decade-btn-ruler-line4'></div><div class='decade-btn-ruler-line5'></div><div class='decade-btn-ruler-line6'></div><div class='decade-btn-ruler-line7'></div><div class='decade-btn-ruler-line8'></div><div class='decade-btn-ruler-line9'></div><div class='decade-btn-ruler-line10'></div><div class='decade-btn-border-bottom'></div></div>";
-					}
-					else
-					{
-						document.getElementById("timeline" + i).innerHTML += "<div style='cursor: pointer;' class='decade-button'><div class='decade-btn-border'></div><div class='decade-button-text'></div><div class='decade-btn-ruler-line1'></div><div class='decade-btn-ruler-line2'></div><div class='decade-btn-ruler-line3'></div><div class='decade-btn-ruler-line4'></div><div class='decade-btn-ruler-line5'></div><div class='decade-btn-ruler-line6'></div><div class='decade-btn-ruler-line7'></div><div class='decade-btn-ruler-line8'></div><div class='decade-btn-ruler-line9'></div><div class='decade-btn-ruler-line10'></div><div class='decade-btn-border-bottom'></div></div>";
-					}
-					decadeCorrente += 10;
-				}
-			}
-				
-		}
-		document.getElementById(decade).className = "decade-button-selected timeline";
-		
-		$('.timeline').click(function(){
-			AzzeraTimeline();
-			document.getElementById($(this).attr("id")).className = "decade-button-selected timeline";
-			GestioneSchermate($(this).attr("id"));			
+
+    function InizializzaValueLocationAndDate() {
+        document.getElementById("decade").innerHTML = "";
+        var j = 1;
+        document.getElementById("decade").innerHTML += "<option value='" + 0 + "'>" + "decade" + "</option>";
+        for (var i = 1900; i <= 2020; i = i + 10) {
+            document.getElementById("decade").innerHTML += "<option value='" + j + "'>" + i + "</option>";
+            j++;
+        }
+
+        document.getElementById("country").innerHTML = "";
+        document.getElementById("country").innerHTML += "<option value='" + 0 + "'>" + "nazione" + "</option>";
+        document.getElementById("country").innerHTML += "<option value='" + 1 + "'>" + "Italia" + "</option>";
+
+        //inizializzo le città in raccontaci
+        var tmp = $.getJSON('json/cities.json', function (tmp) { //return timeline				
+            for (var i = 0; i < tmp.length; i++) {
+                //alert(tmp[i].name);
+                cities.push(tmp[i].name);
+                //idCities.push(tmp[i].cityId);
+            }
+
+            $('#city').autocomplete({
+                source: cities,
+                minLength: 3,
+                messages: {
+                    noResults: '',
+                    results: function () { }
+                }
+            });
+
         });
-		
-		
-		downloadQuestion(birthYear,decade);
-	
-					
-		
-		/*var jsonObj = new Object;
+
+        //inizializza lista mesi in raccontaci
+        document.getElementById("month").innerHTML = "";
+        document.getElementById("month").innerHTML += "<option value='" + 0 + "'>" + "mese" + "</option>";
+        var tmp = $.getJSON('json/month.json', function (tmp) { //return timeline				
+            for (var i = 1; i < tmp.length + 1; i++) {
+                document.getElementById("month").innerHTML += "<option value='" + i + "'>" + tmp[i - 1].name + "</option>";
+            }
+        });
+    }
+
+    function AzzeraTimeline() {
+        var today = new Date();
+        var decadeToday = parseInt(today.getFullYear() / 10) * 10;
+        for (var i = GetPersonDeacadeBirthDate() ; i <= decadeToday; i = i + 10) {
+            document.getElementById(i).className = "decade-button timeline";
+        }
+    }
+
+
+    $(document).ready(function () {
+
+
+        InizializzaValueLocationAndDate();
+
+
+        //var storage =$.localStorage;
+        sessionKey = GetSessionKey();
+        personId = GetPersonId();
+        //birthYear = GetPersonBirthDate().split('-')[0];
+        birthYear = GetPersonYearBirthDate();
+
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("PLAY_SESSION", sessionKey);
+            }
+        });
+        //alert(birthYear);
+        //alert(personId);
+        //alert(sessionKey);		
+
+        //decade = 1940;
+        decade = GetPersonDeacadeBirthDate();
+        //alert(decade);
+        $("#lbldebug").text("Non ci sono ancora storie del " + decade + "!");
+        $("#FotoDelTempo").text("Com'era questo posto attorno al " + decade);
+        $("#TueFotoDelTempo").text("Le tue foto attorno al " + decade);
+        $("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
+        $("#TueStorieDelTempo").text("Le tue storie nel " + decade);
+
+
+        $('.carousel').carousel({
+            interval: false
+        });
+        $(".carousel").bind("slide", function () {
+            //alert( "ciao" );
+            //document.getElementById("item2").innerHTML = "ciao";
+        })
+
+        document.getElementById("timeline" + indexTimeline).innerHTML = "";
+        var today = new Date();
+        var decadeToday = parseInt(today.getFullYear() / 10) * 10;
+        var numeroSchermateTimeline = ((decadeToday - decade) / 10) / 6;
+        var decadeCorrente = decade;
+        for (var i = 1; i < 4; i++) {
+            if (numeroSchermateTimeline < i - 1) {
+                var elem = document.getElementById('timeline' + i);
+                elem.parentNode.removeChild(elem);
+            }
+            else {
+                for (var j = 0; j < 6; j++) {
+                    if (decadeCorrente <= decadeToday) {
+                        document.getElementById("timeline" + i).innerHTML += "<div class='decade-button timeline' id='" + decadeCorrente + "'><div class='decade-btn-border'></div><div class='decade-button-text'>" + decadeCorrente + "</div><div class='decade-btn-ruler-line1'></div><div class='decade-btn-ruler-line2'></div><div class='decade-btn-ruler-line3'></div><div class='decade-btn-ruler-line4'></div><div class='decade-btn-ruler-line5'></div><div class='decade-btn-ruler-line6'></div><div class='decade-btn-ruler-line7'></div><div class='decade-btn-ruler-line8'></div><div class='decade-btn-ruler-line9'></div><div class='decade-btn-ruler-line10'></div><div class='decade-btn-border-bottom'></div></div>";
+                    }
+                    else {
+                        document.getElementById("timeline" + i).innerHTML += "<div style='cursor: pointer;' class='decade-button'><div class='decade-btn-border'></div><div class='decade-button-text'></div><div class='decade-btn-ruler-line1'></div><div class='decade-btn-ruler-line2'></div><div class='decade-btn-ruler-line3'></div><div class='decade-btn-ruler-line4'></div><div class='decade-btn-ruler-line5'></div><div class='decade-btn-ruler-line6'></div><div class='decade-btn-ruler-line7'></div><div class='decade-btn-ruler-line8'></div><div class='decade-btn-ruler-line9'></div><div class='decade-btn-ruler-line10'></div><div class='decade-btn-border-bottom'></div></div>";
+                    }
+                    decadeCorrente += 10;
+                }
+            }
+
+        }
+        document.getElementById(decade).className = "decade-button-selected timeline";
+
+        $('.timeline').click(function () {
+            AzzeraTimeline();
+            document.getElementById($(this).attr("id")).className = "decade-button-selected timeline";
+            GestioneSchermate($(this).attr("id"));
+        });
+
+
+        downloadQuestion(birthYear, decade);
+
+
+
+        /*var jsonObj = new Object;
 	
 		jsonObj.headline = "Foto 1";
 		jsonObj.location = new Object;
@@ -361,149 +348,130 @@
 		for (i=0; i<Storie.length; i++) { 
 			document.getElementById("divFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxStorie' rel='gallery1' href='" + Storie[i].mementoList[0].url + "' title='" + Storie[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + Storie[i].mementoList[0].url + "' alt='' /> </a></div>";
 		}*/
-		
-		
-		//Login();
-		Timeline();
-		ContextFunction();
-});
+
+
+        //Login();
+        Timeline();
+        ContextFunction();
+    });
 
 
 
 
 
-function YearToDecade(anno)
-{
-	var tmp = anno/10;
-	//alert(parseInt(tmp));
-	return parseInt(tmp)*10;
-}
+    function YearToDecade(anno) {
+        var tmp = anno / 10;
+        //alert(parseInt(tmp));
+        return parseInt(tmp) * 10;
+    }
 
-function VisualizzaYear()
-{
-	//alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
-	if(document.getElementById("decade").value != 0)
-	{
-		document.getElementById("year").innerHTML = "";
-		decadeSelect = parseInt(document.getElementById("decade").item(document.getElementById("decade").value).text);
-		var j = 1;
-		document.getElementById("year").innerHTML += "<option value='" + 0 +"'>" + "anno" + "</option>";
-		for(var i = decadeSelect;i <= decadeSelect + 9;i++)
-		{
-			document.getElementById("year").innerHTML += "<option value='" + j +"'>" + i + "</option>";
-			j++;
-		}
-        $('#year').fadeIn('slow');
-	}
-}
+    function VisualizzaYear() {
+        //alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
+        if (document.getElementById("decade").value != 0) {
+            document.getElementById("year").innerHTML = "";
+            decadeSelect = parseInt(document.getElementById("decade").item(document.getElementById("decade").value).text);
+            var j = 1;
+            document.getElementById("year").innerHTML += "<option value='" + 0 + "'>" + "anno" + "</option>";
+            for (var i = decadeSelect; i <= decadeSelect + 9; i++) {
+                document.getElementById("year").innerHTML += "<option value='" + j + "'>" + i + "</option>";
+                j++;
+            }
+            $('#year').fadeIn('slow');
+        }
+    }
 
-function VisualizzaMonth()
-{
-	//alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
-	if(document.getElementById("year").value != 0)
-	{		
-		yearSelect = parseInt(document.getElementById("year").item(document.getElementById("year").value).text);
-		$('#month').fadeIn('slow');
-	}
-}
+    function VisualizzaMonth() {
+        //alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
+        if (document.getElementById("year").value != 0) {
+            yearSelect = parseInt(document.getElementById("year").item(document.getElementById("year").value).text);
+            $('#month').fadeIn('slow');
+        }
+    }
 
-function VisualizzaDay()
-{
-	//alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
-	if(document.getElementById("month").value != 0)
-	{
-		document.getElementById("day").innerHTML = "";
-		monthSelect = parseInt(document.getElementById("month").value);
-		var j = 1;
-		document.getElementById("day").innerHTML += "<option value='" + 0 +"'>" + "giorno" + "</option>";
-		/*for(var i = 1;i <= 31;i++)
-		{
-			document.getElementById("day").innerHTML += "<option value='" + i +"'>" + i + "</option>";
-			j++;
-		}*/
-		switch(monthSelect)
-		{
-			case 1:
-			case 3:
-			case 5:
-			case 7:
-			case 8:
-			case 10:
-			case 12 :
-				for(var i = 1;i <= 31;i++)
-				{
-					document.getElementById("day").innerHTML += "<option value='" + i +"'>" + i + "</option>";
-					j++;
-				}
-				break;
-			case 4:
-			case 6:
-			case 9:
-			case 11:
-				for(var i = 1;i <= 30;i++)
-				{
-					document.getElementById("day").innerHTML += "<option value='" + i +"'>" + i + "</option>";
-					j++;
-				}
-				break;
-			case 2:
-				for(var i = 1;i <= 28;i++)
-				{
-					document.getElementById("day").innerHTML += "<option value='" + i +"'>" + i + "</option>";
-					j++;
-				}
-				break;
-		}
-		
-        $('#day').fadeIn('slow');
-	}
-}
+    function VisualizzaDay() {
+        //alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
+        if (document.getElementById("month").value != 0) {
+            document.getElementById("day").innerHTML = "";
+            monthSelect = parseInt(document.getElementById("month").value);
+            var j = 1;
+            document.getElementById("day").innerHTML += "<option value='" + 0 + "'>" + "giorno" + "</option>";
+            /*for(var i = 1;i <= 31;i++)
+            {
+                document.getElementById("day").innerHTML += "<option value='" + i +"'>" + i + "</option>";
+                j++;
+            }*/
+            switch (monthSelect) {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    for (var i = 1; i <= 31; i++) {
+                        document.getElementById("day").innerHTML += "<option value='" + i + "'>" + i + "</option>";
+                        j++;
+                    }
+                    break;
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    for (var i = 1; i <= 30; i++) {
+                        document.getElementById("day").innerHTML += "<option value='" + i + "'>" + i + "</option>";
+                        j++;
+                    }
+                    break;
+                case 2:
+                    for (var i = 1; i <= 28; i++) {
+                        document.getElementById("day").innerHTML += "<option value='" + i + "'>" + i + "</option>";
+                        j++;
+                    }
+                    break;
+            }
 
-function VisualizzaCity()
-{
-	if(document.getElementById("country").value != 0)
-	{
-		//document.getElementById("city").innerHTML = "";
-		countrySelect = document.getElementById("country").item(document.getElementById("country").value).text;
-		/*document.getElementById("city").innerHTML += "<option value='" + 0 +"'>" + "città" + "</option>";
-		var cities = $.getJSON('json/cities.json',function(cities)
-		{ //return timeline
-				
-			//alert(tmp.length);	
-			for (var i = 1; i < 40+1; i++) {
-				document.getElementById("city").innerHTML += "<option value='" + i +"'>" + cities[i-1].name + "</option>";
-			}
-		});*/
-		$('#city').fadeIn('slow');
-	}
-}
+            $('#day').fadeIn('slow');
+        }
+    }
 
-function ControllaEsistenzaCitta()
-{
-	for(var i = 0; i < cities.length; i++)
-	{
-		if($("#city").val()==cities[i])
-			return true;
-	}
-	return false;
-}
+    function VisualizzaCity() {
+        if (document.getElementById("country").value != 0) {
+            //document.getElementById("city").innerHTML = "";
+            countrySelect = document.getElementById("country").item(document.getElementById("country").value).text;
+            /*document.getElementById("city").innerHTML += "<option value='" + 0 +"'>" + "città" + "</option>";
+            var cities = $.getJSON('json/cities.json',function(cities)
+            { //return timeline
+                    
+                //alert(tmp.length);	
+                for (var i = 1; i < 40+1; i++) {
+                    document.getElementById("city").innerHTML += "<option value='" + i +"'>" + cities[i-1].name + "</option>";
+                }
+            });*/
+            $('#city').fadeIn('slow');
+        }
+    }
 
-function VisualizzaPlaceName()
-{
-	if(ControllaEsistenzaCitta())
-	{
-		//citySelect = document.getElementById("city").item(document.getElementById("city").value).text;
-		citySelect = $("#city").val();		
-		$('#placeName').fadeIn('slow');
-	}
-}
+    function ControllaEsistenzaCitta() {
+        for (var i = 0; i < cities.length; i++) {
+            if ($("#city").val() == cities[i])
+                return true;
+        }
+        return false;
+    }
 
-function Prova()
-{
-	//$('centrale').scrollLeft('5000px');
-	 /*var myCont = document.getElementById ("divRoot");
-     myCont.scrollTop += 100;*/
-}
+    function VisualizzaPlaceName() {
+        if (ControllaEsistenzaCitta()) {
+            //citySelect = document.getElementById("city").item(document.getElementById("city").value).text;
+            citySelect = $("#city").val();
+            $('#placeName').fadeIn('slow');
+        }
+    }
+
+    function Prova() {
+        //$('centrale').scrollLeft('5000px');
+        /*var myCont = document.getElementById ("divRoot");
+        myCont.scrollTop += 100;*/
+    }
 </script>
 </head>
 <body>
@@ -571,6 +539,7 @@ function Prova()
     	<button class="btn btn-primary" style="margin-top:2px;" onClick="ApriOverlay('SecondPersonalQuestionEmpty');">Raccontaci!</button>
         <button class="btn btn-primary" style="margin-top:2px;" onClick="newQuestion());">Altra domanda</button>
     </div>
+      <button class="btn btn-primary" style="margin-top:20px;" onclick="Logout();">Logout</button> 
     
   </div>
   <div id="Results" style="display:none;">
@@ -588,12 +557,12 @@ function Prova()
       </div>
     </div>
     
-    <div style="background-color: #CCC;width: 486px; padding:2px 2px 2px 2px;margin-left:10px;margin-right:10px;float: left; margin-top:-10px; height:80px;-moz-border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px;	border-radius: 5px 5px 5px 5px;">
+    <div style="background-color: #CCC;width: 486px; padding:2px 2px 2px 2px;margin-left:10px;margin-right:10px;float: left; margin-top:-16px; height:80px;-moz-border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px;	border-radius: 5px 5px 5px 5px;">
     	<span id="DecadeQuestionNotEmpty"></span><br>
     	<button class="btn btn-primary" style="margin-top:2px;" onClick="ApriOverlay('DecadeQuestionNotEmpty');">Raccontaci!</button>
         <button class="btn btn-primary" style="margin-top:2px;" onClick="newQuestion();">Altra domanda</button>
     </div>
-    <div style="background-color: #CCC;width: 486px; padding:2px 2px 2px 2px; margin-left:10px;margin-right:10px;float: left; margin-top:-10px;height:80px;-moz-border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px;	border-radius: 5px 5px 5px 5px;">
+    <div style="background-color: #CCC;width: 486px; padding:2px 2px 2px 2px; margin-left:10px;margin-right:10px;float: left; margin-top:-16px;height:80px;-moz-border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px;	border-radius: 5px 5px 5px 5px;">
     	<span id="PersonalQuestionNotEmpty"></span><br>
     	<button class="btn btn-primary" style="margin-top:2px;" onClick="ApriOverlay('PersonalQuestionNotEmpty');">Raccontaci!</button>
         <button class="btn btn-primary" style="margin-top:2px;" onClick="newQuestion());">Altra domanda</button>
@@ -602,7 +571,7 @@ function Prova()
     <div id="Foto">
       <div class="divFoto">
         <h3 id="FotoDelTempo">Com'era questo posto attorno al 1950</h3>
-        <div id="divFotoDelTempo" style="overflow:auto;height:469px;">         
+        <div id="divFotoDelTempo" style="overflow:auto;height:459px;">         
           <!--<a class="fancybox" rel="gallery1" href="img/comera1.jpg" title="2 ottobre 1950 - nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz..."> <img src="img/comera1.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/comera3.jpg" title="09 maggio 1950 - Nasce la comunitÃ  europea..."> <img src="img/comera3.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/comera2.jpg" title="26 gennaio 1950 - L'india diventa una repubblica.."> <img src="img/comera2.jpg" alt="" /> </a> --> 
@@ -614,7 +583,7 @@ function Prova()
       </div>
       <div class="divFoto">
         <h3 id="TueFotoDelTempo" >Le tue foto attorno al 1950</h3>
-        <div id="divMieFotoDelTempo" style="overflow:auto;height:469px;"> 
+        <div id="divMieFotoDelTempo" style="overflow:auto;height:459px;"> 
           
           <!--<a class="fancybox" rel="gallery1" href="img/tuefoto1.jpg" title="Foto 1"> <img src="img/tuefoto1.jpg" alt=""/> </a> 
           <a class="fancybox" rel="gallery1" href="img/tuefoto2.jpg" title="Foto 2"> <img src="img/tuefoto2.jpg" alt="" /> </a> 
@@ -624,7 +593,7 @@ function Prova()
     <div id="Storie" style="display:none;">
       <div class="divFoto">
         <h3 id="StorieDelTempo">Che cosa succedeva nel 1950</h3>
-        <div id="divStorieDelTempo" style="overflow:auto;height:469px;"> 
+        <div id="divStorieDelTempo" style="overflow:auto;height:459px;"> 
 <!--        <div style=" width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:25px; margin-bottom:5px;">
         	<div style=" float:left; width:110px; text-align:center; height:140px;">
             	<h3>1950</h3>
@@ -656,7 +625,7 @@ function Prova()
       <div class="divFoto">
         <h3 id="TueStorieDelTempo">Le tue storie nel 1950</h3>
         <!--<img src="img/tuefoto2.jpg" /> </div>-->
-        <div id="divMieStorieDelTempo" style="overflow:auto;height:469px;"> </div>
+        <div id="divMieStorieDelTempo" style="overflow:auto;height:459px;"> </div>
       </div>
     </div>
     <div id="Canzoni" style="display:none;">

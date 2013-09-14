@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 body {
 	background-color: #CCC;
@@ -6,7 +6,7 @@ body {
 }
 #divRoot {
 	width: 1020px;
-	height: 800px;
+	height: 768px;
 	margin: auto;
 	margin-top: 20px;
 	-moz-border-radius: 10px 10px 10px 10px;
@@ -25,7 +25,7 @@ label {
 #divRoot #centrale {
 	background-color: #999;
 	margin-top: -40px;
-	height: 688px;
+	height: 656px;
 	text-align: center;
 	-webkit-border-bottom-right-radius: 10px;
 	-webkit-border-bottom-left-radius: 10px;
@@ -48,11 +48,11 @@ label {
 .divFoto {
 	float: left;
 	width: 490px;
-	height: 530px;
+	height: 520px;
 	min-height: 100%;
 	margin-left: 10px;
 	margin-right: 10px;
-	margin-top: 10px;
+	margin-top: 3px;
 	margin-bottom: 30px;
 	background-color: #CCC;
 	-moz-border-radius: 5px 5px 5px 5px;
@@ -62,11 +62,11 @@ label {
 .divCanzoni {
 	float: left;
 	width: 1000px;
-	height: 530px;
+	height: 520px;
 	min-height: 100%;
 	margin-left: 10px;
 	margin-right: 10px;
-	margin-top: 10px;
+	margin-top: 3px;
 	margin-bottom: 30px;
 	background-color: #CCC;
 	-moz-border-radius: 5px 5px 5px 5px;

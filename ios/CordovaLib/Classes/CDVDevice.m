@@ -58,6 +58,7 @@
     NSDictionary* temp = [CDVViewController getBundlePlist:@"Settings"];
 
     if ([temp respondsToSelector:@selector(JSONString)]) {
+        NSLog(@"Deprecation warning: window.Setting will be removed Aug 2013. Refer to https://issues.apache.org/jira/browse/CB-2433");
         NSString* js = [NSString stringWithFormat:@"window.Settings = %@;", [temp JSONString]];
         [self.commandDelegate evalJs:js];
     }
@@ -74,7 +75,6 @@
     [devProps setObject:@"iOS" forKey:@"platform"];
     [devProps setObject:[device systemVersion] forKey:@"version"];
     [devProps setObject:[device uniqueAppInstanceIdentifier] forKey:@"uuid"];
-    [devProps setObject:[device model] forKey:@"name"];
     [devProps setObject:[[self class] cordovaVersion] forKey:@"cordova"];
 
     NSDictionary* devReturn = [NSDictionary dictionaryWithDictionary:devProps];

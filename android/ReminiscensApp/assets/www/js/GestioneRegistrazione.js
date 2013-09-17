@@ -92,9 +92,13 @@ function SavePersonAndRedirect()
 					SetSessionKey(data.sessionKey);
 					SetPersonId(data.person.personId);
 					SetPersonBirthDate(data.birthdateAsString);
-					//alert(data.sessionKey);
+					SetPersonDeacadeBirthDate(parseInt(data.person.birthdateAsString.split('-')[0] / 10) * 10);
+					SetPersonYearBirthDate(data.person.birthdateAsString.split('-')[0]);
+        	    //alert(data.sessionKey);
+
+        	    //creo un context personale
+					CreaContext();
 					location.href = "main.html";
-					//alert(data);
 
         	},
         	error: function (data) {

@@ -1,4 +1,14 @@
 // JavaScript Document
+var storage = $.localStorage;
+function GetContextId() {
+    return storage.get('contextId');
+}
+
+function SetContextId(id) {
+    storage.set('contextId', id);
+}
+
+
 function InizializzaContextDecadeSchermate(decadeInizialize)
 {
 	decadeInizialize.story = [];
@@ -216,6 +226,52 @@ function RecuperaContextDecade()
 	return true;
 }*/
 
+function EstraiCampiContext(contextList) {
+    var i = 0;
+    while (contextList[i] != null) {
+        //alert(contextList[i].startLocation.city);
+        var newContext = new Object;
+        newContext.headline = contextList[i].publicMemento.headline;
+        newContext.text = contextList[i].publicMemento.text;
+        newContext.startDate = new Object;
+        newContext.startDate.day = contextList[i].publicMemento.startDate.day;
+        newContext.startDate.month = contextList[i].publicMemento.startDate.moth;
+        newContext.startDate.year = contextList[i].publicMemento.startDate.year;
+        newContext.startDate.decade = contextList[i].publicMemento.startDate.decade;
+        newContext.startDate.exactDateAsString = contextList[i].publicMemento.startDate.exactDateAsString;
+        newContext.startLocation = new Object;
+        newContext.startLocation.city = contextList[i].publicMemento.startLocation.city;
+        newContext.startLocation.region = contextList[i].publicMemento.startLocation.region;
+        newContext.startLocation.country = contextList[i].publicMemento.startLocation.country;
+        newContext.source = contextList[i].publicMemento.source;
+        newContext.sourceUrl = contextList[i].publicMemento.sourceUrl;
+        newContext.resourceUrl = contextList[i].publicMemento.resourceUrl;
+
+
+        AggiungiContextDecade(newContext, contextList[i].decade, contextList[i].category);
+        i++;
+    }
+
+    //alert(Context.MilleNovecentoNovanta.story[0].text);
+
+    var storage = $.localStorage;
+    storage.set('Context', Context);
+
+
+    ContextVisible = RecuperaContextDecade();
+
+    stampaFotoContext(0, ContextVisible.picture.length);
+    stampaStorieContext(0, ContextVisible.story.length);
+    stampaCanzoniContext(0, ContextVisible.song.length);
+    stampaFamosiContext(0, ContextVisible.people.length);
+    aggiungiEventoFancyBox();
+    /*stampaMieContext(0,MieContextVisible.length);
+    
+    //alert(msg.aboutPerson.personId);
+
+    GestioneSchermate(); nn serve chiamare di nuovo gestione schermate in quanto sono già posizionato 
+                        nella schermata corretta*/
+}
 
 function ContextFunction()
 {
@@ -238,56 +294,13 @@ function ContextFunction()
         	},
 			success: function(data) 
 			{
+			    //alert(data.contextId);
+			    SetContextId(data.contextId);
 				//alert("ciao");
 				//alert(timeline.aboutPerson.personId );
 				var contextList = data.publicMementoList;
-			
-				var i = 0;
-				while(contextList[i] != null)
-				{
-					//alert(contextList[i].startLocation.city);
-					var newContext = new Object;
-					newContext.headline = contextList[i].publicMemento.headline;
-					newContext.text = contextList[i].publicMemento.text;
-					newContext.startDate = new Object;
-					newContext.startDate.day = contextList[i].publicMemento.startDate.day;
-					newContext.startDate.month = contextList[i].publicMemento.startDate.moth;
-					newContext.startDate.year = contextList[i].publicMemento.startDate.year;
-					newContext.startDate.decade = contextList[i].publicMemento.startDate.decade;
-					newContext.startDate.exactDateAsString = contextList[i].publicMemento.startDate.exactDateAsString;
-					newContext.startLocation = new Object;
-					newContext.startLocation.city = contextList[i].publicMemento.startLocation.city;
-					newContext.startLocation.region = contextList[i].publicMemento.startLocation.region;
-					newContext.startLocation.country = contextList[i].publicMemento.startLocation.country;
-					newContext.source = contextList[i].publicMemento.source;
-					newContext.sourceUrl = contextList[i].publicMemento.sourceUrl;
-					newContext.resourceUrl = contextList[i].publicMemento.resourceUrl;
-					
-					
-					AggiungiContextDecade(newContext,contextList[i].decade , contextList[i].category);
-					i++;
-				}
-				
-				//alert(Context.MilleNovecentoNovanta.story[0].text);
-				
-				var storage = $.localStorage;
-				storage.set('Context',Context);
-				
-				
-				ContextVisible = RecuperaContextDecade();
-				
-				stampaFotoContext(0,ContextVisible.picture.length);
-				stampaStorieContext(0, ContextVisible.story.length);
-				stampaCanzoniContext(0, ContextVisible.song.length);
-				stampaFamosiContext(0, ContextVisible.people.length);
-				aggiungiEventoFancyBox();
-				/*stampaMieContext(0,MieContextVisible.length);
-				
-				//alert(msg.aboutPerson.personId);
-			
-				GestioneSchermate(); nn serve chiamare di nuovo gestione schermate in quanto sono già posizionato 
-									nella schermata corretta*/
-            	}
+				EstraiCampiContext(contextList);
+            }
         	
    		});
 }
@@ -391,6 +404,73 @@ function stampaFamosiContext(inizio, fine)
 			numeroDiv = 1;
 	}
 	
+}
+
+function CreaContext() {
+    $.ajax({
+        type: "POST",
+        beforeSend: function (request) {
+            request.setRequestHeader("PLAY_SESSION", GetSessionKey());
+        },        
+        url: GetBaseUrl() + "/lifeapi/context/person/" + GetPersonId(),
+        //url: "http://test.reminiscens.me/lifeapi/user/signup",
+
+        data: "{}",
+
+        dataType: "json",
+        contentType: "application/json",
+
+        async: false,
+
+        success: function (data) {
+            //salert("hola");
+
+        },
+        error: function (data) {
+            alert("Errore nella creazione del context personale");
+        },
+        dataType: "json",
+
+        contentType: "application/json"
+
+    });
+}
+
+function AggiornaContext(country, city, region, locale, decade) {
+    var contextData = new Object();
+    contextData.country = country;
+    contextData.region = region;
+    contextData.city = city;
+    contextData.locale = locale;
+    $.ajax({
+        type: "PUT",
+        beforeSend: function (request) {
+            request.setRequestHeader("PLAY_SESSION", GetSessionKey());
+        },
+        url: GetBaseUrl() + "/lifeapi/context/" + GetContextId() + "/" + decade + "/location",
+        //url: "http://test.reminiscens.me/lifeapi/user/signup",
+
+        data: JSON.stringify(contextData),
+
+        dataType: "json",
+        contentType: "application/json",
+
+        async: false,
+
+        success: function (data) {
+            //salert("hola");
+            var contextList = data.publicMementoList;
+            EstraiCampiContext(contextList);
+
+        },
+        error: function (data) {
+            alert("Errore nell'aggiornamento del context personale");
+        },
+        dataType: "json",
+
+        contentType: "application/json"
+
+    });
 }
 
 /*$(document).ready(function() {	

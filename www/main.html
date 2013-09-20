@@ -180,7 +180,7 @@
             document.getElementById("country").innerHTML += "<option value='" + 1 + "'>" + "Italia" + "</option>";
 
             //inizializzo le città in raccontaci
-            var tmp = $.getJSON('json/cities.json', function (tmp) { //return timeline				
+            /*var tmp = $.getJSON('json/cities.json', function (tmp) { //return timeline				
                 for (var i = 0; i < tmp.length; i++) {
                     //alert(tmp[i].name);
                     cities.push(tmp[i].name);
@@ -196,7 +196,7 @@
                     }
                 });
 
-            });
+            });*/
 
             //inizializza lista mesi in raccontaci
             document.getElementById("month").innerHTML = "";
@@ -460,11 +460,11 @@
         }
 
         function VisualizzaPlaceName() {
-            if (ControllaEsistenzaCitta()) {
+            //if (ControllaEsistenzaCitta()) {
                 //citySelect = document.getElementById("city").item(document.getElementById("city").value).text;
                 citySelect = $("#city").val();
                 $('#placeName').fadeIn('slow');
-            }
+            //}
         }
 
         function Prova() {
@@ -699,7 +699,7 @@
                                 <select id="country" size="1" style="width: 120px; float: left; margin-left: 5px;" onchange="VisualizzaCity();">
                                 </select>
                                 <!--<select id="city" size="1" style="width:180px;display:none;float:left;margin-left:5px;" onChange="VisualizzaPlaceName();">-->
-                                <input id="city" type="text" placeholder="Città" style="display: none; float: left; margin-left: 5px;" onblur="VisualizzaPlaceName();" />
+                                <input id="city" type="text" placeholder="Città" style="display: none; float: left; margin-left: 5px;" onblur="VisualizzaPlaceName();"/>
                                 <!--</select>-->
                                 <input id="placeName" type="text" placeholder="Nome del posto" style="width: 200px; display: none; float: left; margin-left: 5px;" />
                                 <br>

@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Reminiscens</title>
-<script src="cordovas.js"></script>
+<script src="cordova.js"></script>
 
 <!--<script src="http://code.jquery.com/jquery.js"></script>-->
 <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -66,12 +66,14 @@
 
 
     <script>
-        //function onLoad(){
-        //     document.addEventListener("deviceready", onDeviceReady, true);
-        //}
-        //function onDeviceReady(){
-        //     //navigator.notification.alert("PhoneGap is working!!");
-        //}	
+        function onLoad(){
+             document.addEventListener("deviceready", onDeviceReady, true);
+        }
+        function onDeviceReady(){
+            //navigator.notification.alert("PhoneGap is working!!");
+            pictureSource = navigator.camera.PictureSourceType;
+            destinationType = navigator.camera.DestinationType;
+        }	
         function editor() {
             var editor = $("#editor").data("kendoEditor");
             //alert(editor.value());
@@ -702,7 +704,7 @@
                                 <input id="city" type="text" placeholder="Città" style="display: none; float: left; margin-left: 5px;" onblur="VisualizzaPlaceName();" />
                                 <!--</select>-->
                                 <input id="placeName" type="text" placeholder="Nome del posto" style="width: 200px; display: none; float: left; margin-left: 5px;" />
-                                <br>
+                                <br>Ge
                                 <br>
                                     <label style="float: left; margin-top: 3px;">Quando:</label>
                                     <!--<input id="dove" style="float:left; margin-left:3px;" type="text" class="input-xlarge"/>-->
@@ -724,7 +726,7 @@
                     </div>
                     <div style="float: left; margin: 20px;">
                         <!--<button onClick="editor();">Editor</button>-->
-                        <!--<input type="image" src="button/buttonFoto.jpg" onClick="capturePhoto();">-->
+                        <input type="image" src="button/buttonFoto.jpg" onClick="capturePhoto();">
                         <br />
                         <input id="record" type="image" style="margin-top: 10px;" src="button/buttonMicrofono.jpg" onclick="record();">
                         <br />

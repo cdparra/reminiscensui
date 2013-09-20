@@ -50,7 +50,7 @@ function salvaStoria(){
 	newStory.location.locale = "it_IT";	
 	
 	
-	if(document.getElementById("day").style.display != "none")
+	if (document.getElementById("day").value != 0)
 	{
 		daySelect = parseInt(document.getElementById("day").item(document.getElementById("day").value).text);
 	}

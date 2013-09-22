@@ -50,7 +50,7 @@ function salvaStoria(){
 	newStory.location.locale = "it_IT";	
 	
 	
-	if(document.getElementById("day").style.display != "none")
+	if (document.getElementById("day").value != 0)
 	{
 		daySelect = parseInt(document.getElementById("day").item(document.getElementById("day").value).text);
 	}
@@ -116,7 +116,8 @@ function salvaStoria(){
 	stampaMieFoto(0,MieStorieVisible.length);
 	stampaMieStorie(0,MieStorieVisible.length);
 	aggiungiEventoFancyBox();
-	
+
+	AggiornaContext(newStory.location.country, newStory.location.city, newStory.location.region, newStory.location.locale, newStory.startDate.decade);
 	
 	var storage = $.localStorage;
 	storage.set('mieStorie',MieStorie);

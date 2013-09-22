@@ -92,7 +92,7 @@ $(document).ready(function() {
         "top": percentualeY + "%"
     });*/
 	$("#box").css({
-        "top": 50
+        "top": 20
     });
 }
 

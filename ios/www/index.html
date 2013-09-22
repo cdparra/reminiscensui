@@ -76,13 +76,13 @@
 	}
 	
 	$(document).ready(function () {
-	    //SetBaseUrl("http://test.reminiscens.me");
-	    if (window.location.hostname == "http://test.reminiscens.me") {
+	    SetBaseUrl("http://test.reminiscens.me");
+	    /*if (window.location.hostname == "http://test.reminiscens.me") {
 	        SetBaseUrl("http://test.reminiscens.me");
 	    }
 	    else {
 	        SetBaseUrl("http://base.reminiscens.me");
-	    }
+	    }*/
 		if(GetSessionKey() != "" && GetSessionKey()!= null)
 		{
 			location.href = "main.html";

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Capture Photo</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    $(document).ready(function() {
+		$("#lbldebug").text("width: " + $(window).width() + "; heigth: " + $(window).height());
+	});
+
+    </script>
+  </head>
+  <body>
+    <label id="lbldebug" style="margin-top:130px;"></label>
+    
+        <script type="text/javascript" src="phonegap.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+  </body>
+</html>

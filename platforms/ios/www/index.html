@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+<title>Reminiscens</title>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/json/json2.js"></script>
+<script type="text/javascript" src="js/sha1.js"></script>
+
+<script type="text/javascript" src="js/storage/jquery.storageapi.js"></script>
+<script type="text/javascript" src="js/storage/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/GestioneVariabiliPersona.js"></script>
+
+        <script type="text/javascript" src="phonegap.js"></script>
+<script>  	
+     function onLoad(){
+          document.addEventListener("deviceready", onDeviceReady, true);
+     }
+     function onDeviceReady(){
+          console.log("PhoneGap is working!!");
+     }
+	function Redirect()
+	{
+		location.href = "registra.html";
+	}
+	function Login()
+	{		
+		var sessionData = new Object;
+
+    	sessionData.email = $("#email").val();
+		//alert($("#email").val());
+		//sessionData.email = "reminiscensapp+4@gmail.com";
+
+    	//sessionData.password = $.sha1($("#password").val());
+		sessionData.password = $("#password").val();  
+		//alert($("#password").val());   
+		//sessionData.password = "testing-password";  
+		
+		//alert(JSON.stringify(sessionData));         
+
+    	$.ajax({
+        	type: "POST",
+
+    	    //url: "http://test.reminiscens.me/lifeapi/user/login",
+        	url: "http://base.reminiscens.me/lifeapi/user/login",
+
+        	data: JSON.stringify(sessionData),
+			
+			//data:{"email":"reminiscensapp+4@gmail.com","password":"testing-password"},
+
+        	async: false,
+
+        	success: function (data) {
+
+            	//alert(data.sessionKey);
+				SetSessionKey(data.sessionKey);
+				//alert(data.userId);
+				SetPersonId(data.person.personId);				
+				SetPersonBirthDate(data.person.birthdateAsString);
+				SetPersonDeacadeBirthDate(parseInt(data.person.birthdateAsString.split('-')[0]/10)*10);
+				SetPersonYearBirthDate(data.person.birthdateAsString.split('-')[0]);
+				location.href = "main.html";
+
+        	},
+        	error: function (data) {
+				alert("L'email o la password inseriti sono sbagliati");
+
+        	},
+        	dataType: "json",
+			
+			contentType: "application/json"
+
+        });
+	}
+	
+	$(document).ready(function () {
+	    SetBaseUrl("http://test.reminiscens.me");
+	    /*if (window.location.hostname == "http://test.reminiscens.me") {
+	        SetBaseUrl("http://test.reminiscens.me");
+	    }
+	    else {
+	        SetBaseUrl("http://base.reminiscens.me");
+	    }*/
+		if(GetSessionKey() != "" && GetSessionKey()!= null)
+		{
+			location.href = "main.html";
+		}
+	});
+</script>
+
+<style>
+body {
+	background-color:#CCC;
+	background-repeat: repeat-y;
+}
+#divRoot{
+	width: 450px;
+	height: 240px;
+	margin: auto;
+	margin-top:20px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	background-color:#FFF;
+}
+.cont{
+	text-align: center;
+	height: 70px;
+	width: 450px;
+	vertical-align: central;
+	margin: auto;
+}
+
+</style>
+</head>
+<body>
+<div id="divRoot">
+  <div class="cont" style="padding-left:20px;">
+    <h3 style="color:#999; float:left;">Email:</h3>
+    <input id="email" style="float:left; margin-top:15px; margin-left:60px;" type="text" placeholder="email" autofocus>
+    </div>
+  <div class="cont" style="padding-left:20px;height:100px;">
+    <h3 style="color:#999; float:left;">Password:</h3>
+    <input id="password" style="float:left; margin-top:15px; margin-left:10px;" type="password" placeholder="password">
+  </div>
+  <div class="cont">
+  	<button onClick="Redirect()" class="btn btn-primary">Registrati</button>
+    <button onClick="Login()" class="btn btn-primary">Login</button>
+  </div>
+</div>
+</body>
+</html>

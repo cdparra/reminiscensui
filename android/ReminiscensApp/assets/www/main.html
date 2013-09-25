@@ -20,6 +20,7 @@
 <!--<script type="text/javascript" src="js/recorder.js"></script>-->
 <script type="text/javascript" src="js/GestioneKendoEditor.js"></script>
 <script type="text/javascript" src="js/GestioneFoto.js"></script>
+<script type="text/javascript" src="js/GestioneAudio.js"></script>
 <!--<script type="text/javascript" src="js/GestioneRecorderHTML.js"></script>-->
 <script type="text/javascript" src="js/storage/jquery.storageapi.js"></script>
 <script type="text/javascript" src="js/storage/jquery.cookie.js"></script>
@@ -704,7 +705,7 @@
                                 <input id="city" type="text" placeholder="Città" style="display: none; float: left; margin-left: 5px;" onblur="VisualizzaPlaceName();" />
                                 <!--</select>-->
                                 <input id="placeName" type="text" placeholder="Nome del posto" style="width: 200px; display: none; float: left; margin-left: 5px;" />
-                                <br>Ge
+                                <br>
                                 <br>
                                     <label style="float: left; margin-top: 3px;">Quando:</label>
                                     <!--<input id="dove" style="float:left; margin-left:3px;" type="text" class="input-xlarge"/>-->
@@ -728,7 +729,7 @@
                         <!--<button onClick="editor();">Editor</button>-->
                         <input type="image" src="button/buttonFoto.jpg" onClick="capturePhoto();">
                         <br />
-                        <input id="record" type="image" style="margin-top: 10px;" src="button/buttonMicrofono.jpg" onclick="record();">
+                        <input id="record" type="image" style="margin-top: 10px;" src="button/buttonMicrofono.jpg" onclick="captureAudio();">
                         <br />
                         <h3 style="color: #FF0;" id="time">0:00</h3>
                         <input id="play" type="image" style="margin-top: 10px; visibility: hidden;" src="button/buttonPlay.png" onclick="play();">

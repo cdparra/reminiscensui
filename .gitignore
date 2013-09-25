@@ -57,3 +57,5 @@ local.properties
 .classpath
 .project
 ios/www/.settings/
+platforms/android/.buildpath
+platforms/android/.settings/

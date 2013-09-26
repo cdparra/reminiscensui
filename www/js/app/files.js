@@ -4,39 +4,6 @@
 *
 */
 
-function win(r) {
-    //console.log("Code = " + r.responseCode);
-    alert("Response = " + r.response);
-    //console.log("Sent = " + r.bytesSent);
-}
-
-function fail(error) {
-    alert("An error has occurred: Code = " = error.code);
-    console.log("upload error source " + error.source);
-    console.log("upload error target " + error.target);
-}
-
-
-function uploadPhoto(imageURI) {
-    var options = new FileUploadOptions();
-    options.fileKey = "file";
-    options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
-    options.mimeType = "image/jpeg";
-
-    var params = new Object();
-    params.value1 = "test";
-    params.value2 = "param";
-
-    var headers = { 'PLAY_SESSION': GetSessionKey() };
-
-    //options.params = params;
-    options.headers = headers;
-
-    var ft = new FileTransfer();
-    ft.upload(imageURI, GetBaseUrl() + "/lifeapi/upload", win, fail, options);
-}
-
-
 $(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:

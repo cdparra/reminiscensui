@@ -1,5 +1,6 @@
 # Local and Old repo noise 
 playground/
+dist/
 bkp/
 *DS_Store
 *._.DS_Store
@@ -34,3 +35,6 @@ ios/www/.settings/
 platforms/android/.buildpath
 platforms/android/.settings/
 .svn/
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes

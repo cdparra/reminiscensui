@@ -2,10 +2,13 @@
 <widget id="io.cordova.helloCordova" version="2.0.0" xmlns="http://www.w3.org/ns/widgets">
     <name>Hello Cordova</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Reminiscens is a social informatics project funded by the Lifeparticipation Research Group at the University of Trento. 
+        It is the result of participatory research action and design with local elders, with the goal of motivating face to face social 
+        interactions between older adults and their younger relatives. Not only we have worked on designing an application, but we have worked 
+        to build an interesting knowledge base of content that will stimulate people to reminisce.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="cdparra@gmail.com" href="http://www.reminiscens.me">
+        Reminiscens Team @ lifeparticipation.org
     </author>
     <content src="index.html" />
     <feature name="LocalStorage">
@@ -41,7 +44,7 @@
     <feature name="Console">
         <param name="ios-package" value="CDVLogger" />
     </feature>
-    <access origin="http://127.0.0.1*" />
+    <access origin="*" />
     <preference name="KeyboardDisplayRequiresUserAction" value="true" />
     <preference name="SuppressesIncrementalRendering" value="false" />
     <preference name="UIWebViewBounce" value="true" />
@@ -54,10 +57,11 @@
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="OpenAllWhitelistURLsInWebView" value="false" />
     <preference name="BackupWebStorage" value="cloud" />
+    <preference name="orientation" value="landscape" />
+    <preference name="fullscreen" value="true" />
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />
     <preference name="target-device" value="universal" />
-    <preference name="fullscreen" value="true" />
     <preference name="webviewbounce" value="true" />
     <preference name="prerendered-icon" value="true" />
     <preference name="stay-in-webview" value="false" />
@@ -69,4 +73,5 @@
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="7" />
     <preference name="android-installLocation" value="auto" />
+    <preference name="android-targetSdkVersion" value="18" />
 </widget>

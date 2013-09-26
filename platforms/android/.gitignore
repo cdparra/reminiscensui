@@ -32,5 +32,10 @@ local.properties
 .classpath
 .project
 
+# Audio Studio project files
+android.iml
+.idea/
+
 # Old school svn noise
 .svn/
+

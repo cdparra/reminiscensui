@@ -28,6 +28,16 @@ function GetPersonId()
 	return storage.get('personId');
 }
 
+function SetUserList(userList)
+{
+	storage.set('userList',userList);
+}
+
+function GetUserList()
+{
+	return storage.get('userList');
+}
+
 function SetPersonBirthDate(BirthDate)
 {
 	storage.set('personBirthDate',BirthDate);

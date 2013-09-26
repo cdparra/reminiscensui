@@ -5,8 +5,8 @@ body {
 	background-repeat: repeat-y;	
 }
 #divRoot {
-	width: 1020px;
-	height: 768px;
+	width: 1024px;
+	height: 748px;
 	margin: auto;
 	/*margin-top: 20px;*/
 	-moz-border-radius: 10px 10px 10px 10px;
@@ -16,16 +16,23 @@ body {
 	text-align: center;
 	/*overflow:auto;*/
 }
+.cont{
+    text-align: center;
+    height: 70px;
+    width: 450px;
+    vertical-align: central;
+    margin: auto;
+}
 input {
 	float: left;
 }
 label {
-	font-size: 24px;
+	font-size: 20px;
 }
 #divRoot #centrale {
 	background-color: #999;
 	margin-top: -40px;
-	height: 656px;
+	height: 636px;
 	text-align: center;
 	-webkit-border-bottom-right-radius: 10px;
 	-webkit-border-bottom-left-radius: 10px;
@@ -48,21 +55,105 @@ label {
 .divFoto {
 	float: left;
 	width: 490px;
-	height: 520px;
+	height: 480px;
 	min-height: 100%;
 	margin-left: 10px;
 	margin-right: 10px;
 	margin-top: 3px;
-	margin-bottom: 30px;
+	margin-bottom: 0px;
 	background-color: #CCC;
 	-moz-border-radius: 5px 5px 5px 5px;
 	-webkit-border-radius: 5px 5px 5px 5px;	
 	border-radius: 5px 5px 5px 5px;
 }
+#divFotoDelTempo {
+	overflow: auto;
+    height: 440px;
+}
+#divMieFotoDelTempo {
+    overflow: auto;
+    height: 440px;
+}
+
+#divStorieDelTempo {
+    overflow: auto;
+    height: 440px;
+}
+#divMieStorieDelTempo {
+    overflow: auto;
+    height: 440px;
+}
+
+#divCanzoni1 {
+    float: left;
+    width: 490px;
+    height: 440px;
+    min-height: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 3px;
+    margin-bottom: 0px;
+    background-color: #CCC;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px; 
+    border-radius: 5px 5px 5px 5px;
+    overflow: auto;
+}
+#divCanzoni2 {
+    float: left;
+    width: 490px;
+    height: 440px;
+    min-height: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 3px;
+    margin-bottom: 0px;
+    background-color: #CCC;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px; 
+    border-radius: 5px 5px 5px 5px;
+    overflow: auto;
+}
+
+#divFamosi1 {
+    float: left;
+    width: 490px;
+    height: 440px;
+    min-height: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 3px;
+    margin-bottom: 0px;
+    background-color: #CCC;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px; 
+    border-radius: 5px 5px 5px 5px;
+    overflow: auto;
+}
+#divFamosi2 {
+    float: left;
+    width: 490px;
+    height: 440px;
+    min-height: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 3px;
+    margin-bottom: 0px;
+    background-color: #CCC;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px; 
+    border-radius: 5px 5px 5px 5px;
+    overflow: auto;
+}
+
+.divFoto h3 {
+	font-size:18px;
+	height: 20px;
+}
 .divCanzoni {
 	float: left;
 	width: 1000px;
-	height: 520px;
+	height: 500px;
 	min-height: 100%;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -91,7 +182,6 @@ label {
 	float:left;
 	text-align: center;    
 }
-
 .text {
 	background: rgba(0,0,0,0.7);
 	/*position: absolute;
@@ -120,9 +210,14 @@ label {
 	border-radius: 0 0 0 0;
 	opacity: 1
 }
-
 .timeline
 {
     cursor: pointer;
+}
+.span#DecadeQuestionNotEmpty {
+	font-size:16px;
+}
+.span#PersonalQuestionNotEmpty {
+    font-size:16px;
 }
 

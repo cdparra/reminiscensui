@@ -1,18 +1,16 @@
-# Local and Old repo noise 
-playground/
-bkp/
-*DS_Store
+# Mac OSX noise
+DS_Store
 *._.DS_Store
 *._*
-*.class
-*.DS_Store
+.DS_Store
 *.target/
 .DS_Store
-*.DS_Store
 
-# built application files
+# Android built application files
 *.apk
 *.ap_
+*.apk
+*.class
 
 # files for the dex VM
 *.dex
@@ -30,7 +28,6 @@ local.properties
 # Eclipse project files
 .classpath
 .project
-ios/www/.settings/
-platforms/android/.buildpath
-platforms/android/.settings/
+
+# Old school svn noise
 .svn/

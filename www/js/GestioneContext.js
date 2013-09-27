@@ -235,25 +235,29 @@ function RecuperaContextDecade()
 
 function EstraiCampiContext(contextList) {
     var i = 0;
-    while (contextList[i] != null) {
+    while (contextList[i] != null && contextList[i].publicMemento != null) {
         //alert(contextList[i].startLocation.city);
         var newContext = new Object;
         newContext.headline = contextList[i].publicMemento.headline;
         newContext.text = contextList[i].publicMemento.text;
         newContext.startDate = new Object;
-        newContext.startDate.day = contextList[i].publicMemento.startDate.day;
-        newContext.startDate.month = contextList[i].publicMemento.startDate.moth;
-        newContext.startDate.year = contextList[i].publicMemento.startDate.year;
-        newContext.startDate.decade = contextList[i].publicMemento.startDate.decade;
-        newContext.startDate.exactDateAsString = contextList[i].publicMemento.startDate.exactDateAsString;
+        if (contextList[i].publicMemento.startDate != null) {
+            newContext.startDate.day = contextList[i].publicMemento.startDate.day;
+            newContext.startDate.month = contextList[i].publicMemento.startDate.moth;
+            newContext.startDate.year = contextList[i].publicMemento.startDate.year;
+            newContext.startDate.decade = contextList[i].publicMemento.startDate.decade;
+            newContext.startDate.exactDateAsString = contextList[i].publicMemento.startDate.exactDateAsString;
+        }
         newContext.startLocation = new Object;
-        newContext.startLocation.city = contextList[i].publicMemento.startLocation.city;
-        newContext.startLocation.region = contextList[i].publicMemento.startLocation.region;
-        newContext.startLocation.country = contextList[i].publicMemento.startLocation.country;
-        newContext.source = contextList[i].publicMemento.source;
-        newContext.sourceUrl = contextList[i].publicMemento.sourceUrl;
-        newContext.resourceUrl = contextList[i].publicMemento.resourceUrl;
-
+            
+        if (contextList[i].publicMemento.startLocation != null) {
+            newContext.startLocation.city = contextList[i].publicMemento.startLocation.city;
+            newContext.startLocation.region = contextList[i].publicMemento.startLocation.region;
+            newContext.startLocation.country = contextList[i].publicMemento.startLocation.country;
+            newContext.source = contextList[i].publicMemento.source;
+            newContext.sourceUrl = contextList[i].publicMemento.sourceUrl;
+            newContext.resourceUrl = contextList[i].publicMemento.resourceUrl;
+        }
 
         AggiungiContextDecade(newContext, contextList[i].decade, contextList[i].category);
         i++;

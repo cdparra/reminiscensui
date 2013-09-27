@@ -206,15 +206,7 @@
                     document.getElementById("month").innerHTML += "<option value='" + i + "'>" + tmp[i - 1].name + "</option>";
                 }
             });
-        }
-
-        function AzzeraTimeline() {
-            var today = new Date();
-            var decadeToday = parseInt(today.getFullYear() / 10) * 10;
-            for (var i = GetPersonDeacadeBirthDate() ; i <= decadeToday; i = i + 10) {
-                document.getElementById(i).className = "decade-button timeline";
-            }
-        }
+        }        
 
 
         $(document).ready(function () {
@@ -280,7 +272,6 @@
 
             }
             document.getElementById(decade).className = "decade-button-selected timeline";
-
             $('.timeline').click(function () {
                 AzzeraTimeline();
                 document.getElementById($(this).attr("id")).className = "decade-button-selected timeline";
@@ -555,6 +546,7 @@
                             <li id="liStorie"><a href="#">Storie</a></li>
                             <li id="liCanzoni"><a href="#">Canzoni</a></li>
                             <li id="liFamosi"><a href="#">Famosi</a></li>
+                            <li id="liTvFilm"><a href="#">TV/Film</a></li>
                             <li id="liRaccontaci"><a href="#">Raccontaci</a></li>
                             <li id="liLogout"><a href="#">Logout</a></li>
                         </ul>
@@ -640,11 +632,11 @@
                     <div class="divCanzoni">
 
                         <!--<h1>Quali erano le canzoni pi&uacute; popolari?</h1>-->
-                        <div class="divFoto" id="divCanzoni1" style="margin: 0px 0px 0px 0px;">
+                        <div class="divFoto" id="divCanzoni1" style="width: 480px;margin: 0px 0px 0px 0px;">
                             <!--<iframe width="420" height="315" src="http://www.youtube.com/embed/CwE8GcoqEfw" frameborder="0" allowfullscreen style="margin-top:30px;"></iframe>
         <h3>Matia Bazar - Cavallo bianco</h3>-->
                         </div>
-                        <div class="divFoto" id="divCanzoni2" style="margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
+                        <div class="divFoto" id="divCanzoni2" style="width: 480px;margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
                             <!--<iframe width="420" height="315" src="http://www.youtube.com/embed/MKahSufwWS0" frameborder="0" allowfullscreen style="margin-top:30px;"></iframe>
         <h3>Patty Pravo - Pensiero Stupendo</h3>-->
                         </div>
@@ -652,9 +644,9 @@
                 </div>
                 <div id="Famosi" style="display: none;">
                     <div class="divCanzoni">
-                        <div class="divFoto" id="divFamosi1" style="margin: 0px 0px 0px 0px;">
+                        <div class="divFoto" id="divFamosi1" style="width: 480px;margin: 0px 0px 0px 0px;">
                         </div>
-                        <div class="divFoto" id="divFamosi2" style="margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
+                        <div class="divFoto" id="divFamosi2" style="width: 480px;margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
                         </div>
                     </div>
                     <!--<div class="divFoto">
@@ -674,6 +666,14 @@
           quella stagione politica che va...</h6>
       </div>-->
 
+                </div>
+                <div id="TvFilm" style="display: none;">
+                    <div class="divCanzoni">
+                        <div class="divFoto" id="divTvFilm1" style="width: 480px;margin: 0px 0px 0px 0px;">
+                        </div>
+                        <div class="divFoto" id="divTvFilm2" style="width: 480px;margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
+                        </div>
+                    </div>
                 </div>
 
             </div>

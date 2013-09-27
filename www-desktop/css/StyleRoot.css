@@ -71,6 +71,7 @@ label {
 	background-color: #CCC;
 	-moz-border-radius: 5px 5px 5px 5px;
 	-webkit-border-radius: 5px 5px 5px 5px;	
+    overflow: auto;
 	border-radius: 5px 5px 5px 5px;
 }
 .immagini {

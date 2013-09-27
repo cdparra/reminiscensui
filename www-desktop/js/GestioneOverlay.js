@@ -120,6 +120,10 @@ jQuery(window).bind('resize', function () {
 });
 
 function ApriOverlay(clicked_id) {
+    //inizializzo la decade con la decade dove mi trovo
+    document.getElementById("decade").value = ((decade - 1900) / 10) + 1;
+    VisualizzaYear();
+
 	//alert(clicked_id);
 	idStoryModify = null;
 	isModify = false;

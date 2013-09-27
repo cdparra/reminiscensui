@@ -4,7 +4,8 @@ function nascondiDiv()
 		document.getElementById("Foto").style.display="none";
 		document.getElementById("Storie").style.display="none";
 		document.getElementById("Canzoni").style.display="none";
-		document.getElementById("Famosi").style.display="none";
+		document.getElementById("Famosi").style.display = "none";
+		document.getElementById("TvFilm").style.display = "none";
 	}
 
 function GestioneSchermate(clickdecade)
@@ -46,6 +47,7 @@ function GestioneSchermate(clickdecade)
 				stampaStorieContext(0, ContextVisible.story.length);
 				stampaCanzoniContext(0, ContextVisible.song.length);
 				stampaFamosiContext(0, ContextVisible.people.length);
+				stampaTvFilmContext(0, ContextVisible.tvFilm.length);
 				
 				aggiungiEventoFancyBox();
 				document.getElementById("Foto").style.display="inherit";
@@ -84,10 +86,16 @@ function Logout() {
     location.href = "index.html";
 }
 
+
+function AzzeraTimeline() {
+    var today = new Date();
+    var decadeToday = parseInt(today.getFullYear() / 10) * 10;
+    for (var i = GetPersonDeacadeBirthDate() ; i <= decadeToday; i = i + 10) {
+        document.getElementById(i).className = "decade-button timeline";
+    }
+}
+
 $(document).ready(function() {
-	$('.timeline').click(function(){
-			GestioneSchermate($(this).attr("id"));			
-        });
 		/*applica la classe active al menù nav bar di bootstrap quando viene cliccato*/
 		$('.navbar li').click(function(e) {
 			$('.navbar li').removeClass('active');
@@ -112,5 +120,5 @@ $(document).ready(function() {
 			}
 			
 			e.preventDefault();
-			});
-		});
+		});		
+});

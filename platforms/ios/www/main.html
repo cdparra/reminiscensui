@@ -185,8 +185,8 @@
             document.getElementById("country").innerHTML += "<option value='" + 0 + "'>" + "nazione" + "</option>";
             document.getElementById("country").innerHTML += "<option value='" + 1 + "'>" + "Italia" + "</option>";
 
-            //inizializzo le citta in raccontaci
-            var tmp = $.getJSON('json/cities.json', function (tmp) { //return timeline				
+            //inizializzo le città in raccontaci
+            /*var tmp = $.getJSON('json/cities.json', function (tmp) { //return timeline				
                 for (var i = 0; i < tmp.length; i++) {
                     //alert(tmp[i].name);
                     cities.push(tmp[i].name);
@@ -202,7 +202,7 @@
                     }
                 });
 
-            });
+            });*/
 
             //inizializza lista mesi in raccontaci
             document.getElementById("month").innerHTML = "";
@@ -214,13 +214,6 @@
             });
         }
 
-        function AzzeraTimeline() {
-            var today = new Date();
-            var decadeToday = parseInt(today.getFullYear() / 10) * 10;
-            for (var i = GetPersonDeacadeBirthDate() ; i <= decadeToday; i = i + 10) {
-                document.getElementById(i).className = "decade-button timeline";
-            }
-        }
 
 
         $(document).ready(function () {
@@ -466,11 +459,11 @@
         }
 
         function VisualizzaPlaceName() {
-            if (ControllaEsistenzaCitta()) {
+            //if (ControllaEsistenzaCitta()) {
                 //citySelect = document.getElementById("city").item(document.getElementById("city").value).text;
                 citySelect = $("#city").val();
                 $('#placeName').fadeIn('slow');
-            }
+            //}
         }
 
         function Prova() {
@@ -561,6 +554,7 @@
                             <li id="liStorie"><a href="#">Storie</a></li>
                             <li id="liCanzoni"><a href="#">Canzoni</a></li>
                             <li id="liFamosi"><a href="#">Famosi</a></li>
+                            <li id="liTvFilm"><a href="#">TV/Film</a></li>
                             <li id="liRaccontaci"><a href="#">Raccontaci</a></li>
                             <li id="liLogout"><a href="#">Logout</a></li>
                         </ul>
@@ -680,6 +674,14 @@
           quella stagione politica che va...</h6>
       </div>-->
 
+                </div>
+                <div id="TvFilm" style="display: none;">
+                    <div class="divCanzoni">
+                        <div class="divFoto" id="divTvFilm1" style="width: 480px;margin: 0px 0px 0px 0px;">
+                        </div>
+                        <div class="divFoto" id="divTvFilm2" style="width: 480px;margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
+                        </div>
+                    </div>
                 </div>
 
             </div>

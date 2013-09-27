@@ -16,11 +16,19 @@ function Login() {
 	sessionData.password = $("#password").val();
 	
 	var localBaseUrl = GetBaseUrl();
-	
+    console.log("Using this API URL: "+localBaseUrl);
 	if (localBaseUrl == null || localBaseUrl=="") {
-		localBaseUrl = "http://test.reminiscens.me";
+        if (window.location.hostname == "http://base.reminiscens.me") {
+            localBaseUrl = "http://base.reminiscens.me";
+        } else {
+            localBaseUrl = "http://test.reminiscens.me";
+        }
+        
+		console.log("Setting API URL to: "+localBaseUrl);
+        SetBaseUrl(localBaseUrl);
 	}
 	
+    console.log("Login with: "+localBaseUrl+Reminiscens.apiRes+Reminiscens.userRes+Reminiscens.loginRes)
 	$.ajax({
 				type : "POST",
 				//url: "http://test.reminiscens.me/lifeapi/user/login",

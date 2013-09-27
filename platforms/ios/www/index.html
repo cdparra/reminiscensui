@@ -47,8 +47,10 @@
 							.ready(
 									function() {
 										if (window.location.hostname == "http://base.reminiscens.me") {
+                                            console.log("Setting API url to BASE");
 											SetBaseUrl("http://base.reminiscens.me");
 										} else {
+                                            console.log("Setting API url to TEST");
 											SetBaseUrl("http://test.reminiscens.me");
 										}
 										if (GetSessionKey() != ""

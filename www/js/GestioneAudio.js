@@ -36,13 +36,15 @@ function onFail(message) {
 }
 
 
-function win(r) {
+function winAudio(r) {
     //console.log("Code = " + r.responseCode);
-    alert("Response = " + r.response);
+    //alert("Response = " + r.response);
     //console.log("Sent = " + r.bytesSent);
+	
+	console.log("L'audio funziona");
 }
 
-function fail(error) {
+function failAudio(error) {
     alert("An error has occurred: Code = " = error.code);
     console.log("upload error source " + error.source);
     console.log("upload error target " + error.target);
@@ -61,5 +63,5 @@ function uploadAudio(mediaFile) {
     options.headers = headers;
 
     var ft = new FileTransfer();
-    ft.upload(mediaFile.fullPath, "http://test.reminiscens.me" + "/lifeapi/upload", win, fail, options);
+    ft.upload(mediaFile.fullPath, "http://test.reminiscens.me" + "/lifeapi/upload", winAudio, failAudio, options);
 }

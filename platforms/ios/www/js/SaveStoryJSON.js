@@ -56,6 +56,7 @@ function salvaStoria(){
 	}
 	newStory.startDate = new Object;
 	newStory.startDate.decade = decadeSelect;
+	decade = decadeSelect;
 	if(yearSelect != "")
 	{
 		newStory.startDate.year = yearSelect;
@@ -122,5 +123,9 @@ function salvaStoria(){
 	var storage = $.localStorage;
 	storage.set('mieStorie',MieStorie);
 	
-	AzzeraVariabiliOverlay();	
+	AzzeraVariabiliOverlay();
+
+	AzzeraTimeline();
+	document.getElementById(decade).className = "decade-button-selected timeline";
+	GestioneSchermate(decade);
 }

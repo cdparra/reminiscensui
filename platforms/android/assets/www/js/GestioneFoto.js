@@ -75,17 +75,21 @@ function onFail(message) {
 }
 
 
-function win(r) {
+function winFoto(r) {
     //console.log("Code = " + r.responseCode);
     //alert("Response = " + r.response);
     //console.log("Sent = " + r.bytesSent);
     var data = JSON.parse(r.response);
 
-    alert(data.filename);
-    //alert("ciao");
+    //alert(data.filename);
+	
+	document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + data.filename + "'/><br><br>";
+	imgStoriaUrl.push("");
+	imgStoriaHashcode.push(data.hashcode);
+	imgStoriaFilename.push(data.filename);
 }
 
-function fail(error) {
+function failFoto(error) {
     alert("An error has occurred: Code = " = error.code);
     console.log("upload error source " + error.source);
     console.log("upload error target " + error.target);
@@ -106,7 +110,7 @@ function uploadPhoto(imageURI) {
 
     //options.params = params;
     options.headers = headers;
-
+    //alert("ciao");
     var ft = new FileTransfer();
-    ft.upload(imageURI, GetBaseUrl() + "/lifeapi/upload", win, fail, options);
+    ft.upload(imageURI, GetBaseUrl() + "/lifeapi/upload", winFoto, failFoto, options);
 }

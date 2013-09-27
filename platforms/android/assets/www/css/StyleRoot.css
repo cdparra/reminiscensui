@@ -97,7 +97,6 @@ label {
     -moz-border-radius: 5px 5px 5px 5px;
     -webkit-border-radius: 5px 5px 5px 5px; 
     border-radius: 5px 5px 5px 5px;
-    overflow: auto;
 }
 #divCanzoni2 {
     float: left;
@@ -112,9 +111,10 @@ label {
     -moz-border-radius: 5px 5px 5px 5px;
     -webkit-border-radius: 5px 5px 5px 5px; 
     border-radius: 5px 5px 5px 5px;
+}
+.divCanzoni {
     overflow: auto;
 }
-
 #divFamosi1 {
     float: left;
     width: 490px;
@@ -128,7 +128,6 @@ label {
     -moz-border-radius: 5px 5px 5px 5px;
     -webkit-border-radius: 5px 5px 5px 5px; 
     border-radius: 5px 5px 5px 5px;
-    overflow: auto;
 }
 #divFamosi2 {
     float: left;
@@ -143,7 +142,6 @@ label {
     -moz-border-radius: 5px 5px 5px 5px;
     -webkit-border-radius: 5px 5px 5px 5px; 
     border-radius: 5px 5px 5px 5px;
-    overflow: auto;
 }
 
 .divFoto h3 {

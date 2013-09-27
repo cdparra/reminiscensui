@@ -15,6 +15,7 @@ function InizializzaContextDecadeSchermate(decadeInizialize)
 	decadeInizialize.picture = [];
 	decadeInizialize.people = [];
 	decadeInizialize.song = [];
+	decadeInizialize.tvFilm = [];
 }
 
 
@@ -67,6 +68,12 @@ function AggiungiContextDecadeRightCategory(newContext, decadeToPush ,category)
 		case "SONG":
 			decadeToPush.song.push(newContext);
 			break;
+	    case "TV":
+	        decadeToPush.tvFilm.push(newContext);
+	        break;
+	    case "FILM":
+	        decadeToPush.tvFilm.push(newContext);
+	        break;
 	}
 }
 	 
@@ -228,25 +235,29 @@ function RecuperaContextDecade()
 
 function EstraiCampiContext(contextList) {
     var i = 0;
-    while (contextList[i] != null) {
+    while (contextList[i] != null && contextList[i].publicMemento != null) {
         //alert(contextList[i].startLocation.city);
         var newContext = new Object;
         newContext.headline = contextList[i].publicMemento.headline;
         newContext.text = contextList[i].publicMemento.text;
         newContext.startDate = new Object;
-        newContext.startDate.day = contextList[i].publicMemento.startDate.day;
-        newContext.startDate.month = contextList[i].publicMemento.startDate.moth;
-        newContext.startDate.year = contextList[i].publicMemento.startDate.year;
-        newContext.startDate.decade = contextList[i].publicMemento.startDate.decade;
-        newContext.startDate.exactDateAsString = contextList[i].publicMemento.startDate.exactDateAsString;
+        if (contextList[i].publicMemento.startDate != null) {
+            newContext.startDate.day = contextList[i].publicMemento.startDate.day;
+            newContext.startDate.month = contextList[i].publicMemento.startDate.moth;
+            newContext.startDate.year = contextList[i].publicMemento.startDate.year;
+            newContext.startDate.decade = contextList[i].publicMemento.startDate.decade;
+            newContext.startDate.exactDateAsString = contextList[i].publicMemento.startDate.exactDateAsString;
+        }
         newContext.startLocation = new Object;
-        newContext.startLocation.city = contextList[i].publicMemento.startLocation.city;
-        newContext.startLocation.region = contextList[i].publicMemento.startLocation.region;
-        newContext.startLocation.country = contextList[i].publicMemento.startLocation.country;
-        newContext.source = contextList[i].publicMemento.source;
-        newContext.sourceUrl = contextList[i].publicMemento.sourceUrl;
-        newContext.resourceUrl = contextList[i].publicMemento.resourceUrl;
-
+            
+        if (contextList[i].publicMemento.startLocation != null) {
+            newContext.startLocation.city = contextList[i].publicMemento.startLocation.city;
+            newContext.startLocation.region = contextList[i].publicMemento.startLocation.region;
+            newContext.startLocation.country = contextList[i].publicMemento.startLocation.country;
+            newContext.source = contextList[i].publicMemento.source;
+            newContext.sourceUrl = contextList[i].publicMemento.sourceUrl;
+            newContext.resourceUrl = contextList[i].publicMemento.resourceUrl;
+        }
 
         AggiungiContextDecade(newContext, contextList[i].decade, contextList[i].category);
         i++;
@@ -264,6 +275,7 @@ function EstraiCampiContext(contextList) {
     stampaStorieContext(0, ContextVisible.story.length);
     stampaCanzoniContext(0, ContextVisible.song.length);
     stampaFamosiContext(0, ContextVisible.people.length);
+    stampaTvFilmContext(0, ContextVisible.tvFilm.length);
     aggiungiEventoFancyBox();
     /*stampaMieContext(0,MieContextVisible.length);
     
@@ -404,6 +416,31 @@ function stampaFamosiContext(inizio, fine)
 			numeroDiv = 1;
 	}
 	
+}
+
+function stampaTvFilmContext(inizio, fine) {
+    //alert(inizio + "  " + fine);
+
+    var i;
+    var numeroDiv = 1;
+    document.getElementById("divTvFilm1").innerHTML = "";
+    document.getElementById("divTvFilm2").innerHTML = "";
+    for (i = inizio; i < fine; i++) {
+
+        //alert(ContextVisible.song[i].resourceUrl);
+        if (ContextVisible.tvFilm[i].resourceUrl != null) {
+            //replace necessario per permettere di introdurre contenuti di youtube sul sito
+            var url = ContextVisible.tvFilm[i].resourceUrl.replace('watch?v=', 'embed/');
+            document.getElementById("divTvFilm" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.tvFilm[i].headline + "</h3><h7 style='text-align:center;'>" + ContextVisible.tvFilm[i].text + "</h7>";
+
+            //document.getElementById("divCanzoni" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + "http://www.youtube.com/embed/XVXzlPqViXA?autoplay=true" + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[i].headline +"</h3>";
+        }
+
+        numeroDiv++;
+        if (numeroDiv > 2)
+            numeroDiv = 1;
+    }
+
 }
 
 function CreaContext() {

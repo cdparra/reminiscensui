@@ -4,11 +4,13 @@
 <title>Reminiscens</title>
 <!--<script src="http://code.jquery.com/jquery.js"></script>-->
 <script type="text/javascript" src="phonegap.js"></script>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<script src="bootstrap/js/bootstrap.js"></script>
+<script src="js/libs/jquery.js"></script>
+<!-- Why do we need jquery migrate? -->
+<script src="js/libs/jquery-migrate-1.0.0.js"></script>
+<!-- Why jquery twice? -->
+<script type="text/javascript" src="js/libs/jquery-latest.min.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script src="js/libs/bootstrap.js"></script>
 <link rel="stylesheet" href="css/jquery.fileupload-ui.css">
 <link href="css/StyleOverlay.css" rel="stylesheet">
 <script src="js/GestioneOverlay.js"></script>
@@ -16,11 +18,11 @@
 <link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
 <link href="css/StyleRoot.css" rel="stylesheet" />
 <script src="kendo/js/kendo.web.min.js"></script>
-<!--<script type="text/javascript" src="js/recorder.js"></script>-->
+<script type="text/javascript" src="js/recorder.js"></script>
 <script type="text/javascript" src="js/GestioneKendoEditor.js"></script>
 <script type="text/javascript" src="js/GestioneFoto.js"></script>
 <script type="text/javascript" src="js/GestioneAudio.js"></script>
-<!--<script type="text/javascript" src="js/GestioneRecorderHTML.js"></script>-->
+<script type="text/javascript" src="js/GestioneRecorderHTML.js"></script>
 <script type="text/javascript" src="js/storage/jquery.storageapi.js"></script>
 <script type="text/javascript" src="js/storage/jquery.cookie.js"></script>
 <script type="text/javascript" src="js/json/json2.js"></script>
@@ -243,7 +245,7 @@
             //alert(decade);
             $("#lbldebug").text("Non ci sono ancora storie del " + decade + "!");
             $("#FotoDelTempo").text("Com'era questo posto attorno al " + decade);
-            $("#TueFotoDelTempo").text("Le tue foto attorno al " + decade);
+            $("#TueFotoDelTempo").text("Le mie foto attorno al " + decade);
             $("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
             $("#TueStorieDelTempo").text("Le tue storie nel " + decade);
 
@@ -577,7 +579,7 @@
                 <div id="Foto">
                     <div class="divFoto">
                         <h3 id="FotoDelTempo">Com'era questo posto attorno al 1950</h3>
-                        <div id="divFotoDelTempo" style="overflow: auto; height: 459px;">
+                        <div id="divFotoDelTempo">
                             <!--<a class="fancybox" rel="gallery1" href="img/comera1.jpg" title="2 ottobre 1950 - nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz..."> <img src="img/comera1.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/comera3.jpg" title="09 maggio 1950 - Nasce la comunit&aacute;  europea..."> <img src="img/comera3.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/comera2.jpg" title="26 gennaio 1950 - L'india diventa una repubblica.."> <img src="img/comera2.jpg" alt="" /> </a> -->
@@ -588,8 +590,8 @@
                         </div>
                     </div>
                     <div class="divFoto">
-                        <h3 id="TueFotoDelTempo">Le tue foto attorno al 1950</h3>
-                        <div id="divMieFotoDelTempo" style="overflow: auto; height: 459px;">
+                        <h3 id="TueFotoDelTempo">Le mie foto attorno al 1950</h3>
+                        <div id="divMieFotoDelTempo">
 
                             <!--<a class="fancybox" rel="gallery1" href="img/tuefoto1.jpg" title="Foto 1"> <img src="img/tuefoto1.jpg" alt=""/> </a> 
           <a class="fancybox" rel="gallery1" href="img/tuefoto2.jpg" title="Foto 2"> <img src="img/tuefoto2.jpg" alt="" /> </a> 
@@ -600,7 +602,7 @@
                 <div id="Storie" style="display: none;">
                     <div class="divFoto">
                         <h3 id="StorieDelTempo">Che cosa succedeva nel 1950</h3>
-                        <div id="divStorieDelTempo" style="overflow: auto; height: 459px;">
+                        <div id="divStorieDelTempo">
                             <!--        <div style=" width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:25px; margin-bottom:5px;">
         	<div style=" float:left; width:110px; text-align:center; height:140px;">
             	<h3>1950</h3>
@@ -633,18 +635,18 @@
                     <div class="divFoto">
                         <h3 id="TueStorieDelTempo">Le tue storie nel 1950</h3>
                         <!--<img src="img/tuefoto2.jpg" /> </div>-->
-                        <div id="divMieStorieDelTempo" style="overflow: auto; height: 459px;"></div>
+                        <div id="divMieStorieDelTempo"></div>
                     </div>
                 </div>
                 <div id="Canzoni" style="display: none;">
                     <div class="divCanzoni">
 
                         <!--<h1>Quali erano le canzoni pi&uacute; popolari?</h1>-->
-                        <div class="divFoto" id="divCanzoni1" style="margin: 0px 0px 0px 0px;">
+                        <div id="divCanzoni1" style="margin: 0px 0px 0px 0px;">
                             <!--<iframe width="420" height="315" src="http://www.youtube.com/embed/CwE8GcoqEfw" frameborder="0" allowfullscreen style="margin-top:30px;"></iframe>
         <h3>Matia Bazar - Cavallo bianco</h3>-->
                         </div>
-                        <div class="divFoto" id="divCanzoni2" style="margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
+                        <div id="divCanzoni2" style="margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
                             <!--<iframe width="420" height="315" src="http://www.youtube.com/embed/MKahSufwWS0" frameborder="0" allowfullscreen style="margin-top:30px;"></iframe>
         <h3>Patty Pravo - Pensiero Stupendo</h3>-->
                         </div>

@@ -39,3 +39,4 @@ android.iml
 # Old school svn noise
 .svn/
 
+out/

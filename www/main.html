@@ -4,11 +4,13 @@
 <title>Reminiscens</title>
 <!--<script src="http://code.jquery.com/jquery.js"></script>-->
 <script type="text/javascript" src="phonegap.js"></script>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<script src="bootstrap/js/bootstrap.js"></script>
+<script src="js/libs/jquery.js"></script>
+<!-- Why do we need jquery migrate? -->
+<!--<script src="js/libs/jquery-migrate-1.0.0.js"></script>-->
+<!-- Why jquery twice?
+<script type="text/javascript" src="js/libs/jquery-latest.min.js"></script> -->
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script src="js/libs/bootstrap.js"></script>
 <link rel="stylesheet" href="css/jquery.fileupload-ui.css">
 <link href="css/StyleOverlay.css" rel="stylesheet">
 <script src="js/GestioneOverlay.js"></script>
@@ -16,14 +18,18 @@
 <link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
 <link href="css/StyleRoot.css" rel="stylesheet" />
 <script src="kendo/js/kendo.web.min.js"></script>
-<!--<script type="text/javascript" src="js/recorder.js"></script>-->
+<!-- Uncomment this and GestioneRecorderHTML for deplowing in web server 
+<script type="text/javascript" src="js/recorder.js"></script>
+-->
 <script type="text/javascript" src="js/GestioneKendoEditor.js"></script>
 <script type="text/javascript" src="js/GestioneFoto.js"></script>
 <script type="text/javascript" src="js/GestioneAudio.js"></script>
-<!--<script type="text/javascript" src="js/GestioneRecorderHTML.js"></script>-->
-<script type="text/javascript" src="js/storage/jquery.storageapi.js"></script>
-<script type="text/javascript" src="js/storage/jquery.cookie.js"></script>
-<script type="text/javascript" src="js/json/json2.js"></script>
+
+<!-- <script type="text/javascript" src="js/GestioneRecorderHTML.js"></script> 
+-->
+<script type="text/javascript" src="js/libs/jquery.storageapi.js"></script>
+<script type="text/javascript" src="js/libs/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/libs/json2.js"></script>
 <script type="text/javascript" src="js/GestioneImmagini.js"></script>
 <script type="text/javascript" src="js/SaveStoryJSON.js"></script>
 
@@ -54,7 +60,7 @@
 <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 <script src="js/lib/jquery.file.upload/js/jquery.iframe-transport.js"></script>
 <!-- The basic File Upload plugin -->
-<script src="js/lib/jquery.file.upload/js/jquery.fileupload.js"></script>
+<script src="js/libs/jquery.fileupload.js"></script>
 <script type="text/javascript" src="js/GestioneVariabiliPersona.js"></script>
 <script type="text/javascript" src="js/GestioneQuestion.js"></script>
 
@@ -652,9 +658,9 @@
                 </div>
                 <div id="Famosi" style="display: none;">
                     <div class="divCanzoni">
-                        <div class="divFoto" id="divFamosi1" style="margin: 0px 0px 0px 0px;">
+                        <div id="divFamosi1" style="margin: 0px 0px 0px 0px;">
                         </div>
-                        <div class="divFoto" id="divFamosi2" style="margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
+                        <div id="divFamosi2" style="margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
                         </div>
                     </div>
                     <!--<div class="divFoto">

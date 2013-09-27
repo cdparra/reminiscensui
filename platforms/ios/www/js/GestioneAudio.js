@@ -18,9 +18,16 @@ function captureError(error) {
 // A button will call this function
 //
 function captureAudio() {
+    navigator.device.capture.captureAudio(captureSuccess, captureError, { limit: 1 });
+    // Unconmment for server version
     // Launch device audio recording application, 
     // allowing user to capture up to 2 audio clips
-    navigator.device.capture.captureAudio(captureSuccess, captureError, { limit: 1 });
+	//if (navigator.userAgent
+	//		.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+	//    navigator.device.capture.captureAudio(captureSuccess, captureError, { limit: 1 });
+	//} else {
+	//	record();
+	//}
 }
 
 

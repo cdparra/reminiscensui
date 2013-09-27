@@ -23,118 +23,40 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <title>Reminiscens</title>
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    
+    <!-- ToDo: unify javascript dependencies under js/libs -->
+    <!-- ToDo: unify images under img -->
+    <!-- ToDo: unify css under css -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    
     <script src="js/lib/jquery.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-
-<script type="text/javascript" src="js/json/json2.js"></script>
-<script type="text/javascript" src="js/sha1.js"></script>
-
-<script type="text/javascript" src="js/storage/jquery.storageapi.js"></script>
-<script type="text/javascript" src="js/storage/jquery.cookie.js"></script>
-<script type="text/javascript" src="js/GestioneVariabiliPersona.js"></script>
-
-        <script type="text/javascript" src="phonegap.js"></script>
-<script>  	
-     function onLoad(){
-          document.addEventListener("deviceready", onDeviceReady, true);
-     }
-     function onDeviceReady(){
-          console.log("PhoneGap is working!!");
-     }
-	function Redirect()
-	{
-		location.href = "registra.html";
-	}
-	function Login()
-	{		
-		var sessionData = new Object;
-
-    	sessionData.email = $("#email").val();
-		//alert($("#email").val());
-		//sessionData.email = "reminiscensapp+4@gmail.com";
-
-    	//sessionData.password = $.sha1($("#password").val());
-		sessionData.password = $("#password").val();  
-		//alert($("#password").val());   
-		//sessionData.password = "testing-password";  
-		
-		//alert(JSON.stringify(sessionData));         
-
-    	$.ajax({
-        	type: "POST",
-
-    	    //url: "http://test.reminiscens.me/lifeapi/user/login",
-        	url: "http://base.reminiscens.me/lifeapi/user/login",
-
-        	data: JSON.stringify(sessionData),
-			
-			//data:{"email":"reminiscensapp+4@gmail.com","password":"testing-password"},
-
-        	async: false,
-
-        	success: function (data) {
-
-            	//alert(data.sessionKey);
-				SetSessionKey(data.sessionKey);
-				//alert(data.userId);
-				SetPersonId(data.person.personId);				
-				SetPersonBirthDate(data.person.birthdateAsString);
-				SetPersonDeacadeBirthDate(parseInt(data.person.birthdateAsString.split('-')[0]/10)*10);
-				SetPersonYearBirthDate(data.person.birthdateAsString.split('-')[0]);
-				location.href = "main.html";
-
-        	},
-        	error: function (data) {
-				alert("L'email o la password inseriti sono sbagliati");
-
-        	},
-        	dataType: "json",
-			
-			contentType: "application/json"
-
-        });
-	}
-	
-	$(document).ready(function () {
-	    SetBaseUrl("http://test.reminiscens.me");
-	    /*if (window.location.hostname == "http://test.reminiscens.me") {
-	        SetBaseUrl("http://test.reminiscens.me");
-	    }
-	    else {
-	        SetBaseUrl("http://base.reminiscens.me");
-	    }*/
-		if(GetSessionKey() != "" && GetSessionKey()!= null)
-		{
-			location.href = "main.html";
-		}
-	});
-</script>
-
-<style>
-body {
-	background-color:#CCC;
-	background-repeat: repeat-y;
-}
-#divRoot{
-	width: 450px;
-	height: 240px;
-	margin: auto;
-	margin-top:20px;
-	-moz-border-radius: 10px 10px 10px 10px;
-	-webkit-border-radius: 10px 10px 10px 10px;
-	border-radius: 10px 10px 10px 10px;
-	background-color:#FFF;
-}
-.cont{
-	text-align: center;
-	height: 70px;
-	width: 450px;
-	vertical-align: central;
-	margin: auto;
-}
-
-</style>
+    <script src="js/libs/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/libs/json2.js"></script>
+    <script type="text/javascript" src="js/libs/sha1.js"></script>
+    <script type="text/javascript" src="js/libs/jquery.storageapi.js"></script>
+    <script type="text/javascript" src="js/libs/jquery.cookie.js"></script>
+    
+    <!-- phonegap.js is generated automatically everytime we build the project with phonegap -->
+    <script type="text/javascript" src="phonegap.js"></script>
+   
+    <!-- application based js code -->
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/GestioneVariabiliPersona.js"></script>
+    <script type="text/javascript" src="js/index.js">
+					$(document)
+							.ready(
+									function() {
+										if (window.location.hostname == "http://base.reminiscens.me") {
+											SetBaseUrl("http://base.reminiscens.me");
+										} else {
+											SetBaseUrl("http://test.reminiscens.me");
+										}
+										if (GetSessionKey() != ""
+												&& GetSessionKey() != null) {
+											location.href = "main.html";
+										}
+									});
+	</script>
 </head>
 <body>
 <div id="divRoot">

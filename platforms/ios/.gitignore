@@ -47,3 +47,4 @@ www/
 
 # OSX
 .DS_Store
+CordovaLib/build/

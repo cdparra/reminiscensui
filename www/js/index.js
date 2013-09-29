@@ -7,7 +7,6 @@ function onDeviceReady() {
 function Redirect() {
 	location.href = "registra.html";
 }
-
 // A word of notice: avoid alerts as much as possible. 
 // use console.log instead
 function Login() {

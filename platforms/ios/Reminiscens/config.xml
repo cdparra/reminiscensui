@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.cordova.helloCordova" version="2.0.0" xmlns="http://www.w3.org/ns/widgets">
-    <name>Hello Cordova</name>
+<widget id="org.lifeparticipation.Reminiscens" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Reminiscens</name>
     <description>
         Reminiscens is a social informatics project funded by the Lifeparticipation Research Group at the University of Trento. 
         It is the result of participatory research action and design with local elders, with the goal of motivating face to face social 

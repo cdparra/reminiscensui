@@ -326,84 +326,6 @@ function Timeline()
 }
 
 
-
-/*function controlloStampaPagine()
-{
-	if(MieStorieVisible.length>NumeroPaginaMieFoto * 2 + 1) //caso in cui ci siano 2 foto da stampare
-	{
-		stampaMieFoto(NumeroPaginaMieFoto * 2,NumeroPaginaMieFoto * 2 +2);
-	}
-	else
-	{
-		stampaMieFoto(NumeroPaginaMieFoto * 2,NumeroPaginaMieFoto * 2 +1);	
-	}
-}
-
-
-
-
-function controlloStampaPagineMieStorie()
-{
-	if(MieStorieVisible.length>NumeroPaginaMieStorie * 2 + 1) //caso in cui ci siano 2 foto da stampare
-	{
-		stampaMieStorie(NumeroPaginaMieStorie * 2,NumeroPaginaMieStorie * 2 +2);
-	}
-	else
-	{
-		stampaMieStorie(NumeroPaginaMieStorie * 2,NumeroPaginaMieStorie * 2 +1);	
-	}
-}
-
-function avantiStorie()
-{
-	NumeroPaginaMieStorie++;
-	//alert(NumeroPaginaMieStorie);
-	if(MieStorieVisible.length <= NumeroPaginaMieStorie * 2){
-		NumeroPaginaMieStorie = 0;
-	}
-	//alert(NumeroPaginaMieStorie);
-	controlloStampaPagineMieStorie();
-}
-
-function indietroStorie()
-{
-	NumeroPaginaMieStorie--;
-	//alert(NumeroPaginaMieStorie);
-	if(NumeroPaginaMieStorie < 0){
-		//prendo la metà + eventuale immagine singola (se dim è dispari) - uno perchè le pagine partono da 0!!
-		NumeroPaginaMieStorie = Math.floor(MieStorieVisible.length/2) + MieStorieVisible.length%2 - 1;
-	}
-	//alert(NumeroPaginaMieStorie);
-	controlloStampaPagineMieStorie();
-}
-
-
-
-function avanti()
-{
-	NumeroPaginaMieFoto++;
-	//alert(NumeroPaginaMieStorie);
-	if(MieStorieVisible.length <= NumeroPaginaMieFoto * 2){
-		NumeroPaginaMieFoto = 0;
-	}
-	//alert(NumeroPaginaMieStorie);
-	controlloStampaPagine();
-}
-
-function indietro()
-{
-	NumeroPaginaMieFoto--;
-	//alert(NumeroPaginaMieStorie);
-	if(NumeroPaginaMieFoto < 0){
-		//prendo la metà + eventuale immagine singola (se dim è dispari) - uno perchè le pagine partono da 0!!
-		NumeroPaginaMieFoto = Math.floor(MieStorieVisible.length/2) + MieStorieVisible.length%2 - 1;
-	}
-	//alert(NumeroPaginaMieStorie);
-	controlloStampaPagine();
-}*/
-
-
-
 function InserisciIndiceMieStorieConFoto(index)
 {
 	vettIndexMieStorieVisible.push(index);
@@ -413,31 +335,92 @@ function stampaMieFoto(inizio, fine)
 {
 	//alert(inizio + "  " + fine);
 	
-	var i;
+	/*var i;
 	document.getElementById("divMieFotoDelTempo").innerHTML = "";
 	//document.getElementById("divMieFotoDelTempo").innerHTML += "<button id='indietro' onClick='indietro'>Indietro</button> <button id='avanti' onClick='avanti'>Avanti</button></br>";
 	for (i=inizio; i<fine; i++) { 		
 		//alert(MieStorie[i].immagini[0].src);
 		//alert(MieStorieVisible[i].mementoList.length);
-		if(MieStorieVisible[i].mementoList.length > 0)
-		{
-			//alert(MieStorieVisible[i].mementoList.length);
-			InserisciIndiceMieStorieConFoto(i);
-			if(MieStorieVisible[i].mementoList[0].thumbnailUrl == null)
-			{
-				document.getElementById("divMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></br></div>";
-			}
-			else  //stampo attraverso hashcode
-			{				
-			    document.getElementById("divMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + GetBaseUrl() + "/file/" + "LARGE_" + MieStorieVisible[i].mementoList[0].thumbnailUrl + "' title='" + MieStorieVisible[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[i].mementoList[0].fileHashcode + "/SMALL" + "' alt='' /> </a></br></div>";
-			}
-				
-		}
-		else
-		{
-			/*document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='fancybox' rel='gallery1' href='" + "images/no_image.png" + "' title='" + MieStorieVisible[i].titolo + "' > <img class='immaginiFoto' src='" + "images/no_image.png" + "' alt='' /> </a></br>";*/
-		}
-	}
+	    if (MieStorieVisible[i].mementoList.length > 0) {
+	        //alert(MieStorieVisible[i].mementoList.length);
+	        InserisciIndiceMieStorieConFoto(i);
+	        if (MieStorieVisible[i].mementoList[0].thumbnailUrl == null) {
+	            document.getElementById("divMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></br></div>";
+	        }
+	        else  //stampo attraverso hashcode
+	        {
+	            document.getElementById("divMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + GetBaseUrl() + "/file/" + "LARGE_" + MieStorieVisible[i].mementoList[0].thumbnailUrl + "' title='" + MieStorieVisible[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[i].mementoList[0].fileHashcode + "/SMALL" + "' alt='' /> </a></br></div>";
+	        }
+
+	    }
+	    else {
+	    }
+	}*/
+
+    document.getElementById("carouselDivMieFotoDelTempo").innerHTML = "";
+    var indice = 0;
+    var nPagina = 0;
+    var visualizzati = 0;
+    var stringaDiv = "";
+    //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
+    while(MieStorieVisible[indice] != null)
+    {
+        if (MieStorieVisible[indice].mementoList.length > 0) {
+            
+            //alert(MieStorieVisible[i].mementoList.length);
+            InserisciIndiceMieStorieConFoto(indice);
+            if (MieStorieVisible[indice].mementoList[0].thumbnailUrl == null) {
+                if (MieStorieVisible[indice].mementoList[0].url != "") {
+                    stringaDiv += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + MieStorieVisible[indice].mementoList[0].url + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + MieStorieVisible[indice].mementoList[0].url + "' alt='' /> </a></br></div>";
+                }
+                else
+                {
+                    visualizzati--;
+                }
+                
+                //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + MieStorieVisible[indice].mementoList[0].url + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:215px;max-height:190px;' src='" + MieStorieVisible[indice].mementoList[0].url + "' alt='' /> </a></br></div></br></br>";
+            }
+            else  //stampo attraverso hashcode
+            {
+                stringaDiv += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + GetBaseUrl() + "/file/" + "LARGE_" + MieStorieVisible[indice].mementoList[0].thumbnailUrl + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[indice].mementoList[0].fileHashcode + "/SMALL" + "' alt='' /> </a></br></div>";
+                //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + GetBaseUrl() + "/file/" + "LARGE_" + MieStorieVisible[indice].mementoList[0].thumbnailUrl + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:215px;max-height:190px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[indice].mementoList[0].fileHashcode + "/SMALL" + "' alt='' /> </a></br></div></br></br>";
+            }
+
+
+            visualizzati++;
+            if (visualizzati == 4) {
+                visualizzati = 0;
+                if (nPagina == 0) {
+                    document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+                }
+                else {
+                    document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+                }
+
+                nPagina++;
+                stringaDiv = "";
+            }
+
+        }
+
+        indice++;
+    }
+
+    if(stringaDiv != "")
+    {
+        if (nPagina == 0) {
+            document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+        }
+        else {
+            document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+        }
+    }
+
+    //$('.carousel').carousel({
+    //    interval: false
+    //});
+    
+    //document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='carousel-control left' href='#divMieFotoDelTempo' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divMieFotoDelTempo' data-slide='next'>&rsaquo;</a>";
 }
 
 
@@ -445,37 +428,105 @@ function stampaMieStorie(inizio, fine)
 {
 	//alert(inizio + "  " + fine);
 	
-	var i;
-	document.getElementById("divMieStorieDelTempo").innerHTML = "";
-	//document.getElementById("divMieStorieDelTempo").innerHTML += "<button id='indietro' onClick='indietroStorie()'>Indietro</button> <button id='avanti' onClick='avantiStorie()'>Avanti</button></br>";
-	for (i=inizio; i<fine; i++) { 
+	//var i;
+	//document.getElementById("divMieStorieDelTempo").innerHTML = "";
+	////document.getElementById("divMieStorieDelTempo").innerHTML += "<button id='indietro' onClick='indietroStorie()'>Indietro</button> <button id='avanti' onClick='avantiStorie()'>Avanti</button></br>";
+	//for (i=inizio; i<fine; i++) { 
 						
-		//alert(MieStorie[i].immagini[0].src);
-		var testo;
-		if(MieStorieVisible[i].text!=null)
-		{
-			testo = MieStorieVisible[i].text.substring(0,120) + "...";
-		} 
-		else {
-			testo = "";
-		}
-		if(MieStorieVisible[i].mementoList[0] != null)
-		{
-			if(MieStorieVisible[i].mementoList[0].fileHashcode == null)
-			{
-				document.getElementById("divMieStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[i].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[i].location.country + "</h5>" + "<h5>" + MieStorieVisible[i].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[i].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /></div></div>";
-				/*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
-			}
-			else
-			{
-			    document.getElementById("divMieStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[i].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[i].location.country + "</h5>" + "<h5>" + MieStorieVisible[i].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[i].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[i].mementoList[0].fileHashcode + "/THUMBNAIL' alt='' /></div></div>";
-			    /*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "http://test.reminiscens.me/file/" + "LARGE_" + MieStorieVisible[i].mementoList[0].thumbnailUrl + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[i].mementoList[0].Hashcode + "/THUMBNAIL" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
-			}
-		}
-		else
-		{
-			document.getElementById("divMieStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[i].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[i].location.country + "</h5>" +	"<h5>" + MieStorieVisible[i].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[i].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
-			/*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "images/story-book.jpg" + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + "images/story-book.jpg" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
-		}
+	//	//alert(MieStorie[i].immagini[0].src);
+	//	var testo;
+	//	if(MieStorieVisible[i].text!=null)
+	//	{
+	//		testo = MieStorieVisible[i].text.substring(0,120) + "...";
+	//	} 
+	//	else {
+	//		testo = "";
+	//	}
+	//	if(MieStorieVisible[i].mementoList[0] != null)
+	//	{
+	//		if(MieStorieVisible[i].mementoList[0].fileHashcode == null)
+	//		{
+	//			document.getElementById("divMieStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[i].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[i].location.country + "</h5>" + "<h5>" + MieStorieVisible[i].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[i].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /></div></div>";
+	//			/*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
+	//		}
+	//		else
+	//		{
+	//		    document.getElementById("divMieStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[i].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[i].location.country + "</h5>" + "<h5>" + MieStorieVisible[i].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[i].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[i].mementoList[0].fileHashcode + "/THUMBNAIL' alt='' /></div></div>";
+	//		    /*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "http://test.reminiscens.me/file/" + "LARGE_" + MieStorieVisible[i].mementoList[0].thumbnailUrl + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[i].mementoList[0].Hashcode + "/THUMBNAIL" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
+	//		}
+	//	}
+	//	else
+	//	{
+	//		document.getElementById("divMieStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[i].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[i].location.country + "</h5>" +	"<h5>" + MieStorieVisible[i].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[i].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
+	//		/*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "images/story-book.jpg" + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + "images/story-book.jpg" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
+	//	}
+	//}
+
+	document.getElementById("carouselDivMieStorieDelTempo").innerHTML = "";
+	var indice = 0;
+	var nPagina = 0;
+	var visualizzati = 0;
+	var stringaDiv = "";
+    //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
+	while (MieStorieVisible[indice] != null) {
+	    if (MieStorieVisible[indice].mementoList.length > 0) {
+	        var testo;
+	        if (MieStorieVisible[indice].text != null)
+	        {
+	            testo = MieStorieVisible[indice].text.substring(0,120) + "...";
+	        }
+	        else {
+	            testo = "";
+	        }
+
+	        if (MieStorieVisible[indice].mementoList[0] != null)
+	        {
+	            if (MieStorieVisible[indice].mementoList[0].fileHashcode == null)
+	            {
+	                stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[indice].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[indice].location.country + "</h5>" + "<h5>" + MieStorieVisible[indice].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[indice].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + MieStorieVisible[indice].mementoList[0].url + "' alt='' /></div></div>";
+	            	/*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
+	            }
+	            else
+	            {
+	                stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[indice].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[indice].location.country + "</h5>" + "<h5>" + MieStorieVisible[indice].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[indice].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[indice].mementoList[0].fileHashcode + "/THUMBNAIL' alt='' /></div></div>";
+	            	/*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "http://test.reminiscens.me/file/" + "LARGE_" + MieStorieVisible[i].mementoList[0].thumbnailUrl + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[i].mementoList[0].Hashcode + "/THUMBNAIL" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
+	            }
+	        }
+	        else
+	        {
+	            stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[indice].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[indice].location.country + "</h5>" + "<h5>" + MieStorieVisible[indice].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[indice].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
+	            /*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "images/story-book.jpg" + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + "images/story-book.jpg" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
+	        }
+
+	        visualizzati++;
+	        if (visualizzati == 2) {
+	            visualizzati = 0;
+	            if (nPagina == 0) {
+	                document.getElementById("carouselDivMieStorieDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+	            }
+	            else {
+	                document.getElementById("carouselDivMieStorieDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+	            }
+
+	            nPagina++;
+	            stringaDiv = "";
+	        }
+
+	    }
+
+	    indice++;
 	}
+
+	if (stringaDiv != "") {
+	    if (nPagina == 0) {
+	        document.getElementById("carouselDivMieStorieDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+	    }
+	    else {
+	        document.getElementById("carouselDivMieStorieDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+	    }
+	}
+
+	$('.carousel').carousel({
+	    interval: false
+	});
 }

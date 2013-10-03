@@ -326,40 +326,190 @@ function stampaFotoContext(inizio, fine)
 {
 	//alert(inizio + "  " + fine);
 	
-	var i;
-	document.getElementById("divFotoDelTempo").innerHTML = "";
-	for (i=inizio; i<fine; i++) { 		
-		if(ContextVisible.picture[i].resourceUrl != null)
-		{
-			//alert(MieStorieVisible[i].mementoList.length);
-			InserisciIndiceFotoContext(i);
-			document.getElementById("divFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[i].resourceUrl + "' title='" + ContextVisible.picture[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + ContextVisible.picture[i].resourceUrl + "' alt='' /> </a></br></div>"
+	//var i;
+	//document.getElementById("divFotoDelTempo").innerHTML = "";
+	//for (i=inizio; i<fine; i++) { 		
+	//	if(ContextVisible.picture[i].resourceUrl != null)
+	//	{
+	//		//alert(MieStorieVisible[i].mementoList.length);
+	//		InserisciIndiceFotoContext(i);
+	//		document.getElementById("divFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[i].resourceUrl + "' title='" + ContextVisible.picture[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + ContextVisible.picture[i].resourceUrl + "' alt='' /> </a></br></div>"
 				
-		}
-		else
-		{
-		}
+	//	}
+	//	else
+	//	{
+	//	}
+	//}
+
+
+
+	document.getElementById("carouselDivFotoDelTempo").innerHTML = "";
+	var indice = 0;
+	var nPagina = 0;
+	var visualizzati = 0;
+	var stringaDiv = "";
+    //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
+	while (ContextVisible.picture[indice] != null) {
+	    if (ContextVisible.picture[indice].resourceUrl != null)
+	    {
+	        //alert(MieStorieVisible[i].mementoList.length);
+	        InserisciIndiceFotoContext(indice);
+	        stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>"
+
+	    }
+	    else
+	    {
+	    }
+
+	    visualizzati++;
+	    if (visualizzati == 4) {
+	        visualizzati = 0;
+	        if (nPagina == 0) {
+	            document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+	        }
+	        else {
+	            document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+	        }
+
+	        nPagina++;
+	        stringaDiv = "";
+	    }
+
+
+	    indice++;
 	}
+
+	if (stringaDiv != "") {
+	    if (nPagina == 0) {
+	        document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+	    }
+	    else {
+	        document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+	    }
+    }
+
+
+    //document.getElementById("divFotoDelTempo").innerHTML = "";
+    //var indice = 0;
+    //var nPagina = 0;
+    //var visualizzati = 0;
+    //var stringaDiv = "";
+    //var stringaDivEle = "<div class='carousel-inner'>";
+    ////document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
+    //while (ContextVisible.picture[indice] != null) {
+    //    if (ContextVisible.picture[indice].resourceUrl != null) {
+    //        //alert(MieStorieVisible[i].mementoList.length);
+    //        InserisciIndiceFotoContext(indice);
+    //        stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>"
+
+    //    }
+    //    else {
+    //    }
+
+    //    visualizzati++;
+    //    if (visualizzati == 4) {
+    //        visualizzati = 0;
+    //        if (nPagina == 0) {
+    //            stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
+    //        }
+    //        else {
+    //            stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
+    //        }
+
+    //        nPagina++;
+    //        stringaDiv = "";
+    //    }
+
+
+    //    indice++;
+    //}
+
+    //if (stringaDiv != "") {
+    //    if (nPagina == 0) {
+    //        stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
+    //    }
+    //    else {
+    //        stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
+    //    }
+    //}
+
+    //stringaDivEle += "</div>";
+
+    //document.getElementById("divFotoDelTempo").innerHTML += stringaDivEle;
+
+    //document.getElementById("divFotoDelTempo").innerHTML += "<a class='carousel-control left' href='#divFotoDelTempo' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divFotoDelTempo' data-slide='next'>&rsaquo;</a>";
+
+	$('.carousel').carousel({
+        number: nPagina
+	});
 }
 
 function stampaStorieContext(inizio, fine)
 {
 	//alert(inizio + "  " + fine);
 	
-	var i;
-	document.getElementById("divStorieDelTempo").innerHTML = "";
-	for (i=inizio; i<fine; i++) { 
+	//var i;
+	//document.getElementById("divStorieDelTempo").innerHTML = "";
+	//for (i=inizio; i<fine; i++) { 
 						
-		//alert(MieStorie[i].immagini[0].src);
-		if(ContextVisible.story[i].resourceUrl != null)
-		{
-			document.getElementById("divStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + ContextVisible.story[i].startDate.exactDateAsString + "</h5>" + "<h5>" + ContextVisible.story[i].startLocation.country + "</h5>" +	"<h5>" + ContextVisible.story[i].startLocation.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + ContextVisible.story[i].headline + "</h5><h7>" + ContextVisible.story[i].text.substring(0,120) + "...</h7></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + ContextVisible.story[i].resourceUrl + "' alt='' /></div></div>";
-		}
-		else
-		{
-			document.getElementById("divStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + ContextVisible.story[i].startDate.exactDateAsString + "</h5>" + "<h5>" + ContextVisible.story[i].startLocation.country + "</h5>" +	"<h5>" + ContextVisible.story[i].startLocation.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + ContextVisible.story[i].headline + "</h5><font size='2'>" + ContextVisible.story[i].text.substring(0,120) + "...</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
-		}
-	}
+	//	//alert(MieStorie[i].immagini[0].src);
+	//	if(ContextVisible.story[i].resourceUrl != null)
+	//	{
+	//		document.getElementById("divStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + ContextVisible.story[i].startDate.exactDateAsString + "</h5>" + "<h5>" + ContextVisible.story[i].startLocation.country + "</h5>" +	"<h5>" + ContextVisible.story[i].startLocation.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + ContextVisible.story[i].headline + "</h5><h7>" + ContextVisible.story[i].text.substring(0,120) + "...</h7></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + ContextVisible.story[i].resourceUrl + "' alt='' /></div></div>";
+	//	}
+	//	else
+	//	{
+	//		document.getElementById("divStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + ContextVisible.story[i].startDate.exactDateAsString + "</h5>" + "<h5>" + ContextVisible.story[i].startLocation.country + "</h5>" +	"<h5>" + ContextVisible.story[i].startLocation.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + ContextVisible.story[i].headline + "</h5><font size='2'>" + ContextVisible.story[i].text.substring(0,120) + "...</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
+	//	}
+    //}
+
+
+    document.getElementById("carouselDivStorieDelTempo").innerHTML = "";
+    var indice = 0;
+    var nPagina = 0;
+    var visualizzati = 0;
+    var stringaDiv = "";
+    //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
+    while (ContextVisible.story[indice] != null) {
+        if (ContextVisible.story[indice].resourceUrl != null)
+        {
+            stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + ContextVisible.story[indice].startDate.exactDateAsString + "</h5>" + "<h5>" + ContextVisible.story[indice].startLocation.country + "</h5>" + "<h5>" + ContextVisible.story[indice].startLocation.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + ContextVisible.story[indice].headline + "</h5><h7>" + ContextVisible.story[indice].text.substring(0, 120) + "...</h7></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + ContextVisible.story[indice].resourceUrl + "' alt='' /></div></div>";
+        }
+        else
+        {
+            stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + ContextVisible.story[indice].startDate.exactDateAsString + "</h5>" + "<h5>" + ContextVisible.story[indice].startLocation.country + "</h5>" + "<h5>" + ContextVisible.story[indice].startLocation.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + ContextVisible.story[indice].headline + "</h5><font size='2'>" + ContextVisible.story[indice].text.substring(0, 120) + "...</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
+        }
+
+
+        visualizzati++;
+        if (visualizzati == 2) {
+            visualizzati = 0;
+            if (nPagina == 0) {
+                document.getElementById("carouselDivStorieDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+            }
+            else {
+                document.getElementById("carouselDivStorieDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+            }
+
+            nPagina++;
+            stringaDiv = "";
+        }
+
+        indice++;
+    }
+
+    if (stringaDiv != "") {
+        if (nPagina == 0) {
+            document.getElementById("carouselDivStorieDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+        }
+        else {
+            document.getElementById("carouselDivStorieDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+        }
+    }
+
+    /*$('#divFotoDelTempo').carousel({
+        number:nPagina
+    });*/
 	
 }
 
@@ -367,26 +517,79 @@ function stampaCanzoniContext(inizio, fine)
 {
 	//alert(inizio + "  " + fine);
 	
-	var i;
-	var numeroDiv = 1;
-	document.getElementById("divCanzoni1").innerHTML = "";
-	document.getElementById("divCanzoni2").innerHTML = "";
-	for (i=inizio; i<fine; i++) { 
+	//var i;
+	//var numeroDiv = 1;
+	//document.getElementById("divCanzoni1").innerHTML = "";
+	//document.getElementById("divCanzoni2").innerHTML = "";
+	//for (i=inizio; i<fine; i++) { 
 						
-		//alert(ContextVisible.song[i].resourceUrl);
-		if(ContextVisible.song[i].resourceUrl != null)
-		{
-			//replace necessario per permettere di introdurre contenuti di youtube sul sito
-			var url = ContextVisible.song[i].resourceUrl.replace('watch?v=','embed/'); 
-			document.getElementById("divCanzoni" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[i].headline +"</h3><h7 style='text-align:center;'>" + ContextVisible.song[i].text + "</h7>";
+	//	//alert(ContextVisible.song[i].resourceUrl);
+	//	if(ContextVisible.song[i].resourceUrl != null)
+	//	{
+	//		//replace necessario per permettere di introdurre contenuti di youtube sul sito
+	//		var url = ContextVisible.song[i].resourceUrl.replace('watch?v=','embed/'); 
+	//		document.getElementById("divCanzoni" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[i].headline +"</h3><h7 style='text-align:center;'>" + ContextVisible.song[i].text + "</h7>";
 			
-			//document.getElementById("divCanzoni" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + "http://www.youtube.com/embed/XVXzlPqViXA?autoplay=true" + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[i].headline +"</h3>";
-		}
+	//		//document.getElementById("divCanzoni" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + "http://www.youtube.com/embed/XVXzlPqViXA?autoplay=true" + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[i].headline +"</h3>";
+	//	}
 		
-		numeroDiv++;
-		if(numeroDiv > 2)
-			numeroDiv = 1;
-	}
+	//	numeroDiv++;
+	//	if(numeroDiv > 2)
+	//		numeroDiv = 1;
+    //}
+
+    document.getElementById("carouselDivCanzoniDelTempo").innerHTML = "";
+    var indice = 0;
+    var nPagina = 0;
+    var visualizzati = 0;
+    var stringaDiv = "";
+    //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
+    while (ContextVisible.song[indice] != null) {
+
+        if (ContextVisible.song[indice].resourceUrl != null)
+        {
+            //replace necessario per permettere di introdurre contenuti di youtube sul sito
+            var url = ContextVisible.song[indice].resourceUrl.replace('watch?v=', 'embed/');
+            //if (visualizzati == 0)
+            //{
+                stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'>";
+            //}
+            //else
+            //{
+            //    stringaDiv += "<div style='margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;float:left;'>";
+            //}
+            stringaDiv += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[indice].headline +"</h3><h7 style='text-align:center;'>" + ContextVisible.song[indice].text + "</h7>";
+            stringaDiv += "</div>";
+            //document.getElementById("divCanzoni" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + "http://www.youtube.com/embed/XVXzlPqViXA?autoplay=true" + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[i].headline +"</h3>";
+        }
+
+
+        visualizzati++;
+        if (visualizzati == 2) {
+            visualizzati = 0;
+            if (nPagina == 0) {
+                document.getElementById("carouselDivCanzoniDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+            }
+            else {
+                document.getElementById("carouselDivCanzoniDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+            }
+
+            nPagina++;
+            stringaDiv = "";
+        }
+
+
+        indice++;
+    }
+
+    if (stringaDiv != "") {
+        if (nPagina == 0) {
+            document.getElementById("carouselDivCanzoniDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+        }
+        else {
+            document.getElementById("carouselDivCanzoniDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+        }
+    }
 	
 }
 

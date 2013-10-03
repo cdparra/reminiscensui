@@ -77,3 +77,11 @@ function SetPersonYearBirthDate(year)
 {
 	storage.set('yearBirthDate',year);
 }
+
+function GetAppVersion() {
+    return storage.get('AppVersion');
+}
+
+function SetAppVersion(version) {
+    storage.set('AppVersion', version);
+}

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
@@ -23,43 +23,44 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <title>Reminiscens</title>
-    
+
     <!-- ToDo: unify javascript dependencies under js/libs -->
     <!-- ToDo: unify images under img -->
     <!-- ToDo: unify css under css -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    
+
     <script src="js/lib/jquery.js"></script>
     <script src="js/libs/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/libs/json2.js"></script>
     <script type="text/javascript" src="js/libs/sha1.js"></script>
     <script type="text/javascript" src="js/libs/jquery.storageapi.js"></script>
     <script type="text/javascript" src="js/libs/jquery.cookie.js"></script>
-    
+
     <!-- phonegap.js is generated automatically everytime we build the project with phonegap -->
     <script type="text/javascript" src="phonegap.js"></script>
-   
+
     <!-- application based js code -->
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src="js/GestioneVariabiliPersona.js"></script>
-    <script type="text/javascript" src="js/index.js">
-					$(document)
-							.ready(
-									function() {
-									if (window.location.hostname == "http://base.reminiscens.me") {
-                                            console.log("Setting API url to BASE");
-											SetBaseUrl("http://base.reminiscens.me");
-										} else {
-                                            console.log("Setting API url to TEST");
-											SetBaseUrl("http://test.reminiscens.me");
-										}
-										if (GetSessionKey() != ""
-												&& GetSessionKey() != null) {
-											location.href = "main.html";
-										}
-									});
-	</script>
-	 <style>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script>
+        $(document).ready(function () {
+            //SetSessionKey("");
+            if (window.location.hostname == "http://base.reminiscens.me") {
+                console.log("Setting API url to BASE");
+                SetBaseUrl("http://base.reminiscens.me");
+            } else {
+                console.log("Setting API url to TEST");
+                SetBaseUrl("http://test.reminiscens.me");
+            }
+            if (GetSessionKey() != ""
+                    && GetSessionKey() != null) {
+                location.href = "main.html";
+            }
+        });
+    </script>
+
+    <style>
         body {
             background-color: #CCC;
             background-repeat: repeat-y;
@@ -86,19 +87,33 @@
     </style>
 </head>
 <body>
-<div id="divRoot">
-  <div class="cont" style="padding-left:20px;">
-    <h3 style="color:#999; float:left;">Email:</h3>
-    <input id="email" style="float:left; margin-top:15px; margin-left:60px;" type="text" placeholder="email" autofocus>
+    <div id="divRoot">
+        <div class="cont" style="padding-left: 20px;">
+            <h3 style="color: #999; float: left;">Email:</h3>
+            <input id="email" style="float: left; margin-top: 15px; margin-left: 60px;" type="text" placeholder="email" autofocus>
+        </div>
+        <div class="cont" style="padding-left: 20px; height: 100px;">
+            <h3 style="color: #999; float: left;">Password:</h3>
+            <input id="password" style="float: left; margin-top: 15px; margin-left: 10px;" type="password" placeholder="password">
+        </div>
+        <div class="cont">
+            <button onclick="Redirect()" class="btn btn-primary">Registrati</button>
+            <button onclick="Login()" class="btn btn-primary">Login</button>
+        </div>
+        <div>
+            <fieldset>
+                <legend>Versione App</legend>
+                <input type="radio" checked="true" id="version_1" name="linguaggio" value="1" />
+                Tutto visibile<br />
+                <input type="radio" id="version_2" name="linguaggio" value="2" />
+                Nascondo domande<br />
+                <input type="radio" id="version_3" name="linguaggio" value="3" />
+                Nascondo contesto<br />
+                <input type="radio" id="version_4" name="linguaggio" value="4" />
+                Nascondo contesto e domande<br />                
+            </fieldset>
+
+        </div>
     </div>
-  <div class="cont" style="padding-left:20px;height:100px;">
-    <h3 style="color:#999; float:left;">Password:</h3>
-    <input id="password" style="float:left; margin-top:15px; margin-left:10px;" type="password" placeholder="password">
-  </div>
-  <div class="cont">
-  	<button onClick="Redirect()" class="btn btn-primary">Registrati</button>
-    <button onClick="Login()" class="btn btn-primary">Login</button>
-  </div>
-</div>
 </body>
 </html>

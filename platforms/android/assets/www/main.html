@@ -1,83 +1,85 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Reminiscens</title>
-<!--<script src="http://code.jquery.com/jquery.js"></script>-->
-<script type="text/javascript" src="phonegap.js"></script>
-<script src="js/libs/jquery.js"></script>
-<!-- Why do we need jquery migrate? -->
-<!--<script src="js/libs/jquery-migrate-1.0.0.js"></script>-->
-<!-- Why jquery twice?
-<script type="text/javascript" src="js/libs/jquery-latest.min.js"></script> -->
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<script src="js/libs/bootstrap.js"></script>
-<link rel="stylesheet" href="css/jquery.fileupload-ui.css">
-<link href="css/StyleOverlay.css" rel="stylesheet">
-<script src="js/GestioneOverlay.js"></script>
-<link href="kendo/styles/kendo.common.min.css" rel="stylesheet" />
-<link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
-<link href="css/StyleRoot.css" rel="stylesheet" />
-<script src="kendo/js/kendo.web.min.js"></script>
-<!-- Uncomment this and GestioneRecorderHTML for deplowing in web server 
+    <title>Reminiscens</title>
+    <!--<script src="http://code.jquery.com/jquery.js"></script>-->
+    <script type="text/javascript" src="phonegap.js"></script>
+    <script src="js/libs/jquery.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="js/libs/bootstrap.js"></script>
+    <!-- Why do we need jquery migrate? -->
+    <!--<script src="js/libs/jquery-migrate-1.0.0.js"></script>-->
+    <!-- Why jquery twice?
+<script type="text/javascript" src="js/libs/jquery-latest.min.js"></script> -->    
+    <link rel="stylesheet" href="css/jquery.fileupload-ui.css">
+    <link href="css/StyleOverlay.css" rel="stylesheet">
+    <script src="js/GestioneOverlay.js"></script>
+    <link href="kendo/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="css/StyleRoot.css" rel="stylesheet" />
+    <script src="kendo/js/kendo.web.min.js"></script>
+    <!-- Uncomment this and GestioneRecorderHTML for deplowing in web server 
 <script type="text/javascript" src="js/recorder.js"></script>
 -->
-<script type="text/javascript" src="js/GestioneKendoEditor.js"></script>
-<script type="text/javascript" src="js/GestioneFoto.js"></script>
-<script type="text/javascript" src="js/GestioneAudio.js"></script>
+    <script type="text/javascript" src="js/GestioneKendoEditor.js"></script>
+    <script type="text/javascript" src="js/GestioneFoto.js"></script>
+    <script type="text/javascript" src="js/GestioneAudio.js"></script>
 
-<!-- <script type="text/javascript" src="js/GestioneRecorderHTML.js"></script> 
+    <!-- <script type="text/javascript" src="js/GestioneRecorderHTML.js"></script> 
 -->
-<script type="text/javascript" src="js/libs/jquery.storageapi.js"></script>
-<script type="text/javascript" src="js/libs/jquery.cookie.js"></script>
-<script type="text/javascript" src="js/libs/json2.js"></script>
-<script type="text/javascript" src="js/GestioneImmagini.js"></script>
-<script type="text/javascript" src="js/SaveStoryJSON.js"></script>
+    <script type="text/javascript" src="js/libs/jquery.storageapi.js"></script>
+    <script type="text/javascript" src="js/libs/jquery.cookie.js"></script>
+    <script type="text/javascript" src="js/libs/json2.js"></script>
+    <script type="text/javascript" src="js/GestioneImmagini.js"></script>
+    <script type="text/javascript" src="js/SaveStoryJSON.js"></script>
 
-<!-- Add mousewheel plugin (this is optional) -->
-<script type="text/javascript" src="fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+    <!-- Add mousewheel plugin (this is optional) -->
+    <script type="text/javascript" src="fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
 
-<!-- Add fancyBox -->
-<link rel="stylesheet" href="fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
-<script type="text/javascript" src="fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+    <!-- Add fancyBox -->
+    <link rel="stylesheet" href="fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+    <script type="text/javascript" src="fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-<!-- Optionally add helpers - button, thumbnail and/or media -->
-<link rel="stylesheet" href="fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
-<script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
-<script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
-<link rel="stylesheet" href="fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
-<script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+    <!-- Optionally add helpers - button, thumbnail and/or media -->
+    <link rel="stylesheet" href="fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+    <script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+    <script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+    <link rel="stylesheet" href="fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+    <script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
 
-<!-- Add jQuery library --><!--<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>-->
+    <!-- Add jQuery library -->
+    <!--<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>-->
 
-<script type="text/javascript" src="js/sha1.js"></script>
-<script type="text/javascript" src="js/GestioneSchermate&Menu.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<script type="text/javascript" src="js/GestioneRegistrazione.js"></script>
-<script type="text/javascript" src="js/GestioneSynchronizeStories.js"></script>
-<script type="text/javascript" src="js/app/files.js"></script>
-	<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="js/lib/jquery.file.upload/js/vendor/jquery.ui.widget.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="js/lib/jquery.file.upload/js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="js/libs/jquery.fileupload.js"></script>
-<script type="text/javascript" src="js/GestioneVariabiliPersona.js"></script>
-<script type="text/javascript" src="js/GestioneQuestion.js"></script>
+    <script type="text/javascript" src="js/sha1.js"></script>
+    <script type="text/javascript" src="js/GestioneSchermate&Menu.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/GestioneRegistrazione.js"></script>
+    <script type="text/javascript" src="js/GestioneSynchronizeStories.js"></script>
+    <script type="text/javascript" src="js/app/files.js"></script>
+    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+    <script src="js/lib/jquery.file.upload/js/vendor/jquery.ui.widget.js"></script>
+    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+    <script src="js/lib/jquery.file.upload/js/jquery.iframe-transport.js"></script>
+    <!-- The basic File Upload plugin -->
+    <script src="js/libs/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="js/GestioneVariabiliPersona.js"></script>
+    <script type="text/javascript" src="js/GestioneQuestion.js"></script>
 
-<script type="text/javascript" src="js/GestioneContext.js"></script>
-<script type="text/javascript" src="js/GestioneTimeline.js"></script>
+    <script type="text/javascript" src="js/GestioneContext.js"></script>
+    <script type="text/javascript" src="js/GestioneTimeline.js"></script>
 
-<script src="js/dotdotdot-1.6.4/jquery.dotdotdot.js" type="text/javascript"></script>
-<link rel="stylesheet" href="decade-ruler/decade-ruler.css">
+    <script src="js/dotdotdot-1.6.4/jquery.dotdotdot.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="decade-ruler/decade-ruler.css">
+    
     <script>
-        function onLoad(){
-             document.addEventListener("deviceready", onDeviceReady, true);
+        function onLoad() {
+            document.addEventListener("deviceready", onDeviceReady, true);
         }
-        function onDeviceReady(){
+        function onDeviceReady() {
             console.log("PhoneGap is working!!");
             pictureSource = navigator.camera.PictureSourceType;
             destinationType = navigator.camera.DestinationType;
-        }	
+        }
         function editor() {
             var editor = $("#editor").data("kendoEditor");
             //alert(editor.value());
@@ -133,7 +135,7 @@
                 'showCloseButton': false,
                 afterLoad: function () {
                     //alert(Storie.length);
-                    this.title = "<div><h1>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].headline + "</h1><h5>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].text + "</h5>  </div>";
+                    this.title = "<div><h1>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].headline + "</h1><h5>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].text + "</h5> <span> Ti viene in mente qualcosa? </span> <button class='btn btn-primary' onClick='ApriOverlay();'>Raccontaci!</button> </div>";
                     //this.title = "<div><h1>" + "hola" +"</h1> </div>";
                 },
                 'helpers': {
@@ -221,6 +223,37 @@
 
             InizializzaValueLocationAndDate();
 
+            //gestisco la visualizzazione a seconda della versione della App scelta dall'utente
+            if (GetAppVersion() == 1) {
+                //non faccio niente
+            } else if (GetAppVersion() == 2) {
+                //nascondo le domande
+                document.getElementById("divFirstDecadeQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divSecondDecadeQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divFirstPersonalQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divSecondPersonalQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divDecadeQuestionNotEmpty").style.visibility = "hidden";
+                document.getElementById("idPersonalQuestionNotEmpty").style.visibility = "hidden";
+            } else if (GetAppVersion() == 3) {
+                document.getElementById("divRootFotoDelTempo").style.visibility = "hidden";
+                document.getElementById("divRootStorieDelTempo").style.visibility = "hidden";
+                document.getElementById("Canzoni").style.visibility = "hidden";
+                document.getElementById("TvFilm").style.visibility = "hidden";
+                document.getElementById("Famosi").style.visibility = "hidden";
+            } else {
+                document.getElementById("divFirstDecadeQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divSecondDecadeQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divFirstPersonalQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divSecondPersonalQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divDecadeQuestionNotEmpty").style.visibility = "hidden";
+                document.getElementById("idPersonalQuestionNotEmpty").style.visibility = "hidden";
+
+                document.getElementById("divRootFotoDelTempo").style.visibility = "hidden";
+                document.getElementById("divRootStorieDelTempo").style.visibility = "hidden";
+                document.getElementById("Canzoni").style.visibility = "hidden";
+                document.getElementById("TvFilm").style.visibility = "hidden";
+                document.getElementById("Famosi").style.visibility = "hidden";
+            }
 
             //var storage =$.localStorage;
             sessionKey = GetSessionKey();
@@ -247,14 +280,20 @@
             $("#TueStorieDelTempo").text("Le tue storie nel " + decade);
 
 
+
             $('.carousel').carousel({
                 interval: false
             });
             $(".carousel").bind("slide", function () {
                 //alert( "ciao" );
                 //document.getElementById("item2").innerHTML = "ciao";
-            })
+            });
 
+            $(".carousel").bind("slid", function () {
+                //alert( "ciao" );
+                //document.getElementById("item2").innerHTML = "ciao";
+            });
+ 
             document.getElementById("timeline" + indexTimeline).innerHTML = "";
             var today = new Date();
             var decadeToday = parseInt(today.getFullYear() / 10) * 10;
@@ -460,16 +499,19 @@
 
         function VisualizzaPlaceName() {
             //if (ControllaEsistenzaCitta()) {
-                //citySelect = document.getElementById("city").item(document.getElementById("city").value).text;
-                citySelect = $("#city").val();
-                $('#placeName').fadeIn('slow');
+            //citySelect = document.getElementById("city").item(document.getElementById("city").value).text;
+            citySelect = $("#city").val();
+            $('#placeName').fadeIn('slow');
             //}
         }
 
         function Prova() {
+            //$('#divMieFotoDelTempo').carousel(2);
             //$('centrale').scrollLeft('5000px');
             /*var myCont = document.getElementById ("divRoot");
             myCont.scrollTop += 100;*/
+            //alert('ciao');
+            //$("#divMieFotoDelTempo").carousel('next');
         }
     </script>
 </head>
@@ -517,30 +559,30 @@
     	<button style="margin-top:40px;" id="SecondPersonalQuestionEmpty" class="btn btn-primary" onClick="ApriOverlay(this.id);"></button>
     </div>-->
 
-                <div style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: 150px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
+                <div id="divFirstDecadeQuestionEmpty" style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: 150px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
                     <span id="FirstDecadeQuestionEmpty"></span>
                     <br>
                     <button class="btn btn-primary" style="margin-top: 2px;" onclick="ApriOverlay('FirstDecadeQuestionEmpty');">Raccontaci!</button>
                     <button class="btn btn-primary" style="margin-top: 2px;" onclick="newQuestion();">Altra domanda</button>
                 </div>
-                <div style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: 150px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
+                <div id="divSecondDecadeQuestionEmpty" style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: 150px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
                     <span id="SecondDecadeQuestionEmpty"></span>
                     <br>
                     <button class="btn btn-primary" style="margin-top: 2px;" onclick="ApriOverlay('SecondDecadeQuestionEmpty');">Raccontaci!</button>
-                    <button class="btn btn-primary" style="margin-top: 2px;" onclick="newQuestion());">Altra domanda</button>
+                    <button class="btn btn-primary" style="margin-top: 2px;" onclick="newQuestion();">Altra domanda</button>
                 </div>
 
-                <div style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: 20px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
+                <div id="divFirstPersonalQuestionEmpty" style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: 20px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
                     <span id="FirstPersonalQuestionEmpty"></span>
                     <br>
                     <button class="btn btn-primary" style="margin-top: 2px;" onclick="ApriOverlay('FirstPersonalQuestionEmpty');">Raccontaci!</button>
                     <button class="btn btn-primary" style="margin-top: 2px;" onclick="newQuestion();">Altra domanda</button>
                 </div>
-                <div style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: 20px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
+                <div id="divSecondPersonalQuestionEmpty" style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: 20px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
                     <span id="SecondPersonalQuestionEmpty"></span>
                     <br>
                     <button class="btn btn-primary" style="margin-top: 2px;" onclick="ApriOverlay('SecondPersonalQuestionEmpty');">Raccontaci!</button>
-                    <button class="btn btn-primary" style="margin-top: 2px;" onclick="newQuestion());">Altra domanda</button>
+                    <button class="btn btn-primary" style="margin-top: 2px;" onclick="newQuestion();">Altra domanda</button>
                 </div>
                 <button class="btn btn-primary" style="margin-top: 20px;" onclick="Logout();">Logout</button>
 
@@ -561,23 +603,22 @@
                     </div>
                 </div>
 
-                <div style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: -16px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
+                <div id="divDecadeQuestionNotEmpty" style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: -16px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
                     <span id="DecadeQuestionNotEmpty"></span>
                     <br>
                     <button class="btn btn-primary" style="margin-top: 2px;" onclick="ApriOverlay('DecadeQuestionNotEmpty');">Raccontaci!</button>
                     <button class="btn btn-primary" style="margin-top: 2px;" onclick="newQuestion();">Altra domanda</button>
                 </div>
-                <div style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: -16px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
+                <div id="idPersonalQuestionNotEmpty" style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: -16px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
                     <span id="PersonalQuestionNotEmpty"></span>
                     <br>
                     <button class="btn btn-primary" style="margin-top: 2px;" onclick="ApriOverlay('PersonalQuestionNotEmpty');">Raccontaci!</button>
-                    <button class="btn btn-primary" style="margin-top: 2px;" onclick="newQuestion());">Altra domanda</button>
+                    <button class="btn btn-primary" style="margin-top: 2px;" onclick="newQuestion();">Altra domanda</button>
                 </div>
 
                 <div id="Foto">
-                    <div class="divFoto">
+                    <div id="divRootFotoDelTempo" class="divFoto">
                         <h3 id="FotoDelTempo">Com'era questo posto attorno al 1950</h3>
-                        <div id="divFotoDelTempo">
                             <!--<a class="fancybox" rel="gallery1" href="img/comera1.jpg" title="2 ottobre 1950 - nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz..."> <img src="img/comera1.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/comera3.jpg" title="09 maggio 1950 - Nasce la comunit&aacute;  europea..."> <img src="img/comera3.jpg" alt="" /> </a> 
           <a class="fancybox" rel="gallery1" href="img/comera2.jpg" title="26 gennaio 1950 - L'india diventa una repubblica.."> <img src="img/comera2.jpg" alt="" /> </a> -->
@@ -585,69 +626,64 @@
           <img src="img/comera3.jpg" alt="" /><img src="img/comera3.jpg" alt="" />
           <img src="img/comera3.jpg" alt="" />
           <img src="img/comera3.jpg" alt="" />-->
+                        <div id="divFotoDelTempo" class="carousel slide">
+                            <div id="carouselDivFotoDelTempo" class="carousel-inner">
+                            </div>
+                            <a class="carousel-control left" href="#divFotoDelTempo" data-slide="prev">&lsaquo;</a>
+                            <a class="carousel-control right" href="#divFotoDelTempo" data-slide="next">&rsaquo;</a>
                         </div>
                     </div>
                     <div class="divFoto">
                         <h3 id="TueFotoDelTempo">Le mie foto attorno al 1950</h3>
-                        <div id="divMieFotoDelTempo">
-
-                            <!--<a class="fancybox" rel="gallery1" href="img/tuefoto1.jpg" title="Foto 1"> <img src="img/tuefoto1.jpg" alt=""/> </a> 
-          <a class="fancybox" rel="gallery1" href="img/tuefoto2.jpg" title="Foto 2"> <img src="img/tuefoto2.jpg" alt="" /> </a> 
-          <a class="fancybox" rel="gallery1" href="img/tuefoto3.jpg" title="Foto 3"> <img src="img/tuefoto3.jpg" alt="" /> </a>-->
+                        <!--<div id="divMieFotoDelTempo">
+                        </div>-->
+                        <div id="divMieFotoDelTempo" class="carousel slide">
+                            <div id="carouselDivMieFotoDelTempo" class="carousel-inner">
+                            </div>
+                            <a class="carousel-control left" href="#divMieFotoDelTempo" data-slide="prev">&lsaquo;</a>
+                            <a class="carousel-control right" href="#divMieFotoDelTempo" data-slide="next">&rsaquo;</a>
                         </div>
                     </div>
                 </div>
                 <div id="Storie" style="display: none;">
-                    <div class="divFoto">
+                    <div id="divRootStorieDelTempo" class="divFoto">
                         <h3 id="StorieDelTempo">Che cosa succedeva nel 1950</h3>
-                        <div id="divStorieDelTempo">
-                            <!--        <div style=" width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:25px; margin-bottom:5px;">
-        	<div style=" float:left; width:110px; text-align:center; height:140px;">
-            	<h3>1950</h3>
-                <h5>Trento</h5>
-            </div>
-            <div style=" float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;">
-            <h3 style="text-align:center;">Prova</h3>
-            	<div id="dotdotdot">
-            	nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz...
-            	</div>
-            </div>
-            <div style="float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;">
-            <img style="max-width:110px;" src="img/comera3.jpg" alt="" />
-            </div>
-        </div>-->
-
+                        <div id="divStorieDelTempo" class="carousel slide">
+                            <div id="carouselDivStorieDelTempo" class="carousel-inner">
+                            </div>
+                            <a class="carousel-control left" href="#divStorieDelTempo" data-slide="prev">&lsaquo;</a>
+                            <a class="carousel-control right" href="#divStorieDelTempo" data-slide="next">&rsaquo;</a>
                         </div>
-
-                        <!--<div class="immagini">
-            <div class="text"> 26 gennaio 1950 - L'india diventa una repubblica </div>
-            <img src="img/comera2.jpg" /> </div>
-          <div class="immagini">
-            <div class="text"> 2 ottobre 1950 - nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz... </div>
-            <img src="img/comera1.jpg" /> </div>
-          <div class="immagini">
-            <div class="text"> 09 maggio 1950 - Nasce la comunita europea... </div>
-            <img src="img/comera3.jpg" /> </div>
--->
                     </div>
                     <div class="divFoto">
                         <h3 id="TueStorieDelTempo">Le tue storie nel 1950</h3>
                         <!--<img src="img/tuefoto2.jpg" /> </div>-->
-                        <div id="divMieStorieDelTempo"></div>
+                        <div id="divMieStorieDelTempo" class="carousel slide">
+                            <div id="carouselDivMieStorieDelTempo" class="carousel-inner">
+                            </div>
+                            <a class="carousel-control left" href="#divMieStorieDelTempo" data-slide="prev">&lsaquo;</a>
+                            <a class="carousel-control right" href="#divMieStorieDelTempo" data-slide="next">&rsaquo;</a>
+                        </div>
                     </div>
                 </div>
                 <div id="Canzoni" style="display: none;">
                     <div class="divCanzoni">
 
-                        <!--<h1>Quali erano le canzoni pi&uacute; popolari?</h1>-->
-                        <div id="divCanzoni1" style="margin: 0px 0px 0px 0px;">
-                            <!--<iframe width="420" height="315" src="http://www.youtube.com/embed/CwE8GcoqEfw" frameborder="0" allowfullscreen style="margin-top:30px;"></iframe>
-        <h3>Matia Bazar - Cavallo bianco</h3>-->
+
+                        <!--<div id="divCanzoni1" style="margin: 0px 0px 0px 0px;">
+
                         </div>
                         <div id="divCanzoni2" style="margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
-                            <!--<iframe width="420" height="315" src="http://www.youtube.com/embed/MKahSufwWS0" frameborder="0" allowfullscreen style="margin-top:30px;"></iframe>
-        <h3>Patty Pravo - Pensiero Stupendo</h3>-->
+
+                        </div>-->
+
+                        <div id="divCanzoniDelTempo" class=" carousel slide">
+                            <div id="carouselDivCanzoniDelTempo" class="carousel-inner">
+                            </div>
+                            <a class="carousel-control left" href="#divCanzoniDelTempo" data-slide="prev">&lsaquo;</a>
+                            <a class="carousel-control right" href="#divCanzoniDelTempo" data-slide="next">&rsaquo;</a>
                         </div>
+
                     </div>
                 </div>
                 <div id="Famosi" style="display: none;">
@@ -677,9 +713,9 @@
                 </div>
                 <div id="TvFilm" style="display: none;">
                     <div class="divCanzoni">
-                        <div class="divFoto" id="divTvFilm1" style="width: 480px;margin: 0px 0px 0px 0px;">
+                        <div class="divFoto" id="divTvFilm1" style="width: 480px; margin: 0px 0px 0px 0px;">
                         </div>
-                        <div class="divFoto" id="divTvFilm2" style="width: 480px;margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
+                        <div class="divFoto" id="divTvFilm2" style="width: 480px; margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
                         </div>
                     </div>
                 </div>
@@ -726,13 +762,13 @@
                                     </select>
                                     <select id="day" size="1" style="width: 80px; display: none; float: left; margin-left: 5px;">
                                     </select>
-                                </br>
+                                <br>
                             </div>
                         </form>
                     </div>
                     <div style="float: left; margin: 20px;">
                         <!--<button onClick="editor();">Editor</button>-->
-                        <input type="image" src="button/buttonFoto.jpg" onClick="capturePhoto();">
+                        <input type="image" src="button/buttonFoto.jpg" onclick="capturePhoto();">
                         <br />
                         <input id="record" type="image" style="margin-top: 10px;" src="button/buttonMicrofono.jpg" onclick="captureAudio();">
                         <br />
@@ -762,12 +798,12 @@
                 <img src="images/X.png" class="chiudi" />
             </div>
         </div>
-
-        <!--fine box-->
+    <!--fine box-->
 
         <!--<button onClick="storage();">Storage</button>-->
         <!--<label id="debug"></label>-->
         <div class="overlay" id="overlayCaricamento" style="display: none;"></div>
         <img src="images/caricamento.gif" id="caricamento" />
+     </div>
 </body>
 </html>

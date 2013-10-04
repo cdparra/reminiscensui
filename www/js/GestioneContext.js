@@ -534,12 +534,15 @@ function stampaCanzoniContext(inizio, fine)
         {
             //replace necessario per permettere di introdurre contenuti di youtube sul sito
             var url = song.resourceUrl.replace('watch?v=', 'embed/');
-                stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'>";
+                stringaDiv += "<div id='songCarousel'"+song.publicMementoId+ "style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'>";
             stringaDiv += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>";
             stringaDiv += h +"</h3><h7 style='text-align:center;'>" + t + "</h7>";
             stringaDiv += "</div>";
             //document.getElementById("divCanzoni" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + "http://www.youtube.com/embed/XVXzlPqViXA?autoplay=true" + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[i].headline +"</h3>";
+
+            //$("'songCarousel'"+song.publicMementoId).click(postDetailViews(song.publicMementoId));
         }
+        
 
         visualizzati++;
         if (visualizzati == 2) {

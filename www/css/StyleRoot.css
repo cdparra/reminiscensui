@@ -222,3 +222,18 @@ label {
     font-size:16px;
 }
 
+
+/*display the next/prev arrows permanently*/
+ .fancybox-next span {
+  left: auto;
+  right: 20px;
+ }
+ .fancybox-prev span {
+  left: 20px;
+ }
+
+ .fancybox-nav span {
+ visibility: visible;
+}
+
+

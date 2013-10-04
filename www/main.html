@@ -6,8 +6,7 @@
     <link rel="stylesheet" href="css/jquery.fileupload-ui.css">
     <link href="css/StyleOverlay.css" rel="stylesheet">
     <link href="kendo/styles/kendo.common.min.css" rel="stylesheet" />
-    <link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
-    <link href="css/StyleRoot.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />    
 
     <!-- Add fancyBox -->
     <link rel="stylesheet" href="fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
@@ -75,6 +74,8 @@
     <script type="text/javascript" src="js/GestioneTimeline.js"></script>
 
     <script type="text/javascript" src="js/dotdotdot-1.6.4/jquery.dotdotdot.js"></script>
+
+    <link href="css/StyleRoot.css" rel="stylesheet" />
     
 </head>
 <body>
@@ -189,43 +190,51 @@
           <img src="img/comera3.jpg" alt="" /><img src="img/comera3.jpg" alt="" />
           <img src="img/comera3.jpg" alt="" />
           <img src="img/comera3.jpg" alt="" />-->
-                        <div id="divFotoDelTempo" class="carousel slide">
-                            <div id="carouselDivFotoDelTempo" class="carousel-inner">
-                            </div>
-                            <a class="carousel-control left" href="#divFotoDelTempo" data-slide="prev">&lsaquo;</a>
-                            <a class="carousel-control right" href="#divFotoDelTempo" data-slide="next">&rsaquo;</a>
+                        <div id="containerCarouselFotoDelTempo">
+                            <!--<div id="divFotoDelTempo" class="carousel slide">
+                                <div id="carouselDivFotoDelTempo" class="carousel-inner">
+                                </div>
+                                <a class="carousel-control left" href="#divFotoDelTempo" data-slide="prev">&lsaquo;</a>
+                                <a class="carousel-control right" href="#divFotoDelTempo" data-slide="next">&rsaquo;</a>
+                            </div>-->
                         </div>
                     </div>
                     <div class="divFoto">
                         <h3 id="TueFotoDelTempo">Le tue foto attorno al 1950</h3>
                         <!--<div id="divMieFotoDelTempo">
                         </div>-->
-                        <div id="divMieFotoDelTempo" class="carousel slide">
-                            <div id="carouselDivMieFotoDelTempo" class="carousel-inner">
-                            </div>
-                            <a class="carousel-control left" href="#divMieFotoDelTempo" data-slide="prev">&lsaquo;</a>
-                            <a class="carousel-control right" href="#divMieFotoDelTempo" data-slide="next">&rsaquo;</a>
+                        <div id="containerCarouselMieFotoDelTempo">
+                            <!--<div id="divMieFotoDelTempo" class="carousel slide">
+                                <div id="carouselDivMieFotoDelTempo" class="carousel-inner">
+                                </div>
+                                <a class="carousel-control left" href="#divMieFotoDelTempo" data-slide="prev">&lsaquo;</a>
+                                <a class="carousel-control right" href="#divMieFotoDelTempo" data-slide="next">&rsaquo;</a>
+                            </div>-->
                         </div>
                     </div>
                 </div>
                 <div id="Storie" style="display: none;">
                     <div id="divRootStorieDelTempo" class="divFoto">
                         <h3 id="StorieDelTempo">Che cosa succedeva nel 1950</h3>
-                        <div id="divStorieDelTempo" class="carousel slide">
-                            <div id="carouselDivStorieDelTempo" class="carousel-inner">
-                            </div>
-                            <a class="carousel-control left" href="#divStorieDelTempo" data-slide="prev">&lsaquo;</a>
-                            <a class="carousel-control right" href="#divStorieDelTempo" data-slide="next">&rsaquo;</a>
+                        <div id="containerCarouselStorieDelTempo">
+                            <!--<div id="divStorieDelTempo" class="carousel slide">
+                                <div id="carouselDivStorieDelTempo" class="carousel-inner">
+                                </div>
+                                <a class="carousel-control left" href="#divStorieDelTempo" data-slide="prev">&lsaquo;</a>
+                                <a class="carousel-control right" href="#divStorieDelTempo" data-slide="next">&rsaquo;</a>
+                            </div>-->
                         </div>
                     </div>
                     <div class="divFoto">
                         <h3 id="TueStorieDelTempo">Le tue storie nel 1950</h3>
                         <!--<img src="img/tuefoto2.jpg" /> </div>-->
-                        <div id="divMieStorieDelTempo" class="carousel slide">
-                            <div id="carouselDivMieStorieDelTempo" class="carousel-inner">
-                            </div>
-                            <a class="carousel-control left" href="#divMieStorieDelTempo" data-slide="prev">&lsaquo;</a>
-                            <a class="carousel-control right" href="#divMieStorieDelTempo" data-slide="next">&rsaquo;</a>
+                        <div id="containerCarouselMieStorieDelTempo">
+                            <!--<div id="divMieStorieDelTempo" class="carousel slide">
+                                <div id="carouselDivMieStorieDelTempo" class="carousel-inner">
+                                </div>
+                                <a class="carousel-control left" href="#divMieStorieDelTempo" data-slide="prev">&lsaquo;</a>
+                                <a class="carousel-control right" href="#divMieStorieDelTempo" data-slide="next">&rsaquo;</a>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -241,14 +250,15 @@
                         <div id="divCanzoni2" style="margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;">
 
                         </div>-->
+                        <div id="containerCarouselCanzoniDelTempo">
+                            <!--<div id="divCanzoniDelTempo" class=" carousel slide">
+                                <div id="carouselDivCanzoniDelTempo" class="carousel-inner">
+                                </div>
+                                <a class="carousel-control left" href="#divCanzoniDelTempo" data-slide="prev">&lsaquo;</a>
+                                <a class="carousel-control right" href="#divCanzoniDelTempo" data-slide="next">&rsaquo;</a>
+                            </div>-->
 
-                        <div id="divCanzoniDelTempo" class=" carousel slide">
-                            <div id="carouselDivCanzoniDelTempo" class="carousel-inner">
-                            </div>
-                            <a class="carousel-control left" href="#divCanzoniDelTempo" data-slide="prev">&lsaquo;</a>
-                            <a class="carousel-control right" href="#divCanzoniDelTempo" data-slide="next">&rsaquo;</a>
                         </div>
-
                     </div>
                 </div>
                 <div id="Famosi" style="display: none;">
@@ -259,13 +269,15 @@
                         </div>-->
                         <h3 id="FamosiDelTempo">Chi era famoso/e' nato attorno al 1950</h3>
                         
-                        <div id="divFamosiDelTempo" class=" carousel slide">
-                            <div id="carouselDivFamosiDelTempo" class="carousel-inner"></div>
-                            <a class="carousel-control left" href="#divFamosiDelTempo" data-slide="prev">&lsaquo;</a>
-                            <a class="carousel-control right" href="#divFamosiDelTempo" data-slide="next">&rsaquo;</a>
+                        <div id="containerCarouselFamosiDelTempo">
+                            <!--<div id="divFamosiDelTempo" class=" carousel slide">
+                                <div id="carouselDivFamosiDelTempo" class="carousel-inner"></div>
+                                <a class="carousel-control left" href="#divFamosiDelTempo" data-slide="prev">&lsaquo;</a>
+                                <a class="carousel-control right" href="#divFamosiDelTempo" data-slide="next">&rsaquo;</a>
+                            </div>-->
+
+
                         </div>
-                        
-                        
                     </div>
                     <!--<div class="divFoto">
         <h3>Chi &eacute; nato all'epoca</h3>
@@ -293,14 +305,15 @@
                         </div> -->
                         
                         <h3 id="FamosiDelTempo">La TV e i film degli anni 1950</h3>
-                        
-                        <div id="divTVDelTempo" class=" carousel slide">
-                            <div id="carouselDivTVDelTempo" class="carousel-inner"></div>
-                            <a class="carousel-control left" href="#divTVDelTempo" data-slide="prev">&lsaquo;</a>
-                            <a class="carousel-control right" href="#divTVDelTempo" data-slide="next">&rsaquo;</a>
+                        <div id="containerCarouselTVDelTempo">
+                            <!--<div id="divTVDelTempo" class=" carousel slide">
+                                <div id="carouselDivTVDelTempo" class="carousel-inner"></div>
+                                <a class="carousel-control left" href="#divTVDelTempo" data-slide="prev">&lsaquo;</a>
+                                <a class="carousel-control right" href="#divTVDelTempo" data-slide="next">&rsaquo;</a>
+                            </div>-->
+
+
                         </div>
-                        
-                        
                     </div>
                 </div>
 
@@ -647,66 +660,6 @@
 
 
             downloadQuestion(birthYear, decade);
-
-
-
-            /*var jsonObj = new Object;
-        
-            jsonObj.headline = "Foto 1";
-            jsonObj.location = new Object;
-            jsonObj.location.location_textual = "";
-            jsonObj.startDate = new Object;
-            jsonObj.startDate.exactDate = "";
-            jsonObj.text = "2 ottobre 1950 - nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz...";
-            
-            var vettImm = [];
-            var Imm = new Object;
-            Imm.url = "img/comera1.jpg";
-            vettImm.push(Imm);
-            jsonObj.mementoList = vettImm;
-            Storie.push(jsonObj);
-            
-            //alert(Storie[0].titolo);
-            
-            var jsonObj = new Object;
-        
-            jsonObj.headline = "Foto 2";
-            jsonObj.location = new Object;
-            jsonObj.location.location_textual = "";
-            jsonObj.startDate = new Object;
-            jsonObj.startDate.exactDate = "";
-            jsonObj.text = "09 maggio 1950 - Nasce la comunita  europea...";
-            
-            var vettImm = [];
-            var Imm = new Object;
-            Imm.url = "img/comera3.jpg";
-            vettImm.push(Imm);
-            jsonObj.mementoList = vettImm;
-            Storie.push(jsonObj);
-            
-            for(var i = 0;i<8;i++)
-            {
-                var jsonObj = new Object;
-        
-            jsonObj.headline = "Foto 2";
-            jsonObj.location = new Object;
-            jsonObj.location.location_textual = "";
-            jsonObj.startDate = new Object;
-            jsonObj.startDate.exactDate = "";
-            jsonObj.text = "09 maggio 1950 - Nasce la comunita  europea...";
-            
-            var vettImm = [];
-            var Imm = new Object;
-            Imm.url = "img/comera3.jpg";
-            vettImm.push(Imm);
-            jsonObj.mementoList = vettImm;
-            Storie.push(jsonObj);
-            }
-            
-            for (i=0; i<Storie.length; i++) { 
-                document.getElementById("divFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxStorie' rel='gallery1' href='" + Storie[i].mementoList[0].url + "' title='" + Storie[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + Storie[i].mementoList[0].url + "' alt='' /> </a></div>";
-            }*/
-
 
             //Login();
             Timeline();

@@ -357,10 +357,12 @@ function stampaMieFoto(inizio, fine)
 	    }
 	}*/
 
-    document.getElementById("carouselDivMieFotoDelTempo").innerHTML = "";
+    document.getElementById("containerCarouselMieFotoDelTempo").innerHTML = "";
     var indice = 0;
     var nPagina = 0;
     var visualizzati = 0;
+    var stringaDivCarousel = "<div id='divMieFotoDelTempo' class='carousel slide'>";
+    var stringaDivEle = "<div class='carousel-inner'>";
     var stringaDiv = "";
     //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
     while(MieStorieVisible[indice] != null)
@@ -391,10 +393,10 @@ function stampaMieFoto(inizio, fine)
             if (visualizzati == 4) {
                 visualizzati = 0;
                 if (nPagina == 0) {
-                    document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+                    stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
                 }
                 else {
-                    document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+                    stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
                 }
 
                 nPagina++;
@@ -409,18 +411,24 @@ function stampaMieFoto(inizio, fine)
     if(stringaDiv != "")
     {
         if (nPagina == 0) {
-            document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+            stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
         }
         else {
-            document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+            stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
         }
     }
+    stringaDivEle += "</div>";
 
-    //$('.carousel').carousel({
-    //    interval: false
-    //});
-    
-    //document.getElementById("divMieFotoDelTempo").innerHTML += "<a class='carousel-control left' href='#divMieFotoDelTempo' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divMieFotoDelTempo' data-slide='next'>&rsaquo;</a>";
+    stringaDivCarousel += stringaDivEle;
+
+    stringaDivCarousel += "<a class='carousel-control left' href='#divMieFotoDelTempo' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divMieFotoDelTempo' data-slide='next'>&rsaquo;</a>";
+    stringaDivCarousel += "</div>";
+
+    document.getElementById("containerCarouselMieFotoDelTempo").innerHTML = stringaDivCarousel;
+
+    $('.carousel').carousel({
+        interval: false
+    });
 }
 
 
@@ -462,10 +470,12 @@ function stampaMieStorie(inizio, fine)
 	//	}
 	//}
 
-	document.getElementById("carouselDivMieStorieDelTempo").innerHTML = "";
+    document.getElementById("containerCarouselMieStorieDelTempo").innerHTML = "";
 	var indice = 0;
 	var nPagina = 0;
 	var visualizzati = 0;
+	var stringaDivCarousel = "<div id='divMieStorieDelTempo' class='carousel slide'>";
+	var stringaDivEle = "<div class='carousel-inner'>";
 	var stringaDiv = "";
     //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
 	while (MieStorieVisible[indice] != null) {
@@ -502,10 +512,10 @@ function stampaMieStorie(inizio, fine)
 	        if (visualizzati == 2) {
 	            visualizzati = 0;
 	            if (nPagina == 0) {
-	                document.getElementById("carouselDivMieStorieDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+	                stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
 	            }
 	            else {
-	                document.getElementById("carouselDivMieStorieDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+	                stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
 	            }
 
 	            nPagina++;
@@ -519,12 +529,21 @@ function stampaMieStorie(inizio, fine)
 
 	if (stringaDiv != "") {
 	    if (nPagina == 0) {
-	        document.getElementById("carouselDivMieStorieDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+	        stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
 	    }
 	    else {
-	        document.getElementById("carouselDivMieStorieDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+	        stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
 	    }
 	}
+
+	stringaDivEle += "</div>";
+
+	stringaDivCarousel += stringaDivEle;
+
+	stringaDivCarousel += "<a class='carousel-control left' href='#divMieStorieDelTempo' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divMieStorieDelTempo' data-slide='next'>&rsaquo;</a>";
+	stringaDivCarousel += "</div>";
+
+	document.getElementById("containerCarouselMieStorieDelTempo").innerHTML = stringaDivCarousel;
 
 	$('.carousel').carousel({
 	    interval: false

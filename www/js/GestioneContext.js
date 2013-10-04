@@ -343,103 +343,108 @@ function stampaFotoContext(inizio, fine)
 
 
 
-	document.getElementById("carouselDivFotoDelTempo").innerHTML = "";
-	var indice = 0;
-	var nPagina = 0;
-	var visualizzati = 0;
-	var stringaDiv = "";
+	//document.getElementById("carouselDivFotoDelTempo").innerHTML = "";
+	//var indice = 0;
+	//var nPagina = 0;
+	//var visualizzati = 0;
+	//var stringaDiv = "";
+    ////document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
+	//while (ContextVisible.picture[indice] != null) {
+	//    if (ContextVisible.picture[indice].resourceUrl != null)
+	//    {
+	//        //alert(MieStorieVisible[i].mementoList.length);
+	//        InserisciIndiceFotoContext(indice);
+	//        stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>"
+
+	//    }
+	//    else
+	//    {
+	//    }
+
+	//    visualizzati++;
+	//    if (visualizzati == 4) {
+	//        visualizzati = 0;
+	//        if (nPagina == 0) {
+	//            document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+	//        }
+	//        else {
+	//            document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+	//        }
+
+	//        nPagina++;
+	//        stringaDiv = "";
+	//    }
+
+
+	//    indice++;
+	//}
+
+	//if (stringaDiv != "") {
+	//    if (nPagina == 0) {
+	//        document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+	//    }
+	//    else {
+	//        document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+	//    }
+    //}
+
+    
+    document.getElementById("containerCarouselFotoDelTempo").innerHTML = "";
+    //document.getElementById("divFotoDelTempo").innerHTML = "";
+    var indice = 0;
+    var nPagina = 0;
+    var visualizzati = 0;    
+    var stringaDivCarousel = "<div id='divFotoDelTempo' class='carousel slide'>";
+    var stringaDivEle = "<div class='carousel-inner'>";
+    var stringaDiv = "";
     //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
-	while (ContextVisible.picture[indice] != null) {
-	    if (ContextVisible.picture[indice].resourceUrl != null)
-	    {
-	        //alert(MieStorieVisible[i].mementoList.length);
-	        InserisciIndiceFotoContext(indice);
-	        stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>"
+    while (ContextVisible.picture[indice] != null) {
+        if (ContextVisible.picture[indice].resourceUrl != null) {
+            //alert(MieStorieVisible[i].mementoList.length);
+            InserisciIndiceFotoContext(indice);
+            stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>"
 
-	    }
-	    else
-	    {
-	    }
+        }
+        else {
+        }
 
-	    visualizzati++;
-	    if (visualizzati == 4) {
-	        visualizzati = 0;
-	        if (nPagina == 0) {
-	            document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
-	        }
-	        else {
-	            document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
-	        }
+        visualizzati++;
+        if (visualizzati == 4) {
+            visualizzati = 0;
+            if (nPagina == 0) {
+                stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
+            }
+            else {
+                stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
+            }
 
-	        nPagina++;
-	        stringaDiv = "";
-	    }
+            nPagina++;
+            stringaDiv = "";
+        }
 
 
-	    indice++;
-	}
-
-	if (stringaDiv != "") {
-	    if (nPagina == 0) {
-	        document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
-	    }
-	    else {
-	        document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
-	    }
+        indice++;
     }
 
+    if (stringaDiv != "") {
+        if (nPagina == 0) {
+            stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
+        }
+        else {
+            stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
+        }
+    }
 
-    //document.getElementById("divFotoDelTempo").innerHTML = "";
-    //var indice = 0;
-    //var nPagina = 0;
-    //var visualizzati = 0;
-    //var stringaDiv = "";
-    //var stringaDivEle = "<div class='carousel-inner'>";
-    ////document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
-    //while (ContextVisible.picture[indice] != null) {
-    //    if (ContextVisible.picture[indice].resourceUrl != null) {
-    //        //alert(MieStorieVisible[i].mementoList.length);
-    //        InserisciIndiceFotoContext(indice);
-    //        stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>"
+    stringaDivEle += "</div>";
 
-    //    }
-    //    else {
-    //    }
+    stringaDivCarousel += stringaDivEle;
 
-    //    visualizzati++;
-    //    if (visualizzati == 4) {
-    //        visualizzati = 0;
-    //        if (nPagina == 0) {
-    //            stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
-    //        }
-    //        else {
-    //            stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
-    //        }
+    stringaDivCarousel += "<a class='carousel-control left' href='#divFotoDelTempo' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divFotoDelTempo' data-slide='next'>&rsaquo;</a>";
+    stringaDivCarousel += "</div>";
 
-    //        nPagina++;
-    //        stringaDiv = "";
-    //    }
+    document.getElementById("containerCarouselFotoDelTempo").innerHTML = stringaDivCarousel;
 
-
-    //    indice++;
-    //}
-
-    //if (stringaDiv != "") {
-    //    if (nPagina == 0) {
-    //        stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
-    //    }
-    //    else {
-    //        stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
-    //    }
-    //}
-
-    //stringaDivEle += "</div>";
-
-    //document.getElementById("divFotoDelTempo").innerHTML += stringaDivEle;
-
-    //document.getElementById("divFotoDelTempo").innerHTML += "<a class='carousel-control left' href='#divFotoDelTempo' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divFotoDelTempo' data-slide='next'>&rsaquo;</a>";
-
-	$('.carousel').carousel({
+    $('.carousel').carousel({
         number: nPagina
 	});
 }

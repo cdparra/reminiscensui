@@ -55,7 +55,7 @@ label {
 .divFoto {
 	float: left;
 	width: 490px;
-	height: 480px;
+	height: 490px;
 	min-height: 100%;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -66,7 +66,7 @@ label {
 	-webkit-border-radius: 5px 5px 5px 5px;	
 	border-radius: 5px 5px 5px 5px;
 }
-#divFotoDelTempo {
+/*#divFotoDelTempo {
 	overflow: auto;
     height: 440px;
 }
@@ -82,9 +82,9 @@ label {
 #divMieStorieDelTempo {
     overflow: auto;
     height: 440px;
-}
+}*/
 
-#divCanzoni1 {
+/*#divCanzoni1 {
     float: left;
     width: 490px;
     height: 440px;
@@ -147,7 +147,7 @@ label {
 .divFoto h3 {
 	font-size:18px;
 	height: 20px;
-}
+}*/
 .divCanzoni {
 	float: left;
 	width: 1000px;
@@ -178,7 +178,10 @@ label {
 	margin: 5px 5px 5px 5px;
 	width:225px;	
 	float:left;
-	text-align: center;    
+	text-align: center;
+    height:200px;
+    line-height:200px; 
+    vertical-align:middle;    
 }
 .text {
 	background: rgba(0,0,0,0.7);

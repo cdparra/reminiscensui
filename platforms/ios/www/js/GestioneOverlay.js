@@ -120,6 +120,9 @@ jQuery(window).bind('resize', function () {
 });
 
 function ApriOverlay(clicked_id) {
+    //se per caso apro l'overlay da un bottone Raccontaci! nella galleria fancybox
+    parent.$.fancybox.close();
+
     //inizializzo la decade con la decade dove mi trovo
     document.getElementById("decade").value = ((decade - 1900) / 10) + 1;
     VisualizzaYear();

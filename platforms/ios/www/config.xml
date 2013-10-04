@@ -11,7 +11,7 @@
         Reminiscens Team @ lifeparticipation.org
     </author>
     <feature name="http://api.phonegap.com/1.0/device" />
-    <preference name="orientation" value="landscape"/>
+    <preference name="orientation" value="landscape" />
     <preference name="fullscreen" value="true" />
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />
@@ -53,4 +53,5 @@
     <gap:splash gap:platform="ios" height="768" src="res/screen/ios/screen-ipad-landscape.png" width="1024" />
     <gap:splash gap:platform="winphone" src="res/screen/windows-phone/screen-portrait.jpg" />
     <access origin="*" />
+    <content src="index.html" />
 </widget>

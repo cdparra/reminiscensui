@@ -238,8 +238,11 @@ function EstraiCampiContext(contextList) {
     while (contextList[i] != null && contextList[i].publicMemento != null) {
         //alert(contextList[i].startLocation.city);
         var newContext = new Object;
+        newContext.contextId = contextList[i].contextId;
+        newContext.publicMementoId = contextList[i].publicMemento.publicMementoId;
         newContext.headline = contextList[i].publicMemento.headline;
         newContext.text = contextList[i].publicMemento.text;
+        newContext.resourceType = contextList[i].publicMemento.resourceType;
         newContext.startDate = new Object;
         if (contextList[i].publicMemento.startDate != null) {
             newContext.startDate.day = contextList[i].publicMemento.startDate.day;
@@ -281,7 +284,7 @@ function EstraiCampiContext(contextList) {
     
     //alert(msg.aboutPerson.personId);
 
-    GestioneSchermate(); nn serve chiamare di nuovo gestione schermate in quanto sono già posizionato 
+    GestioneSchermate(); nn serve chiamare di nuovo gestione schermate in quanto sono gia posizionato 
                         nella schermata corretta*/
 }
 
@@ -292,10 +295,10 @@ function ContextFunction()
 	    type: "GET",
 	    url: GetBaseUrl() + "/lifeapi/context/person/"+GetPersonId(),
            	//url: "http://test.reminiscens.me/lifeapi/context/person/"+GetPersonId(),
-			/*beforeSend: function (request)
+			beforeSend: function (request)
             {
                 request.setRequestHeader("PLAY_SESSION", GetSessionKey());
-            },*/
+            },
             processData: false,
             dataType: "json",
 			contentType:"application/json",
@@ -451,24 +454,6 @@ function stampaFotoContext(inizio, fine)
 
 function stampaStorieContext(inizio, fine)
 {
-	//alert(inizio + "  " + fine);
-	
-	//var i;
-	//document.getElementById("divStorieDelTempo").innerHTML = "";
-	//for (i=inizio; i<fine; i++) { 
-						
-	//	//alert(MieStorie[i].immagini[0].src);
-	//	if(ContextVisible.story[i].resourceUrl != null)
-	//	{
-	//		document.getElementById("divStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + ContextVisible.story[i].startDate.exactDateAsString + "</h5>" + "<h5>" + ContextVisible.story[i].startLocation.country + "</h5>" +	"<h5>" + ContextVisible.story[i].startLocation.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + ContextVisible.story[i].headline + "</h5><h7>" + ContextVisible.story[i].text.substring(0,120) + "...</h7></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + ContextVisible.story[i].resourceUrl + "' alt='' /></div></div>";
-	//	}
-	//	else
-	//	{
-	//		document.getElementById("divStorieDelTempo").innerHTML += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + ContextVisible.story[i].startDate.exactDateAsString + "</h5>" + "<h5>" + ContextVisible.story[i].startLocation.country + "</h5>" +	"<h5>" + ContextVisible.story[i].startLocation.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + ContextVisible.story[i].headline + "</h5><font size='2'>" + ContextVisible.story[i].text.substring(0,120) + "...</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
-	//	}
-    //}
-
-
     document.getElementById("carouselDivStorieDelTempo").innerHTML = "";
     var indice = 0;
     var nPagina = 0;
@@ -476,15 +461,36 @@ function stampaStorieContext(inizio, fine)
     var stringaDiv = "";
     //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
     while (ContextVisible.story[indice] != null) {
-        if (ContextVisible.story[indice].resourceUrl != null)
+    	// these variables are added to avoid nulls from being printed
+    	var story = ContextVisible.story[indice];
+    	var h = story.headline == null ? "" : story.headline;
+    	var t = story.text == null ? "" : story.text;
+    	var tipo = story.resourceType
+    	var startDate = story.startDate.exactDateAsString == null ? startDate.decade : story.startDate.exactDateAsString; 
+    	var startLocation =  story.startLocation.country == null ? 
+    			"" : story.startLocation.region == null ? 
+    					story.startLocation.country : story.startLocation.city == null ? 
+    							story.startLocation.region +", " +story.startLocation.country : 
+    							story.startLocation.region +","+story.startLocation.region +", " +story.startLocation.country ;
+
+        if (story.resourceUrl != null)
         {
-            stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + ContextVisible.story[indice].startDate.exactDateAsString + "</h5>" + "<h5>" + ContextVisible.story[indice].startLocation.country + "</h5>" + "<h5>" + ContextVisible.story[indice].startLocation.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + ContextVisible.story[indice].headline + "</h5><h7>" + ContextVisible.story[indice].text.substring(0, 120) + "...</h7></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + ContextVisible.story[indice].resourceUrl + "' alt='' /></div></div>";
+            stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'>"
+            stringaDiv += "	<div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" 
+            stringaDiv += startDate + "</h5>" + "<h5>" + startLocation+ "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);";
+            stringaDiv += "color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + h + "</h5><h7>" + t.substring(0, 120) + "...</h7>";
+            stringaDiv += "</div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; ";
+            stringaDiv += "vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + story.resourceUrl + "' alt='' /></div></div>";
         }
         else
         {
-            stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + ContextVisible.story[indice].startDate.exactDateAsString + "</h5>" + "<h5>" + ContextVisible.story[indice].startLocation.country + "</h5>" + "<h5>" + ContextVisible.story[indice].startLocation.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + ContextVisible.story[indice].headline + "</h5><font size='2'>" + ContextVisible.story[indice].text.substring(0, 120) + "...</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
+            stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'>";
+            stringaDiv += "<div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + startDate + "</h5>" + "<h5>" + startLocation + "</h5>";
+            stringaDiv += "</div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; ";
+            stringaDiv += "text-align:left;'><h5 style='text-align:center;'>" + h + "</h5><font size='2'>" + t.substring(0, 120) + "...</font></div>";
+            stringaDiv += "<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; ";
+            stringaDiv += "vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
         }
-
 
         visualizzati++;
         if (visualizzati == 2) {
@@ -499,7 +505,6 @@ function stampaStorieContext(inizio, fine)
             nPagina++;
             stringaDiv = "";
         }
-
         indice++;
     }
 
@@ -515,59 +520,31 @@ function stampaStorieContext(inizio, fine)
     /*$('#divFotoDelTempo').carousel({
         number:nPagina
     });*/
-	
 }
 
 function stampaCanzoniContext(inizio, fine)
 {
-	//alert(inizio + "  " + fine);
-	
-	//var i;
-	//var numeroDiv = 1;
-	//document.getElementById("divCanzoni1").innerHTML = "";
-	//document.getElementById("divCanzoni2").innerHTML = "";
-	//for (i=inizio; i<fine; i++) { 
-						
-	//	//alert(ContextVisible.song[i].resourceUrl);
-	//	if(ContextVisible.song[i].resourceUrl != null)
-	//	{
-	//		//replace necessario per permettere di introdurre contenuti di youtube sul sito
-	//		var url = ContextVisible.song[i].resourceUrl.replace('watch?v=','embed/'); 
-	//		document.getElementById("divCanzoni" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[i].headline +"</h3><h7 style='text-align:center;'>" + ContextVisible.song[i].text + "</h7>";
-			
-	//		//document.getElementById("divCanzoni" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + "http://www.youtube.com/embed/XVXzlPqViXA?autoplay=true" + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[i].headline +"</h3>";
-	//	}
-		
-	//	numeroDiv++;
-	//	if(numeroDiv > 2)
-	//		numeroDiv = 1;
-    //}
-
     document.getElementById("carouselDivCanzoniDelTempo").innerHTML = "";
     var indice = 0;
     var nPagina = 0;
     var visualizzati = 0;
     var stringaDiv = "";
-    //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
     while (ContextVisible.song[indice] != null) {
-
-        if (ContextVisible.song[indice].resourceUrl != null)
+    	var song = ContextVisible.song[indice];
+    	var h = song.headline == null ? "" : song.headline;
+    	var t = song.text == null ? "" : song.text;
+    	var tipo = song.resourceType;
+	
+        if (song.resourceUrl != null)
         {
             //replace necessario per permettere di introdurre contenuti di youtube sul sito
-            var url = ContextVisible.song[indice].resourceUrl.replace('watch?v=', 'embed/');
-            //if (visualizzati == 0)
-            //{
+            var url = song.resourceUrl.replace('watch?v=', 'embed/');
                 stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'>";
-            //}
-            //else
-            //{
-            //    stringaDiv += "<div style='margin-top: 0px; margin-left: 20px; margin-bottom: 0px; margin-right: 0px;float:left;'>";
-            //}
-            stringaDiv += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[indice].headline +"</h3><h7 style='text-align:center;'>" + ContextVisible.song[indice].text + "</h7>";
+            stringaDiv += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>";
+            stringaDiv += h +"</h3><h7 style='text-align:center;'>" + t + "</h7>";
             stringaDiv += "</div>";
             //document.getElementById("divCanzoni" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + "http://www.youtube.com/embed/XVXzlPqViXA?autoplay=true" + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[i].headline +"</h3>";
         }
-
 
         visualizzati++;
         if (visualizzati == 2) {
@@ -582,8 +559,57 @@ function stampaCanzoniContext(inizio, fine)
             nPagina++;
             stringaDiv = "";
         }
+        indice++;
+    }
+
+    if (stringaDiv != "") {
+        if (nPagina == 0) {
+            document.getElementById("carouselDivCanzoniDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+        }
+        else {
+            document.getElementById("carouselDivCanzoniDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+        }
+    }
+}
 
 
+function stampaFamosiContext(inizio, fine)
+{
+	document.getElementById("carouselDivFamosiDelTempo").innerHTML = "";
+    var indice = 0;
+    var nPagina = 0;
+    var visualizzati = 0;
+    var stringaDiv = "";
+    while (ContextVisible.people[indice] != null) {
+    	var h = ContextVisible.people[indice].headline == null ? "" : ContextVisible.people[indice].headline;
+    	var t = ContextVisible.people[indice].text == null ? "" : ContextVisible.people[indice].text;
+        if (ContextVisible.people[indice].resourceUrl != null)
+        {
+            stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+            stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + ContextVisible.people[indice].resourceUrl;
+            stringaDiv +="' class='round'/><h5>" + h + "</h5><h7>" + t + "</h7>";
+            stringaDiv += "</div>";
+        } else {
+            stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+            stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + "images/profilo.png";
+            stringaDiv +="' class='round'/><h5>" + h + "</h5><h7>" + t + "</h7>";
+            stringaDiv += "</div>";
+        	
+        }
+
+        visualizzati++;
+        if (visualizzati == 2) {
+            visualizzati = 0;
+            if (nPagina == 0) {
+                document.getElementById("carouselDivFamosiDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+            }
+            else {
+                document.getElementById("carouselDivFamosiDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+            }
+
+            nPagina++;
+            stringaDiv = "";
+        }
         indice++;
     }
 
@@ -598,57 +624,64 @@ function stampaCanzoniContext(inizio, fine)
 	
 }
 
-
-function stampaFamosiContext(inizio, fine)
-{
-	//alert(inizio + "  " + fine);
-	
-	var i;
-	var numeroDiv = 1;
-	document.getElementById("divFamosi1").innerHTML = "";
-	document.getElementById("divFamosi2").innerHTML = "";
-	for (i=inizio; i<fine; i++) { 
-						
-		//alert(ContextVisible.song[i].resourceUrl);
-		if(ContextVisible.people[i].resourceUrl != null)
-		{
-			document.getElementById("divFamosi" + numeroDiv).innerHTML += "<img style='max-width:300px; max-height:300px;margin-top:30px;' src='" + ContextVisible.people[i].resourceUrl +"' class='round'/><h4>" + ContextVisible.people[i].headline + "</h4><h6>" + ContextVisible.people[i].text + "</h6>";
-		}
-		else
-		{
-			document.getElementById("divFamosi" + numeroDiv).innerHTML += "<img style='max-width:300px; max-height:300px;margin-top:30px;' src='" + "images/profilo.png" + "' class='round'/><h4>" + ContextVisible.people[i].headline + "</h4><h6>" + ContextVisible.people[i].text + "</h6>";
-		}
-		
-		numeroDiv++;
-		if(numeroDiv > 2)
-			numeroDiv = 1;
-	}
-	
-}
-
 function stampaTvFilmContext(inizio, fine) {
-    //alert(inizio + "  " + fine);
+    document.getElementById("carouselDivTVDelTempo").innerHTML = "";
+    var indice = 0;
+    var nPagina = 0;
+    var visualizzati = 0;
+    var stringaDiv = "";
+    while (ContextVisible.tvFilm[indice] != null) {
+    	var tvFilm = ContextVisible.tvFilm[indice];
+    	var h = tvFilm.headline == null ? "" : tvFilm.headline;
+    	var t = tvFilm.text == null ? "" : tvFilm.text;
+    	var tipo = tvFilm.resourceType;
 
-    var i;
-    var numeroDiv = 1;
-    document.getElementById("divTvFilm1").innerHTML = "";
-    document.getElementById("divTvFilm2").innerHTML = "";
-    for (i = inizio; i < fine; i++) {
-
-        //alert(ContextVisible.song[i].resourceUrl);
-        if (ContextVisible.tvFilm[i].resourceUrl != null) {
-            //replace necessario per permettere di introdurre contenuti di youtube sul sito
-            var url = ContextVisible.tvFilm[i].resourceUrl.replace('watch?v=', 'embed/');
-            document.getElementById("divTvFilm" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.tvFilm[i].headline + "</h3><h7 style='text-align:center;'>" + ContextVisible.tvFilm[i].text + "</h7>";
-
-            //document.getElementById("divCanzoni" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + "http://www.youtube.com/embed/XVXzlPqViXA?autoplay=true" + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[i].headline +"</h3>";
+    	if (tvFilm.resourceUrl != null)
+        {
+    		var url = "";
+    		stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+    		if (tipo=="IMAGE") {
+    			url = tvFilm.resourceUrl;
+    			stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + url;
+    			stringaDiv +="' class='round'/><h4>" + h + "</h4><h6>" + t + "</h6>";
+    		} else {
+    			url = tvFilm.resourceUrl.replace('watch?v=', 'embed/');
+    			stringaDiv += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h5>"; 
+    			stringaDiv += h + "</h5><h7 style='text-align:center;'>" + t + "</h7>";
+    		}
+            stringaDiv += "</div>";
+        } else {
+            stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+            stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + "images/profilo.png";
+            stringaDiv +="' class='round'/><h5>" + h + "</h5><h7>" + t + "</h7>";
+            stringaDiv += "</div>";
+        	
         }
 
-        numeroDiv++;
-        if (numeroDiv > 2)
-            numeroDiv = 1;
+        visualizzati++;
+        if (visualizzati == 2) {
+            visualizzati = 0;
+            if (nPagina == 0) {
+                document.getElementById("carouselDivTVDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+            }
+            else {
+                document.getElementById("carouselDivTVDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+            }
+
+            nPagina++;
+            stringaDiv = "";
+        }
+        indice++;
     }
 
+    if (stringaDiv != "") {
+        if (nPagina == 0) {
+            document.getElementById("carouselDivTVDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+        }
+        else {
+            document.getElementById("carouselDivTVDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+        }
+    }
 }
 
 function CreaContext() {
@@ -673,11 +706,7 @@ function CreaContext() {
         },
         error: function (data) {
             alert("Errore nella creazione del context personale");
-        },
-        dataType: "json",
-
-        contentType: "application/json"
-
+        }
     });
 }
 
@@ -710,10 +739,7 @@ function AggiornaContext(country, city, region, locale, decade) {
         },
         error: function (data) {
             alert("Errore nell'aggiornamento del context personale");
-        },
-        dataType: "json",
-
-        contentType: "application/json"
+        }
 
     });
 }

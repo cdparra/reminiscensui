@@ -45,7 +45,7 @@ function ModifyStoryWithConnection(newStory, idStoryModify)
                 request.setRequestHeader("PLAY_SESSION", sessionKey);
             },
 
-			url: GetBaseUrl() + "s/lifeapi/lifestory/" + idStoryModify,
+			url: GetBaseUrl() + "/lifeapi/lifestory/" + idStoryModify,
         	//url: "http://test.reminiscens.me/lifeapi/lifestory/" + idStoryModify,
 
         	data: JSON.stringify(newStory),

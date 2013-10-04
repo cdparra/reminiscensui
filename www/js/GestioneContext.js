@@ -448,16 +448,18 @@ function stampaFotoContext(inizio, fine)
     document.getElementById("containerCarouselFotoDelTempo").innerHTML = stringaDivCarousel;
 
     $('.carousel').carousel({
-        number: nPagina
+        interval: false
 	});
 }
 
 function stampaStorieContext(inizio, fine)
 {
-    document.getElementById("carouselDivStorieDelTempo").innerHTML = "";
+    document.getElementById("containerCarouselStorieDelTempo").innerHTML = "";
     var indice = 0;
     var nPagina = 0;
     var visualizzati = 0;
+    var stringaDivCarousel = "<div id='divStorieDelTempo' class='carousel slide'>";
+    var stringaDivEle = "<div class='carousel-inner'>";
     var stringaDiv = "";
     //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
     while (ContextVisible.story[indice] != null) {
@@ -496,10 +498,10 @@ function stampaStorieContext(inizio, fine)
         if (visualizzati == 2) {
             visualizzati = 0;
             if (nPagina == 0) {
-                document.getElementById("carouselDivStorieDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+                stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
             }
             else {
-                document.getElementById("carouselDivStorieDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+                stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
             }
 
             nPagina++;
@@ -510,24 +512,35 @@ function stampaStorieContext(inizio, fine)
 
     if (stringaDiv != "") {
         if (nPagina == 0) {
-            document.getElementById("carouselDivStorieDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+            stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
         }
         else {
-            document.getElementById("carouselDivStorieDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+            stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
         }
     }
 
-    /*$('#divFotoDelTempo').carousel({
-        number:nPagina
-    });*/
+    stringaDivEle += "</div>";
+
+    stringaDivCarousel += stringaDivEle;
+
+    stringaDivCarousel += "<a class='carousel-control left' href='#divStorieDelTempo' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divStorieDelTempo' data-slide='next'>&rsaquo;</a>";
+    stringaDivCarousel += "</div>";
+
+    document.getElementById("containerCarouselStorieDelTempo").innerHTML = stringaDivCarousel;
+
+    $('.carousel').carousel({
+        interval: false
+    });
 }
 
 function stampaCanzoniContext(inizio, fine)
 {
-    document.getElementById("carouselDivCanzoniDelTempo").innerHTML = "";
+    document.getElementById("containerCarouselCanzoniDelTempo").innerHTML = "";
     var indice = 0;
     var nPagina = 0;
     var visualizzati = 0;
+    var stringaDivCarousel = "<div id='divCanzoniDelTempo' class='carousel slide'>";
+    var stringaDivEle = "<div class='carousel-inner'>";
     var stringaDiv = "";
     while (ContextVisible.song[indice] != null) {
     	var song = ContextVisible.song[indice];
@@ -550,10 +563,10 @@ function stampaCanzoniContext(inizio, fine)
         if (visualizzati == 2) {
             visualizzati = 0;
             if (nPagina == 0) {
-                document.getElementById("carouselDivCanzoniDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+                stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
             }
             else {
-                document.getElementById("carouselDivCanzoniDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+                stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
             }
 
             nPagina++;
@@ -564,21 +577,36 @@ function stampaCanzoniContext(inizio, fine)
 
     if (stringaDiv != "") {
         if (nPagina == 0) {
-            document.getElementById("carouselDivCanzoniDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+            stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
         }
         else {
-            document.getElementById("carouselDivCanzoniDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+            stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
         }
     }
+
+    stringaDivEle += "</div>";
+
+    stringaDivCarousel += stringaDivEle;
+
+    stringaDivCarousel += "<a class='carousel-control left' href='#divCanzoniDelTempo' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divCanzoniDelTempo' data-slide='next'>&rsaquo;</a>";
+    stringaDivCarousel += "</div>";
+
+    document.getElementById("containerCarouselCanzoniDelTempo").innerHTML = stringaDivCarousel;
+
+    $('.carousel').carousel({
+        interval: false
+    });
 }
 
 
 function stampaFamosiContext(inizio, fine)
 {
-	document.getElementById("carouselDivFamosiDelTempo").innerHTML = "";
+    document.getElementById("containerCarouselFamosiDelTempo").innerHTML = "";
     var indice = 0;
     var nPagina = 0;
     var visualizzati = 0;
+    var stringaDivCarousel = "<div id='divFamosiDelTempo' class='carousel slide'>";
+    var stringaDivEle = "<div class='carousel-inner'>";
     var stringaDiv = "";
     while (ContextVisible.people[indice] != null) {
     	var h = ContextVisible.people[indice].headline == null ? "" : ContextVisible.people[indice].headline;
@@ -601,10 +629,10 @@ function stampaFamosiContext(inizio, fine)
         if (visualizzati == 2) {
             visualizzati = 0;
             if (nPagina == 0) {
-                document.getElementById("carouselDivFamosiDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+                stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
             }
             else {
-                document.getElementById("carouselDivFamosiDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+                stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
             }
 
             nPagina++;
@@ -615,20 +643,35 @@ function stampaFamosiContext(inizio, fine)
 
     if (stringaDiv != "") {
         if (nPagina == 0) {
-            document.getElementById("carouselDivCanzoniDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+            stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
         }
         else {
-            document.getElementById("carouselDivCanzoniDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+            stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
         }
     }
+
+    stringaDivEle += "</div>";
+
+    stringaDivCarousel += stringaDivEle;
+
+    stringaDivCarousel += "<a class='carousel-control left' href='#divFamosiDelTempo' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divFamosiDelTempo' data-slide='next'>&rsaquo;</a>";
+    stringaDivCarousel += "</div>";
+
+    document.getElementById("containerCarouselFamosiDelTempo").innerHTML = stringaDivCarousel;
+
+    $('.carousel').carousel({
+        interval: false
+    });
 	
 }
 
 function stampaTvFilmContext(inizio, fine) {
-    document.getElementById("carouselDivTVDelTempo").innerHTML = "";
+    document.getElementById("containerCarouselTVDelTempo").innerHTML = "";
     var indice = 0;
     var nPagina = 0;
     var visualizzati = 0;
+    var stringaDivCarousel = "<div id='divTVDelTempo' class='carousel slide'>";
+    var stringaDivEle = "<div class='carousel-inner'>";
     var stringaDiv = "";
     while (ContextVisible.tvFilm[indice] != null) {
     	var tvFilm = ContextVisible.tvFilm[indice];
@@ -662,10 +705,10 @@ function stampaTvFilmContext(inizio, fine) {
         if (visualizzati == 2) {
             visualizzati = 0;
             if (nPagina == 0) {
-                document.getElementById("carouselDivTVDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+                stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
             }
             else {
-                document.getElementById("carouselDivTVDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+                stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
             }
 
             nPagina++;
@@ -676,12 +719,25 @@ function stampaTvFilmContext(inizio, fine) {
 
     if (stringaDiv != "") {
         if (nPagina == 0) {
-            document.getElementById("carouselDivTVDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
+            stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
         }
         else {
-            document.getElementById("carouselDivTVDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
+            stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
         }
     }
+
+    stringaDivEle += "</div>";
+
+    stringaDivCarousel += stringaDivEle;
+
+    stringaDivCarousel += "<a class='carousel-control left' href='#divTVDelTempo' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divTVDelTempo' data-slide='next'>&rsaquo;</a>";
+    stringaDivCarousel += "</div>";
+
+    document.getElementById("containerCarouselTVDelTempo").innerHTML = stringaDivCarousel;
+
+    $('.carousel').carousel({
+        interval: false
+    });
 }
 
 function CreaContext() {

@@ -17,7 +17,10 @@ function GestioneSchermate(clickdecade)
             	decade = clickdecade;  
 			}
 			$("#lbldebug").text("Non ci sono ancora storie del " + decade + "!");
-			$("#FotoDelTempo").text("Com'era questo posto attorno al " + decade);
+			$("#FotoDelTempo").text("Foto pubbliche attorno al " + decade);
+			$("#CanzoniDelTempo").text("Le canzoni degli anni " + decade);
+			$("#FamosiDelTempo").text("Chi era famoso/e' nato attorno al " + decade);
+			$("#TVDelTempo").text("La TV e i film degli anni 1950 " + decade);
 			$("#TueFotoDelTempo").text("Le tue foto attorno al " + decade);
 			$("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
 			$("#TueStorieDelTempo").text("Le tue storie nel " + decade);
@@ -95,8 +98,12 @@ function AzzeraTimeline() {
     }
 }
 
+function ReloadReminiscens() {
+	window.location.reload(true);
+}
+
 $(document).ready(function() {
-		/*applica la classe active al menù nav bar di bootstrap quando viene cliccato*/
+		/*applica la classe active al menu nav bar di bootstrap quando viene cliccato*/
 		$('.navbar li').click(function(e) {
 			$('.navbar li').removeClass('active');
 			var $this = $(this);
@@ -105,16 +112,14 @@ $(document).ready(function() {
 			}
 			var tmp = $this.attr("id");
 			tmp = tmp.substring(2,tmp.length);
-			if(tmp == "Logout")
-			{
+			if(tmp == "Logout") {
 			    Logout();
 			}
-			else if(tmp == "Raccontaci")
-			{
+			else if(tmp == "Raccontaci") {
 				ApriOverlay();
-			}
-			else
-			{
+			} else if(tmp == "Refresh") {
+				ReloadReminiscens();
+			} else {
 				nascondiDiv();
 				document.getElementById(tmp).style.display="inherit";
 			}

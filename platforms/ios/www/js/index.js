@@ -7,7 +7,6 @@ function onDeviceReady() {
 function Redirect() {
 	location.href = "registra.html";
 }
-
 // A word of notice: avoid alerts as much as possible. 
 // use console.log instead
 function Login() {
@@ -44,6 +43,18 @@ function Login() {
 							.split('-')[0] / 10) * 10);
 					SetPersonYearBirthDate(data.person.birthdateAsString
 							.split('-')[0]);
+
+				    //controllo che versione dell'app devo visualizzare salvando che opzione ha scelto l'utente
+					if (document.getElementById('version_1').checked) {
+					    SetAppVersion(1);
+					} else if (document.getElementById('version_2').checked) {
+					    SetAppVersion(2);
+					} else if (document.getElementById('version_3').checked) {
+					    SetAppVersion(3);
+					} else {
+					    SetAppVersion(4);
+					}
+
 					location.href = "main.html";
 
 				},

@@ -233,10 +233,10 @@ function Timeline()
     /*$.getJSON("http://test.reminiscens.me/lifeapi/person/3/timeline",function(timeline)*/	
 	$.ajax({
         type:"GET",
-        /*beforeSend: function (request)
+        beforeSend: function (request)
         {
            request.setRequestHeader("PLAY_SESSION", sessionKey);
-        },*/
+        },
         url:GetBaseUrl() + "/lifeapi/person/"+personId+"/timeline",
         //url: "http://test.reminiscens.me/lifeapi/person/"+personId+"/timeline",
 		//url: "http://test.reminiscens.me/lifeapi/person/"+3+"/timeline",

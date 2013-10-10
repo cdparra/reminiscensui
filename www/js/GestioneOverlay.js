@@ -136,11 +136,40 @@ function ApriOverlay(clicked_id) {
 	{
 		$("#titleBox").html("raccontaci la tua storia");
 	}
-	else
+	else if (clicked_id == "FirstDecadeQuestionEmpty" || clicked_id == "SecondDecadeQuestionEmpty" ||
+            clicked_id == "FirstPersonalQuestionEmpty" || clicked_id == "SecondPersonalQuestionEmpty" ||
+        clicked_id == "DecadeQuestionNotEmpty" || clicked_id == "PersonalQuestionNotEmpty") //caso in cui arrivo da una domanda
 	{
-		//alert(document.getElementById(clicked_id).innerHTML);
-		$("#titleBox").html(document.getElementById(clicked_id).innerHTML);
+		//alert(clicked_id);
+	    $("#titleBox").html(document.getElementById(clicked_id).innerHTML);
+	    switch (clicked_id)
+	    {
+	        case "FirstDecadeQuestionEmpty":
+	            idQuestion = vettIdQuestions[0];
+                break;
+	        case "SecondDecadeQuestionEmpty":
+	            idQuestion = vettIdQuestions[1];
+	            break;
+	        case "FirstPersonalQuestionEmpty":
+	            idQuestion = vettIdQuestions[2];
+	            break;
+	        case "SecondPersonalQuestionEmpty":
+	            idQuestion = vettIdQuestions[3];
+	            break;
+	        case "DecadeQuestionNotEmpty":
+	            idQuestion = vettIdQuestions[4];
+	            break;
+	        case "PersonalQuestionNotEmpty":
+	            idQuestion = vettIdQuestions[5];
+	            break;
+	    }
+	    alert("question: " + idQuestion);
 		//downloadQuestion(birthYear,decade);
+	}
+	else //caso in cui arrivo da un context
+	{
+	    idContextRaccontaci = clicked_id;
+	    alert(idContextRaccontaci);
 	}
     CentroOverlay();
     $('#overlay').fadeIn('fast');
@@ -170,9 +199,9 @@ function ApriOverlayModifica(index) {
 	}
 	
 	//location
-	if(MieStorieVisible[index].location.country == "Italia")
+	if(MieStorieVisible[index].location.country != null)
 	{
-		document.getElementById("country").value = 1;
+	    document.getElementById("country").value = MieStorieVisible[index].location.country;
 		VisualizzaCity();
 	}
 	if(MieStorieVisible[index].location.city != null)

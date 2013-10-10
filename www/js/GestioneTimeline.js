@@ -299,7 +299,11 @@ function Timeline()
 			var storage = $.localStorage;
 			storage.set('mieStorie',MieStorie);
 				
-				
+			
+			firstDecade = GetFirstDecade(GetPersonDeacadeBirthDate()); //recupero la prima decade che compare nella timeline (guardo la prima che ha una storia raccontata)
+			//alert(firstDecade);
+			decade = firstDecade;
+			CreaTimelineCarousel();
 			MieStorieVisible = RecuperaMieStorieDecade();
 			/*if(MieStorieVisible.length<2) //caso in cui ci sia da stampare solo una foto o nessuna
 			{
@@ -318,6 +322,7 @@ function Timeline()
 	/*);
 }*/
 			//alert(msg.aboutPerson.personId);
+			isFirstOpen = false;
 			
 			GestioneSchermate();
            }

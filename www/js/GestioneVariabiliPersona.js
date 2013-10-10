@@ -85,3 +85,22 @@ function GetAppVersion() {
 function SetAppVersion(version) {
     storage.set('AppVersion', version);
 }
+
+function GetFirstDecade(decadeBirth)
+{
+    var firstDec = 1900;
+    while(firstDec < decadeBirth)
+    {
+        decade = firstDec;
+        var vett = RecuperaMieStorieDecade();
+        if(vett.length > 0)
+        {
+            return firstDec;
+        }
+        else
+        {
+            firstDec += 10;
+        }
+    }
+    return decadeBirth;
+}

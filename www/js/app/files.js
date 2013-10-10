@@ -16,9 +16,9 @@ $(function () {
 		success:function (data) {
 			//alert(data.uri);
 		    document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + data.filename + "'/><br><br>";
-			imgStoriaUrl.push("");
 			imgStoriaHashcode.push(data.hashcode);
 			imgStoriaFilename.push(data.filename);
+			imgStoriaUrl.push(data.uri);
 			
 			$('#progress .bar').css(
                 'width',

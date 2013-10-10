@@ -45,7 +45,7 @@
     <script type="text/javascript" src="js/index.js"></script>
     <script>
         $(document).ready(function () {
-            //SetSessionKey("");
+            //SetSessionKey("");            
             if (window.location.hostname == "http://base.reminiscens.me") {
                 console.log("Setting API url to BASE");
                 SetBaseUrl("http://base.reminiscens.me");
@@ -53,8 +53,8 @@
                 console.log("Setting API url to TEST");
                 SetBaseUrl("http://test.reminiscens.me");
             }
-            if (GetSessionKey() != ""
-                    && GetSessionKey() != null) {
+            if (GetSessionKey() != "" && GetSessionKey() != null) {
+                statisticaOPEN();
                 location.href = "main.html";
             }
         });

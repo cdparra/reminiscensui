@@ -18,9 +18,9 @@ function salvaStoria(){
 		return;
 	}
 	
-	if(document.getElementById("country").value == 0)
+	if(document.getElementById("country").value == "")
 	{
-		alert("Inserire alemo la nazione!");
+		alert("Inserire almeno la nazione!");
 		return;
 	}
 
@@ -31,6 +31,19 @@ function salvaStoria(){
 	newStory.locale = "it_IT";
 	var editor = $("#editor").data("kendoEditor");
 	newStory.text = editor.value();
+
+    //controllo se sono arrivato da una domanda e inserisco l'id della domanda in caso affermativo
+	if (idQuestion != null) {
+	    newStory.questionId = idQuestion;
+	    idQuestion = null;  //azzero l'id della domanda
+	}
+
+    //controllo se arrivo da un raccontaci dentro un memento del contesto
+	if (idContextRaccontaci != null)
+	{
+	    newStory.publicMementoId = idContextRaccontaci;
+	    idContextRaccontaci = null;
+	}
 	
 	if(document.getElementById("placeName").value != "")
 	{
@@ -110,7 +123,6 @@ function salvaStoria(){
 		SaveStoryWithConnection(newStory);
 		AggiungiMieStoriaDecade(newStory, decadeSelect);
 	}
-
 	
 	
 	MieStorieStorieVisible = RecuperaMieStorieDecade();
@@ -125,7 +137,14 @@ function salvaStoria(){
 	
 	AzzeraVariabiliOverlay();
 
+	
+	if (decade < firstDecade)
+	{
+	    firstDecade = decade;
+	    CreaTimelineCarousel();	    	    
+	}
 	AzzeraTimeline();
+	ScrollCarousel();
 	document.getElementById(decade).className = "decade-button-selected timeline";
 	GestioneSchermate(decade);
 }

@@ -236,9 +236,9 @@ function RecuperaContextDecade()
 function EstraiCampiContext(contextList) {
     var i = 0;
     while (contextList[i] != null && contextList[i].publicMemento != null) {
-        //alert(contextList[i].startLocation.city);
+        //alert(contextList[i].contextId);
         var newContext = new Object;
-        newContext.contextId = contextList[i].contextId;
+        //newContext.contextId = contextList[i].contextId;
         newContext.publicMementoId = contextList[i].publicMemento.publicMementoId;
         newContext.headline = contextList[i].publicMemento.headline;
         newContext.text = contextList[i].publicMemento.text;
@@ -325,6 +325,33 @@ function InserisciIndiceFotoContext(index)
 	vettIndexFotoContextVisible.push(index);
 }
 
+function statisticaVIEWS(publicMementoId)
+{
+    $.ajax({
+        type: "POST",
+        beforeSend: function (request) {
+            request.setRequestHeader("PLAY_SESSION", GetSessionKey());
+        },
+        url: GetBaseUrl() + "/lifeapi/log/VIEWS/context/" + GetContextId() + "/memento/" + publicMementoId,
+        //url: "http://test.reminiscens.me/lifeapi/user/signup",
+
+        data: "{}",
+
+        dataType: "json",
+        contentType: "application/json",
+
+        async: false,
+
+        success: function (data) {
+            //salert("hola");
+
+        },
+        error: function (data) {
+            alert("Errore nel passaggio di statistiche");
+        }
+    });
+}
+
 function stampaFotoContext(inizio, fine)
 {
 	//alert(inizio + "  " + fine);
@@ -406,7 +433,11 @@ function stampaFotoContext(inizio, fine)
             //alert(MieStorieVisible[i].mementoList.length);
             InserisciIndiceFotoContext(indice);
             stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>"
-
+            if(nPagina == 0)
+            {
+                //siccome faccio sempre vedere prima le foto quelle delle prima pagina posso metterle come statistica VIEWS
+                statisticaVIEWS(ContextVisible.picture[indice].publicMementoId);
+            }
         }
         else {
         }
@@ -447,9 +478,30 @@ function stampaFotoContext(inizio, fine)
 
     document.getElementById("containerCarouselFotoDelTempo").innerHTML = stringaDivCarousel;
 
-    $('.carousel').carousel({
+    $('#divFotoDelTempo').carousel({
         interval: false
-	});
+    });
+
+    $("#divFotoDelTempo").bind("slid", function () {
+        //alert( "ciao" );
+        //document.getElementById("item2").innerHTML = "ciao";
+        indexCarouselFoto++;
+
+        if (indexCarouselFoto > nPagina)
+            indexCarouselFoto = 0;
+
+        for(var i = indexCarouselFoto * 4; i < ((indexCarouselFoto * 4) + 4); i++)
+        {
+            if (ContextVisible.picture[i] == null) {
+                //alert(indexCarouselFoto);
+                break;
+            }
+            else {
+                statisticaVIEWS(ContextVisible.picture[i].publicMementoId);
+            }
+        }
+        
+    });
 }
 
 function stampaStorieContext(inizio, fine)
@@ -528,8 +580,28 @@ function stampaStorieContext(inizio, fine)
 
     document.getElementById("containerCarouselStorieDelTempo").innerHTML = stringaDivCarousel;
 
-    $('.carousel').carousel({
+    $('#divStorieDelTempo').carousel({
         interval: false
+    });
+
+    $("#divStorieDelTempo").bind("slid", function () {
+        //alert( "ciao" );
+        //document.getElementById("item2").innerHTML = "ciao";
+        indexCarouselStorie++;
+
+        if (indexCarouselStorie > nPagina)
+            indexCarouselStorie = 0;
+
+        for (var i = indexCarouselStorie * 2; i < ((indexCarouselStorie * 2) + 2) ; i++) {
+            if (ContextVisible.story[i] == null) {
+                //alert(indexCarouselStorie);
+                break;
+            }
+            else {
+                statisticaVIEWS(ContextVisible.story[i].publicMementoId);
+            }
+        }
+
     });
 }
 
@@ -593,9 +665,29 @@ function stampaCanzoniContext(inizio, fine)
 
     document.getElementById("containerCarouselCanzoniDelTempo").innerHTML = stringaDivCarousel;
 
-    $('.carousel').carousel({
+    $('#divCanzoniDelTempo').carousel({
         interval: false
     });
+    $("#divCanzoniDelTempo").bind("slid", function () {
+        //alert( "ciao" );
+        //document.getElementById("item2").innerHTML = "ciao";
+        indexCarouselCanzoni++;
+
+        if (indexCarouselCanzoni > nPagina)
+            indexCarouselCanzoni = 0;
+
+        for (var i = indexCarouselCanzoni * 2; i < ((indexCarouselCanzoni * 2) + 2) ; i++) {
+            if (ContextVisible.song[i] == null) {
+                //alert(indexCarouselCanzoni);
+                break;
+            }
+            else {
+                statisticaVIEWS(ContextVisible.song[i].publicMementoId);
+            }
+        }
+
+    });
+
 }
 
 
@@ -659,8 +751,28 @@ function stampaFamosiContext(inizio, fine)
 
     document.getElementById("containerCarouselFamosiDelTempo").innerHTML = stringaDivCarousel;
 
-    $('.carousel').carousel({
+    $('#divFamosiDelTempo').carousel({
         interval: false
+    });
+
+    $("#divFamosiDelTempo").bind("slid", function () {
+        //alert( "ciao" );
+        //document.getElementById("item2").innerHTML = "ciao";
+        indexCarouselFamosi++;
+
+        if (indexCarouselFamosi > nPagina)
+            indexCarouselFamosi = 0;
+
+        for (var i = indexCarouselFamosi * 2; i < ((indexCarouselFamosi * 2) + 2) ; i++) {
+            if (ContextVisible.people[i] == null) {
+                //alert(indexCarouselCanzoni);
+                break;
+            }
+            else {
+                statisticaVIEWS(ContextVisible.people[i].publicMementoId);
+            }
+        }
+
     });
 	
 }
@@ -735,8 +847,28 @@ function stampaTvFilmContext(inizio, fine) {
 
     document.getElementById("containerCarouselTVDelTempo").innerHTML = stringaDivCarousel;
 
-    $('.carousel').carousel({
+    $('#divTVDelTempo').carousel({
         interval: false
+    });
+
+    $("#divTVDelTempo").bind("slid", function () {
+        //alert( "ciao" );
+        //document.getElementById("item2").innerHTML = "ciao";
+        indexCarouselTv++;
+
+        if (indexCarouselTv > nPagina)
+            indexCarouselTv = 0;
+
+        for (var i = indexCarouselTv * 2; i < ((indexCarouselTv * 2) + 2) ; i++) {
+            if (ContextVisible.tvFilm[i] == null) {
+                //alert(indexCarouselCanzoni);
+                break;
+            }
+            else {
+                statisticaVIEWS(ContextVisible.tvFilm[i].publicMementoId);
+            }
+        }
+
     });
 }
 

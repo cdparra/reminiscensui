@@ -43,8 +43,6 @@ build/*
 xcuserdata
 profile
 *.moved-aside
-www/
 
 # OSX
 .DS_Store
-CordovaLib/build/

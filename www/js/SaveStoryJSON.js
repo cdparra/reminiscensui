@@ -97,7 +97,9 @@ function salvaStoria(){
 		Imm.thumbnailUrl = imgStoriaFilename[i];
 		Imm.type = "photo";
 		Imm.category = "PICTURE";
-		Imm.isCover = true;
+		if (i == 0) {
+		    Imm.isCover = true;
+		}
 		Imm.index = j;
 		j++;
 		Imm.headline = "prova";

@@ -6,6 +6,7 @@ function AzzeraVariabiliOverlay()
 	imgStoriaUrl = [];
 	imgStoriaHashcode = [];
 	imgStoriaFilename = [];
+	imgStoriaUrlHtml = [];
 	
 	decadeSelect = "";
 	yearSelect = "";
@@ -183,13 +184,17 @@ function ApriOverlayModifica(index) {
 	
 	parent.$.fancybox.close();  //chiudo la galleria
 	document.getElementById("titolo").value = MieStorieVisible[index].headline;
-	//alert(MieStorieVisible[index].mementoList.length);
+    //alert(MieStorieVisible[index].mementoList.length);
+	document.getElementById("imgInput").innerHTML = "<br><br>";
 	for(var i = 0; i< MieStorieVisible[index].mementoList.length; i++)
 	{
-		imgStoriaUrl.push("");
+	    alert(MieStorieVisible[index].mementoList[i].thumbnailUrl);
+	    imgStoriaUrl.push(MieStorieVisible[index].mementoList[i].url);
 		imgStoriaHashcode.push(MieStorieVisible[index].mementoList[i].fileHashcode);
 		imgStoriaFilename.push(MieStorieVisible[index].mementoList[i].thumbnailUrl);
-		document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].thumbnailUrl + "'/><br><br>";
+		imgStoriaUrlHtml.push(GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].thumbnailUrl);
+	    document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].thumbnailUrl + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i + ")'/></div><br><br>";
+        
 	}
 	
 	if(MieStorieVisible[index].text!= null)
@@ -241,4 +246,20 @@ function ApriOverlayModifica(index) {
 	CentroOverlay();
     $('#overlay').fadeIn('fast');
     $('#box').fadeIn('slow');	
+}
+
+
+function eliminaImmagine(index)
+{
+    imgStoriaUrl.splice(index,1);
+    imgStoriaUrlHtml.splice(index, 1);
+    imgStoriaHashcode.splice(index, 1);
+    imgStoriaFilename.splice(index, 1);
+
+    document.getElementById("imgInput").innerHTML = "<br /><br />";
+
+    for(var i = 0;i< imgStoriaUrl.length;i++)
+    {
+        document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + imgStoriaUrlHtml[i] + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i + ")'/></div><br><br>";
+    }
 }

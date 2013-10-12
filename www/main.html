@@ -279,9 +279,9 @@
                         <div style="float: left; margin: 20px;">
                             <!--<button onClick="editor();">Editor</button>-->
                             <input type="image" src="button/buttonFoto.jpg" onclick="capturePhoto();">
-                            <br />
+                            <br /><br /><br /><br />
                             <input id="record" type="image" style="margin-top: 10px;" src="button/buttonMicrofono.jpg" onclick="captureAudio();">
-                            <br />
+                            <br /><br /><br /><br />
                             <h3 style="color: #FF0;" id="time">0:00</h3>
                             <input id="play" type="image" style="margin-top: 10px; visibility: hidden;" src="button/buttonPlay.png" onclick="play();">
                             <input id="stop" type="image" style="margin-top: 10px; margin-left: 2px; visibility: hidden;" src="button/buttonStop.png" onclick="stop();">
@@ -298,6 +298,9 @@
                                 <div class="bar"></div>
                             </div>
                             <div id="imgInput" style="overflow: auto; height: 400px;">
+                                <br /><br />
+                                <!--<div style="position: relative; display: inline-block;"><img style=' max-height:200px;max-width:220px;' src='img/comera2.jpg' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' /></div><br><br>
+                                <div style="position: relative; display: inline-block; "> <img style=' max-height:200px;max-width:220px;' src='img/comera1.jpg' /><img src='images/Ximm.png' style='position: absolute; right: -12.5px; top: -12.5px; cursor: pointer; ' /></div><br><br>-->
                             </div>
                         </div>
                         <textarea id="editor" rows="10" cols="30" style="width: 480px; height: 485px; float: left;"></textarea>
@@ -353,6 +356,7 @@
         var sessionKey;
         var personId;
         var imgStoriaUrl = [];
+        var imgStoriaUrlHtml = [];
         var imgStoriaHashcode = [];
         var imgStoriaFilename = [];
         var firstDeacade;
@@ -382,13 +386,41 @@
         var indexCarouselTv = 0;
         var indexCarouselFamosi = 0;
 
+        function statisticheDETAILVIEWS(publicMementoId)
+        {
+            ///log/DETAILVIEWS/context/{context_id}/memento/{public_memento_id}
+            $.ajax({
+                type: "POST",
+                beforeSend: function (request) {
+                    request.setRequestHeader("PLAY_SESSION", GetSessionKey());
+                },
+                url: GetBaseUrl() + "/lifeapi/log/DETAILVIEWS/context/" + GetContextId() + "/memento/" + publicMementoId,
+                //url: "http://test.reminiscens.me/lifeapi/user/signup",
+
+                data: "{}",
+
+                dataType: "json",
+                contentType: "application/json",
+
+                async: false,
+
+                success: function (data) {
+                    //salert("hola");
+
+                },
+                error: function (data) {
+                    alert("Errore nel passaggio di statistiche");
+                }
+            });
+        }
+
         function aggiungiEventoFancyBox() {
             $(".fancyboxFotoContext").fancybox({
                 'showCloseButton': false,
-                afterLoad: function () {
+                afterLoad: function (current, previous) {
                     //alert(Storie.length);
                     this.title = "<div><h1>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].headline + "</h1><h5>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].text + "</h5> <span> Ti viene in mente qualcosa? </span> <button class='btn btn-primary' onClick='ApriOverlay(" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].publicMementoId + ");'>Raccontaci!</button> </div>";
-                    //this.title = "<div><h1>" + "hola" +"</h1> </div>";
+                    statisticheDETAILVIEWS(ContextVisible.picture[vettIndexFotoContextVisible[this.index]].publicMementoId);
                 },
                 'helpers': {
                     title: { type: 'inside' }
@@ -559,6 +591,7 @@
 
         function VisualizzaYear() {
             //alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
+            //alert(document.getElementById("decade").value);
             if (document.getElementById("decade").value != 0) {
                 document.getElementById("year").innerHTML = "";
                 decadeSelect = parseInt(document.getElementById("decade").item(document.getElementById("decade").value).text);

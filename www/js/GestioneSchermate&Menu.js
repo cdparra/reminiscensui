@@ -104,8 +104,9 @@ function Logout() {
     if (!confirm('Sicuro di voler uscire?')) {
         return;
     }
-    SetSessionKey("");
-    location.href = "index.html";
+    statisticheCLOSE();
+    //SetSessionKey("");    
+    //location.href = "index.html";
 }
 
 
@@ -214,6 +215,36 @@ function ScrollCarousel()
 
 function ReloadReminiscens() {
 	window.location.reload(true);
+}
+
+function statisticheCLOSE()
+{
+    ///log/CLOSE/user/{user_id}
+    $.ajax({
+        type: "POST",
+        beforeSend: function (request) {
+            request.setRequestHeader("PLAY_SESSION", GetSessionKey());
+        },
+        url: GetBaseUrl() + "/lifeapi/log/CLOSE/user/" + GetPersonId(),
+        //url: "http://test.reminiscens.me/lifeapi/user/signup",
+
+        data: "{}",
+
+        dataType: "json",
+        contentType: "application/json",
+
+        async: false,
+
+        success: function (data) {
+            //salert("hola");
+            SetSessionKey("");
+            location.href = "index.html";
+
+        },
+        error: function (data) {
+            alert("Errore nel passaggio di statistiche CLOSE");
+        }
+    });
 }
 
 $(document).ready(function() {

@@ -327,6 +327,14 @@ function InserisciIndiceFotoContext(index)
 
 function statisticaVIEWS(publicMementoId)
 {
+
+    // instead of calling the service, let's just count in a hash table which we will later send in one post 
+    if (views[publicMementoId]==null) {
+    	views[publicMementoId]=1;
+    } else {
+    	views[publicMementoId]++;
+    } 
+	
     $.ajax({
         type: "POST",
         beforeSend: function (request) {
@@ -340,7 +348,7 @@ function statisticaVIEWS(publicMementoId)
         dataType: "json",
         contentType: "application/json",
 
-        async: false,
+      //  async: false,
 
         success: function (data) {
             //salert("hola");

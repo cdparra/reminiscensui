@@ -329,10 +329,11 @@ function statisticaVIEWS(publicMementoId)
 {
 
     // instead of calling the service, let's just count in a hash table which we will later send in one post 
-    if (views[publicMementoId]==null) {
-    	views[publicMementoId]=1;
+	// addedd to replace in the future the count on view
+    if (views[publicMementoId+""]==null) {
+    	views[publicMementoId+""]=1;
     } else {
-    	views[publicMementoId]++;
+    	views[publicMementoId+""]++;
     } 
 	
     $.ajax({
@@ -355,7 +356,7 @@ function statisticaVIEWS(publicMementoId)
 
         },
         error: function (data) {
-            alert("Errore nel passaggio di statistiche");
+            console.log("Errore nel passaggio di statistiche");
         }
     });
 }
@@ -897,7 +898,7 @@ function CreaContext() {
         dataType: "json",
         contentType: "application/json",
 
-        async: false,
+//        async: false,
 
         success: function (data) {
             //salert("hola");
@@ -928,7 +929,7 @@ function AggiornaContext(country, city, region, locale, decade) {
         dataType: "json",
         contentType: "application/json",
 
-        async: false,
+//        async: false,
 
         success: function (data) {
             //salert("hola");

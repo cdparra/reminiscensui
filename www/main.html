@@ -391,10 +391,10 @@
         function statisticheDETAILVIEWS(publicMementoId)
         {
             // instead of calling the service, let's just count in a hash table which we will later send in one post 
-            if (detailViews[publicMementoId]==null) {
-            	detailViews[publicMementoId]=1;
+            if (detailViews[publicMementoId+""]==null) {
+            	detailViews[publicMementoId+""]=1;
             } else {
-            	detailViews[publicMementoId]++;
+            	detailViews[publicMementoId+""]++;
             }            
             ///log/DETAILVIEWS/context/{context_id}/memento/{public_memento_id}
             $.ajax({

@@ -114,7 +114,7 @@ function CentroCaricamento() {
     });
 }
 
-//controllo se la finestra è stata ridimensionata con jquery
+//controllo se la finestra stata ridimensionata con jquery
 jQuery(window).bind('resize', function () {
     CentroOverlay();
 	CentroCaricamento();
@@ -188,7 +188,7 @@ function ApriOverlayModifica(index) {
 	document.getElementById("imgInput").innerHTML = "<br><br>";
 	for(var i = 0; i< MieStorieVisible[index].mementoList.length; i++)
 	{
-	    alert(MieStorieVisible[index].mementoList[i].thumbnailUrl);
+	    //alert(MieStorieVisible[index].mementoList[i].thumbnailUrl);
 	    imgStoriaUrl.push(MieStorieVisible[index].mementoList[i].url);
 		imgStoriaHashcode.push(MieStorieVisible[index].mementoList[i].fileHashcode);
 		imgStoriaFilename.push(MieStorieVisible[index].mementoList[i].thumbnailUrl);
@@ -262,4 +262,6 @@ function eliminaImmagine(index)
     {
         document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + imgStoriaUrlHtml[i] + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i + ")'/></div><br><br>";
     }
+    
+    // ADD HERE THE CALL TO DELETE /lifestory/{id}/memento/{id memento}
 }

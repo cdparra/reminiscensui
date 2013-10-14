@@ -308,7 +308,7 @@ function eliminaImmagine(index)
             //        async: false,
 
             success: function (data) {
-                alert("success delete");
+                alert("La foto si è cancellata con sucesso!");
                 imgStoriaModifyMementoId.splice(index, 1);
                 imgStoriaModifyId.splice(index, 1);
                 //alert("hola");

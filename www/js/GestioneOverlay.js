@@ -7,6 +7,8 @@ function AzzeraVariabiliOverlay()
 	imgStoriaHashcode = [];
 	imgStoriaFilename = [];
 	imgStoriaUrlHtml = [];
+	imgStoriaModifyId = [];
+	imgStoriaModifyMementoId = [];
 	
 	decadeSelect = "";
 	yearSelect = "";
@@ -212,6 +214,8 @@ function ApriOverlayModifica(index) {
 		imgStoriaHashcode.push(MieStorieVisible[index].mementoList[i].fileHashcode);
 		imgStoriaFilename.push(MieStorieVisible[index].mementoList[i].thumbnailUrl);
 		imgStoriaUrlHtml.push(GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].thumbnailUrl);
+		imgStoriaModifyMementoId.push(MieStorieVisible[index].mementoList[i].mementoId);
+		imgStoriaModifyId.push(MieStorieVisible[index].lifeStoryId);
 	    document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].thumbnailUrl + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i + ")'/></div><br><br>";
         
 	}
@@ -284,34 +288,39 @@ function eliminaImmagine(index)
     {
         document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + imgStoriaUrlHtml[i] + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i + ")'/></div><br><br>";
     }
+
+    if(isModify) //devo eliminare la foto solo se sto modificando perchè solo in questo caso la ho già caricata sul server precedentemente
+    {        
+        // ADD HERE THE CALL TO DELETE /lifestory/{id}/memento/{id memento}
+        $.ajax({
+            type: "DELETE",
+            beforeSend: function (request) {
+                request.setRequestHeader("PLAY_SESSION", GetSessionKey());
+            },
+            url: GetBaseUrl() + "/lifeapi/lifestory/" + imgStoriaModifyId[index] + "/memento/" + imgStoriaModifyMementoId[index],
+            //url: "http://test.reminiscens.me/lifeapi/user/signup",
+
+            data: "{}",
+
+            dataType: "json",
+            contentType: "application/json",
+
+            //        async: false,
+
+            success: function (data) {
+                alert("success delete");
+                imgStoriaModifyMementoId.splice(index, 1);
+                imgStoriaModifyId.splice(index, 1);
+                //alert("hola");
+            },
+            error: function (data) {
+                alert("Errore nella cancellazione dell'immagine");
+            }
+
+        });
+    }
     
-    // ADD HERE THE CALL TO DELETE /lifestory/{id}/memento/{id memento}
-    //$.ajax({
-    //    type: "PUT",
-    //    beforeSend: function (request) {
-    //        request.setRequestHeader("PLAY_SESSION", GetSessionKey());
-    //    },
-    //    url: GetBaseUrl() + "/lifeapi/context/" + GetContextId() + "/" + decade + "/location",
-    //    //url: "http://test.reminiscens.me/lifeapi/user/signup",
-
-    //    data: JSON.stringify(contextData),
-
-    //    dataType: "json",
-    //    contentType: "application/json",
-
-    //    //        async: false,
-
-    //    success: function (data) {
-    //        //salert("hola");
-    //        var contextList = data.publicMementoList;
-    //        EstraiCampiContext(contextList);
-
-    //    },
-    //    error: function (data) {
-    //        alert("Errore nell'aggiornamento del context personale");
-    //    }
-
-    //});
+    
 }
 
 function SwitchOverlay(switchTo)

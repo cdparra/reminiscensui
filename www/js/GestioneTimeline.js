@@ -287,6 +287,7 @@ function Timeline()
 						Imm.url = mementoList[j].url;
 						Imm.fileHashcode = mementoList[j].fileHashcode;
 						Imm.thumbnailUrl = mementoList[j].thumbnailUrl;
+						Imm.mementoId = mementoList[j].mementoId;
 						//alert(Imm.src);s
 						vettImm.push(Imm);							
 					}						

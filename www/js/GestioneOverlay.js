@@ -34,6 +34,25 @@ function AzzeraVariabiliOverlay()
 	document.getElementById("imgInput").innerHTML = "";
 	var editor = $("#editor").data("kendoEditor");
 	editor.value("");
+
+
+    //public memento
+	headline = $("#headline").val("");
+	$("#text").val("");
+	$("#countryPublic").val("");
+	$("#regionPublic").val("");
+	$("#cityPublic").val("");
+	$("#yearPublic").val("");
+	$("#monthPublic").val("");
+	$("#dayPublic").val("");
+	$("#resourceUrl").val("");
+	$("#author").val("");
+	$("#category").val("SONG");
+	$("#sourceUrl").val("");
+	$("#resourceType").val("IMAGE");
+
+	document.getElementById("divPrivateMemento").style.display = "inherit";
+	document.getElementById("divPublicMemento").style.display = "none";
 	
 	$('#overlay').fadeOut('fast');
      $('#box').hide();
@@ -164,13 +183,13 @@ function ApriOverlay(clicked_id) {
 	            idQuestion = vettIdQuestions[5];
 	            break;
 	    }
-	    alert("question: " + idQuestion);
+	    //alert("question: " + idQuestion);
 		//downloadQuestion(birthYear,decade);
 	}
 	else //caso in cui arrivo da un context
 	{
 	    idContextRaccontaci = clicked_id;
-	    alert(idContextRaccontaci);
+	    //alert(idContextRaccontaci);
 	}
     CentroOverlay();
     $('#overlay').fadeIn('fast');
@@ -251,6 +270,9 @@ function ApriOverlayModifica(index) {
 
 function eliminaImmagine(index)
 {
+    if (!confirm('Sicuro di voler eliminare l\'immagine?')) {
+        return;
+    }
     imgStoriaUrl.splice(index,1);
     imgStoriaUrlHtml.splice(index, 1);
     imgStoriaHashcode.splice(index, 1);
@@ -264,4 +286,44 @@ function eliminaImmagine(index)
     }
     
     // ADD HERE THE CALL TO DELETE /lifestory/{id}/memento/{id memento}
+    //$.ajax({
+    //    type: "PUT",
+    //    beforeSend: function (request) {
+    //        request.setRequestHeader("PLAY_SESSION", GetSessionKey());
+    //    },
+    //    url: GetBaseUrl() + "/lifeapi/context/" + GetContextId() + "/" + decade + "/location",
+    //    //url: "http://test.reminiscens.me/lifeapi/user/signup",
+
+    //    data: JSON.stringify(contextData),
+
+    //    dataType: "json",
+    //    contentType: "application/json",
+
+    //    //        async: false,
+
+    //    success: function (data) {
+    //        //salert("hola");
+    //        var contextList = data.publicMementoList;
+    //        EstraiCampiContext(contextList);
+
+    //    },
+    //    error: function (data) {
+    //        alert("Errore nell'aggiornamento del context personale");
+    //    }
+
+    //});
+}
+
+function SwitchOverlay(switchTo)
+{
+    if(switchTo == "divPrivateMemento")
+    {
+        document.getElementById("divPrivateMemento").style.display = "inherit";
+        document.getElementById("divPublicMemento").style.display = "none";
+    }
+    else
+    {
+        document.getElementById("divPrivateMemento").style.display = "none";
+        document.getElementById("divPublicMemento").style.display = "inherit";
+    }
 }

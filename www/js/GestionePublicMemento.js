@@ -2,18 +2,14 @@
 // use console.log instead
 
 function initializePublicMementoConnection() {	
-	$( "#postMemento" ).click(function( event ) {
+    	
+	$("#salvaPublic").submit(function (event) {
 		  event.preventDefault();
 		  PostMemento();
 	});
 	
-	$( "#postMemento" ).submit(function( event ) {
-		  event.preventDefault();
-		  PostMemento();
-	});
-	
-	$( "#month").change(function( event ) {
-		updateDaySelect();
+	$( "#monthPublic").change(function( event ) {
+		updatedayPublicSelect();
 	});
 }
 
@@ -37,40 +33,40 @@ function PostMemento(){
 	publicMemento.author = $("#author").val();
 	publicMemento.startLocation = new Object;
 	
-	var country = $("#country").val();
-	var region = $("#region").val();
-	var city = $("#city").val();
+	var countryPublic = $("#countryPublic").val();
+	var regionPublic = $("#regionPublic").val();
+	var cityPublic = $("#cityPublic").val();
 	publicMemento.startLocation.locale = "it_IT";	
 	
-	if (country != null && country!="") {
-		publicMemento.startLocation.country = country;
+	if (countryPublic != null && countryPublic!="") {
+		publicMemento.startLocation.countryPublic = countryPublic;
 	}
 		
-	if (region != null && region!="") {
-		publicMemento.startLocation.region = region;
+	if (regionPublic != null && regionPublic!="") {
+		publicMemento.startLocation.regionPublic = regionPublic;
 	}
 	
-	if (city != null && city!="") {
-		publicMemento.startLocation.city = city;
+	if (cityPublic != null && cityPublic!="") {
+		publicMemento.startLocation.cityPublic = cityPublic;
 	}
 	
 	publicMemento.startLocation.locale = "it_IT";	
 	
 	publicMemento.startDate = new Object;
 	
-	var year = $("#year").val();
-	var month = $("#month").val();
-	var day = $("#day").val();
+	var yearPublic = $("#yearPublic").val();
+	var monthPublic = $("#monthPublic").val();
+	var dayPublic = $("#dayPublic").val();
 	
-	if (year != null && year!="") {
-		publicMemento.startDate.year = year;
-		publicMemento.startDate.decade = year - year%10;
+	if (yearPublic != null && yearPublic!="") {
+		publicMemento.startDate.yearPublic = yearPublic;
+		publicMemento.startDate.decade = yearPublic - yearPublic%10;
 	}
-	if (month != null && month !="") {
-		publicMemento.startDate.month = month;
+	if (monthPublic != null && monthPublic !="") {
+		publicMemento.startDate.monthPublic = monthPublic;
 	}
-	if (day != null && day!="") {
-		publicMemento.startDate.day = $("#day").val();
+	if (dayPublic != null && dayPublic!="") {
+		publicMemento.startDate.dayPublic = $("#dayPublic").val();
 	}
 	publicMemento.startDate.locale = "it_IT";
 		
@@ -81,7 +77,8 @@ function PostMemento(){
 	publicMemento.category = $("#category").val();
 	publicMemento.resourceType = $("#resourceType").val();
 	
-	var contextId = $("#contextId").val();
+    //var contextId = $("#contextId").val();
+	var contextId = GetContextId();
 	if (contextId !=null && contextId != "") {
 		PostContextMemento(publicMemento,contextId);
 	} else {	
@@ -97,15 +94,15 @@ function PostContextMemento(publicMemento,contextId){
 	var contextMemento = new Object;
 	contextMemento.publicMemento = publicMemento;
 	contextMemento.level = "WORLD";
-	if (publicMemento.startLocation.country != null && publicMemento.startLocation.country.toLowerCase()=="italia") {
-		if (publicMemento.startLocation.region !=null && publicMemento.startLocation.region!="") {
-			if (publicMemento.startLocation.city !=null && publicMemento.startLocation.city!="") {
-				contextMemento.level="CITY";
+	if (publicMemento.startLocation.countryPublic != null && publicMemento.startLocation.countryPublic.toLowerCase()=="italia") {
+		if (publicMemento.startLocation.regionPublic !=null && publicMemento.startLocation.regionPublic!="") {
+			if (publicMemento.startLocation.cityPublic !=null && publicMemento.startLocation.cityPublic!="") {
+				contextMemento.level="cityPublic";
 			} else {
-				contextMemento.level="REGION";
+				contextMemento.level="regionPublic";
 			}
 		} else {
-			contextMemento.level="COUNTRY";
+			contextMemento.level="countryPublic";
 		}
 	} 
 
@@ -126,15 +123,16 @@ function PostContextMemento(publicMemento,contextId){
         	data: JSON.stringify(contextMemento),
         	async: false,
         	success: function (data) {
+        	    alert("success");
 				$("#postMementoResult").html("<div class='alert alert-success'>Salvato!</div>");
 				headline = $("#headline").val("");
 				$("#text").val("");
-				$("#country").val("");
-				$("#region").val("");
-				$("#city").val("");
-				$("#year").val("");
-				$("#month").val("");
-				$("#day").val("");
+				$("#countryPublic").val("");
+				$("#regionPublic").val("");
+				$("#cityPublic").val("");
+				$("#yearPublic").val("");
+				$("#monthPublic").val("");
+				$("#dayPublic").val("");
 				$("#resourceUrl").val("");
 				$("#author").val("");
 				$("#category").val("SONG");
@@ -142,6 +140,7 @@ function PostContextMemento(publicMemento,contextId){
 				$("#resourceType").val("IMAGE");
         	},
         	error: function (data) {
+        	    alert("error");
 				$("#postMementoResult").html("<div class='alert alert-danger'>E' successo un errore "
 				+data+"</div>");
         	},
@@ -152,13 +151,14 @@ function PostContextMemento(publicMemento,contextId){
 	return false;
 }
 
-function updateDaySelect() { 
-	var month = $("#month").val();
-    if (month != 0) {
-        var monthInt = parseInt(month);
+function updateDaySelect() {
+    //alert("1");
+	var monthPublic = $("#monthPublic").val();
+    if (monthPublic != 0) {
+        var monthPublicInt = parseInt(monthPublic);
         var j = 1;
-        var selectHTML = "<select id='day' name='day' class='form-control'><option value='" + 0 + "'>" + "giorno" + "</option>";
-        switch (monthInt) {
+        var selectHTML = "<select id='dayPublic' name='dayPublic' class='form-control'><option value='" + 0 + "'>" + "giorno" + "</option>";
+        switch (monthPublicInt) {
             case 1:
             case 3:
             case 5:
@@ -189,7 +189,7 @@ function updateDaySelect() {
         }
 
         selectHTML += "</select>";
-        $("#day").html(selectHTML);
-        $('#day').fadeIn('slow');
+        $("#dayPublic").html(selectHTML);
+        $('#dayPublic').fadeIn('slow');
     }
 }

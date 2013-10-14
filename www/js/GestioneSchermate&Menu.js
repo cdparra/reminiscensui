@@ -30,7 +30,7 @@ function GestioneSchermate(clickdecade)
 			$("#FotoDelTempo").text("Foto pubbliche attorno al " + decade);
 			$("#CanzoniDelTempo").text("Le canzoni degli anni " + decade);
 			$("#FamosiDelTempo").text("Chi era famoso/e' nato attorno al " + decade);
-			$("#TVDelTempo").text("La TV e i film degli anni 1950 " + decade);
+			$("#TVDelTempo").text("La TV e i film attorno al " + decade);
 			$("#TueFotoDelTempo").text("Le tue foto attorno al " + decade);
 			$("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
 			$("#TueStorieDelTempo").text("Le tue storie nel " + decade);
@@ -201,13 +201,16 @@ function ScrollCarousel()
         numeroSchermateTimeline = 2;
     else
         numeroSchermateTimeline = 3;
-
+    //alert(numeroSchermateTimeline);
+    //alert(firstDecade);
+    //alert(decade);
     for(var i = 1; i<= numeroSchermateTimeline;i++)
     {
         if (decade < (firstDecade + i * 60))
         {
             //alert(i - 1);
             $('#timelineCarousel').carousel(i - 1);
+            break;
         }
             
     }

@@ -14,7 +14,7 @@ $(function () {
         dataType: 'json',
         success:function (data) {
             //alert(data.uri);
-            document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + imgStoriaUrl.length + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + data.filename + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + imgStoriaUrl.length + ")'/></div><br><br>";
+            document.getElementById("imgInput").innerHTML += "<br><br><div id='" + "divImg" + imgStoriaUrl.length + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + data.filename + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + imgStoriaUrl.length + ")'/></div>";
             imgStoriaHashcode.push(data.hashcode);
 			imgStoriaFilename.push(data.filename);
 			imgStoriaUrl.push(data.uri);

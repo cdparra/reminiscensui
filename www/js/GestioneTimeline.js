@@ -264,10 +264,12 @@ function Timeline()
 				newStory.lifeStoryId = storyList[i].lifeStoryId;
 				newStory.headline = storyList[i].headline;
 				newStory.location = new Object;
-				newStory.location.country = storyList[i].location.country;
-				newStory.location.city = storyList[i].location.city;
-				newStory.location.region = storyList[i].location.region;
-				newStory.location.placeName = storyList[i].location.placeName;
+				if (storyList[i].location != null) {
+				    newStory.location.country = storyList[i].location.country;
+				    newStory.location.city = storyList[i].location.city;
+				    newStory.location.region = storyList[i].location.region;
+				    newStory.location.placeName = storyList[i].location.placeName;
+				}
 				newStory.startDate = new Object;
 				newStory.startDate.exactDate = storyList[i].startDate.exactDateAsString;
 				newStory.startDate.decade = storyList[i].startDate.decade;

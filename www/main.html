@@ -38,6 +38,7 @@
     <script type="text/javascript" src="js/libs/jquery.cookie.js"></script>
     <script type="text/javascript" src="js/libs/json2.js"></script>
     <script type="text/javascript" src="js/GestioneImmagini.js"></script>
+    <script type="text/javascript" src="js/GestionePublicMemento.js"></script>
     <script type="text/javascript" src="js/SaveStoryJSON.js"></script>
 
     <!-- Add mousewheel plugin (this is optional) -->
@@ -70,6 +71,7 @@
     <script type="text/javascript" src="js/GestioneVariabiliPersona.js"></script>
     <script type="text/javascript" src="js/GestioneQuestion.js"></script>
 
+    <script src="http://www.youtube.com/player_api"></script>
     <script type="text/javascript" src="js/GestioneContext.js"></script>
     <script type="text/javascript" src="js/GestioneTimeline.js"></script>
 
@@ -224,7 +226,7 @@
                         <div class="divCanzoni">
 
 
-                            <h3 id="FamosiDelTempo">La TV e i film degli anni 1950</h3>
+                            <h3 id="TVDelTempo">La TV e i film degli anni 1950</h3>
                             <div id="containerCarouselTVDelTempo">
 
 
@@ -237,10 +239,10 @@
                 <div class="overlay" id="overlay" style="display: none;"></div>
                 <!--contenuto overlay-->
                 <div id="box">
-                    <div style="background-color: #D5D5D5; padding-top: 10px;">
+                    <div id="divPrivateMemento" style="background-color: #D5D5D5; padding-top: 10px;">
                         <div style="background-color: #A05152; padding-bottom: 10px; padding-top: 10px;">
                             <label id="titleBox">raccontaci la tua storia</label>
-                            <button id="salva" onclick="salvaStoria();" class="btn btn-primary">Salva</button>
+                            <button id="salva" onclick="salvaStoria();" class="btn btn-primary">Salva</button>                            
                         </div>
                         <div style="margin-top: 10px; color: #000; margin-left: 20px; margin-right: 20px;">
                             <form>
@@ -297,24 +299,133 @@
                             <div id="progress" class="progress progress-success progress-striped">
                                 <div class="bar"></div>
                             </div>
-                            <div id="imgInput" style="overflow: auto; height: 400px;">
-                                <br /><br />
+                            <div id="imgInput" style="overflow: auto; height: 340px;">
+                                <!--<br /><br />-->
                                 <!--<div style="position: relative; display: inline-block;"><img style=' max-height:200px;max-width:220px;' src='img/comera2.jpg' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' /></div><br><br>
                                 <div style="position: relative; display: inline-block; "> <img style=' max-height:200px;max-width:220px;' src='img/comera1.jpg' /><img src='images/Ximm.png' style='position: absolute; right: -12.5px; top: -12.5px; cursor: pointer; ' /></div><br><br>-->
                             </div>
                         </div>
-                        <textarea id="editor" rows="10" cols="30" style="width: 480px; height: 485px; float: left;"></textarea>
+                        <textarea id="editor" rows="10" cols="30" style="width: 480px; height: 430px; float: left;"></textarea>
+                        <br />
+                        <button id="switchPublicMemento" onclick="SwitchOverlay('divPublicMemento');" class="btn btn-primary" style="margin-bottom:5px;">Aggiungi un public memento</button>
 
+                    </div>             
+
+
+
+
+                    <div id="divPublicMemento" style="background-color: #D5D5D5; padding-top: 10px; display:none;">
+                        <div style="background-color: #A05152; padding-bottom: 10px; padding-top: 10px;">
+                            <label id="titleBoxPublic">raccontaci un public memento</label>
+                            <button id="salvaPublic" class="btn btn-primary" onclick="PostMemento();">Salva</button>
+                        </div>
+                        <div style="margin-top: 10px; color: #000; margin-left: 20px; margin-right: 20px; height:520px;">
+                            <form id="formMemento">
+
+                                <div style="float:left; margin-right:8px;">
+                                    <label for="headline" style="margin-top: 3px;">Titolo/Nome</label>
+                                    <input id="headline" style="margin-left: 30px;" type="text" placeholder="titolo" class="form-control" />
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label for="text" style="margin-top: 3px;">Descrizione</label>
+                                    <textarea id="text" name="text" rows="3" style="width:500px;" placeholder="Introduce una descrizione della risorsa" class="form-control"></textarea>
+                                </div>
+                                <div style="float:left;margin-right: 8px;">
+                                    <label for="author" style="margin-top: 3px;">Autore</label>
+                                    <input id="author" name="author" type="text" placeholder="Autore (e.g. 'Lucio Battisti')" class="form-control" class="form-control">
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label for="category" style="margin-top: 3px;">Categoria</label>
+                                    <select id="category" name="category" class="form-control">
+                                        <option value="SONG">Canzone</option>
+                                        <option value="PICTURE">Immagine/Fotografia</option>
+                                        <option value="PEOPLE">Persona</option>
+                                        <option value="STORY">Storia/Evento</option>
+                                        <option value="TV">Programma di TV</option>
+                                        <option value="FILM">Film</option>
+                                    </select>
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label id="resourceTypeLabel" style="margin-top: 3px;" for="resourceType">Tipo</label>
+                                    <select id="resourceType" name="resourceType">
+                                        <option value="IMAGE">La risorsa e' una immagine</option>
+                                        <option value="VIDEO">La risorsa e' un video</option>
+                                        <option value="AUDIO">La risorsa e' un audio</option>
+                                        <option value="TEXT">La risorsa e' un testo</option>
+                                        <option value="HTML">La risorsa e' una pagina HTML</option>
+                                    </select>
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label id="yearLabel" for="yearPublic">Anno</label>
+                                    <input id="yearPublic" name="year" type="text" placeholder="Anno" class="form-control">
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label id="monthLabel" for="monthPublic">Mese</label>
+                                    <select id="monthPublic" name="month" class="form-control" onchange="updateDaySelect();">
+                                        <option></option>
+                                        <option>01</option>
+                                        <option>02</option>
+                                        <option>03</option>
+                                        <option>04</option>
+                                        <option>05</option>
+                                        <option>06</option>
+                                        <option>07</option>
+                                        <option>08</option>
+                                        <option>09</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+                                    </select>
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label id="dayLabel" for="dayPublic">Giorno</label>
+                                    <select id="dayPublic" name="day" type="text" class="form-control"></select>
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label id="countryLabel" for="countryPublic">Nazione</label>
+                                    <input id="countryPublic" name="country" type="text" placeholder="Nazione" class="form-control">
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label id="regionLabel" for="regionPublic">Regione</label>
+                                    <input id="regionPublic" name="region" type="text" placeholder="Regione" class="form-control">
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label id="cityLabel" for="cityPublic">Citta</label>
+                                    <input id="cityPublic" name="city" type="text" placeholder="Citta" class="form-control">
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label id="locationTextualLabel" for="locationTextual">Nome del posto</label>
+                                    <input id="locationTextual" name="locationTextual" type="text" placeholder="Nome del posto" class="form-control">
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label id="sourceLabel" for="source">Fonte</label>
+                                    <input id="source" name="source" type="text" placeholder="Da dove hai presso l'URL (e.g. Wikipedia, Youtube)" class="form-control">
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label id="resourceUrlLabel" for="resourceUrl">URL della risorsa</label>
+                                    <input id="resourceUrl" name="resourceUrl" type="text" placeholder="URL della risorsa (e.g. http://www.youtube.com/watch?v=CqqSklcgThA)" class="form-control">
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <label id="sourceUrlLable" for="sourceUrl">URL della Fonte</label>
+                                    <input id="sourceUrl" name="source" type="text" placeholder="URL alla pagina dove la risorsa e' stata trovata (e.g. www.youtube.com/channel/abc)" class="form-control">
+                                </div>
+                            </form>
+                            
+                        </div>
+                        <br /><br />
+                        <button id="switchPublicMemento" onclick="SwitchOverlay('divPrivateMemento');" class="btn btn-primary" style="margin-bottom:5px;">Aggiungi una storia personale</button>
+                        
                     </div>
+                    
                     <img src="images/X.png" class="chiudi" />
-                </div>
             </div>
+        </div>
             <!--fine box-->
             <!--<button onClick="storage();">Storage</button>-->
             <!--<label id="debug"></label>-->
             <div class="overlay" id="overlayCaricamento" style="display: none;"></div>
             <img src="images/caricamento.gif" id="caricamento" />
-        </div>
+    </div>
      
     
     <script>
@@ -414,23 +525,6 @@
                   alert("Errore nel passaggio di statistiche");
               }
             });
-            //$.ajax({
-            //      type: "POST",
-            //      beforeSend: function (request) {
-            //          request.setRequestHeader("PLAY_SESSION", GetSessionKey());
-            //      },
-            //      url: GetBaseUrl() + "/lifeapi/log/DETAILVIEWS/context/" + GetContextId() + "/memento/" + publicMementoId,
-            //      data: "{}",
-            //      dataType: "json",
-            //      contentType: "application/json",
-            //      async: false,
-            //      success: function (data) {
-            //          alert("hola");
-            //      },
-            //      error: function (data) {
-            //      alert("Errore nel passaggio di statistiche");
-            //  }
-            //});
         }
 
         function aggiungiEventoFancyBox() {
@@ -523,7 +617,7 @@
 
         $(document).ready(function () {
 
-
+            //initializePublicMementoConnection();
             InizializzaValueLocationAndDate();
 
             //gestisco la visualizzazione a seconda della versione della App scelta dall'utente

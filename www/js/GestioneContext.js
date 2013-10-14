@@ -614,6 +614,9 @@ function stampaStorieContext(inizio, fine)
     });
 }
 
+
+var playersCanzoni = [];
+var videoCanzoni = [];
 function stampaCanzoniContext(inizio, fine)
 {
     document.getElementById("containerCarouselCanzoniDelTempo").innerHTML = "";
@@ -623,23 +626,27 @@ function stampaCanzoniContext(inizio, fine)
     var stringaDivCarousel = "<div id='divCanzoniDelTempo' class='carousel slide'>";
     var stringaDivEle = "<div class='carousel-inner'>";
     var stringaDiv = "";
+    
     while (ContextVisible.song[indice] != null) {
-    	var song = ContextVisible.song[indice];
-    	var h = song.headline == null ? "" : song.headline;
-    	var t = song.text == null ? "" : song.text;
-    	var tipo = song.resourceType;
+        var song = ContextVisible.song[indice];
+        var h = song.headline == null ? "" : song.headline;
+        var t = song.text == null ? "" : song.text;
+        var tipo = song.resourceType;
 	
         if (song.resourceUrl != null)
         {
-            //replace necessario per permettere di introdurre contenuti di youtube sul sito
-            var url = song.resourceUrl.replace('watch?v=', 'embed/');
-                stringaDiv += "<div id='songCarousel'"+song.publicMementoId+ "style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'>";
-            stringaDiv += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>";
-            stringaDiv += h +"</h3><h7 style='text-align:center;'>" + t + "</h7>";
+            //estraggo il video id di ogni filmato youtube e lo salvo in un vettore
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+            var match = song.resourceUrl.match(regExp);
+            if (match&&match[2].length==11){
+                //alert(match[2]);
+                videoCanzoni.push(match[2]);
+            }else{
+            }
+            stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'><div id='songCarousel" + song.publicMementoId + "'></div>";
+            stringaDiv += "<h3>" + h +"</h3><h7 style='text-align:center;'>" + t + "</h7>";
             stringaDiv += "</div>";
-            //document.getElementById("divCanzoni" + numeroDiv).innerHTML += "<iframe width='420' height='315' src='" + "http://www.youtube.com/embed/XVXzlPqViXA?autoplay=true" + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h3>" + ContextVisible.song[i].headline +"</h3>";
-
-            //$("'songCarousel'"+song.publicMementoId).click(postDetailViews(song.publicMementoId));
+            playersCanzoni.push(song.publicMementoId);
         }
         
 
@@ -677,6 +684,19 @@ function stampaCanzoniContext(inizio, fine)
 
     document.getElementById("containerCarouselCanzoniDelTempo").innerHTML = stringaDivCarousel;
 
+    for (var i = 0; i < videoCanzoni.length; i++) {
+        var player = new YT.Player("songCarousel" + playersCanzoni[i], {
+            height: '315',
+            width: '420',
+            videoId: videoCanzoni[i],
+            events: {
+                //'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChangeCanzoni
+            }
+        });
+    }
+    
+
     $('#divCanzoniDelTempo').carousel({
         interval: false
     });
@@ -702,6 +722,26 @@ function stampaCanzoniContext(inizio, fine)
 
 }
 
+// when video play
+function onPlayerStateChangeCanzoni(event) {
+    if (event.data === 1) {
+        var url = event.target.getVideoUrl();
+
+        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+        var match = url.match(regExp);
+        if (match && match[2].length == 11) {
+            //alert(match[2]);
+            var i = 0;
+            while (match[2] != videoCanzoni[i])
+            {
+                i++;
+            }
+            statisticheDETAILVIEWS(playersCanzoni[i]);
+        } else {
+        }
+
+    }
+}
 
 function stampaFamosiContext(inizio, fine)
 {
@@ -789,6 +829,8 @@ function stampaFamosiContext(inizio, fine)
 	
 }
 
+var playersTv = [];
+var videoTv = [];
 function stampaTvFilmContext(inizio, fine) {
     document.getElementById("containerCarouselTVDelTempo").innerHTML = "";
     var indice = 0;
@@ -812,9 +854,20 @@ function stampaTvFilmContext(inizio, fine) {
     			stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + url;
     			stringaDiv +="' class='round'/><h4>" + h + "</h4><h6>" + t + "</h6>";
     		} else {
-    			url = tvFilm.resourceUrl.replace('watch?v=', 'embed/');
+    		    //alert("ciao");
+    			/*url = tvFilm.resourceUrl.replace('watch?v=', 'embed/');
     			stringaDiv += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h5>"; 
-    			stringaDiv += h + "</h5><h7 style='text-align:center;'>" + t + "</h7>";
+    			stringaDiv += h + "</h5><h7 style='text-align:center;'>" + t + "</h7>";*/
+    		    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+    		    var match = tvFilm.resourceUrl.match(regExp);
+    		    if (match && match[2].length == 11) {
+    		        //alert(match[2]);
+    		        videoTv.push(match[2]);
+    		    } else {
+    		    }
+    		    stringaDiv += "<div id='tvCarousel" + tvFilm.publicMementoId + "'></div>";
+    		    stringaDiv += "<h3>" + h + "</h3><h7 style='text-align:center;'>" + t + "</h7>";
+    		    playersTv.push(tvFilm.publicMementoId);
     		}
             stringaDiv += "</div>";
         } else {
@@ -859,6 +912,19 @@ function stampaTvFilmContext(inizio, fine) {
 
     document.getElementById("containerCarouselTVDelTempo").innerHTML = stringaDivCarousel;
 
+    for (var i = 0; i < videoTv.length; i++) {
+        //alert(playersTv[i]);
+        var player = new YT.Player("tvCarousel" + playersTv[i], {
+            height: '315',
+            width: '420',
+            videoId: videoTv[i],
+            events: {
+                //'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChangeTv
+            }
+        });
+    }
+    
     $('#divTVDelTempo').carousel({
         interval: false
     });
@@ -882,6 +948,26 @@ function stampaTvFilmContext(inizio, fine) {
         }
 
     });
+}
+
+// when video play
+function onPlayerStateChangeTv(event) {
+    if (event.data === 1) {
+        var url = event.target.getVideoUrl();
+
+        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+        var match = url.match(regExp);
+        if (match && match[2].length == 11) {
+            //alert(match[2]);
+            var i = 0;
+            while (match[2] != videoTv[i]) {
+                i++;
+            }
+            statisticheDETAILVIEWS(playersTv[i]);
+        } else {
+        }
+
+    }
 }
 
 function CreaContext() {
@@ -942,6 +1028,27 @@ function AggiornaContext(country, city, region, locale, decade) {
         }
 
     });
+}
+
+
+function player_state_changed(state) {
+    /* This event is fired whenever the player's state changes.
+       Possible values are:
+       - unstarted (-1)
+       - ended (0)
+       - playing (1)
+       - paused (2) 
+       - buffering (3)
+       - video cued (5). 
+       When the SWF is first loaded it will broadcast an unstarted (-1) event.
+       When the video is cued and ready to play it will broadcast a video cued event (5).
+    */
+
+    alert("ciao");
+    if (state == 1 || state == 2) {
+        alert('the "play" button *might* have been clicked');
+    }
+
 }
 
 /*$(document).ready(function() {	

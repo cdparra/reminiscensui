@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+���<!DOCTYPE html>
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
@@ -45,8 +45,10 @@
     <script type="text/javascript" src="js/index.js"></script>
     <script>
         $(document).ready(function () {
-            //SetSessionKey("");            
-            if (window.location.hostname == "http://base.reminiscens.me") {
+            //SetSessionKey("");        
+            var location = window.location.hostname;    
+            if (location.indexOf("base.reminiscens.me") != -1) {
+                // we are on production server
                 console.log("Setting API url to BASE");
                 SetBaseUrl("http://base.reminiscens.me");
             } else {

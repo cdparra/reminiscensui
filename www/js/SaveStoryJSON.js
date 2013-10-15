@@ -94,7 +94,8 @@ function salvaStoria(){
 		var Imm = new Object;
 		Imm.url = imgStoriaUrl[i];
 		Imm.fileHashcode = imgStoriaHashcode[i];
-		Imm.thumbnailUrl = imgStoriaFilename[i];
+		Imm.thumbnailUrl = imgStoriaThumbnailUrl[i];
+		Imm.fileName = imgStoriaFilename[i];
 		Imm.type = "photo";
 		Imm.category = "PICTURE";
 		if (i == 0) {

@@ -114,7 +114,7 @@ $(document).ready(function() {
         "top": percentualeY + "%"
     });*/
 	$("#box").css({
-        "top": 50
+        "top": 20
     });
 }
 
@@ -216,7 +216,7 @@ function ApriOverlayModifica(index) {
 		imgStoriaUrlHtml.push(GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].thumbnailUrl);
 		imgStoriaModifyMementoId.push(MieStorieVisible[index].mementoList[i].mementoId);
 		imgStoriaModifyId.push(MieStorieVisible[index].lifeStoryId);
-	    document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].thumbnailUrl + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i + ")'/></div><br><br>";
+		document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].fileName + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i + ")'/></div><br><br>";
         
 	}
 	

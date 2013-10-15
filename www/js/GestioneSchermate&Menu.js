@@ -35,7 +35,9 @@ function GestioneSchermate(clickdecade)
 			$("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
 			$("#TueStorieDelTempo").text("Le tue storie nel " + decade);
 			
-			downloadQuestion(birthYear,decade);
+			if (isQuestion) {
+			    downloadQuestion(birthYear, decade);
+			}
 			
 			if(!MiaDecadeIsEmpty())
 			{
@@ -55,12 +57,14 @@ function GestioneSchermate(clickdecade)
 				stampaMieFoto(0,MieStorieVisible.length);
 				stampaMieStorie(0,MieStorieVisible.length);
 				
-				//gestione context
-				stampaFotoContext(0, ContextVisible.picture.length);
-				stampaStorieContext(0, ContextVisible.story.length);
-				stampaCanzoniContext(0, ContextVisible.song.length);
-				stampaFamosiContext(0, ContextVisible.people.length);
-				stampaTvFilmContext(0, ContextVisible.tvFilm.length);
+			    //gestione context
+				if (isContext) {
+				    stampaFotoContext(0, ContextVisible.picture.length);
+				    stampaStorieContext(0, ContextVisible.story.length);
+				    stampaCanzoniContext(0, ContextVisible.song.length);
+				    stampaFamosiContext(0, ContextVisible.people.length);
+				    stampaTvFilmContext(0, ContextVisible.tvFilm.length);
+				}
 				
 				aggiungiEventoFancyBox();
 				document.getElementById("Foto").style.display="inherit";
@@ -270,65 +274,65 @@ $(document).ready(function() {
 			} else {
 				nascondiDiv();
 				document.getElementById(tmp).style.display = "inherit";
-                //gestione statistiche
-				switch(tmp)
-				{
-				    case "Foto":
-				        for (var i = indexCarouselFoto * 4; i < ((indexCarouselFoto * 4) + 4) ; i++)
-				        {
-				            if (ContextVisible.picture[i] == null) {
-				                //alert(indexCarouselFoto);
-				                break;
+			    //gestione statistiche
+				if (isContext) {
+				    switch (tmp) {
+				        case "Foto":
+				            for (var i = indexCarouselFoto * 4; i < ((indexCarouselFoto * 4) + 4) ; i++) {
+				                if (ContextVisible.picture[i] == null) {
+				                    //alert(indexCarouselFoto);
+				                    break;
+				                }
+				                else {
+				                    statisticaVIEWS(ContextVisible.picture[i].publicMementoId);
+				                }
 				            }
-				            else {
-				                statisticaVIEWS(ContextVisible.picture[i].publicMementoId);
+				            break;
+				        case "Storie":
+				            for (var i = indexCarouselStorie * 2; i < ((indexCarouselStorie * 2) + 2) ; i++) {
+				                if (ContextVisible.story[i] == null) {
+				                    //alert(indexCarouselFoto);
+				                    break;
+				                }
+				                else {
+				                    statisticaVIEWS(ContextVisible.story[i].publicMementoId);
+				                }
 				            }
-				        }
-				        break;
-				    case "Storie":
-				        for (var i = indexCarouselStorie * 2; i < ((indexCarouselStorie * 2) + 2) ; i++) {
-				            if (ContextVisible.story[i] == null) {
-				                //alert(indexCarouselFoto);
-				                break;
+				            break;
+				        case "Canzoni":
+				            for (var i = indexCarouselCanzoni * 2; i < ((indexCarouselCanzoni * 2) + 2) ; i++) {
+				                if (ContextVisible.song[i] == null) {
+				                    //alert(indexCarouselFoto);
+				                    break;
+				                }
+				                else {
+				                    statisticaVIEWS(ContextVisible.song[i].publicMementoId);
+				                }
 				            }
-				            else {
-				                statisticaVIEWS(ContextVisible.story[i].publicMementoId);
+				            break;
+				        case "TvFilm":
+				            for (var i = indexCarouselTv * 2; i < ((indexCarouselTv * 2) + 2) ; i++) {
+				                if (ContextVisible.tvFilm[i] == null) {
+				                    //alert(indexCarouselFoto);
+				                    break;
+				                }
+				                else {
+				                    statisticaVIEWS(ContextVisible.tvFilm[i].publicMementoId);
+				                }
 				            }
-				        }
-				        break;
-				    case "Canzoni":
-				        for (var i = indexCarouselCanzoni * 2; i < ((indexCarouselCanzoni * 2) + 2) ; i++) {
-				            if (ContextVisible.song[i] == null) {
-				                //alert(indexCarouselFoto);
-				                break;
+				            break;
+				        case "Famosi":
+				            for (var i = indexCarouselFamosi * 2; i < ((indexCarouselFamosi * 2) + 2) ; i++) {
+				                if (ContextVisible.people[i] == null) {
+				                    //alert(indexCarouselFoto);
+				                    break;
+				                }
+				                else {
+				                    statisticaVIEWS(ContextVisible.people[i].publicMementoId);
+				                }
 				            }
-				            else {
-				                statisticaVIEWS(ContextVisible.song[i].publicMementoId);
-				            }
-				        }
-				        break;
-				    case "TvFilm":
-				        for (var i = indexCarouselTv * 2; i < ((indexCarouselTv * 2) + 2) ; i++) {
-				            if (ContextVisible.tvFilm[i] == null) {
-				                //alert(indexCarouselFoto);
-				                break;
-				            }
-				            else {
-				                statisticaVIEWS(ContextVisible.tvFilm[i].publicMementoId);
-				            }
-				        }
-				        break;
-				    case "Famosi":
-				        for (var i = indexCarouselFamosi * 2; i < ((indexCarouselFamosi * 2) + 2) ; i++) {
-				            if (ContextVisible.people[i] == null) {
-				                //alert(indexCarouselFoto);
-				                break;
-				            }
-				            else {
-				                statisticaVIEWS(ContextVisible.people[i].publicMementoId);
-				            }
-				        }
-				        break;
+				            break;
+				    }
 				}
 			}
 			

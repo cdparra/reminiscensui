@@ -193,3 +193,8 @@ function updateDaySelect() {
         $('#dayPublic').fadeIn('slow');
     }
 }
+
+function updateContentIframe()
+{
+    document.getElementById("iframeAnteprima").src = document.getElementById("resourceUrl").value;
+}

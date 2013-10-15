@@ -287,6 +287,7 @@ function Timeline()
 						Imm.url = mementoList[j].url;
 						Imm.fileHashcode = mementoList[j].fileHashcode;
 						Imm.thumbnailUrl = mementoList[j].thumbnailUrl;
+						Imm.fileName = mementoList[j].fileName;
 						Imm.mementoId = mementoList[j].mementoId;
 						//alert(Imm.src);s
 						vettImm.push(Imm);							
@@ -380,7 +381,7 @@ function stampaMieFoto(inizio, fine)
             for (var i = 0; i < MieStorieVisible[indice].mementoList.length; i++) {
                 //alert(MieStorieVisible[i].mementoList.length);
                 InserisciIndiceMieStorieConFoto(indice);
-                if (MieStorieVisible[indice].mementoList[i].thumbnailUrl == null) {
+                if (MieStorieVisible[indice].mementoList[i].fileName == null) {
                     if (MieStorieVisible[indice].mementoList[i].url != "") {
                         stringaDiv += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + MieStorieVisible[indice].mementoList[i].url + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + MieStorieVisible[indice].mementoList[i].url + "' alt='' /> </a></br></div>";
                     }
@@ -392,13 +393,13 @@ function stampaMieFoto(inizio, fine)
                 }
                 else  //stampo attraverso hashcode
                 {
-                    stringaDiv += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + GetBaseUrl() + "/file/" + "LARGE_" + MieStorieVisible[indice].mementoList[i].thumbnailUrl + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[indice].mementoList[i].fileHashcode + "/SMALL" + "' alt='' /> </a></br></div>";
+                    stringaDiv += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + GetBaseUrl() + "/file/" + "LARGE_" + MieStorieVisible[indice].mementoList[i].fileName + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[indice].mementoList[i].fileHashcode + "/SMALL" + "' alt='' /> </a></br></div>";
                     //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + GetBaseUrl() + "/file/" + "LARGE_" + MieStorieVisible[indice].mementoList[0].thumbnailUrl + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:215px;max-height:190px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[indice].mementoList[0].fileHashcode + "/SMALL" + "' alt='' /> </a></br></div></br></br>";
                 }
 
 
                 visualizzati++;
-                if (visualizzati == 4) {
+                if (visualizzati == numFotoPerPag) {
                     visualizzati = 0;
                     if (nPagina == 0) {
                         stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
@@ -485,6 +486,11 @@ function stampaMieStorie(inizio, fine)
 	var stringaDivCarousel = "<div id='divMieStorieDelTempo' class='carousel slide'>";
 	var stringaDivEle = "<div class='carousel-inner'>";
 	var stringaDiv = "";
+	var margin = 23;
+	if (numFotoPerPag == 8)
+	{
+	    margin = 28;
+	}
     //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
 	while (MieStorieVisible[indice] != null) {
 	    if (MieStorieVisible[indice].mementoList.length > 0) {
@@ -501,23 +507,23 @@ function stampaMieStorie(inizio, fine)
 	        {
 	            if (MieStorieVisible[indice].mementoList[0].fileHashcode == null)
 	            {
-	                stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[indice].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[indice].location.country + "</h5>" + "<h5>" + MieStorieVisible[indice].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[indice].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + MieStorieVisible[indice].mementoList[0].url + "' alt='' /></div></div>";
+	                stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:200px;'><h5>" + MieStorieVisible[indice].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[indice].location.country + "</h5>" + "<h5>" + MieStorieVisible[indice].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:196px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[indice].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:200px; line-height:200px; vertical-align:middle;'><img style='max-width:110px;max-height:180px;' src='" + MieStorieVisible[indice].mementoList[0].url + "' alt='' /></div></div>";
 	            	/*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + MieStorieVisible[i].mementoList[0].url + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + MieStorieVisible[i].mementoList[0].url + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
 	            }
 	            else
 	            {
-	                stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[indice].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[indice].location.country + "</h5>" + "<h5>" + MieStorieVisible[indice].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[indice].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[indice].mementoList[0].fileHashcode + "/THUMBNAIL' alt='' /></div></div>";
+	                stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:200px;'><h5>" + MieStorieVisible[indice].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[indice].location.country + "</h5>" + "<h5>" + MieStorieVisible[indice].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:196px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[indice].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:200px; line-height:200px; vertical-align:middle;'><img style='max-width:110px;max-height:180px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[indice].mementoList[0].fileHashcode + "/THUMBNAIL' alt='' /></div></div>";
 	            	/*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "http://test.reminiscens.me/file/" + "LARGE_" + MieStorieVisible[i].mementoList[0].thumbnailUrl + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[i].mementoList[0].Hashcode + "/THUMBNAIL" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
 	            }
 	        }
 	        else
 	        {
-	            stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + MieStorieVisible[indice].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[indice].location.country + "</h5>" + "<h5>" + MieStorieVisible[indice].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[indice].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
+	            stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin +"px; margin-bottom:5px;'><div style=' float:left; width:110px; text-align:center; height:200px;'><h5>" + MieStorieVisible[indice].startDate.exactDate + "</h5>" + "<h5>" + MieStorieVisible[indice].location.country + "</h5>" + "<h5>" + MieStorieVisible[indice].location.city + "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:196px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + MieStorieVisible[indice].headline + "</h5><font size='2'>" + testo + "</font></div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:200px; line-height:200px; vertical-align:middle;'><img style='max-width:110px;max-height:180px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
 	            /*document.getElementById("divMieStorieDelTempo").innerHTML += "<div class='immagini'><div style='line-height:200px;max-height:200px;width:220px;float: left;'> <a class='fancyboxMieStorie' rel='gallery4' href='" + "images/story-book.jpg" + "' title='" + MieStorieVisible[i].headline + "' > <img style='vertical-align:middle;max-height:200px;max-width:220px;' src='" + "images/story-book.jpg" + "' alt='' /> </a></div><div class='text'>" + MieStorieVisible[i].text +"</div></div>";*/
 	        }
 
 	        visualizzati++;
-	        if (visualizzati == 2) {
+	        if (visualizzati == numFotoPerPag/2) {
 	            visualizzati = 0;
 	            if (nPagina == 0) {
 	                stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";

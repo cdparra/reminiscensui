@@ -403,11 +403,14 @@
                                 </div>
                                 <div style="float: left; margin-right: 8px;">
                                     <label id="resourceUrlLabel" for="resourceUrl">URL della risorsa</label>
-                                    <input id="resourceUrl" name="resourceUrl" type="text" placeholder="URL della risorsa (e.g. http://www.youtube.com/watch?v=CqqSklcgThA)" class="form-control">
+                                    <input id="resourceUrl" name="resourceUrl" type="text" placeholder="URL della risorsa (e.g. http://www.youtube.com/watch?v=CqqSklcgThA)" onchange="updateContentIframe();" class="form-control">
                                 </div>
                                 <div style="float: left; margin-right: 8px;">
                                     <label id="sourceUrlLable" for="sourceUrl">URL della Fonte</label>
                                     <input id="sourceUrl" name="source" type="text" placeholder="URL alla pagina dove la risorsa e' stata trovata (e.g. www.youtube.com/channel/abc)" class="form-control">
+                                </div>
+                                <div style="float: left; margin-right: 8px;">
+                                    <iframe width="650" id="iframeAnteprima" src=""></iframe>
                                 </div>
                             </form>
                             
@@ -470,6 +473,7 @@
         var imgStoriaUrlHtml = [];
         var imgStoriaHashcode = [];
         var imgStoriaFilename = [];
+        var imgStoriaThumbnailUrl = [];
         var imgStoriaModifyId = [];
         var imgStoriaModifyMementoId = [];
         var firstDeacade;
@@ -499,7 +503,12 @@
         var indexCarouselTv = 0;
         var indexCarouselFamosi = 0;
         var views = {};
-        var detailViews = {};
+        var detailViews = {}; 1
+
+        //"responsive"
+        var numFotoPerPag;
+        var isContext = true;
+        var isQuestion = true;
 
         function statisticheDETAILVIEWS(publicMementoId)
         {
@@ -608,11 +617,15 @@
             //inizializza lista mesi in raccontaci
             document.getElementById("month").innerHTML = "";
             document.getElementById("month").innerHTML += "<option value='" + 0 + "'>" + "mese" + "</option>";
-            var tmp = $.getJSON('json/month.json', function (tmp) { //return timeline               
+            /*var tmp = $.getJSON('json/month.json', function (tmp) { //return timeline               
                 for (var i = 1; i < tmp.length + 1; i++) {
                     document.getElementById("month").innerHTML += "<option value='" + i + "'>" + tmp[i - 1].name + "</option>";
                 }
-            });
+            });*/
+            for(var i = 1;i<=12;i++)
+            {
+                document.getElementById("month").innerHTML += "<option value='" + i + "'>" + i + "</option>";
+            }
         }
 
 
@@ -625,28 +638,73 @@
             //gestisco la visualizzazione a seconda della versione della App scelta dall'utente
             if (GetAppVersion() == 1) {
                 //non faccio niente
+                numFotoPerPag = 4;
             } else if (GetAppVersion() == 2) {
                 //nascondo le domande
-                document.getElementById().style.visibility = "hidden";
-            } else if (GetAppVersion() == 3) {
-                document.getElementById("divRootFotoDelTempo").style.visibility = "hidden";
-                document.getElementById("divRootStorieDelTempo").style.visibility = "hidden";
-                document.getElementById("Canzoni").style.visibility = "hidden";
-                document.getElementById("TvFilm").style.visibility = "hidden";
-                document.getElementById("Famosi").style.visibility = "hidden";
-            } else {
-                document.getElementById("divFirstDecadeQuestionEmpty").style.visibility = "hidden";
-                document.getElementById("divSecondDecadeQuestionEmpty").style.visibility = "hidden";
-                document.getElementById("divFirstPersonalQuestionEmpty").style.visibility = "hidden";
-                document.getElementById("divSecondPersonalQuestionEmpty").style.visibility = "hidden";
-                document.getElementById("divDecadeQuestionNotEmpty").style.visibility = "hidden";
-                document.getElementById("idPersonalQuestionNotEmpty").style.visibility = "hidden";
+                document.getElementById("divFirstDecadeQuestionEmpty").style.display = "none";
+                document.getElementById("divSecondDecadeQuestionEmpty").style.display = "none";
+                document.getElementById("divFirstPersonalQuestionEmpty").style.display = "none";
+                document.getElementById("divSecondPersonalQuestionEmpty").style.display = "none";
+                document.getElementById("divDecadeQuestionNotEmpty").style.display = "none";
+                document.getElementById("idPersonalQuestionNotEmpty").style.display = "none";
 
-                document.getElementById("divRootFotoDelTempo").style.visibility = "hidden";
-                document.getElementById("divRootStorieDelTempo").style.visibility = "hidden";
-                document.getElementById("Canzoni").style.visibility = "hidden";
-                document.getElementById("TvFilm").style.visibility = "hidden";
-                document.getElementById("Famosi").style.visibility = "hidden";
+                //sistemo il css
+                $(".divFoto").css({
+                    "margin-top": 30 + "px"
+                
+                });
+                $(".divCanzoni").css({
+                    "margin-top": 30 + "px"
+
+                });
+
+                numFotoPerPag = 4;
+                isQuestion = false;
+            } else if (GetAppVersion() == 3) {
+                //nascondo il contesto
+                document.getElementById("divRootFotoDelTempo").style.display = "none";
+                document.getElementById("divRootStorieDelTempo").style.display = "none";
+                document.getElementById("Canzoni").style.display = "none";
+                document.getElementById("TvFilm").style.display = "none";
+                document.getElementById("Famosi").style.display = "none";
+
+                //sistemo il css
+                $(".divFoto").css({
+                    "width": 1000 + "px"
+                });
+
+                numFotoPerPag = 8;
+                isContext = false;
+            } else {
+                document.getElementById("divFirstDecadeQuestionEmpty").style.display = "none";
+                document.getElementById("divSecondDecadeQuestionEmpty").style.display = "none";
+                document.getElementById("divFirstPersonalQuestionEmpty").style.display = "none";
+                document.getElementById("divSecondPersonalQuestionEmpty").style.display = "none";
+                document.getElementById("divDecadeQuestionNotEmpty").style.display = "none";
+                document.getElementById("idPersonalQuestionNotEmpty").style.display = "none";
+
+                document.getElementById("divRootFotoDelTempo").style.display = "none";
+                document.getElementById("divRootStorieDelTempo").style.display = "none";
+                document.getElementById("Canzoni").style.display = "none";
+                document.getElementById("TvFilm").style.display = "none";
+                document.getElementById("Famosi").style.display = "none";
+
+                //sistemo il css
+                $(".divFoto").css({
+                    "margin-top": 30 + "px"
+
+                });
+                $(".divCanzoni").css({
+                    "margin-top": 30 + "px"
+
+                });
+                $(".divFoto").css({
+                    "width": 1000 + "px"
+                });
+
+                numFotoPerPag = 8;
+                isContext = false;
+                isQuestion = false;
             }
 
             //var storage =$.localStorage;
@@ -680,7 +738,10 @@
 
             //Login();
             Timeline();
-            ContextFunction();
+
+            if (isContext) {
+                ContextFunction();
+            }
 
             //firstDecade = GetFirstDecade(GetPersonDeacadeBirthDate()); //recupero la prima decade che compare nella timeline (guardo la prima che ha una storia raccontata)
             //alert(firstDecade);

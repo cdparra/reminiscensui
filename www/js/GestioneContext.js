@@ -522,6 +522,7 @@ function stampaStorieContext(inizio, fine)
     var stringaDivCarousel = "<div id='divStorieDelTempo' class='carousel slide'>";
     var stringaDivEle = "<div class='carousel-inner'>";
     var stringaDiv = "";
+    var margin = 23;
     //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
     while (ContextVisible.story[indice] != null) {
     	// these variables are added to avoid nulls from being printed
@@ -538,21 +539,21 @@ function stampaStorieContext(inizio, fine)
 
         if (story.resourceUrl != null)
         {
-            stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'>"
-            stringaDiv += "	<div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" 
+            stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
+            stringaDiv += "	<div style=' float:left; width:110px; text-align:center; height:200px;'><h5>" 
             stringaDiv += startDate + "</h5>" + "<h5>" + startLocation+ "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);";
-            stringaDiv += "color: #FFF;height:136px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + h + "</h5><h7>" + t.substring(0, 120) + "...</h7>";
-            stringaDiv += "</div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; ";
-            stringaDiv += "vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + story.resourceUrl + "' alt='' /></div></div>";
+            stringaDiv += "color: #FFF;height:196px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + h + "</h5><h7>" + t.substring(0, 120) + "...</h7>";
+            stringaDiv += "</div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:200px; line-height:200px; ";
+            stringaDiv += "vertical-align:middle;'><img style='max-width:110px;max-height:180px;' src='" + story.resourceUrl + "' alt='' /></div></div>";
         }
         else
         {
-            stringaDiv += "<div style=' width:440px; border-style:solid;border-width:2px;border-color:#000; height:140px; margin-left:15px; margin-bottom:5px;'>";
-            stringaDiv += "<div style=' float:left; width:110px; text-align:center; height:140px;'><h5>" + startDate + "</h5>" + "<h5>" + startLocation + "</h5>";
-            stringaDiv += "</div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:136px; padding: 2px; ";
+            stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
+            stringaDiv += "<div style=' float:left; width:110px; text-align:center; height:200px;'><h5>" + startDate + "</h5>" + "<h5>" + startLocation + "</h5>";
+            stringaDiv += "</div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:196px; padding: 2px; ";
             stringaDiv += "text-align:left;'><h5 style='text-align:center;'>" + h + "</h5><font size='2'>" + t.substring(0, 120) + "...</font></div>";
-            stringaDiv += "<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:140px; line-height:140px; ";
-            stringaDiv += "vertical-align:middle;'><img style='max-width:110px;max-height:120px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
+            stringaDiv += "<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:200px; line-height:200px; ";
+            stringaDiv += "vertical-align:middle;'><img style='max-width:110px;max-height:180px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
         }
 
         visualizzati++;

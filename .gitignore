@@ -39,3 +39,4 @@ platforms/android/.settings/
 .Spotlight-V100
 .Trashes
 www/.buildpath
+.buildpath

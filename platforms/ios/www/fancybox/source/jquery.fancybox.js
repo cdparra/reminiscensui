@@ -470,7 +470,7 @@
 		},
 
 		// Navigate to next gallery item
-		next: function ( direction ) {
+		next: function (direction) {
 			var current = F.current;
 
 			if (current) {
@@ -479,7 +479,7 @@
 				}
 
 				F.jumpto(current.index + 1, direction, 'next');
-			}
+			}		
 		},
 
 		// Navigate to previous gallery item

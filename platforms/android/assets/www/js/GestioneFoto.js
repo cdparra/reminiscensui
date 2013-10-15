@@ -39,7 +39,8 @@ function capturePhoto() {
     navigator.camera.getPicture(uploadPhoto,
                                         function (message) { alert('get picture failed'); },
                                         {
-                                            quality: 50
+                                            quality: 50,
+                                            correctOrientation: true
                                             //destinationType: navigator.camera.DestinationType.FILE_URI,
                                             //sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
                                         }

@@ -50,7 +50,7 @@ function ModifyStoryWithConnection(newStory, idStoryModify)
 
         	data: JSON.stringify(newStory),
 
-        	async: false,
+//        	async: false,
 
         	success: function (data) {
 					//alert("yeeee");

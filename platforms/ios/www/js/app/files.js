@@ -3,7 +3,6 @@
 * (base in jQuery Upload File)
 *
 */
-
 $(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
@@ -13,13 +12,15 @@ $(function () {
         //url: url,
         url: GetBaseUrl() + "/lifeapi/upload",
         dataType: 'json',
-		success:function (data) {
-			//alert(data.uri);
-		    document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + data.filename + "'/><br><br>";
-			imgStoriaUrl.push("");
-			imgStoriaHashcode.push(data.hashcode);
+        success:function (data) {
+            //alert(data.uri);
+            document.getElementById("imgInput").innerHTML += "<br><br><div id='" + "divImg" + imgStoriaUrl.length + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + data.filename + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + imgStoriaUrl.length + ")'/></div>";
+            imgStoriaHashcode.push(data.hashcode);
 			imgStoriaFilename.push(data.filename);
-			
+			imgStoriaUrl.push(data.uri);
+			imgStoriaUrlHtml.push(GetBaseUrl() + "/files/SMALL_" + data.filename);
+			imgStoriaThumbnailUrl(data.thumbnailURI);
+
 			$('#progress .bar').css(
                 'width',
                 0 + '%'

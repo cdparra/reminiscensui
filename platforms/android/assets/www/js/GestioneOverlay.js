@@ -6,6 +6,9 @@ function AzzeraVariabiliOverlay()
 	imgStoriaUrl = [];
 	imgStoriaHashcode = [];
 	imgStoriaFilename = [];
+	imgStoriaUrlHtml = [];
+	imgStoriaModifyId = [];
+	imgStoriaModifyMementoId = [];
 	
 	decadeSelect = "";
 	yearSelect = "";
@@ -33,6 +36,25 @@ function AzzeraVariabiliOverlay()
 	document.getElementById("imgInput").innerHTML = "";
 	var editor = $("#editor").data("kendoEditor");
 	editor.value("");
+
+
+    //public memento
+	headline = $("#headline").val("");
+	$("#text").val("");
+	$("#countryPublic").val("");
+	$("#regionPublic").val("");
+	$("#cityPublic").val("");
+	$("#yearPublic").val("");
+	$("#monthPublic").val("");
+	$("#dayPublic").val("");
+	$("#resourceUrl").val("");
+	$("#author").val("");
+	$("#category").val("SONG");
+	$("#sourceUrl").val("");
+	$("#resourceType").val("IMAGE");
+
+	document.getElementById("divPrivateMemento").style.display = "inherit";
+	document.getElementById("divPublicMemento").style.display = "none";
 	
 	$('#overlay').fadeOut('fast');
      $('#box').hide();
@@ -92,7 +114,7 @@ $(document).ready(function() {
         "top": percentualeY + "%"
     });*/
 	$("#box").css({
-        "top": 50
+        "top": 20
     });
 }
 
@@ -113,7 +135,7 @@ function CentroCaricamento() {
     });
 }
 
-//controllo se la finestra Ã¨ stata ridimensionata con jquery
+//controllo se la finestra stata ridimensionata con jquery
 jQuery(window).bind('resize', function () {
     CentroOverlay();
 	CentroCaricamento();
@@ -136,11 +158,40 @@ function ApriOverlay(clicked_id) {
 	{
 		$("#titleBox").html("raccontaci la tua storia");
 	}
-	else
+	else if (clicked_id == "FirstDecadeQuestionEmpty" || clicked_id == "SecondDecadeQuestionEmpty" ||
+            clicked_id == "FirstPersonalQuestionEmpty" || clicked_id == "SecondPersonalQuestionEmpty" ||
+        clicked_id == "DecadeQuestionNotEmpty" || clicked_id == "PersonalQuestionNotEmpty") //caso in cui arrivo da una domanda
 	{
-		//alert(document.getElementById(clicked_id).innerHTML);
-		$("#titleBox").html(document.getElementById(clicked_id).innerHTML);
+		//alert(clicked_id);
+	    $("#titleBox").html(document.getElementById(clicked_id).innerHTML);
+	    switch (clicked_id)
+	    {
+	        case "FirstDecadeQuestionEmpty":
+	            idQuestion = vettIdQuestions[0];
+                break;
+	        case "SecondDecadeQuestionEmpty":
+	            idQuestion = vettIdQuestions[1];
+	            break;
+	        case "FirstPersonalQuestionEmpty":
+	            idQuestion = vettIdQuestions[2];
+	            break;
+	        case "SecondPersonalQuestionEmpty":
+	            idQuestion = vettIdQuestions[3];
+	            break;
+	        case "DecadeQuestionNotEmpty":
+	            idQuestion = vettIdQuestions[4];
+	            break;
+	        case "PersonalQuestionNotEmpty":
+	            idQuestion = vettIdQuestions[5];
+	            break;
+	    }
+	    //alert("question: " + idQuestion);
 		//downloadQuestion(birthYear,decade);
+	}
+	else //caso in cui arrivo da un context
+	{
+	    idContextRaccontaci = clicked_id;
+	    //alert(idContextRaccontaci);
 	}
     CentroOverlay();
     $('#overlay').fadeIn('fast');
@@ -154,13 +205,19 @@ function ApriOverlayModifica(index) {
 	
 	parent.$.fancybox.close();  //chiudo la galleria
 	document.getElementById("titolo").value = MieStorieVisible[index].headline;
-	//alert(MieStorieVisible[index].mementoList.length);
+    //alert(MieStorieVisible[index].mementoList.length);
+	document.getElementById("imgInput").innerHTML = "<br><br>";
 	for(var i = 0; i< MieStorieVisible[index].mementoList.length; i++)
 	{
-		imgStoriaUrl.push("");
+	    //alert(MieStorieVisible[index].mementoList[i].thumbnailUrl);
+	    imgStoriaUrl.push(MieStorieVisible[index].mementoList[i].url);
 		imgStoriaHashcode.push(MieStorieVisible[index].mementoList[i].fileHashcode);
 		imgStoriaFilename.push(MieStorieVisible[index].mementoList[i].thumbnailUrl);
-		document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].thumbnailUrl + "'/><br><br>";
+		imgStoriaUrlHtml.push(GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].thumbnailUrl);
+		imgStoriaModifyMementoId.push(MieStorieVisible[index].mementoList[i].mementoId);
+		imgStoriaModifyId.push(MieStorieVisible[index].lifeStoryId);
+		document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].fileName + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i + ")'/></div><br><br>";
+        
 	}
 	
 	if(MieStorieVisible[index].text!= null)
@@ -170,9 +227,9 @@ function ApriOverlayModifica(index) {
 	}
 	
 	//location
-	if(MieStorieVisible[index].location.country == "Italia")
+	if(MieStorieVisible[index].location.country != null)
 	{
-		document.getElementById("country").value = 1;
+	    document.getElementById("country").value = MieStorieVisible[index].location.country;
 		VisualizzaCity();
 	}
 	if(MieStorieVisible[index].location.city != null)
@@ -212,4 +269,70 @@ function ApriOverlayModifica(index) {
 	CentroOverlay();
     $('#overlay').fadeIn('fast');
     $('#box').fadeIn('slow');	
+}
+
+
+function eliminaImmagine(index)
+{
+    if (!confirm('Sicuro di voler eliminare l\'immagine?')) {
+        return;
+    }
+    imgStoriaUrl.splice(index,1);
+    imgStoriaUrlHtml.splice(index, 1);
+    imgStoriaHashcode.splice(index, 1);
+    imgStoriaFilename.splice(index, 1);
+
+    document.getElementById("imgInput").innerHTML = "<br /><br />";
+
+    for(var i = 0;i< imgStoriaUrl.length;i++)
+    {
+        document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + imgStoriaUrlHtml[i] + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i + ")'/></div><br><br>";
+    }
+
+    if(isModify) //devo eliminare la foto solo se sto modificando perchè solo in questo caso la ho già caricata sul server precedentemente
+    {        
+        // ADD HERE THE CALL TO DELETE /lifestory/{id}/memento/{id memento}
+        $.ajax({
+            type: "DELETE",
+            beforeSend: function (request) {
+                request.setRequestHeader("PLAY_SESSION", GetSessionKey());
+            },
+            url: GetBaseUrl() + "/lifeapi/lifestory/" + imgStoriaModifyId[index] + "/memento/" + imgStoriaModifyMementoId[index],
+            //url: "http://test.reminiscens.me/lifeapi/user/signup",
+
+            data: "{}",
+
+            dataType: "json",
+            contentType: "application/json",
+
+            //        async: false,
+
+            success: function (data) {
+                alert("La foto si è cancellata con sucesso!");
+                imgStoriaModifyMementoId.splice(index, 1);
+                imgStoriaModifyId.splice(index, 1);
+                //alert("hola");
+            },
+            error: function (data) {
+                alert("Errore nella cancellazione dell'immagine");
+            }
+
+        });
+    }
+    
+    
+}
+
+function SwitchOverlay(switchTo)
+{
+    if(switchTo == "divPrivateMemento")
+    {
+        document.getElementById("divPrivateMemento").style.display = "inherit";
+        document.getElementById("divPublicMemento").style.display = "none";
+    }
+    else
+    {
+        document.getElementById("divPrivateMemento").style.display = "none";
+        document.getElementById("divPublicMemento").style.display = "inherit";
+    }
 }

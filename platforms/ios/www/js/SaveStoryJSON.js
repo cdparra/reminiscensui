@@ -18,9 +18,9 @@ function salvaStoria(){
 		return;
 	}
 	
-	if(document.getElementById("country").value == 0)
+	if(document.getElementById("country").value == "")
 	{
-		alert("Inserire alemo la nazione!");
+		alert("Inserire almeno la nazione!");
 		return;
 	}
 
@@ -31,6 +31,19 @@ function salvaStoria(){
 	newStory.locale = "it_IT";
 	var editor = $("#editor").data("kendoEditor");
 	newStory.text = editor.value();
+
+    //controllo se sono arrivato da una domanda e inserisco l'id della domanda in caso affermativo
+	if (idQuestion != null) {
+	    newStory.questionId = idQuestion;
+	    idQuestion = null;  //azzero l'id della domanda
+	}
+
+    //controllo se arrivo da un raccontaci dentro un memento del contesto
+	if (idContextRaccontaci != null)
+	{
+	    newStory.publicMementoId = idContextRaccontaci;
+	    idContextRaccontaci = null;
+	}
 	
 	if(document.getElementById("placeName").value != "")
 	{
@@ -81,10 +94,13 @@ function salvaStoria(){
 		var Imm = new Object;
 		Imm.url = imgStoriaUrl[i];
 		Imm.fileHashcode = imgStoriaHashcode[i];
-		Imm.thumbnailUrl = imgStoriaFilename[i];
+		Imm.thumbnailUrl = imgStoriaThumbnailUrl[i];
+		Imm.fileName = imgStoriaFilename[i];
 		Imm.type = "photo";
 		Imm.category = "PICTURE";
-		Imm.isCover = true;
+		if (i == 0) {
+		    Imm.isCover = true;
+		}
 		Imm.index = j;
 		j++;
 		Imm.headline = "prova";
@@ -110,7 +126,6 @@ function salvaStoria(){
 		SaveStoryWithConnection(newStory);
 		AggiungiMieStoriaDecade(newStory, decadeSelect);
 	}
-
 	
 	
 	MieStorieStorieVisible = RecuperaMieStorieDecade();
@@ -125,7 +140,14 @@ function salvaStoria(){
 	
 	AzzeraVariabiliOverlay();
 
+	
+	if (decade < firstDecade)
+	{
+	    firstDecade = decade;
+	    CreaTimelineCarousel();	    	    
+	}
 	AzzeraTimeline();
+	ScrollCarousel();
 	document.getElementById(decade).className = "decade-button-selected timeline";
 	GestioneSchermate(decade);
 }

@@ -1,0 +1,694 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Reminiscens</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="css/jquery.fileupload-ui.css">
+    <link href="css/StyleOverlay.css" rel="stylesheet">
+    <link href="kendo/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="css/StyleRoot.css" rel="stylesheet" />
+
+    <!-- Add fancyBox -->
+    <link rel="stylesheet" href="fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+
+    <!-- Optionally add helpers - button, thumbnail and/or media -->
+    <link rel="stylesheet" href="fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+    <link rel="stylesheet" href="fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+    <link rel="stylesheet" href="decade-ruler/decade-ruler.css">
+ 
+    <!-- moved all javascript to the bottom to improve rendering of page -->
+    
+    <!-- All the javascript code is below this -->
+     
+    <script type="text/javascript" src="phonegap.js"></script>
+    <script src="js/libs/jquery.js"></script>
+    <script src="js/libs/bootstrap.js"></script>
+    <script src="js/GestioneOverlay.js"></script>
+    <script src="kendo/js/kendo.web.min.js"></script>
+    <!-- Uncomment this and GestioneRecorderHTML for deplowing in web server 
+<script type="text/javascript" src="js/recorder.js"></script>
+-->
+    <script type="text/javascript" src="js/GestioneKendoEditor.js"></script>
+    <script type="text/javascript" src="js/GestioneFoto.js"></script>
+    <script type="text/javascript" src="js/GestioneAudio.js"></script>
+
+    <!-- <script type="text/javascript" src="js/GestioneRecorderHTML.js"></script> 
+-->
+    <script type="text/javascript" src="js/libs/jquery.storageapi.js"></script>
+    <script type="text/javascript" src="js/libs/jquery.cookie.js"></script>
+    <script type="text/javascript" src="js/libs/json2.js"></script>
+    <script type="text/javascript" src="js/GestioneImmagini.js"></script>
+    <script type="text/javascript" src="js/SaveStoryJSON.js"></script>
+    <script type="text/javascript" src="js/GestionePublicMemento.js"></script>
+
+    <!-- Add mousewheel plugin (this is optional) -->
+    <script type="text/javascript" src="fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+
+    <!-- Add fancyBox -->
+    <script type="text/javascript" src="fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+    <!-- Optionally add helpers - button, thumbnail and/or media -->
+    <script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+    <script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+     
+      <script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+
+    <!-- Add jQuery library -->
+    <!--<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>-->
+
+    <script type="text/javascript" src="js/sha1.js"></script>
+    <script type="text/javascript" src="js/GestioneSchermate&Menu.js"></script>
+    <script type="text/javascript" src="js/libs/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/GestioneRegistrazione.js"></script>
+    <script type="text/javascript" src="js/GestioneSynchronizeStories.js"></script>
+    <script type="text/javascript" src="js/app/files.js"></script>
+    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+    <script type="text/javascript" src="js/lib/jquery.file.upload/js/vendor/jquery.ui.widget.js"></script>
+    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+    <script type="text/javascript" src="js/lib/jquery.file.upload/js/jquery.iframe-transport.js"></script>
+    <!-- The basic File Upload plugin -->
+    <script type="text/javascript" src="js/libs/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="js/GestioneVariabiliPersona.js"></script>
+    <script type="text/javascript" src="js/GestioneQuestion.js"></script>
+
+    <script type="text/javascript" src="js/GestioneContext.js"></script>
+    <script type="text/javascript" src="js/GestioneTimeline.js"></script>
+
+    <script type="text/javascript" src="js/dotdotdot-1.6.4/jquery.dotdotdot.js"></script>
+    
+</head>
+<body>
+   
+<div class="container">
+    <form role="role" id="formMemento">
+        <!-- Form Name -->
+        
+            <legend>Aggiungi una risorsa che fa riferimento al passato e che sia disponibile online, per farlo vedere a <span id="personContextName"></span>></legend>
+        
+            <div class="row">
+                <div class="col-md-6">
+                <!-- Text input-->
+                    <div class="form-group">
+                      <label id="headlineLabel" for="headline">Titolo/Nome</label>
+                      <input id="headline" name="headline" type="text" placeholder="Titolo" class="form-control">
+                      <p class="help-block">Il titolo o nome della risorsa (se fosse una canzone, il titolo della canzone. Se fosse una persona, il suo nome)</p>
+                    </div>
+               </div>
+                <div class="col-md-6">
+                    <!-- Textarea -->
+                    <div class="form-group">
+                      <label id="textLabel" for="text">Descrizione</label>
+                      <textarea id="text" name="text" rows="3" class="form-control" placeholder="Introduce una descrizione della risorsa"></textarea>
+                    </div>
+                </div>
+           </div>
+          <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                      <label id="authorLabel" for="author">Autore</label>
+                      <input id="author" name="author" type="text" placeholder="Autore (e.g. 'Lucio Battisti')" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <!-- Select Basic -->
+                <div class="form-group">
+                  <label id="categoryLabel" for="category">Categoria</label>
+                  <select id="category" name="category" class="form-control">
+                      <option value="SONG">Canzone</option>
+                      <option value="PICTURE">Immagine/Fotografia</option>
+                      <option value="PEOPLE">Persona</option>
+                      <option value="STORY">Storia/Evento</option>
+                      <option value="TV">Programma di TV</option>
+                      <option value="FILM">Film</option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <!-- Select Basic -->
+                <div class="form-group">
+                  <label id="resourceTypeLabel" for="resourceType">Tipo</label>
+                    <select id="resourceType" name="resourceType" class="form-control">
+                      <option value="IMAGE">La risorsa e' una immagine</option>
+                      <option value="VIDEO">La risorsa e' un video</option>
+                      <option value="AUDIO">La risorsa e' un audio</option>
+                      <option value="TEXT">La risorsa e' un testo</option>
+                      <option value="HTML">La risorsa e' una pagina HTML</option>
+                  </select>
+                </div>
+           </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Text input-->
+                <div class="form-group">
+                  <label id="yearLabel" for="year">Anno</label>
+                  <input id="year" name="year" type="text" placeholder="Anno" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <!-- Text input-->
+                <div class="form-group">
+                  <label id="monthLabel" for="month">Mese</label>
+                  <select id="month" name="month" class="form-control">
+                      <option></option>
+                      <option>01</option>
+                      <option>02</option>
+                      <option>03</option>
+                      <option>04</option>
+                      <option>05</option>
+                      <option>06</option>
+                      <option>07</option>
+                      <option>08</option>
+                      <option>09</option>
+                      <option>10</option>
+                      <option>11</option>
+                      <option>12</option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-md-4">              
+                <!-- Text input-->
+                <div class="form-group">
+                  <label id="dayLabel" for="day">Giorno</label>
+                  <select id="day" name="day" type="text" class="form-control"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Password input-->
+                <div class="form-group">
+                  <label id="countryLabel" for="country">Nazione</label>
+                  <input id="country" name="country" type="text" placeholder="Nazione" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <!-- Text input-->
+                <div class="form-group">
+                  <label id="regionLabel" for="region">Regione</label>
+                  <input id="region" name="region" type="text" placeholder="Regione" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <!-- Text input-->
+                <div class="form-group">
+                  <label id="cityLabel" for="city">Citta</label>
+                  <input id="city" name="city" type="text" placeholder="Citta" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <!-- Text input-->
+                <div class="form-group">
+                  <label id="locationTextualLabel" for="locationTextual">Nome del posto</label>
+                  <input id="locationTextual" name="locationTextual" type="text" placeholder="Nome del posto" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">       
+            <div class="col-md-3">
+                <div class="form-group">
+                      <label id="sourceLabel" for="source">Fonte</label>
+                      <input id="source" name="source" type="text" placeholder="Da dove hai presso l'URL (e.g. Wikipedia, Youtube)" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <!-- Text input-->
+                <div class="form-group">
+                  <label id="resourceUrlLabel" for="resourceUrl">URL della risorsa</label>
+                  <input id="resourceUrl" name="resourceUrl" type="text" placeholder="URL della risorsa (e.g. http://www.youtube.com/watch?v=CqqSklcgThA)" class="form-control">
+                  <p class="help-block">Coppia qui, l'URL del video youtube o immagine che vuoi aggiungere</p>
+                </div>
+            </div>  
+            <div class="col-md-4">
+                <div class="form-group">
+                      <label id="sourceUrlLable" for="sourceUrl">URL della Fonte</label>
+                      <input id="sourceUrl" name="source" type="text" placeholder="URL alla pagina dove la risorsa e' stata trovata (e.g. www.youtube.com/channel/abc)" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Button -->
+                    <div class="form-group">
+                      <label id="submitLabel" for="submit">Salva il nuovo memento</label>
+                      <button id="postMemento" name="postMemento" class="btn btn-success">Salva!</button>
+                    </div>
+            </div>
+            <div class="col-md-6">
+                <div id="postMementoResult"></div>
+            </div>
+        </div>
+        <input type="hidden" id="contextId" value="@contextId"></input>
+    </form> 
+</div>
+    
+    <script>
+
+        initializePublicMementoConnection();
+        function onLoad() {
+            document.addEventListener("deviceready", onDeviceReady, true);
+        }
+        function onDeviceReady() {
+            console.log("PhoneGap is working!!");
+            pictureSource = navigator.camera.PictureSourceType;
+            destinationType = navigator.camera.DestinationType;
+        }
+        function editor() {
+            var editor = $("#editor").data("kendoEditor");
+            //alert(editor.value());
+            $("#debug").text(editor.value());
+        }
+        /*function storage() {
+           /*var storage =$.localStorage;
+           //alert(storage.get('prova'));
+           //var obj = JSON.parse(storage.get('prova'));
+           alert(storage.get('prova').titolo);
+           //$("#debug").text(storage.get('prova'));*/
+
+
+        //EliminaIntestazioneDataImg();
+
+        //alert();
+        //}
+
+
+        var tokern;
+        var Context = new Object;
+        var MieStorie = new Object;
+        var NumeroPaginaMieStorie = 0;
+        var NumeroPaginaMieFoto = 0;
+        var decade;
+        var MieStorieVisible = [];
+        var ContextVisible = new Object;
+        var sessionKey;
+        var personId;
+        var imgStoriaUrl = [];
+        var imgStoriaHashcode = [];
+        var imgStoriaFilename = [];
+        var birthYear;
+        var personalQuestion = [];
+        var decadeQuestion = [];
+        var decadeSelect = "";
+        var yearSelect = "";
+        var monthSelect = "";
+        var daySelect = "";
+        var countrySelect = "";
+        var placeNameSelect = "";
+        var citySelect = "";
+        var vettIndexMieStorieVisible = [];
+        var vettIndexFotoContextVisible = [];
+        var cities = [];
+        var isModify = false;
+        var idStoryModify = null;
+        var indexModify;
+        var indexTimeline = 1;
+
+        function aggiungiEventoFancyBox() {
+            $(".fancyboxFotoContext").fancybox({
+                'showCloseButton': false,
+                afterLoad: function () {
+                    //alert(Storie.length);
+                    this.title = "<div><h1>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].headline + "</h1><h5>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].text + "</h5> <span> Ti viene in mente qualcosa? </span> <button class='btn btn-primary' onClick='ApriOverlay();'>Raccontaci!</button> </div>";
+                    //this.title = "<div><h1>" + "hola" +"</h1> </div>";
+                },
+                'helpers': {
+                    title: { type: 'inside' }
+                } // helpers
+            });
+            $(".fancyboxMieStorie").fancybox({
+                'showCloseButton': false,
+                afterLoad: function () {
+                    this.title = "<div><h1>" + MieStorieVisible[vettIndexMieStorieVisible[this.index]].headline + "</h1><h5>" + MieStorieVisible[vettIndexMieStorieVisible[this.index]].text + "</h5><br>  <button class='btn btn-primary' onClick='ApriOverlayModifica(" + vettIndexMieStorieVisible[this.index] + ");'>Modifica</button></div>";
+                    //this.title = "<div><h1>" + "hola" +"</h1> </div>";
+                },
+                'helpers': {
+                    title: { type: 'inside' }
+                } // helpers
+            });
+        }
+
+        /*$(document).ready(function() {
+            var cities = [];
+            var idCities = [];
+            var tmp = $.getJSON('json/cities.json',function(tmp)
+            { //return timeline             
+                for (var i = 0; i < tmp.length; i++) {
+                    //alert(tmp[i].name);
+                    cities.push(tmp[i].name);
+                    idCities.push(tmp[i].cityId);
+                }
+                
+                $('#dove').autocomplete({
+                    source:cities,
+                    minLength: 3 
+                });     
+            
+            });
+            
+        });*/
+
+        function InizializzaValueLocationAndDate() {
+            document.getElementById("decade").innerHTML = "";
+            var j = 1;
+            document.getElementById("decade").innerHTML += "<option value='" + 0 + "'>" + "decade" + "</option>";
+            for (var i = 1900; i <= 2020; i = i + 10) {
+                document.getElementById("decade").innerHTML += "<option value='" + j + "'>" + i + "</option>";
+                j++;
+            }
+
+            document.getElementById("country").innerHTML = "";
+            document.getElementById("country").innerHTML += "<option value='" + 0 + "'>" + "nazione" + "</option>";
+            document.getElementById("country").innerHTML += "<option value='" + 1 + "'>" + "Italia" + "</option>";
+
+            //inizializzo le citta in raccontaci
+            /*var tmp = $.getJSON('json/cities.json', function (tmp) { //return timeline                
+                for (var i = 0; i < tmp.length; i++) {
+                    //alert(tmp[i].name);
+                    cities.push(tmp[i].name);
+                    //idCities.push(tmp[i].cityId);
+                }
+
+                $('#city').autocomplete({
+                    source: cities,
+                    minLength: 3,
+                    messages: {
+                        noResults: '',
+                        results: function () { }
+                    }
+                });
+
+            });*/
+
+            //inizializza lista mesi in raccontaci
+            document.getElementById("month").innerHTML = "";
+            document.getElementById("month").innerHTML += "<option value='" + 0 + "'>" + "mese" + "</option>";
+            var tmp = $.getJSON('json/month.json', function (tmp) { //return timeline               
+                for (var i = 1; i < tmp.length + 1; i++) {
+                    document.getElementById("month").innerHTML += "<option value='" + i + "'>" + tmp[i - 1].name + "</option>";
+                }
+            });
+        }
+
+
+
+        $(document).ready(function () {
+
+
+            InizializzaValueLocationAndDate();
+
+            //gestisco la visualizzazione a seconda della versione della App scelta dall'utente
+            if (GetAppVersion() == 1) {
+                //non faccio niente
+            } else if (GetAppVersion() == 2) {
+                //nascondo le domande
+                document.getElementById("divFirstDecadeQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divSecondDecadeQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divFirstPersonalQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divSecondPersonalQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divDecadeQuestionNotEmpty").style.visibility = "hidden";
+                document.getElementById("idPersonalQuestionNotEmpty").style.visibility = "hidden";
+            } else if (GetAppVersion() == 3) {
+                document.getElementById("divRootFotoDelTempo").style.visibility = "hidden";
+                document.getElementById("divRootStorieDelTempo").style.visibility = "hidden";
+                document.getElementById("Canzoni").style.visibility = "hidden";
+                document.getElementById("TvFilm").style.visibility = "hidden";
+                document.getElementById("Famosi").style.visibility = "hidden";
+            } else {
+                document.getElementById("divFirstDecadeQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divSecondDecadeQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divFirstPersonalQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divSecondPersonalQuestionEmpty").style.visibility = "hidden";
+                document.getElementById("divDecadeQuestionNotEmpty").style.visibility = "hidden";
+                document.getElementById("idPersonalQuestionNotEmpty").style.visibility = "hidden";
+
+                document.getElementById("divRootFotoDelTempo").style.visibility = "hidden";
+                document.getElementById("divRootStorieDelTempo").style.visibility = "hidden";
+                document.getElementById("Canzoni").style.visibility = "hidden";
+                document.getElementById("TvFilm").style.visibility = "hidden";
+                document.getElementById("Famosi").style.visibility = "hidden";
+            }
+
+            //var storage =$.localStorage;
+            sessionKey = GetSessionKey();
+            personId = GetPersonId();
+            //birthYear = GetPersonBirthDate().split('-')[0];
+            birthYear = GetPersonYearBirthDate();
+
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("PLAY_SESSION", sessionKey);
+                }
+            });
+            //alert(birthYear);
+            //alert(personId);
+            //alert(sessionKey);        
+
+            //decade = 1940;
+            decade = GetPersonDeacadeBirthDate();
+            //alert(decade);
+            $("#lbldebug").text("Non ci sono ancora storie del " + decade + "!");
+            $("#FotoDelTempo").text("Foto pubbliche attorno al " + decade);
+            $("#TueFotoDelTempo").text("Le tue foto attorno al " + decade);
+            $("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
+            $("#TueStorieDelTempo").text("Le tue storie nel " + decade);
+
+
+
+            $('.carousel').carousel({
+                interval: false
+            });
+            $(".carousel").bind("slide", function () {
+                //alert( "ciao" );
+                //document.getElementById("item2").innerHTML = "ciao";
+            });
+
+            $(".carousel").bind("slid", function () {
+                //alert( "ciao" );
+                //document.getElementById("item2").innerHTML = "ciao";
+            });
+ 
+            document.getElementById("timeline" + indexTimeline).innerHTML = "";
+            var today = new Date();
+            var decadeToday = parseInt(today.getFullYear() / 10) * 10;
+            var numeroSchermateTimeline = ((decadeToday - decade) / 10) / 6;
+            var decadeCorrente = decade;
+            for (var i = 1; i < 4; i++) {
+                if (numeroSchermateTimeline < i - 1) {
+                    var elem = document.getElementById('timeline' + i);
+                    elem.parentNode.removeChild(elem);
+                }
+                else {
+                    for (var j = 0; j < 6; j++) {
+                        if (decadeCorrente <= decadeToday) {
+                            document.getElementById("timeline" + i).innerHTML += "<div class='decade-button timeline' id='" + decadeCorrente + "'><div class='decade-btn-border'></div><div class='decade-button-text'>" + decadeCorrente + "</div><div class='decade-btn-ruler-line1'></div><div class='decade-btn-ruler-line2'></div><div class='decade-btn-ruler-line3'></div><div class='decade-btn-ruler-line4'></div><div class='decade-btn-ruler-line5'></div><div class='decade-btn-ruler-line6'></div><div class='decade-btn-ruler-line7'></div><div class='decade-btn-ruler-line8'></div><div class='decade-btn-ruler-line9'></div><div class='decade-btn-ruler-line10'></div><div class='decade-btn-border-bottom'></div></div>";
+                        }
+                        else {
+                            document.getElementById("timeline" + i).innerHTML += "<div style='cursor: pointer;' class='decade-button'><div class='decade-btn-border'></div><div class='decade-button-text'></div><div class='decade-btn-ruler-line1'></div><div class='decade-btn-ruler-line2'></div><div class='decade-btn-ruler-line3'></div><div class='decade-btn-ruler-line4'></div><div class='decade-btn-ruler-line5'></div><div class='decade-btn-ruler-line6'></div><div class='decade-btn-ruler-line7'></div><div class='decade-btn-ruler-line8'></div><div class='decade-btn-ruler-line9'></div><div class='decade-btn-ruler-line10'></div><div class='decade-btn-border-bottom'></div></div>";
+                        }
+                        decadeCorrente += 10;
+                    }
+                }
+
+            }
+            document.getElementById(decade).className = "decade-button-selected timeline";
+
+            $('.timeline').click(function () {
+                AzzeraTimeline();
+                document.getElementById($(this).attr("id")).className = "decade-button-selected timeline";
+                GestioneSchermate($(this).attr("id"));
+            });
+
+
+            downloadQuestion(birthYear, decade);
+
+
+
+            /*var jsonObj = new Object;
+        
+            jsonObj.headline = "Foto 1";
+            jsonObj.location = new Object;
+            jsonObj.location.location_textual = "";
+            jsonObj.startDate = new Object;
+            jsonObj.startDate.exactDate = "";
+            jsonObj.text = "2 ottobre 1950 - nasce il fumetto Charlie Brown, dalla penna di Charles M. Schulz...";
+            
+            var vettImm = [];
+            var Imm = new Object;
+            Imm.url = "img/comera1.jpg";
+            vettImm.push(Imm);
+            jsonObj.mementoList = vettImm;
+            Storie.push(jsonObj);
+            
+            //alert(Storie[0].titolo);
+            
+            var jsonObj = new Object;
+        
+            jsonObj.headline = "Foto 2";
+            jsonObj.location = new Object;
+            jsonObj.location.location_textual = "";
+            jsonObj.startDate = new Object;
+            jsonObj.startDate.exactDate = "";
+            jsonObj.text = "09 maggio 1950 - Nasce la comunita  europea...";
+            
+            var vettImm = [];
+            var Imm = new Object;
+            Imm.url = "img/comera3.jpg";
+            vettImm.push(Imm);
+            jsonObj.mementoList = vettImm;
+            Storie.push(jsonObj);
+            
+            for(var i = 0;i<8;i++)
+            {
+                var jsonObj = new Object;
+        
+            jsonObj.headline = "Foto 2";
+            jsonObj.location = new Object;
+            jsonObj.location.location_textual = "";
+            jsonObj.startDate = new Object;
+            jsonObj.startDate.exactDate = "";
+            jsonObj.text = "09 maggio 1950 - Nasce la comunita  europea...";
+            
+            var vettImm = [];
+            var Imm = new Object;
+            Imm.url = "img/comera3.jpg";
+            vettImm.push(Imm);
+            jsonObj.mementoList = vettImm;
+            Storie.push(jsonObj);
+            }
+            
+            for (i=0; i<Storie.length; i++) { 
+                document.getElementById("divFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxStorie' rel='gallery1' href='" + Storie[i].mementoList[0].url + "' title='" + Storie[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + Storie[i].mementoList[0].url + "' alt='' /> </a></div>";
+            }*/
+
+
+            //Login();
+            Timeline();
+            ContextFunction();
+        });
+
+
+
+
+
+        function YearToDecade(anno) {
+            var tmp = anno / 10;
+            //alert(parseInt(tmp));
+            return parseInt(tmp) * 10;
+        }
+
+        function VisualizzaYear() {
+            //alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
+            if (document.getElementById("decade").value != 0) {
+                document.getElementById("year").innerHTML = "";
+                decadeSelect = parseInt(document.getElementById("decade").item(document.getElementById("decade").value).text);
+                var j = 1;
+                document.getElementById("year").innerHTML += "<option value='" + 0 + "'>" + "anno" + "</option>";
+                for (var i = decadeSelect; i <= decadeSelect + 9; i++) {
+                    document.getElementById("year").innerHTML += "<option value='" + j + "'>" + i + "</option>";
+                    j++;
+                }
+                $('#year').fadeIn('slow');
+            }
+        }
+
+        function VisualizzaMonth() {
+            //alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
+            if (document.getElementById("year").value != 0) {
+                yearSelect = parseInt(document.getElementById("year").item(document.getElementById("year").value).text);
+                $('#month').fadeIn('slow');
+            }
+        }
+
+        function VisualizzaDay() {
+            //alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
+            if (document.getElementById("month").value != 0) {
+                document.getElementById("day").innerHTML = "";
+                monthSelect = parseInt(document.getElementById("month").value);
+                var j = 1;
+                document.getElementById("day").innerHTML += "<option value='" + 0 + "'>" + "giorno" + "</option>";
+                /*for(var i = 1;i <= 31;i++)
+                {
+                    document.getElementById("day").innerHTML += "<option value='" + i +"'>" + i + "</option>";
+                    j++;
+                }*/
+                switch (monthSelect) {
+                    case 1:
+                    case 3:
+                    case 5:
+                    case 7:
+                    case 8:
+                    case 10:
+                    case 12:
+                        for (var i = 1; i <= 31; i++) {
+                            document.getElementById("day").innerHTML += "<option value='" + i + "'>" + i + "</option>";
+                            j++;
+                        }
+                        break;
+                    case 4:
+                    case 6:
+                    case 9:
+                    case 11:
+                        for (var i = 1; i <= 30; i++) {
+                            document.getElementById("day").innerHTML += "<option value='" + i + "'>" + i + "</option>";
+                            j++;
+                        }
+                        break;
+                    case 2:
+                        for (var i = 1; i <= 28; i++) {
+                            document.getElementById("day").innerHTML += "<option value='" + i + "'>" + i + "</option>";
+                            j++;
+                        }
+                        break;
+                }
+
+                $('#day').fadeIn('slow');
+            }
+        }
+
+        function VisualizzaCity() {
+            if (document.getElementById("country").value != 0) {
+                //document.getElementById("city").innerHTML = "";
+                countrySelect = document.getElementById("country").item(document.getElementById("country").value).text;
+                /*document.getElementById("city").innerHTML += "<option value='" + 0 +"'>" + "citta + "</option>";
+                var cities = $.getJSON('json/cities.json',function(cities)
+                { //return timeline
+                        
+                    //alert(tmp.length);    
+                    for (var i = 1; i < 40+1; i++) {
+                        document.getElementById("city").innerHTML += "<option value='" + i +"'>" + cities[i-1].name + "</option>";
+                    }
+                });*/
+                $('#city').fadeIn('slow');
+            }
+        }
+
+        function ControllaEsistenzaCitta() {
+            for (var i = 0; i < cities.length; i++) {
+                if ($("#city").val() == cities[i])
+                    return true;
+            }
+            return false;
+        }
+
+        function VisualizzaPlaceName() {
+            //if (ControllaEsistenzaCitta()) {
+            //citySelect = document.getElementById("city").item(document.getElementById("city").value).text;
+            citySelect = $("#city").val();
+            $('#placeName').fadeIn('slow');
+            //}
+        }
+
+        function Prova() {
+            //$('#divMieFotoDelTempo').carousel(2);
+            //$('centrale').scrollLeft('5000px');
+            /*var myCont = document.getElementById ("divRoot");
+            myCont.scrollTop += 100;*/
+            //alert('ciao');
+            //$("#divMieFotoDelTempo").carousel('next');
+        }
+    </script>
+     
+     
+</body>
+</html>

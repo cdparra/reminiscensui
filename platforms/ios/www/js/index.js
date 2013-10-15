@@ -100,3 +100,30 @@ function Login() {
 //		console.log('Received Event: ' + id);
 //	}
 //};
+
+function statisticaOPEN() {
+    //alert(GetPersonId());
+    $.ajax({
+        type: "POST",
+        beforeSend: function (request) {
+            request.setRequestHeader("PLAY_SESSION", GetSessionKey());
+        },
+        url: GetBaseUrl() + "/lifeapi/log/OPEN/user/" + GetPersonId(),
+        //url: "http://test.reminiscens.me/lifeapi/user/signup",
+
+        data: "{}",
+
+        dataType: "json",
+        contentType: "application/json",
+
+        async: false,
+
+        success: function (data) {
+            //salert("hola");
+
+        },
+        error: function (data) {
+            alert("Errore nel passaggio di statistiche OPEN");
+        }
+    });
+}

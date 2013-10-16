@@ -2,10 +2,12 @@
 function nascondiDiv()
 	{
 		document.getElementById("Foto").style.display="none";
-		document.getElementById("Storie").style.display="none";
-		document.getElementById("Canzoni").style.display="none";
-		document.getElementById("Famosi").style.display = "none";
-		document.getElementById("TvFilm").style.display = "none";
+		document.getElementById("Storie").style.display = "none";
+		if (isContext) {
+		    document.getElementById("Canzoni").style.display = "none";
+		    document.getElementById("Famosi").style.display = "none";
+		    document.getElementById("TvFilm").style.display = "none";
+		}
 	}
 
 function azzeraPagineStatistiche()
@@ -254,88 +256,88 @@ function statisticheCLOSE()
     });
 }
 
-$(document).ready(function() {
-		/*applica la classe active al menu nav bar di bootstrap quando viene cliccato*/
-		$('.navbar li').click(function(e) {
-			$('.navbar li').removeClass('active');
-			var $this = $(this);
-			if (!$this.hasClass('active')) {
-				$this.addClass('active');
-			}
-			var tmp = $this.attr("id");
-			tmp = tmp.substring(2,tmp.length);
-			if(tmp == "Logout") {
-			    Logout();
-			}
-			else if(tmp == "Raccontaci") {
-				ApriOverlay();
-			} else if(tmp == "Refresh") {
-				ReloadReminiscens();
-			} else {
-				nascondiDiv();
-				document.getElementById(tmp).style.display = "inherit";
-			    //gestione statistiche
-				if (isContext) {
-				    switch (tmp) {
-				        case "Foto":
-				            for (var i = indexCarouselFoto * 4; i < ((indexCarouselFoto * 4) + 4) ; i++) {
-				                if (ContextVisible.picture[i] == null) {
-				                    //alert(indexCarouselFoto);
-				                    break;
-				                }
-				                else {
-				                    statisticaVIEWS(ContextVisible.picture[i].publicMementoId);
-				                }
-				            }
-				            break;
-				        case "Storie":
-				            for (var i = indexCarouselStorie * 2; i < ((indexCarouselStorie * 2) + 2) ; i++) {
-				                if (ContextVisible.story[i] == null) {
-				                    //alert(indexCarouselFoto);
-				                    break;
-				                }
-				                else {
-				                    statisticaVIEWS(ContextVisible.story[i].publicMementoId);
-				                }
-				            }
-				            break;
-				        case "Canzoni":
-				            for (var i = indexCarouselCanzoni * 2; i < ((indexCarouselCanzoni * 2) + 2) ; i++) {
-				                if (ContextVisible.song[i] == null) {
-				                    //alert(indexCarouselFoto);
-				                    break;
-				                }
-				                else {
-				                    statisticaVIEWS(ContextVisible.song[i].publicMementoId);
-				                }
-				            }
-				            break;
-				        case "TvFilm":
-				            for (var i = indexCarouselTv * 2; i < ((indexCarouselTv * 2) + 2) ; i++) {
-				                if (ContextVisible.tvFilm[i] == null) {
-				                    //alert(indexCarouselFoto);
-				                    break;
-				                }
-				                else {
-				                    statisticaVIEWS(ContextVisible.tvFilm[i].publicMementoId);
-				                }
-				            }
-				            break;
-				        case "Famosi":
-				            for (var i = indexCarouselFamosi * 2; i < ((indexCarouselFamosi * 2) + 2) ; i++) {
-				                if (ContextVisible.people[i] == null) {
-				                    //alert(indexCarouselFoto);
-				                    break;
-				                }
-				                else {
-				                    statisticaVIEWS(ContextVisible.people[i].publicMementoId);
-				                }
-				            }
-				            break;
-				    }
-				}
-			}
+//$(document).ready(function() {
+//		/*applica la classe active al menu nav bar di bootstrap quando viene cliccato*/
+//		$('.navbar li').click(function(e) {
+//			$('.navbar li').removeClass('active');
+//			var $this = $(this);
+//			if (!$this.hasClass('active')) {
+//				$this.addClass('active');
+//			}
+//			var tmp = $this.attr("id");
+//			tmp = tmp.substring(2,tmp.length);
+//			if(tmp == "Logout") {
+//			    Logout();
+//			}
+//			else if(tmp == "Raccontaci") {
+//				ApriOverlay();
+//			} else if(tmp == "Refresh") {
+//				ReloadReminiscens();
+//			} else {
+//				nascondiDiv();
+//				document.getElementById(tmp).style.display = "inherit";
+//			    //gestione statistiche
+//				if (isContext) {
+//				    switch (tmp) {
+//				        case "Foto":
+//				            for (var i = indexCarouselFoto * 4; i < ((indexCarouselFoto * 4) + 4) ; i++) {
+//				                if (ContextVisible.picture[i] == null) {
+//				                    //alert(indexCarouselFoto);
+//				                    break;
+//				                }
+//				                else {
+//				                    statisticaVIEWS(ContextVisible.picture[i].publicMementoId);
+//				                }
+//				            }
+//				            break;
+//				        case "Storie":
+//				            for (var i = indexCarouselStorie * 2; i < ((indexCarouselStorie * 2) + 2) ; i++) {
+//				                if (ContextVisible.story[i] == null) {
+//				                    //alert(indexCarouselFoto);
+//				                    break;
+//				                }
+//				                else {
+//				                    statisticaVIEWS(ContextVisible.story[i].publicMementoId);
+//				                }
+//				            }
+//				            break;
+//				        case "Canzoni":
+//				            for (var i = indexCarouselCanzoni * 2; i < ((indexCarouselCanzoni * 2) + 2) ; i++) {
+//				                if (ContextVisible.song[i] == null) {
+//				                    //alert(indexCarouselFoto);
+//				                    break;
+//				                }
+//				                else {
+//				                    statisticaVIEWS(ContextVisible.song[i].publicMementoId);
+//				                }
+//				            }
+//				            break;
+//				        case "TvFilm":
+//				            for (var i = indexCarouselTv * 2; i < ((indexCarouselTv * 2) + 2) ; i++) {
+//				                if (ContextVisible.tvFilm[i] == null) {
+//				                    //alert(indexCarouselFoto);
+//				                    break;
+//				                }
+//				                else {
+//				                    statisticaVIEWS(ContextVisible.tvFilm[i].publicMementoId);
+//				                }
+//				            }
+//				            break;
+//				        case "Famosi":
+//				            for (var i = indexCarouselFamosi * 2; i < ((indexCarouselFamosi * 2) + 2) ; i++) {
+//				                if (ContextVisible.people[i] == null) {
+//				                    //alert(indexCarouselFoto);
+//				                    break;
+//				                }
+//				                else {
+//				                    statisticaVIEWS(ContextVisible.people[i].publicMementoId);
+//				                }
+//				            }
+//				            break;
+//				    }
+//				}
+//			}
 			
-			e.preventDefault();
-		});		
-});
+//			e.preventDefault();
+//		});		
+//});

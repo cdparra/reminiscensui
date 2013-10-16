@@ -51,13 +51,9 @@
                 // we are on production server
                 console.log("Setting API url to BASE");
                 SetBaseUrl("http://base.reminiscens.me");
-            } else if (location.indexOf("test.reminiscens.me") != -1)  {
+            } else {
                 console.log("Setting API url to TEST");
                 SetBaseUrl("http://test.reminiscens.me");
-            } else {
-                // we are on production server
-                console.log("Setting API url to BASE");
-                SetBaseUrl("http://base.reminiscens.me");
             }
             if (GetSessionKey() != "" && GetSessionKey() != null) {
                 statisticaOPEN();

@@ -51,9 +51,12 @@
                 // we are on production server
                 console.log("Setting API url to BASE");
                 SetBaseUrl("http://base.reminiscens.me");
+	    } else if (location.indexOf("test.reminiscens.me") != -1)  {
+	        console.log("Setting API url to TEST");
+	        SetBaseUrl("http://test.reminiscens.me");
             } else {
-                console.log("Setting API url to TEST");
-                SetBaseUrl("http://test.reminiscens.me");
+                console.log("Setting API url to BASE");
+                SetBaseUrl("http://base.reminiscens.me");
             }
             //SetBaseUrl("http://base.reminiscens.me");
             if (GetSessionKey() != "" && GetSessionKey() != null) {
@@ -101,7 +104,7 @@
         </div>
         <div class="cont">
             <button onclick="Redirect()" class="btn btn-primary">Registrati</button>
-            <button onclick="Login()" class="btn btn-primary">Login</button>
+            <button onclick="Login()" class="btn btn-primary">Entra</button>
         </div>
         <div>
             <fieldset>

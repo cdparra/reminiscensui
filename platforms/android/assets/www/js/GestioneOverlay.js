@@ -56,6 +56,10 @@ function AzzeraVariabiliOverlay()
 	document.getElementById("divPrivateMemento").style.display = "inherit";
 	document.getElementById("divPublicMemento").style.display = "none";
 	
+    //azzero switch
+	$('#raccontaci-switch').bootstrapSwitch('setState', true);
+
+
 	$('#overlay').fadeOut('fast');
      $('#box').hide();
 }
@@ -114,7 +118,7 @@ $(document).ready(function() {
         "top": percentualeY + "%"
     });*/
 	$("#box").css({
-        "top": 20
+        "top": 25
     });
 }
 
@@ -193,6 +197,7 @@ function ApriOverlay(clicked_id) {
 	    idContextRaccontaci = clicked_id;
 	    //alert(idContextRaccontaci);
 	}
+	titleBox = document.getElementById("titleBox").innerHTML;
     CentroOverlay();
     $('#overlay').fadeIn('fast');
     $('#box').fadeIn('slow');
@@ -323,16 +328,16 @@ function eliminaImmagine(index)
     
 }
 
-function SwitchOverlay(switchTo)
-{
-    if(switchTo == "divPrivateMemento")
-    {
-        document.getElementById("divPrivateMemento").style.display = "inherit";
-        document.getElementById("divPublicMemento").style.display = "none";
-    }
-    else
-    {
-        document.getElementById("divPrivateMemento").style.display = "none";
-        document.getElementById("divPublicMemento").style.display = "inherit";
-    }
-}
+//function SwitchOverlay(switchTo)
+//{
+//    if(switchTo == "divPrivateMemento")
+//    {
+//        document.getElementById("divPrivateMemento").style.display = "inherit";
+//        document.getElementById("divPublicMemento").style.display = "none";
+//    }
+//    else
+//    {
+//        document.getElementById("divPrivateMemento").style.display = "none";
+//        document.getElementById("divPublicMemento").style.display = "inherit";
+//    }
+//}

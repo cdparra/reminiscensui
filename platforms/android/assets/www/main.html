@@ -23,6 +23,11 @@
     <script type="text/javascript" src="phonegap.js"></script>
     <script src="js/libs/jquery.js"></script>
     <script src="js/libs/bootstrap.js"></script>
+
+    <!--switch-->
+    <script src="js/libs/bootstrap-switch.min.js"></script>
+    <link href="css/bootstrap-switch.css" rel="stylesheet" media="screen">
+
     <script src="js/GestioneOverlay.js"></script>
     <script src="kendo/js/kendo.web.min.js"></script>
     <!-- Uncomment this and GestioneRecorderHTML for deplowing in web server 
@@ -233,24 +238,30 @@
                 <div class="overlay" id="overlay" style="display: none;"></div>
                 <!--contenuto overlay-->
                 <div id="box">
-                    <div id="divPrivateMemento" style="background-color: #D5D5D5; padding-top: 10px;">
-                        <div style="background-color: #A05152; padding-bottom: 10px; padding-top: 10px;">
+                    <div style="background-color: #D5D5D5; padding-top: 10px;">
+                        <div style="background-color: #A05152; padding-bottom: 10px; padding-top: 10px; display: inline-block; width:100%;">
                             <label id="titleBox">raccontaci la tua storia</label>
-                            <button id="salva" onclick="salvaStoria();" class="btn btn-primary">Salva</button>                            
+                            <button id="salva" onclick="salvaStoria();" class="btn btn-primary">Salva</button>
+                            <br />
+                            <div id="raccontaci-switch" style="float:right; margin-right:10px; width:300px;" class="make-switch" data-on-label="Storia personale" data-off-label="Storia pubblica">
+                                <input type="checkbox" checked>
+                            </div>                            
                         </div>
-                        <div style="margin-top: 10px; color: #000; margin-left: 20px; margin-right: 20px;">
+                        <div id="divPrivateMemento" style="margin-top: 10px; color: #000; margin-left: 20px; margin-right: 20px; height: 570px;">
+                            <div>
                             <form>
                                 <div>
-                                    <label for="titolo" style="float: left; margin-top: 3px;">Titolo:</label>
-                                    <input id="titolo" style="float: left; margin-left: 30px;" class="input-xxlarge" type="text" />
-                                </div>
+                                    <label for=" titolo" style="float: left; margin-top: 3px;">
+                                Titolo:</label>
+                                <input id="titolo" style="float: left; margin-left: 30px;" class="input-xxlarge" type="text" />
+                            </div>
                                 <br />
                                 <br />
                                 <div>
                                     <label style="float: left; margin-top: 3px;">Dove:</label>
                                     <!-- <input id="dove" style="float:left; margin-left:30px;" type="text" class="input-xlarge"/>-->
                                     <!--<select id="country" size="1" style="width: 120px; float: left; margin-left: 5px;" onchange="VisualizzaCity();">
-                                </select>-->
+                </select>-->
                                     <input id="country" type="text" placeholder="Nazione" style="float: left; margin-left: 5px;" onblur="VisualizzaCity();" />
                                     <!--<select id="city" size="1" style="width:180px;display:none;float:left;margin-left:5px;" onChange="VisualizzaPlaceName();">-->
                                     <input id="city" type="text" placeholder="Citta" style="display: none; float: left; margin-left: 5px;" onblur="VisualizzaPlaceName();" />
@@ -261,8 +272,8 @@
                                     <label style="float: left; margin-top: 3px;">Quando:</label>
                                     <!--<input id="dove" style="float:left; margin-left:3px;" type="text" class="input-xlarge"/>-->
                                     <!--<div style="float:left; margin-left:15px;">
-                                  <input id="quando" value="10/10/2011" />
-                                </div>-->
+                  <input id="quando" value="10/10/2011" />
+                </div>-->
                                     <select id="decade" size="1" style="width: 90px; float: left; margin-left: 5px;" onchange="VisualizzaYear();"></select>
                                     <!--<input id="year" value=""/>-->
                                     <select id="year" size="1" style="width: 80px; display: none; float: left; margin-left: 5px;" onchange="VisualizzaMonth();"></select>
@@ -299,21 +310,21 @@
                                 <div style="position: relative; display: inline-block; "> <img style=' max-height:200px;max-width:220px;' src='img/comera1.jpg' /><img src='images/Ximm.png' style='position: absolute; right: -12.5px; top: -12.5px; cursor: pointer; ' /></div><br><br>-->
                             </div>
                         </div>
-                        <textarea id="editor" rows="10" cols="30" style="width: 480px; height: 430px; float: left;"></textarea>
-                        <br />
-                        <button id="switchPublicMemento" onclick="SwitchOverlay('divPublicMemento');" class="btn btn-primary" style="margin-bottom:5px;">Aggiungi un public memento</button>
+                        <textarea id="editor" rows="10" cols="30" style="width: 450px; height: 430px; float: left;"></textarea>
+                        <!--<br />-->
+                        <!--<button id="switchPublicMemento" onclick="SwitchOverlay('divPublicMemento');" class="btn btn-primary" style="margin-bottom:5px;">Aggiungi un public memento</button>-->
 
                     </div>             
 
 
 
 
-                    <div id="divPublicMemento" style="background-color: #D5D5D5; padding-top: 10px; display:none;">
+                    <!--<div  style="background-color: #D5D5D5; padding-top: 10px; display:none;">
                         <div style="background-color: #A05152; padding-bottom: 10px; padding-top: 10px;">
                             <label id="titleBoxPublic">raccontaci un public memento</label>
                             <button id="salvaPublic" class="btn btn-primary" onclick="PostMemento();">Salva</button>
-                        </div>
-                        <div style="margin-top: 10px; color: #000; margin-left: 20px; margin-right: 20px; height:520px;">
+                        </div>-->
+                        <div id="divPublicMemento" style="margin-top: 10px; color: #000; margin-left: 20px; margin-right: 20px; height: 560px; display: none;">
                             <form id="formMemento">
 
                                 <div style="float:left; margin-right:8px;">
@@ -407,12 +418,12 @@
                                     <iframe width="650" id="iframeAnteprima" src=""></iframe>
                                 </div>
                             </form>
-                            
+
                         </div>
-                        <br /><br />
-                        <button id="switchPublicMemento" onclick="SwitchOverlay('divPrivateMemento');" class="btn btn-primary" style="margin-bottom:5px;">Aggiungi una storia personale</button>
+                        <!--<br /><br />-->
+                        <!--<button id="switchPublicMemento" onclick="SwitchOverlay('divPrivateMemento');" class="btn btn-primary" style="margin-bottom:5px;">Aggiungi una storia personale</button>-->
                         
-                    </div>
+                    </div>  
                     
                     <img src="images/X.png" class="chiudi" />
             </div>
@@ -504,6 +515,8 @@
         var isContext = true;
         var isQuestion = true;
 
+        var titleBox;
+
         function statisticheDETAILVIEWS(publicMementoId)
         {
             // instead of calling the service, let's just count in a hash table which we will later send in one post 
@@ -536,9 +549,10 @@
             $(".fancyboxFotoContext").fancybox({
                 'showCloseButton': false,
                 afterLoad: function (current, previous) {
-                    //alert(Storie.length);
-                    this.title = "<div><h1>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].headline + "</h1><h5>" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].text + "</h5> <span> Ti viene in mente qualcosa? </span> <button class='btn btn-primary' onClick='ApriOverlay(" + ContextVisible.picture[vettIndexFotoContextVisible[this.index]].publicMementoId + ");'>Raccontaci!</button> </div>";
-                    statisticheDETAILVIEWS(ContextVisible.picture[vettIndexFotoContextVisible[this.index]].publicMementoId);
+                    //alert(this.index);
+                    //alert(vettIndexFotoContextVisible[this.index]);
+                    this.title = "<div><h1>" + ContextVisible.picture[this.index].headline + "</h1><h5>" + ContextVisible.picture[this.index].text + "</h5> <span> Ti viene in mente qualcosa? </span> <button class='btn btn-primary' onClick='ApriOverlay(" + ContextVisible.picture[this.index].publicMementoId + ");'>Raccontaci!</button> </div>";
+                    statisticheDETAILVIEWS(ContextVisible.picture[this.index].publicMementoId);
                 },
                 'helpers': {
                     title: { type: 'inside' }
@@ -625,6 +639,30 @@
 
 
         $(document).ready(function () {
+            //switch
+            $('#raccontaci-switch').on('switch-change', function (e, data) {
+                var $el = $(data.el)
+                  , value = data.value;
+                //console.log(value);
+                if(value) //storia personale
+                {
+                    document.getElementById("divPrivateMemento").style.display = "inherit";
+                    document.getElementById("divPublicMemento").style.display = "none";
+                    //$("#salva").click(salvaStoria());
+                    document.getElementById("salva").onclick = function () { salvaStoria(); };
+                    document.getElementById("titleBox").innerHTML = titleBox;
+                }
+                else  //storia pubblica
+                {
+                    document.getElementById("divPrivateMemento").style.display = "none";
+                    document.getElementById("divPublicMemento").style.display = "inherit";
+                    //$("#salva").click(PostMemento());
+                    document.getElementById("salva").onclick = function () { PostMemento() };
+                    document.getElementById("titleBox").innerHTML = "Raccontaci una storia pubblica";
+                }
+            });
+
+
 
             //initializePublicMementoConnection();
             InizializzaValueLocationAndDate();
@@ -841,9 +879,9 @@
             //Login();
             Timeline();
 
-            if (isContext) {
-                ContextFunction();
-            }
+            //if (isContext) {
+            ContextFunction();
+            //}
 
             //firstDecade = GetFirstDecade(GetPersonDeacadeBirthDate()); //recupero la prima decade che compare nella timeline (guardo la prima che ha una storia raccontata)
             //alert(firstDecade);

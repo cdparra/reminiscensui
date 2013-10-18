@@ -258,8 +258,14 @@ function EstraiCampiContext(contextList) {
             newContext.startLocation.region = contextList[i].publicMemento.startLocation.region;
             newContext.startLocation.country = contextList[i].publicMemento.startLocation.country;
             newContext.source = contextList[i].publicMemento.source;
-            newContext.sourceUrl = contextList[i].publicMemento.sourceUrl;
-            newContext.resourceUrl = contextList[i].publicMemento.resourceUrl;
+            if (contextList[i].publicMemento.sourceUrl != null)
+                newContext.sourceUrl = contextList[i].publicMemento.sourceUrl.replace("'", "%27");
+            else
+                newContext.sourceUrl = contextList[i].publicMemento.sourceUrl;
+            if (contextList[i].publicMemento.resourceUrl != null)
+                newContext.resourceUrl = contextList[i].publicMemento.resourceUrl.replace("'", "%27");
+            else
+                newContext.resourceUrl = contextList[i].publicMemento.resourceUrl;
         }
 
         AggiungiContextDecade(newContext, contextList[i].decade, contextList[i].category);
@@ -320,10 +326,10 @@ function ContextFunction()
    		});
 }
 
-function InserisciIndiceFotoContext(index)
-{
-	vettIndexFotoContextVisible.push(index);
-}
+//function InserisciIndiceFotoContext(index)
+//{
+//	vettIndexFotoContextVisible.push(index);
+//}
 
 function statisticaVIEWS(publicMementoId)
 {
@@ -436,11 +442,13 @@ function stampaFotoContext(inizio, fine)
     var stringaDivCarousel = "<div id='divFotoDelTempo' class='carousel slide'>";
     var stringaDivEle = "<div class='carousel-inner'>";
     var stringaDiv = "";
+    //alert(ContextVisible.picture.length);
     //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
     while (ContextVisible.picture[indice] != null) {
         if (ContextVisible.picture[indice].resourceUrl != null) {
             //alert(MieStorieVisible[i].mementoList.length);
-            InserisciIndiceFotoContext(indice);
+            //alert(indice);
+            //InserisciIndiceFotoContext(indice);
             stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>"
             if(nPagina == 0)
             {

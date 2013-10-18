@@ -132,7 +132,7 @@ function CreaTimelineCarousel()
     //        </div>    
     var today = new Date();
     var decadeToday = parseInt(today.getFullYear() / 10) * 10;
-    var numeroSchermateTimeline = ((decadeToday - firstDecade) / 10) / 6;
+    var numeroSchermateTimeline = (((decadeToday - firstDecade) / 10) +1) / 6;
     var decadeCorrente = firstDecade;
     var stringCarousel = "<div id='timelineCarousel' class='carousel slide' style='width: 1020px; height: 112px;'><div class='carousel-inner'>";
     if (numeroSchermateTimeline <= 1)
@@ -200,7 +200,7 @@ function ScrollCarousel()
 {
     var today = new Date();
     var decadeToday = parseInt(today.getFullYear() / 10) * 10;
-    var numeroSchermateTimeline = ((decadeToday - firstDecade) / 10) / 6;
+    var numeroSchermateTimeline = (((decadeToday - firstDecade) / 10)+1) / 6;
     if (numeroSchermateTimeline <= 1)
         numeroSchermateTimeline = 1;
     else if (numeroSchermateTimeline > 1 && numeroSchermateTimeline <= 2)

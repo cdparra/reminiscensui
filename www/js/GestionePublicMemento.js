@@ -79,8 +79,13 @@ function PostMemento(){
 	
     //var contextId = $("#contextId").val();
 	var contextId = GetContextId();
-	if (contextId !=null && contextId != "") {
-		PostContextMemento(publicMemento,contextId);
+	if (contextId != null && contextId != "") {
+	    /*var contextMemento = [];
+	    contextMemento[0] = new Object();
+	    contextMemento[0].publicMemento = publicMemento;
+	    EstraiCampiContext(contextMemento)(contextMemento);*/
+	    PostContextMemento(publicMemento, contextId);
+	    AzzeraVariabiliOverlay();
 	} else {	
 		SaveStoryWithConnection(publicMemento);
 	}
@@ -123,7 +128,11 @@ function PostContextMemento(publicMemento,contextId){
         	data: JSON.stringify(contextMemento),
         	async: false,
         	success: function (data) {
-        	    alert("success");
+        	    //alert("success");
+        	    var contextList = [];
+        	    contextList.push(data);
+        	    EstraiCampiContext(contextList);
+
 				$("#postMementoResult").html("<div class='alert alert-success'>Salvato!</div>");
 				headline = $("#headline").val("");
 				$("#text").val("");

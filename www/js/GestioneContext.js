@@ -258,8 +258,14 @@ function EstraiCampiContext(contextList) {
             newContext.startLocation.region = contextList[i].publicMemento.startLocation.region;
             newContext.startLocation.country = contextList[i].publicMemento.startLocation.country;
             newContext.source = contextList[i].publicMemento.source;
-            newContext.sourceUrl = contextList[i].publicMemento.sourceUrl;
-            newContext.resourceUrl = contextList[i].publicMemento.resourceUrl;
+            if (contextList[i].publicMemento.sourceUrl != null)
+                newContext.sourceUrl = contextList[i].publicMemento.sourceUrl.replace("'", "%27");
+            else
+                newContext.sourceUrl = contextList[i].publicMemento.sourceUrl;
+            if (contextList[i].publicMemento.resourceUrl != null)
+                newContext.resourceUrl = contextList[i].publicMemento.resourceUrl.replace("'", "%27");
+            else
+                newContext.resourceUrl = contextList[i].publicMemento.resourceUrl;
         }
 
         AggiungiContextDecade(newContext, contextList[i].decade, contextList[i].category);
@@ -313,17 +319,20 @@ function ContextFunction()
 			    SetContextId(data.contextId);
 				//alert("ciao");
 				//alert(timeline.aboutPerson.personId );
-				var contextList = data.publicMementoList;
-				EstraiCampiContext(contextList);
+			    
+			    if (isContext) {
+			        var contextList = data.publicMementoList;
+			        EstraiCampiContext(contextList);
+			    }
             }
         	
    		});
 }
 
-function InserisciIndiceFotoContext(index)
-{
-	vettIndexFotoContextVisible.push(index);
-}
+//function InserisciIndiceFotoContext(index)
+//{
+//	vettIndexFotoContextVisible.push(index);
+//}
 
 function statisticaVIEWS(publicMementoId)
 {
@@ -436,12 +445,14 @@ function stampaFotoContext(inizio, fine)
     var stringaDivCarousel = "<div id='divFotoDelTempo' class='carousel slide'>";
     var stringaDivEle = "<div class='carousel-inner'>";
     var stringaDiv = "";
+    //alert(ContextVisible.picture.length);
     //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
     while (ContextVisible.picture[indice] != null) {
         if (ContextVisible.picture[indice].resourceUrl != null) {
             //alert(MieStorieVisible[i].mementoList.length);
-            InserisciIndiceFotoContext(indice);
-            stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href=\"" + ContextVisible.picture[indice].resourceUrl + "\" title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src=\"" + ContextVisible.picture[indice].resourceUrl + "\" alt='' /> </a></br></div>"
+            //alert(indice);
+            //InserisciIndiceFotoContext(indice);
+            stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>"
             if(nPagina == 0)
             {
                 //siccome faccio sempre vedere prima le foto quelle delle prima pagina posso metterle come statistica VIEWS
@@ -636,18 +647,30 @@ function stampaCanzoniContext(inizio, fine)
 	
         if (song.resourceUrl != null)
         {
-            //estraggo il video id di ogni filmato youtube e lo salvo in un vettore
-            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
-            var match = song.resourceUrl.match(regExp);
-            if (match&&match[2].length==11){
-                //alert(match[2]);
-                videoCanzoni.push(match[2]);
-            }else{
+            if (tipo == "VIDEO") {
+                //estraggo il video id di ogni filmato youtube e lo salvo in un vettore
+                var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+                var match = song.resourceUrl.match(regExp);
+                if (match && match[2].length == 11) {
+                    //alert(match[2]);
+                    videoCanzoni.push(match[2]);
+                } else {
+                }
+                stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'><div id='songCarousel" + song.publicMementoId + "'></div>";
+                stringaDiv += "<h3>" + h + "</h3><h7 style='text-align:center;'>" + t + "</h7>";
+                stringaDiv += "</div>";
+                playersCanzoni.push(song.publicMementoId);
             }
-            stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'><div id='songCarousel" + song.publicMementoId + "'></div>";
-            stringaDiv += "<h3>" + h +"</h3><h7 style='text-align:center;'>" + t + "</h7>";
-            stringaDiv += "</div>";
-            playersCanzoni.push(song.publicMementoId);
+            else
+            {
+                if(tipo == "IMAGE")
+                {
+                    stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+                    stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + song.resourceUrl;
+                    stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t + "</h7>";
+                    stringaDiv += "</div>";
+                }
+            }
         }
         
 

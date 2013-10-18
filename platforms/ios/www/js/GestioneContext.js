@@ -441,7 +441,7 @@ function stampaFotoContext(inizio, fine)
         if (ContextVisible.picture[indice].resourceUrl != null) {
             //alert(MieStorieVisible[i].mementoList.length);
             InserisciIndiceFotoContext(indice);
-            stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>"
+            stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href=\"" + ContextVisible.picture[indice].resourceUrl + "\" title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src=\"" + ContextVisible.picture[indice].resourceUrl + "\" alt='' /> </a></br></div>"
             if(nPagina == 0)
             {
                 //siccome faccio sempre vedere prima le foto quelle delle prima pagina posso metterle come statistica VIEWS

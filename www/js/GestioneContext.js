@@ -319,8 +319,11 @@ function ContextFunction()
 			    SetContextId(data.contextId);
 				//alert("ciao");
 				//alert(timeline.aboutPerson.personId );
-				var contextList = data.publicMementoList;
-				EstraiCampiContext(contextList);
+			    
+			    if (isContext) {
+			        var contextList = data.publicMementoList;
+			        EstraiCampiContext(contextList);
+			    }
             }
         	
    		});
@@ -644,18 +647,30 @@ function stampaCanzoniContext(inizio, fine)
 	
         if (song.resourceUrl != null)
         {
-            //estraggo il video id di ogni filmato youtube e lo salvo in un vettore
-            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
-            var match = song.resourceUrl.match(regExp);
-            if (match&&match[2].length==11){
-                //alert(match[2]);
-                videoCanzoni.push(match[2]);
-            }else{
+            if (tipo == "VIDEO") {
+                //estraggo il video id di ogni filmato youtube e lo salvo in un vettore
+                var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+                var match = song.resourceUrl.match(regExp);
+                if (match && match[2].length == 11) {
+                    //alert(match[2]);
+                    videoCanzoni.push(match[2]);
+                } else {
+                }
+                stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'><div id='songCarousel" + song.publicMementoId + "'></div>";
+                stringaDiv += "<h3>" + h + "</h3><h7 style='text-align:center;'>" + t + "</h7>";
+                stringaDiv += "</div>";
+                playersCanzoni.push(song.publicMementoId);
             }
-            stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'><div id='songCarousel" + song.publicMementoId + "'></div>";
-            stringaDiv += "<h3>" + h +"</h3><h7 style='text-align:center;'>" + t + "</h7>";
-            stringaDiv += "</div>";
-            playersCanzoni.push(song.publicMementoId);
+            else
+            {
+                if(tipo == "IMAGE")
+                {
+                    stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+                    stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + song.resourceUrl;
+                    stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t + "</h7>";
+                    stringaDiv += "</div>";
+                }
+            }
         }
         
 

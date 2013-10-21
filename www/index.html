@@ -51,18 +51,33 @@
                 // we are on production server
                 console.log("Setting API url to BASE");
                 SetBaseUrl("http://base.reminiscens.me");
+	        document.getElementById("productionServer").checked=true;
 	    } else if (location.indexOf("test.reminiscens.me") != -1)  {
 	        console.log("Setting API url to TEST");
 	        SetBaseUrl("http://test.reminiscens.me");
+	        document.getElementById("testServer").checked=true;
             } else {
                 console.log("Setting API url to BASE");
                 SetBaseUrl("http://base.reminiscens.me");
+	        document.getElementById("productionServer").checked=true;
             }
             //SetBaseUrl("http://base.reminiscens.me");
             if (GetSessionKey() != "" && GetSessionKey() != null) {
                 statisticaOPEN();
                 location.href = "main.html";
             }
+
+	    $('#productionServer').click(function () {
+                SetBaseUrl("http://base.reminiscens.me");
+                console.log("Setting API url to BASE");
+            });
+
+	    $('#testServer').click(function () {
+                SetBaseUrl("http://test.reminiscens.me");
+	        console.log("Setting API url to TEST");
+            });
+
+
         });
     </script>
 
@@ -118,7 +133,15 @@
                 <input type="radio" id="version_4" name="linguaggio" value="4" />
                 Nascondo contesto e domande<br />                
             </fieldset>
-
+        </div>
+        <div>
+            <fieldset>
+                <legend>Versione Server</legend>
+                <input type="radio" checked="true" id="productionServer" name="server" value="1" />
+                Production Server <br />
+                <input type="radio" id="testServer" name="server" value="2" />
+                Test Server <br />
+            </fieldset>
         </div>
     </div>
 </body>

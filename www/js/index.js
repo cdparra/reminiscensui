@@ -13,21 +13,29 @@ function Login() {
 	var sessionData = new Object;
 	sessionData.email = $("#email").val();
 	sessionData.password = $("#password").val();
-	
-	var localBaseUrl = GetBaseUrl();
-    console.log("Using this API URL: "+localBaseUrl);
-	if (localBaseUrl == null || localBaseUrl=="") {
-        if (window.location.hostname == "http://base.reminiscens.me") {
-            localBaseUrl = "http://base.reminiscens.me";
-        } else {
-            localBaseUrl = "http://test.reminiscens.me";
-        }
         
-		console.log("Setting API URL to: "+localBaseUrl);
-        SetBaseUrl(localBaseUrl);
+	var serverToUse = "http://base.reminiscens.me";
+
+        if (document.getElementById("testServer").checked) {
+            serverToUse = "http://test.reminiscens.me"; 
 	}
-	
-    console.log("Login with: "+localBaseUrl+Reminiscens.apiRes+Reminiscens.userRes+Reminiscens.loginRes)
+	console.log("Setting API URL to: "+serverToUse);
+        SetBaseUrl(serverToUse);
+
+        var localBaseUrl = serverToUse;
+        //console.log("Using this API URL: "+localBaseUrl);
+	//if (localBaseUrl == null || localBaseUrl=="") {
+        //if (window.location.hostname == "http://base.reminiscens.me") {
+        //    localBaseUrl = "http://base.reminiscens.me";
+        //} else {
+        //    localBaseUrl = "http://test.reminiscens.me";
+        //}
+        
+	//console.log("Setting API URL to: "+localBaseUrl);
+        //SetBaseUrl(localBaseUrl);
+	//}
+
+        console.log("Login with: "+localBaseUrl+Reminiscens.apiRes+Reminiscens.userRes+Reminiscens.loginRes)
 	$.ajax({
 				type : "POST",
 				//url: "http://test.reminiscens.me/lifeapi/user/login",

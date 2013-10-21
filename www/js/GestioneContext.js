@@ -540,31 +540,47 @@ function stampaStorieContext(inizio, fine)
     	var story = ContextVisible.story[indice];
     	var h = story.headline == null ? "" : story.headline;
     	var t = story.text == null ? "" : story.text;
-    	var tipo = story.resourceType
-    	var startDate = story.startDate.exactDateAsString == null ? startDate.decade : story.startDate.exactDateAsString; 
+    	var tipo = story.resourceType;
+    	var startDate = story.startDate.exactDateAsString == null ? story.startDate.decade : story.startDate.exactDateAsString.replace("00:00:00",""); 
     	var startLocation =  story.startLocation.country == null ? 
     			"" : story.startLocation.region == null ? 
     					story.startLocation.country : story.startLocation.city == null ? 
     							story.startLocation.region +", " +story.startLocation.country : 
-    							story.startLocation.region +","+story.startLocation.region +", " +story.startLocation.country ;
+    							story.startLocation.region + "," + story.startLocation.region + ", " + story.startLocation.country;
 
         if (story.resourceUrl != null)
         {
             stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
-            stringaDiv += "	<div style=' float:left; width:110px; text-align:center; height:200px;'><h5>" 
-            stringaDiv += startDate + "</h5>" + "<h5>" + startLocation+ "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);";
-            stringaDiv += "color: #FFF;height:196px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + h + "</h5><h7>" + t.substring(0, 120) + "...</h7>";
-            stringaDiv += "</div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:200px; line-height:200px; ";
-            stringaDiv += "vertical-align:middle;'><img style='max-width:110px;max-height:180px;' src='" + story.resourceUrl + "' alt='' /></div></div>";
+            stringaDiv += "<a class='fancyboxStorieContext linkStorie' rel='gallery3' href='" + story.resourceUrl + "' title='prova'>";
+            stringaDiv += "<h4>" + h + "</h4>";
+            stringaDiv += "<h5 style='float:left; margin-top:-5px; margin-left:3px;'>" + startDate + "</h5>";
+            stringaDiv += "<h5 style='float: right; margin-top: -5px; margin-right:3px;'>" + startLocation + "</h5><br><br>";
+            stringaDiv += "<p style='float:left; text-align:justify; padding:3px 3px 3px 3px;width:438px;'><img style='float:right;max-width:115px;max-height:115px; padding:3px 3px 3px 3px;' src='" + story.resourceUrl + "' alt='' />" + t.substring(0, 300) + "...</p>";
+            stringaDiv += "</a></div>";
+
+            //stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
+            //stringaDiv += "	<div style=' float:left; width:110px; text-align:center; height:200px;'><h5>" 
+            //stringaDiv += startDate + "</h5>" + "<h5>" + startLocation+ "</h5></div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);";
+            //stringaDiv += "color: #FFF;height:196px; padding: 2px; text-align:left;'><h5 style='text-align:center;'>" + h + "</h5><h7>" + t.substring(0, 120) + "...</h7>";
+            //stringaDiv += "</div>	<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:200px; line-height:200px; ";
+            //stringaDiv += "vertical-align:middle;'><img style='max-width:110px;max-height:180px;' src='" + story.resourceUrl + "' alt='' /></div></div>";
         }
         else
         {
+            //stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
+            //stringaDiv += "<div style=' float:left; width:110px; text-align:center; height:200px;'><h5>" + startDate + "</h5>" + "<h5>" + startLocation + "</h5>";
+            //stringaDiv += "</div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:196px; padding: 2px; ";
+            //stringaDiv += "text-align:left;'><h5 style='text-align:center;'>" + h + "</h5><font size='2'>" + t.substring(0, 120) + "...</font></div>";
+            //stringaDiv += "<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:200px; line-height:200px; ";
+            //stringaDiv += "vertical-align:middle;'><img style='max-width:110px;max-height:180px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
+
             stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
-            stringaDiv += "<div style=' float:left; width:110px; text-align:center; height:200px;'><h5>" + startDate + "</h5>" + "<h5>" + startLocation + "</h5>";
-            stringaDiv += "</div><div style=' float:left;width:216px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:196px; padding: 2px; ";
-            stringaDiv += "text-align:left;'><h5 style='text-align:center;'>" + h + "</h5><font size='2'>" + t.substring(0, 120) + "...</font></div>";
-            stringaDiv += "<div style='float:left;width:110px; text-align:center;background: rgba(0,0,0,0.7);color: #FFF;height:200px; line-height:200px; ";
-            stringaDiv += "vertical-align:middle;'><img style='max-width:110px;max-height:180px;' src='" + "images/story-book.jpg" + "' alt='' /></div></div>";
+            stringaDiv += "<a class='fancyboxStorieContext linkStorie' rel='gallery3' href='images/story-book.jpg' title='prova'>";
+            stringaDiv += "<h4>" + h + "</h4>";
+            stringaDiv += "<h5 style='float:left; margin-top:-5px; margin-left:3px;'>" + startDate + "</h5>";
+            stringaDiv += "<h5 style='float: right; margin-top: -5px; margin-right:3px;'>" + startLocation + "</h5><br><br>";
+            stringaDiv += "<p style='line-height: 1.5em;float:left; text-align:justify; padding:3px 3px 3px 3px;width:438px;'><img style='float:right;max-width:115px;max-height:115px; padding:3px 3px 3px 3px;' src='" + "images/story-book.jpg" + "' alt='' />" + t.substring(0, 300) + "...</p>";
+            stringaDiv += "</a></div>";
         }
 
         visualizzati++;
@@ -871,17 +887,32 @@ function stampaTvFilmContext(inizio, fine) {
 
     	if (tvFilm.resourceUrl != null)
         {
-    		var url = "";
-    		stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
-    		if (tipo=="IMAGE") {
-    			url = tvFilm.resourceUrl;
-    			stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + url;
-    			stringaDiv +="' class='round'/><h4>" + h + "</h4><h6>" + t + "</h6>";
-    		} else {
-    		    //alert("ciao");
-    			/*url = tvFilm.resourceUrl.replace('watch?v=', 'embed/');
-    			stringaDiv += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h5>"; 
-    			stringaDiv += h + "</h5><h7 style='text-align:center;'>" + t + "</h7>";*/
+    		//var url = "";
+    		//stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+    		//if (tipo=="IMAGE") {
+    		//	url = tvFilm.resourceUrl;
+    		//	stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + url;
+    		//	stringaDiv +="' class='round'/><h4>" + h + "</h4><h6>" + t + "</h6>";
+    		//} else {
+    		//    //alert("ciao");
+    		//	/*url = tvFilm.resourceUrl.replace('watch?v=', 'embed/');
+    		//	stringaDiv += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h5>"; 
+    		//	stringaDiv += h + "</h5><h7 style='text-align:center;'>" + t + "</h7>";*/
+    		//    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+    		//    var match = tvFilm.resourceUrl.match(regExp);
+    		//    if (match && match[2].length == 11) {
+    		//        //alert(match[2]);
+    		//        videoTv.push(match[2]);
+    		//    } else {
+    		//    }
+    		//    stringaDiv += "<div id='tvCarousel" + tvFilm.publicMementoId + "'></div>";
+    		//    stringaDiv += "<h3>" + h + "</h3><h7 style='text-align:center;'>" + t + "</h7>";
+    		//    playersTv.push(tvFilm.publicMementoId);
+    		//}
+    		//stringaDiv += "</div>";
+
+    		if (tipo == "VIDEO") {
+    		    //estraggo il video id di ogni filmato youtube e lo salvo in un vettore
     		    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
     		    var match = tvFilm.resourceUrl.match(regExp);
     		    if (match && match[2].length == 11) {
@@ -889,11 +920,19 @@ function stampaTvFilmContext(inizio, fine) {
     		        videoTv.push(match[2]);
     		    } else {
     		    }
-    		    stringaDiv += "<div id='tvCarousel" + tvFilm.publicMementoId + "'></div>";
+    		    stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'><div id='tvCarousel" + tvFilm.publicMementoId + "'></div>";
     		    stringaDiv += "<h3>" + h + "</h3><h7 style='text-align:center;'>" + t + "</h7>";
+    		    stringaDiv += "</div>";
     		    playersTv.push(tvFilm.publicMementoId);
     		}
-            stringaDiv += "</div>";
+    		else {
+    		    if (tipo == "IMAGE") {
+    		        stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+    		        stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + tvFilm.resourceUrl;
+    		        stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t + "</h7>";
+    		        stringaDiv += "</div>";
+    		    }
+    		}
         } else {
             stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
             stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + "images/profilo.png";

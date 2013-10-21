@@ -192,12 +192,25 @@
                     <div id="Storie" style="display: none;">
                         <div id="divRootStorieDelTempo" class="divFoto">
                             <h3 id="StorieDelTempo">Che cosa succedeva nel 1950</h3>
+                            
                             <div id="containerCarouselStorieDelTempo">
 
                             </div>
                         </div>
                         <div class="divFoto">
                             <h3 id="TueStorieDelTempo">Le tue storie nel 1950</h3>
+
+                            <!--<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:28px; margin-right:28px; margin-bottom:5px; color:black;'>
+                                <a class='fancyboxFotoContext linkStorie' rel='gallery1' href='images/story-book.jpg' title='prova'>
+                                    <h4>Titolo titolo titolo titolo</h4>
+
+                                    <h5 style="float:left; margin-top:-5px; margin-left:3px;">1906-05-27</h5>
+                                    <h5 style="float: right; margin-top: -5px; margin-right:3px;">Bavaria, Germany</h5>
+                                    <p style="float:left; text-align:justify; padding:3px 3px 3px 3px;"><img style='float:right;max-width:115px;max-height:115px; padding:3px 3px 3px 3px;' src='images/story-book.jpg' alt='' />L'edizione 1905-06 della Verbandsliga vide la vittoria finale del VfB Lipsia. ' Capocannoniere del torneo fu Edgar Blüher,... Lher,...edizione 1905-06 della Verbandsliga vide la vittoria finale del VfB Lipsia.  1905-06 della Verbandsliga vide la vittoria finale del VfB Lipsia. ' Capocannoniere del torneo fu Edgar Blüher,... Lher,...edizione 1905-06 della Verbandsliga vide la vittoria finale del Capocannoniere del torneo fu Edgar Blü</p>
+                                </a>
+                            </div>-->
+
+
 
                             <div id="containerCarouselMieStorieDelTempo">
 
@@ -558,10 +571,35 @@
                     title: { type: 'inside' }
                 } // helpers
             });
-            $(".fancyboxMieStorie").fancybox({
+
+            $(".fancyboxStorieContext").fancybox({
+                'showCloseButton': false,
+                afterLoad: function (current, previous) {
+                    //alert(this.index);
+                    //alert(vettIndexFotoContextVisible[this.index]);
+                    this.title = "<div><h1>" + ContextVisible.story[this.index].headline + "</h1><h5>" + ContextVisible.story[this.index].text + "</h5> <span> Ti viene in mente qualcosa? </span> <button class='btn btn-primary' onClick='ApriOverlay(" + ContextVisible.story[this.index].publicMementoId + ");'>Raccontaci!</button> </div>";
+                    statisticheDETAILVIEWS(ContextVisible.story[this.index].publicMementoId);
+                },
+                'helpers': {
+                    title: { type: 'inside' }
+                } // helpers
+            });
+
+            $(".fancyboxMieFoto").fancybox({
                 'showCloseButton': false,
                 afterLoad: function () {
                     this.title = "<div><h1>" + MieStorieVisible[vettIndexMieStorieVisible[this.index]].headline + "</h1><h5>" + MieStorieVisible[vettIndexMieStorieVisible[this.index]].text + "</h5><br>  <button class='btn btn-primary' onClick='ApriOverlayModifica(" + vettIndexMieStorieVisible[this.index] + ");'>Modifica</button></div>";
+                    //this.title = "<div><h1>" + "hola" +"</h1> </div>";
+                },
+                'helpers': {
+                    title: { type: 'inside' }
+                } // helpers
+            });
+
+            $(".fancyboxMieStorie").fancybox({
+                'showCloseButton': false,
+                afterLoad: function () {
+                    this.title = "<div><h1>" + MieStorieVisible[this.index].headline + "</h1><h5>" + MieStorieVisible[this.index].text + "</h5><br>  <button class='btn btn-primary' onClick='ApriOverlayModifica(" + this.index + ");'>Modifica</button></div>";
                     //this.title = "<div><h1>" + "hola" +"</h1> </div>";
                 },
                 'helpers': {

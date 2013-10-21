@@ -1,8 +1,11 @@
 ﻿@charset "utf-8";
 /* CSS Document */
+.linkStorie{
+    color:black;
+}
 body {
 	background-color: #CCC;
-	background-repeat: repeat-y;	
+	background-repeat: repeat-y;
 }
 #divRoot {
 	width: 1024px;

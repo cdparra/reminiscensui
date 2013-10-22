@@ -110,6 +110,16 @@ function Logout() {
     if (!confirm('Sicuro di voler uscire?')) {
         return;
     }
+    var storage = $.localStorage;
+    var storieNonSync = storage.get('storieNonSync');
+    if (storieNonSync != null) {
+        if (storieNonSync.length > 0) {
+            if (!confirm('Ci sono ancora storie da salvare in rete! Sei veramente sicuro i uscire?')) {
+                return;
+            }
+        }
+    }
+    storage.set('storieNonSync', null);
     statisticheCLOSE();
     //SetSessionKey("");    
     //location.href = "index.html";

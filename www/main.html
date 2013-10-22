@@ -155,9 +155,14 @@
 
                     <div class="navbar">
                         <div class="navbar-inner">
-                            <ul class="nav" id="ulMenu">
+                            <ul class="nav" id="ulMenu" style="margin-left:60px;">
                                 <li class="active" id="liFoto"><a href="#">Foto</a> </li>
                                 <li id="liStorie"><a href="#">Storie</a></li>                                
+                            </ul>
+                            <ul class="nav pull-right" id="ulMenuRight" style="margin-right:60px;">
+                                <li id="liRaccontaci"><a href="#">Raccontaci</a></li>
+                                <li id="liRefresh"><a href="#">Aggiorna</a></li>
+                                <li id="liLogout"><a href="#">Esci</a></li>
                             </ul>
                         </div>
                     </div>
@@ -530,6 +535,8 @@
 
         var titleBox;
 
+        var timer;
+
         function statisticheDETAILVIEWS(publicMementoId)
         {
             // instead of calling the service, let's just count in a hash table which we will later send in one post 
@@ -553,7 +560,8 @@
             //          alert("hola");
                   },
                   error: function (data) {
-                  alert("Errore nel passaggio di statistiche");
+                      //alert("Errore nel passaggio di statistiche");
+                      console.log("Errore nel passaggio di statistiche");
               }
             });
         }
@@ -677,6 +685,9 @@
 
 
         $(document).ready(function () {
+            //timer
+            timer = setInterval(function () { StorySynchronize(); }, 1000 * 60 * 5);
+
             //switch
             $('#raccontaci-switch').on('switch-change', function (e, data) {
                 var $el = $(data.el)
@@ -788,16 +799,16 @@
                 document.getElementById("ulMenu").innerHTML += "<li id='liCanzoni'><a href='#'>Canzoni</a></li>";
                 document.getElementById("ulMenu").innerHTML += "<li id='liFamosi'><a href='#'>Famosi</a></li>";
                 document.getElementById("ulMenu").innerHTML += "<li id='liTvFilm'><a href='#'>TV/Film</a></li>";
-                document.getElementById("ulMenu").innerHTML += "<li id='liRaccontaci'><a href='#'>Raccontaci</a></li>";
-                document.getElementById("ulMenu").innerHTML += "<li id='liLogout'><a href='#'>Esci</a></li>";
-                document.getElementById("ulMenu").innerHTML += "<li id='liRefresh'><a href='#'>Aggiorna</a></li>";
+                //document.getElementById("ulMenu").innerHTML += "<li id='liRaccontaci'><a href='#'>Raccontaci</a></li>";
+                //document.getElementById("ulMenu").innerHTML += "<li id='liLogout'><a href='#'>Esci</a></li>";
+                //document.getElementById("ulMenu").innerHTML += "<li id='liRefresh'><a href='#'>Aggiorna</a></li>";
             }
-            else
-            {
-                document.getElementById("ulMenu").innerHTML += "<li id='liRaccontaci'><a href='#'>Raccontaci</a></li>";
-                document.getElementById("ulMenu").innerHTML += "<li id='liLogout'><a href='#'>Esci</a></li>";
-                document.getElementById("ulMenu").innerHTML += "<li id='liRefresh'><a href='#'>Aggiorna</a></li>";
-            }
+            //else
+            //{
+            //    document.getElementById("ulMenu").innerHTML += "<li id='liRaccontaci'><a href='#'>Raccontaci</a></li>";
+            //    document.getElementById("ulMenu").innerHTML += "<li id='liLogout'><a href='#'>Esci</a></li>";
+            //    document.getElementById("ulMenu").innerHTML += "<li id='liRefresh'><a href='#'>Aggiorna</a></li>";
+            //}
 
 
             /*applica la classe active al menu nav bar di bootstrap quando viene cliccato*/

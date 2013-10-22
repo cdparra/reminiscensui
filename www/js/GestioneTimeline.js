@@ -461,6 +461,19 @@ function stampaMieStorie(inizio, fine)
 	    var story = MieStorieVisible[indice];
 	    var h = story.headline == null ? "" : story.headline;
 	    var t = story.text == null ? "" : story.text;
+
+	    //devo rimuovere eventuali paragrafi prima di stampare il testo
+	    //t = t.replace(/<p>/g, "");
+	    //t = t.replace(/</p>/g, "");
+
+	    var strReplace = "<p>";
+	    var re = new RegExp(strReplace, 'g');
+	    t = t.replace(re, '');
+
+	    strReplace = "</p>";
+	    re = new RegExp(strReplace, 'g');
+	    t = t.replace(re, '');
+
 	    var tipo = story.resourceType;
 	    var startDate = story.startDate.exactDateAsString == null ? story.startDate.decade : story.startDate.exactDateAsString.replace("00:00:00", "");
 	    var startLocation = story.location.country == null ?

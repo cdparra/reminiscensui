@@ -113,22 +113,22 @@ function salvaStoria(){
 	
 	//alert(JSON.stringify(newStory));
 	if(isModify) //se sto eseguendo una modifica
-	{		
+	{
+	    ModificaMieStoriaDecade(newStory, decadeSelect, indexModify);
 		if(idStoryModify!=null)
 		{
-			ModifyStoryWithConnection(newStory, idStoryModify);
+			ModifyStoryWithConnection(newStory, idStoryModify, indexModify);
 			newStory.lifeStoryId = idStoryModify;
-		}
-		ModificaMieStoriaDecade(newStory, decadeSelect, indexModify);
+		}		
 	}
 	else //se sto raccontando una nuova storia
 	{
-		SaveStoryWithConnection(newStory);
-		AggiungiMieStoriaDecade(newStory, decadeSelect);
+	    AggiungiMieStoriaDecade(newStory, decadeSelect);
+		SaveStoryWithConnection(newStory);		
 	}
 	
 	
-	MieStorieStorieVisible = RecuperaMieStorieDecade();
+	MieStorieVisible = RecuperaMieStorieDecade();
 	stampaMieFoto(0,MieStorieVisible.length);
 	stampaMieStorie(0,MieStorieVisible.length);
 	aggiungiEventoFancyBox();

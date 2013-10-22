@@ -71,7 +71,8 @@ $(document).ready(function() {
 			if (!confirm('Sicuro di voler uscire dal raccontaci?')) { 
  				return;
 			}
-			AzzeraVariabiliOverlay()
+			AzzeraVariabiliOverlay();
+
             /*$('#overlay').fadeOut('fast');
             $('#box').hide();*/
         });       
@@ -82,7 +83,7 @@ $(document).ready(function() {
 			if (!confirm('Sicuro di voler uscire dal raccontaci?')) { 
  				return;
 			}
-			AzzeraVariabiliOverlay()
+			AzzeraVariabiliOverlay();
             /*$(this).fadeOut('fast');
             $('#box').hide();*/
         });

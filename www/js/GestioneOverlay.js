@@ -18,16 +18,17 @@ function AzzeraVariabiliOverlay()
 	placeNameSelect = "";
 	citySelect = "";
 			
-	$("#city").hide();
+    //$("#city").hide();
+	document.getElementById("country").value = "";
 	document.getElementById("city").value = "";
 	$("#placeName").val("");
-	$("#placeName").hide();
+	//$("#placeName").hide();
 	
-	$("#year").hide();
+	//$("#year").hide();
 	document.getElementById("year").value = 0;
-	$("#month").hide();
+	//$("#month").hide();
 	document.getElementById("month").value = 0;
-	$("#day").hide();
+	//$("#day").hide();
 	document.getElementById("day").value = 0;
 	
 	document.getElementById("titolo").value = "";
@@ -236,13 +237,18 @@ function ApriOverlayModifica(index) {
 	if(MieStorieVisible[index].location.country != null)
 	{
 	    document.getElementById("country").value = MieStorieVisible[index].location.country;
-		VisualizzaCity();
+		//VisualizzaCity();
+	}
+	if (MieStorieVisible[index].location.region != null) {
+	    //$('#city').fadeIn('fast');		
+	    document.getElementById("region").value = MieStorieVisible[index].location.region;
+	    //VisualizzaPlaceName();
 	}
 	if(MieStorieVisible[index].location.city != null)
 	{
 		//$('#city').fadeIn('fast');		
 		document.getElementById("city").value = MieStorieVisible[index].location.city;
-		VisualizzaPlaceName();
+		//VisualizzaPlaceName();
 	}
 	if(MieStorieVisible[index].location.placeName != null)
 	{

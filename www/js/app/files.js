@@ -19,7 +19,7 @@ $(function () {
 			imgStoriaFilename.push(data.filename);
 			imgStoriaUrl.push(data.uri);
 			imgStoriaUrlHtml.push(GetBaseUrl() + "/files/SMALL_" + data.filename);
-			imgStoriaThumbnailUrl(data.thumbnailURI);
+			imgStoriaThumbnailUrl.push(data.thumbnailURI);
 
 			$('#progress .bar').css(
                 'width',

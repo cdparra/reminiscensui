@@ -45,20 +45,22 @@ function salvaStoria(){
 	    idContextRaccontaci = null;
 	}
 	
-	if(document.getElementById("placeName").value != "")
+	/*if(document.getElementById("placeName").value != "")
 	{
 		placeNameSelect = document.getElementById("placeName").value;
-	}
+	}*/
 	newStory.location = new Object;
-	newStory.location.country = countrySelect;
-	newStory.location.region = "Trentino-Alto Adige";
-	if(citySelect != "")
+	newStory.location.country = document.getElementById("country").value;
+	
+	if (document.getElementById("city").value != "")
 	{
-		newStory.location.city = citySelect;
-		if(placeNameSelect != "")
-		{			
-			newStory.location.placeName = placeNameSelect;
-		}
+	    newStory.location.city = document.getElementById("city").value;
+	    if (document.getElementById("region").value != null) {
+	        newStory.location.region = document.getElementById("region").value;
+	        if (document.getElementById("placeName").value != "") {
+	            newStory.location.placeName = document.getElementById("placeName").value;
+	        }
+	    }
 	}
 	newStory.location.locale = "it_IT";	
 	

@@ -257,82 +257,71 @@
                 <!--contenuto overlay-->
                 <div id="box">
                     <div style="background-color: #D5D5D5; padding-top: 10px;">
-                        <div style="background-color: #A05152; padding-bottom: 10px; padding-top: 10px; display: inline-block; width:100%;">
+                        <div style="background-color: #A05152; padding-top: 10px; display: inline-block; width:100%; padding-bottom:10px;">
                             <label id="titleBox">raccontaci la tua storia</label>
-                            <button id="salva" onclick="salvaStoria();" class="btn btn-primary">Salva</button>
-                            <br />
-                            <div id="raccontaci-switch" style="float:right; margin-right:10px; width:300px;" class="make-switch" data-on-label="Storia personale" data-off-label="Storia pubblica">
-                                <input type="checkbox" checked>
-                            </div>                            
-                        </div>
-                        <div id="divPrivateMemento" style="margin-top: 10px; color: #000; margin-left: 20px; margin-right: 20px; height: 570px;">
+                            <button id="salva" onclick="salvaStoria();" class="btn btn-large btn-primary">Salva</button>
+                            <br />                                                          
+                        </div>                        
+                        <div id="divPrivateMemento" style="margin-top: 10px; color: #000; margin-left: 10px; margin-right: 20px; height: 545px;">
                             <div>
                             <form>
                                 <div>
-                                    <label for=" titolo" style="float: left; margin-top: 3px;">
-                                Titolo:</label>
-                                <input id="titolo" style="float: left; margin-left: 30px;" class="input-xxlarge" type="text" />
-                            </div>
+                                    <label for=" titolo" style="float: left; margin-top: 3px;">Titolo:</label>
+                                    <input id="titolo" style="float: left; margin-left: 5px; width:370px;" type="text" />
+                                    <label style="float: left; margin-top: 3px; margin-left:10px;">Quando:</label>
+                                    <select id="decade" size="1" style="width: 90px; float: left; margin-left: 5px;" onchange="VisualizzaYear();"></select>
+                                    <select id="year" size="1" style="width: 80px;float: left; margin-left: 5px;" onchange="VisualizzaMonth();"></select>
+                                    <select id="month" size="1" style="width: 120px;float: left; margin-left: 5px;" onchange="VisualizzaDay();"></select>
+                                    <select id="day" size="1" style="width: 80px;float: left; margin-left: 5px;"></select>
+                                </div>
                                 <br />
                                 <br />
                                 <div>
                                     <label style="float: left; margin-top: 3px;">Dove:</label>
-                                    <!-- <input id="dove" style="float:left; margin-left:30px;" type="text" class="input-xlarge"/>-->
-                                    <!--<select id="country" size="1" style="width: 120px; float: left; margin-left: 5px;" onchange="VisualizzaCity();">
-                </select>-->
-                                    <input id="country" type="text" placeholder="Nazione" style="float: left; margin-left: 5px;" onblur="VisualizzaCity();" />
-                                    <!--<select id="city" size="1" style="width:180px;display:none;float:left;margin-left:5px;" onChange="VisualizzaPlaceName();">-->
-                                    <input id="city" type="text" placeholder="Citta" style="display: none; float: left; margin-left: 5px;" onblur="VisualizzaPlaceName();" />
-                                    <!--</select>-->
-                                    <input id="placeName" type="text" placeholder="Nome del posto" style="width: 200px; display: none; float: left; margin-left: 5px;" />
-                                    <br>
-                                    <br>
-                                    <label style="float: left; margin-top: 3px;">Quando:</label>
-                                    <!--<input id="dove" style="float:left; margin-left:3px;" type="text" class="input-xlarge"/>-->
-                                    <!--<div style="float:left; margin-left:15px;">
-                  <input id="quando" value="10/10/2011" />
-                </div>-->
-                                    <select id="decade" size="1" style="width: 90px; float: left; margin-left: 5px;" onchange="VisualizzaYear();"></select>
-                                    <!--<input id="year" value=""/>-->
-                                    <select id="year" size="1" style="width: 80px; display: none; float: left; margin-left: 5px;" onchange="VisualizzaMonth();"></select>
-                                    <select id="month" size="1" style="width: 120px; display: none; float: left; margin-left: 5px;" onchange="VisualizzaDay();"></select>
-                                    <select id="day" size="1" style="width: 80px; display: none; float: left; margin-left: 5px;"></select>
+                                    <input id="country" type="text" placeholder="Nazione" style="width: 195px; float: left; margin-left: 5px;" />
+                                    <input id="region" type="text" placeholder="Regione" style=" width: 195px; float: left; margin-left: 5px;"/>
+                                    <input id="city" type="text" placeholder="Citta" style=" width: 195px; float: left; margin-left: 5px;" />
+                                    <input id="placeName" type="text" placeholder="Nome del posto" style="width: 195px; float: left; margin-left: 5px;" />
+                                    
                                     <br>
                                 </div>
                             </form>
                         </div>
                         <div style="float: left; margin: 20px;">
                             <!--<button onClick="editor();">Editor</button>-->
-                            <input type="image" src="button/buttonFoto.jpg" onclick="capturePhoto();">
-                            <br /><br /><br /><br />
-                            <input id="record" type="image" style="margin-top: 10px;" src="button/buttonMicrofono.jpg" onclick="captureAudio();">
-                            <br /><br /><br /><br />
-                            <h3 style="color: #FF0;" id="time">0:00</h3>
-                            <input id="play" type="image" style="margin-top: 10px; visibility: hidden;" src="button/buttonPlay.png" onclick="play();">
-                            <input id="stop" type="image" style="margin-top: 10px; margin-left: 2px; visibility: hidden;" src="button/buttonStop.png" onclick="stop();">
-                        </div>
-                        <div style="float: left; margin-right: 20px; width: 300px; text-align: center;">
-                            <span class="btn btn-success fileinput-button">
-                                <i class="icon-plus icon-white"></i><span>Carica immagini...</span>
-                                <!-- The file input field used as target for the file upload widget -->
-                                <input id="fileupload" type="file" name="files[]" multiple>
-                            </span>
-                            <br>
-                            <br>
-                            <div id="progress" class="progress progress-success progress-striped">
-                                <div class="bar"></div>
-                            </div>
-                            <div id="imgInput" style="overflow: auto; height: 340px;">
-                                <!--<br /><br />-->
-                                <!--<div style="position: relative; display: inline-block;"><img style=' max-height:200px;max-width:220px;' src='img/comera2.jpg' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' /></div><br><br>
-                                <div style="position: relative; display: inline-block; "> <img style=' max-height:200px;max-width:220px;' src='img/comera1.jpg' /><img src='images/Ximm.png' style='position: absolute; right: -12.5px; top: -12.5px; cursor: pointer; ' /></div><br><br>-->
+                            <input type="image" src="button/buttonFoto.jpg" onclick="capturePhoto();" style="float:left;">
+                            <input id="record" type="image" style="float: left; margin-left:10px;" src="button/buttonMicrofono.jpg" onclick="captureAudio();">
+                            <!--<h3 style="color: #FF0;" id="time">0:00</h3>-->
+                            <!--<input id="play" type="image" style="margin-top: 10px; visibility: hidden;" src="button/buttonPlay.png" onclick="play();">
+                            <input id="stop" type="image" style="margin-top: 10px; margin-left: 2px; visibility: hidden;" src="button/buttonStop.png" onclick="stop();">-->
+                            <div style="float: left; margin-left: 10px; width: 660px; text-align: center;">
+                                <span class="btn btn-success fileinput-button">
+                                    <i class="icon-plus icon-white"></i><span>Carica immagini...</span>
+                                    <!-- The file input field used as target for the file upload widget -->
+                                    <input id="fileupload" type="file" name="files[]" multiple>
+                                </span>
+                                <br>
+                                <br>
+                                <div id="progress" class="progress progress-success progress-striped">
+                                    <div class="bar"></div>
+                                </div>
                             </div>
                         </div>
-                        <textarea id="editor" rows="10" cols="30" style="width: 450px; height: 430px; float: left;"></textarea>
+                        <!--<div style="float: left; margin-right: 20px; width: 300px; text-align: center;">-->
+                            
+                        <div id="imgInput" style="overflow: auto; height: 230px; margin-top:10px; margin-bottom:10px;">
+                            <!--<br /><br />-->
+                            <!--<div style="position: relative; display: inline-block;"><img style=' max-height:200px;max-width:220px;' src='img/comera2.jpg' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' /></div><br><br>
+                            <div style="position: relative; display: inline-block; "> <img style=' max-height:200px;max-width:220px;' src='img/comera1.jpg' /><img src='images/Ximm.png' style='position: absolute; right: -12.5px; top: -12.5px; cursor: pointer; ' /></div><br><br>-->
+                        </div>
+                        <!--</div>-->
+                        <br />
+                        <textarea id="editor" rows="10" cols="30" style="width: 930px; height: 200px; margin:10px;"></textarea>
                         <!--<br />-->
                         <!--<button id="switchPublicMemento" onclick="SwitchOverlay('divPublicMemento');" class="btn btn-primary" style="margin-bottom:5px;">Aggiungi un public memento</button>-->
 
-                    </div>             
+                    </div>                        
+                                   
 
 
 
@@ -440,7 +429,11 @@
                         </div>
                         <!--<br /><br />-->
                         <!--<button id="switchPublicMemento" onclick="SwitchOverlay('divPrivateMemento');" class="btn btn-primary" style="margin-bottom:5px;">Aggiungi una storia personale</button>-->
-                        
+                        <div id="raccontaci-switch" style="margin-top: 3px; width: 300px; margin-bottom:10px;" class="make-switch" data-on-label="Storia personale" data-off-label="Storia pubblica">
+                            <input type="checkbox" checked>
+                        </div>
+
+
                     </div>  
                     
                     <img src="images/X.png" class="chiudi" />
@@ -506,9 +499,9 @@
         var yearSelect = "";
         var monthSelect = "";
         var daySelect = "";
-        var countrySelect = "";
+        /*var countrySelect = "";
         var placeNameSelect = "";
-        var citySelect = "";
+        var citySelect = "";*/
         var vettIndexMieStorieVisible = [];
         var vettIndexFotoContextVisible = [];
         var cities = [];
@@ -680,6 +673,9 @@
             {
                 document.getElementById("month").innerHTML += "<option value='" + i + "'>" + i + "</option>";
             }
+
+
+            document.getElementById("day").innerHTML += "<option value='" + 0 + "'>" + "giorno" + "</option>";
         }
 
 

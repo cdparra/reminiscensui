@@ -100,6 +100,11 @@ function salvaStoria(){
 		Imm.fileName = imgStoriaFilename[i];
 		Imm.type = "photo";
 		Imm.category = "PICTURE";
+		var extension = Imm.fileName.substr(Imm.fileName.lastIndexOf('.') + 1);
+        if (extension=="wav") {
+            Imm.type = "audio";
+            Imm.category = "AUDIO";
+        }
 		if (i == 0) {
 		    Imm.isCover = true;
 		}

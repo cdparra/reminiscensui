@@ -164,33 +164,20 @@ function ApriOverlay(clicked_id) {
 	{
 		$("#titleBox").html("raccontaci la tua storia");
 	}
-	else if (clicked_id == "FirstDecadeQuestionEmpty" || clicked_id == "SecondDecadeQuestionEmpty" ||
-            clicked_id == "FirstPersonalQuestionEmpty" || clicked_id == "SecondPersonalQuestionEmpty" ||
-        clicked_id == "DecadeQuestionNotEmpty" || clicked_id == "PersonalQuestionNotEmpty") //caso in cui arrivo da una domanda
+	else if (clicked_id == "QuestionNotEmpty" || clicked_id == "QuestionEmpty") //caso in cui arrivo da una domanda
 	{
 		//alert(clicked_id);
 	    $("#titleBox").html(document.getElementById(clicked_id).innerHTML);
-	    switch (clicked_id)
-	    {
-	        case "FirstDecadeQuestionEmpty":
-	            idQuestion = vettIdQuestions[0];
-                break;
-	        case "SecondDecadeQuestionEmpty":
-	            idQuestion = vettIdQuestions[1];
-	            break;
-	        case "FirstPersonalQuestionEmpty":
-	            idQuestion = vettIdQuestions[2];
-	            break;
-	        case "SecondPersonalQuestionEmpty":
-	            idQuestion = vettIdQuestions[3];
-	            break;
-	        case "DecadeQuestionNotEmpty":
-	            idQuestion = vettIdQuestions[4];
-	            break;
-	        case "PersonalQuestionNotEmpty":
-	            idQuestion = vettIdQuestions[5];
-	            break;
-	    }
+	    cameToQuestion = true;
+	    //switch (clicked_id)
+	    //{
+	    //    case "QuestionNotEmpty":
+	    //        cameToQuestion = true;
+	    //        break;
+	    //    case "QuestionNotEmpty":
+	    //        cameToQuestion = true;
+	    //        break;
+	    //}
 	    //alert("question: " + idQuestion);
 		//downloadQuestion(birthYear,decade);
 	}
@@ -213,19 +200,19 @@ function ApriOverlayModifica(index) {
 	parent.$.fancybox.close();  //chiudo la galleria
 	document.getElementById("titolo").value = MieStorieVisible[index].headline;
     //alert(MieStorieVisible[index].mementoList.length);
-	document.getElementById("imgInput").innerHTML = "<br><br>";
+	document.getElementById("imgInput").innerHTML = "";
 	for(var i = 0; i< MieStorieVisible[index].mementoList.length; i++)
 	{
 	    //alert(MieStorieVisible[index].mementoList[i].thumbnailUrl);
 	    imgStoriaUrl.push(MieStorieVisible[index].mementoList[i].url);
 		imgStoriaHashcode.push(MieStorieVisible[index].mementoList[i].fileHashcode);
-		imgStoriaFilename.push(MieStorieVisible[index].mementoList[i].thumbnailUrl);
-		imgStoriaUrlHtml.push(GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].thumbnailUrl);
+		imgStoriaFilename.push(MieStorieVisible[index].mementoList[i].fileName);
+		imgStoriaUrlHtml.push(GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].fileName);
 		imgStoriaModifyMementoId.push(MieStorieVisible[index].mementoList[i].mementoId);
 		imgStoriaModifyId.push(MieStorieVisible[index].lifeStoryId);
-		document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].fileName + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i + ")'/></div><br><br>";
-        
+		document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='float:left; margin:15px; position:relative; display:inline-block;'><a class='fancyboxRaccontaci' rel='gallery2' href='" + GetBaseUrl() + "/files/LARGE_" + MieStorieVisible[index].mementoList[i].fileName + "' > <img style=' max-height:200px;max-width:200px;' src='" + GetBaseUrl() + "/files/SMALL_" + MieStorieVisible[index].mementoList[i].fileName + "' /></a><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i +"," + index + ")'/></div>";       
 	}
+	aggiungiEventoFancyBox();
 	
 	if(MieStorieVisible[index].text!= null)
 	{
@@ -284,8 +271,9 @@ function ApriOverlayModifica(index) {
 }
 
 
-function eliminaImmagine(index)
+function eliminaImmagine(index, indexStoriaVisible)
 {
+    console.log(index);
     if (!confirm('Sicuro di voler eliminare l\'immagine?')) {
         return;
     }
@@ -294,12 +282,16 @@ function eliminaImmagine(index)
     imgStoriaHashcode.splice(index, 1);
     imgStoriaFilename.splice(index, 1);
 
-    document.getElementById("imgInput").innerHTML = "<br /><br />";
+    document.getElementById("imgInput").innerHTML = "";
 
-    for(var i = 0;i< imgStoriaUrl.length;i++)
+    for (var i = 0; i < imgStoriaFilename.length; i++)
     {
-        document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='position: relative; display: inline-block;'><img style=' max-height:200px;max-width:220px;' src='" + imgStoriaUrlHtml[i] + "' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i + ")'/></div><br><br>";
+        console.log(imgStoriaFilename[i]);
+        document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + i + "' style='float:left; margin:15px; position:relative; display:inline-block;'><a class='fancyboxRaccontaci' rel='gallery2' href='" + GetBaseUrl() + "/files/LARGE_" + imgStoriaFilename[i] + "' > <img style=' max-height:200px;max-width:200px;' src='" + GetBaseUrl() + "/files/SMALL_" + imgStoriaFilename[i] + "' /></a><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + i + "," + indexStoriaVisible + ")'/></div>";
+        //aggiungiEventoFancyBox();
     }
+    aggiungiEventoFancyBox();
+
 
     if(isModify) //devo eliminare la foto solo se sto modificando perchè solo in questo caso la ho già caricata sul server precedentemente
     {        
@@ -320,9 +312,18 @@ function eliminaImmagine(index)
             //        async: false,
 
             success: function (data) {
-                alert("La foto si è cancellata con sucesso!");
+                console.log("La foto si è cancellata con sucesso!");
                 imgStoriaModifyMementoId.splice(index, 1);
                 imgStoriaModifyId.splice(index, 1);
+                MieStorieVisible[indexStoriaVisible].mementoList.splice(index, 1);
+
+                stampaMieFoto(0, MieStorieVisible.length);
+                stampaMieStorie(0, MieStorieVisible.length);
+                aggiungiEventoFancyBox();
+
+                var storage = $.localStorage;
+                storage.set('mieStorie', MieStorie);
+
                 //alert("hola");
             },
             error: function (data) {

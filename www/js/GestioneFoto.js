@@ -84,10 +84,18 @@ function winFoto(r) {
 
     //alert(data.filename);
 	
-	document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + data.filename + "'/><br><br>";
-	imgStoriaUrl.push("");
+    //document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + data.filename + "'/><br><br>";
+    document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + imgStoriaUrl.length + "' style='float:left; margin:15px; position:relative; display:inline-block;'><a class='fancyboxRaccontaci' rel='gallery2' href='" + GetBaseUrl() + "/files/LARGE_" + data.filename + "' > <img style=' max-height:200px;max-width:200px;' src='" + GetBaseUrl() + "/files/SMALL_" + data.filename + "' /></a><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + imgStoriaUrl.length + ")'/></div>";
+    aggiungiEventoFancyBox();
+
+	/*imgStoriaUrl.push("");
 	imgStoriaHashcode.push(data.hashcode);
-	imgStoriaFilename.push(data.filename);
+	imgStoriaFilename.push(data.filename);*/
+    imgStoriaHashcode.push(data.hashcode);
+    imgStoriaFilename.push(data.filename);
+    imgStoriaUrl.push(data.uri);
+    imgStoriaUrlHtml.push(GetBaseUrl() + "/files/SMALL_" + data.filename);
+    imgStoriaThumbnailUrl.push(data.thumbnailURI);
 }
 
 function failFoto(error) {

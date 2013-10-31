@@ -16,13 +16,40 @@ function SaveStoryWithConnection(newStory)
 
         	data: JSON.stringify(newStory),
 
-        	//async: false,
+        	async: false,
 
         	success: function (data) {
 					//alert("yeeee");
         	    //alert(data.lifeStoryId);
         	    //alert(MieStorieVisible[MieStorieVisible.length - 1].synced);
+        	    MieStorieVisible = RecuperaMieStorieDecade();
         	    MieStorieVisible[MieStorieVisible.length - 1].synced = true;
+        	    MieStorieVisible[MieStorieVisible.length - 1].lifeStoryId = data.lifeStoryId;
+        	    for(var i = 0; i<data.mementoList.length; i++) //aggiorno gli ID delle foto delle nuove storie per il salvataggio locale
+        	    {
+        	        //alert(data.mementoList[i].mementoId);
+        	        MieStorieVisible[MieStorieVisible.length - 1].mementoList[i].mementoId = data.mementoList[i].mementoId;
+        	    }
+        	    
+        	    /*stampaMieFoto(0, MieStorieVisible.length);
+        	    stampaMieStorie(0, MieStorieVisible.length);
+        	    aggiungiEventoFancyBox();*/
+
+        	    var storage = $.localStorage;
+        	    storage.set('mieStorie', MieStorie);
+
+        	    AzzeraVariabiliOverlay();
+
+
+        	    if (decade < firstDecade) {
+        	        firstDecade = decade;
+        	        CreaTimelineCarousel();
+        	    }
+        	    AzzeraTimeline();
+        	    ScrollCarousel();
+        	    document.getElementById(decade).className = "decade-button-selected timeline";
+        	    GestioneSchermate(decade);
+        	    //MieStorieVisible[MieStorieVisible.length - 1].
 
         	},
         	error: function (data) {

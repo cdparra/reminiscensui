@@ -104,3 +104,83 @@ function GetFirstDecade(decadeBirth)
     }
     return decadeBirth;
 }
+
+function GetImage(id, isPublic)
+{
+    if (isPublic) {
+        var immaginiPubbliche = storage.get("immaginiPubbliche");
+        if (immaginiPubbliche[id]) {
+            console.log("immagine recuperata dallo storage");
+            return immaginiPubbliche[id];
+        }
+    }
+    else {
+        var immaginiPrivate = storage.get("immaginiPrivate");
+        if (immaginiPrivate[id]) {
+            console.log("immagine recuperata dallo storage");
+            return immaginiPrivate[id];
+        }
+    }
+    return null;
+}
+
+function GetSetImage(id, fileHashcode, url, ImgId, isPublic)
+{
+    // Create XHR, Blob and FileReader objects
+    var xhr = new XMLHttpRequest(),
+        blob,
+        fileReader = new FileReader(),
+        id,
+        ImgId,
+        isPublic;
+
+    if (url == null) {
+        xhr.open("GET", GetBaseUrl() + "/lifeapi/file/" + fileHashcode + "/SMALL", true);
+    }
+    else
+    {
+        xhr.open("GET", url, true);
+    }
+    // Set the responseType to arraybuffer. "blob" is an option too, rendering manual Blob creation unnecessary, but the support for "blob" is not widespread enough yet
+    xhr.responseType = "arraybuffer";
+
+
+    xhr.addEventListener("load", function () {
+        if (xhr.status === 200) {
+            // Create a blob from the response
+            blob = new Blob([xhr.response], { type: "image/png" });
+
+            // onload needed since Google Chrome doesn't support addEventListener for FileReader
+            fileReader.onload = function (evt) {
+                // Read out file contents as a Data URL
+                var result = evt.target.result;
+                // Set image src to Data URL
+                var img = document.getElementById(ImgId + id);
+                img.setAttribute("src", result);
+                // Store Data URL in localStorage
+                try {
+                    //localStorage.set(id, result);
+                    if (isPublic) {
+                        var immaginiPubbliche = storage.get("immaginiPubbliche");
+                        immaginiPubbliche[id] = result;
+                        storage.set("immaginiPubbliche", immaginiPubbliche);
+                    }
+                    else {
+                        var immaginiPrivate = storage.get("immaginiPrivate");
+                        immaginiPrivate[id] = result;
+                        storage.set("immaginiPrivate", immaginiPrivate);
+                    }
+                }
+                catch (e) {
+                    console.log("Storage failed: " + e);
+                }
+
+                //return result;
+            };
+            // Load blob as Data URL
+            fileReader.readAsDataURL(blob);
+        }
+    }, false);
+    // Send XHR
+    xhr.send();
+}

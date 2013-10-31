@@ -371,72 +371,7 @@ function statisticaVIEWS(publicMementoId)
 }
 
 function stampaFotoContext(inizio, fine)
-{
-	//alert(inizio + "  " + fine);
-	
-	//var i;
-	//document.getElementById("divFotoDelTempo").innerHTML = "";
-	//for (i=inizio; i<fine; i++) { 		
-	//	if(ContextVisible.picture[i].resourceUrl != null)
-	//	{
-	//		//alert(MieStorieVisible[i].mementoList.length);
-	//		InserisciIndiceFotoContext(i);
-	//		document.getElementById("divFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[i].resourceUrl + "' title='" + ContextVisible.picture[i].headline + "' > <img style='max-width:195px;max-height:140px;' src='" + ContextVisible.picture[i].resourceUrl + "' alt='' /> </a></br></div>"
-				
-	//	}
-	//	else
-	//	{
-	//	}
-	//}
-
-
-
-	//document.getElementById("carouselDivFotoDelTempo").innerHTML = "";
-	//var indice = 0;
-	//var nPagina = 0;
-	//var visualizzati = 0;
-	//var stringaDiv = "";
-    ////document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div id='divMieFotoDelTempo" + nPagina + "' class='item active'>";
-	//while (ContextVisible.picture[indice] != null) {
-	//    if (ContextVisible.picture[indice].resourceUrl != null)
-	//    {
-	//        //alert(MieStorieVisible[i].mementoList.length);
-	//        InserisciIndiceFotoContext(indice);
-	//        stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>"
-
-	//    }
-	//    else
-	//    {
-	//    }
-
-	//    visualizzati++;
-	//    if (visualizzati == 4) {
-	//        visualizzati = 0;
-	//        if (nPagina == 0) {
-	//            document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
-	//        }
-	//        else {
-	//            document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
-	//        }
-
-	//        nPagina++;
-	//        stringaDiv = "";
-	//    }
-
-
-	//    indice++;
-	//}
-
-	//if (stringaDiv != "") {
-	//    if (nPagina == 0) {
-	//        document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item active'>" + stringaDiv + "</div>";
-	//    }
-	//    else {
-	//        document.getElementById("carouselDivFotoDelTempo").innerHTML += "<div class='item'>" + stringaDiv + "</div>";
-	//    }
-    //}
-
-    
+{    
     document.getElementById("containerCarouselFotoDelTempo").innerHTML = "";
     //document.getElementById("divFotoDelTempo").innerHTML = "";
     var indice = 0;
@@ -452,7 +387,14 @@ function stampaFotoContext(inizio, fine)
             //alert(MieStorieVisible[i].mementoList.length);
             //alert(indice);
             //InserisciIndiceFotoContext(indice);
-            stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>"
+            var imageGet = GetImage(ContextVisible.picture[indice].publicMementoId, true);
+            if (imageGet != null) {
+                stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + imageGet + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + imageGet + "' alt='' /> </a></br></div>";
+            }
+            else {
+                stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img id='ContextFotoMementoId" + indice + "' style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>";
+                //GetSetImage(ContextVisible.picture[indice].publicMementoId, null, ContextVisible.picture[indice].resourceUrl, "ContextFotoMementoId", true);
+            }
             if(nPagina == 0)
             {
                 //siccome faccio sempre vedere prima le foto quelle delle prima pagina posso metterle come statistica VIEWS
@@ -498,6 +440,7 @@ function stampaFotoContext(inizio, fine)
 
     document.getElementById("containerCarouselFotoDelTempo").innerHTML = stringaDivCarousel;
 
+
     $('#divFotoDelTempo').carousel({
         interval: false
     });
@@ -522,7 +465,68 @@ function stampaFotoContext(inizio, fine)
         }
         
     });
+
+    /*var image = document.getElementById("ContextFotoMementoId0");
+    if (image.addEventListener) {
+        image.addEventListener('load', function () {
+            var result = image.getAttribute('src');
+            try {
+                //localStorage.set(id, result);
+                var storage = $.localStorage;
+                var immaginiPubbliche = storage.get("immaginiPubbliche");
+                immaginiPubbliche[id] = result;
+                storage.set("immaginiPubbliche", immaginiPubbliche);
+            }
+            catch (e) {
+                console.log("Storage failed: " + e);
+            }
+        });
+    } else {
+        // it's IE!
+        image.attachEvent('onload', function () {
+        });
+    }*/
+
+    /*$("#ContextFotoMementoId0").load(function () {
+        //alert(e.target.result);
+        //alert($("#ContextFotoMementoId0").attr('src'));
+        /*var array = [];
+        array.push("http://www.elisabistocchi.org/wp-content/uploads/2010/07/wallpaper_gattone.jpg");
+        var blob = new Blob([array], { type: "image/png" });
+        var FR = new FileReader();
+        FR.onload = function(e)
+        {
+            //alert("ciao");
+            //alert(e.target.result);
+            var result = e.target.result;
+            var img = document.getElementById("provaImgLocale");
+            img.setAttribute('src', result);
+        }
+        FR.readAsDataURL(blob);
+        //FR.readAsText($("#ContextFotoMementoId0").attr('src'));
+
+        alert(getBase64Image(document.getElementById("ContextFotoMementoId0")));
+    });*/
 }
+
+/*function getBase64Image(img) {
+    // Create an empty canvas element
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    // Copy the image contents to the canvas
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    // Get the data-URL formatted image
+    // Firefox supports PNG and JPEG. You could check img.src to
+    // guess the original format, but be aware the using "image/jpg"
+    // will re-encode the image.
+    var dataURL = canvas.toDataURL("image/png");
+
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+}*/
 
 function stampaStorieContext(inizio, fine)
 {

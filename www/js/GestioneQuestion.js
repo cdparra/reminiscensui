@@ -5,14 +5,23 @@
 var decadeQuestione = [];*/
 
 var vettIdQuestions = [];
-var idQuestion = null;
+var vettQuestion = [];
+var idQuestion;
+var cameToQuestion = false;
 
-function newQuestion()
+function newQuestion(clicked_id)
 {
-	downloadQuestion(birthYear,decade);
+    if (vettQuestion.length > 0) {
+        document.getElementById(clicked_id).innerHTML = vettQuestion.pop();
+        idQuestion = vettIdQuestions.pop();
+    }
+    else {
+        downloadQuestion(birthYear, decade, clicked_id);
+    }
+    //alert(idQuestion);
 }
 
-function downloadQuestion(birthYear,decade)
+function downloadQuestion(birthYear, decade, clicked_id)
 {
 	
 	$.ajax({
@@ -36,7 +45,7 @@ function downloadQuestion(birthYear,decade)
 				decadeQuestion.push(questions[3].translations[0].question_text);
 				decadeQuestion.push(questions[4].translations[0].question_text);
 				decadeQuestion.push(questions[5].translations[0].question_text);*/
-			    IdQuestions = [];
+			    /*IdQuestions = [];
 				
 			    document.getElementById("FirstDecadeQuestionEmpty").innerHTML = questions[3].translations[0].question_text;
 			    vettIdQuestions.push(questions[3].questionId);
@@ -50,9 +59,18 @@ function downloadQuestion(birthYear,decade)
 			    document.getElementById("DecadeQuestionNotEmpty").innerHTML = questions[5].translations[0].question_text;
 			    vettIdQuestions.push(questions[5].questionId);
 			    document.getElementById("PersonalQuestionNotEmpty").innerHTML = questions[2].translations[0].question_text;
-			    vettIdQuestions.push(questions[2].questionId);
+			    vettIdQuestions.push(questions[2].questionId);*/
+
+			    document.getElementById(clicked_id).innerHTML = questions[0].translations[0].question_text;
+			    idQuestion = questions[0].questionId;
+
+			    for(var i = 1; i< 6; i++)
+			    {
+			        vettQuestion.push(questions[i].translations[0].question_text);
+			        vettIdQuestions.push(questions[i].questionId);
+			    }
 				
-				
+			    
             }
         	
    		});

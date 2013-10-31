@@ -1,4 +1,5 @@
 // JavaScript Document
+//var immaginiLocali = new Object();
 
 function InizializzaMieStorieDecade()
 {
@@ -384,17 +385,30 @@ function stampaMieFoto(inizio, fine)
                 var mType = MieStorieVisible[indice].mementoList[i].type;
                 if (mType!="audio" && mType!="AUDIO") {
                     InserisciIndiceMieStorieConFoto(indice);
-                    if (MieStorieVisible[indice].mementoList[i].fileName == null) {
-                        if (MieStorieVisible[indice].mementoList[i].url != "") {
-                            stringaDiv += "<div class='immaginiFoto'><a class='fancyboxMieFoto' rel='gallery2' href='" + MieStorieVisible[indice].mementoList[i].url + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + MieStorieVisible[indice].mementoList[i].url + "' alt='' /> </a></br></div>";
-                        } else {
-                            visualizzati--;
+                    var imageGet = GetImage(MieStorieVisible[indice].mementoList[i].mementoId, false);
+                    if (imageGet != null) {
+                        if (MieStorieVisible[indice].mementoList[i].fileName == null) {
+                            if (MieStorieVisible[indice].mementoList[i].url != "" && MieStorieVisible[indice].mementoList[i].url != null)
+                                stringaDiv += "<div class='immaginiFoto'><a class='fancyboxMieFoto' rel='gallery2' href='" + MieStorieVisible[indice].mementoList[i].url + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + imageGet + "' alt='' /> </a></br></div>";
                         }
+                        else
+                            stringaDiv += "<div class='immaginiFoto'><a class='fancyboxMieFoto' rel='gallery2' href='" + GetBaseUrl() + "/file/" + "LARGE_" + MieStorieVisible[indice].mementoList[i].fileName + "' title='" + MieStorieVisible[indice].headline + "' > <img id='MementoId" + MieStorieVisible[indice].mementoList[i].mementoId + "' style='max-width:225px;max-height:200px;' src='" + imageGet + "' alt='' /> </a></br></div>";
+                    }
+                    else {
+                        if (MieStorieVisible[indice].mementoList[i].fileName == null) {
+                            if (MieStorieVisible[indice].mementoList[i].url != "") {
+                                stringaDiv += "<div class='immaginiFoto'><a class='fancyboxMieFoto' rel='gallery2' href='" + MieStorieVisible[indice].mementoList[i].url + "' title='" + MieStorieVisible[indice].headline + "' > <img id='MieFotoMementoId" + MieStorieVisible[indice].mementoList[i].mementoId + "' style='max-width:225px;max-height:200px;' src='' alt='' /> </a></br></div>";
+                                GetSetImage(MieStorieVisible[indice].mementoList[i].mementoId, null, MieStorieVisible[indice].mementoList[i].url, "MieFotoMementoId", false);
+                            } else {
+                                visualizzati--;
+                            }
 
-                        //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + MieStorieVisible[indice].mementoList[0].url + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:215px;max-height:190px;' src='" + MieStorieVisible[indice].mementoList[0].url + "' alt='' /> </a></br></div></br></br>";
-                    } else { //stampo attraverso hashcode
-                        stringaDiv += "<div class='immaginiFoto'><a class='fancyboxMieFoto' rel='gallery2' href='" + GetBaseUrl() + "/file/" + "LARGE_" + MieStorieVisible[indice].mementoList[i].fileName + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[indice].mementoList[i].fileHashcode + "/SMALL" + "' alt='' /> </a></br></div>";
-                        //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + GetBaseUrl() + "/file/" + "LARGE_" + MieStorieVisible[indice].mementoList[0].thumbnailUrl + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:215px;max-height:190px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[indice].mementoList[0].fileHashcode + "/SMALL" + "' alt='' /> </a></br></div></br></br>";
+                            //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + MieStorieVisible[indice].mementoList[0].url + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:215px;max-height:190px;' src='" + MieStorieVisible[indice].mementoList[0].url + "' alt='' /> </a></br></div></br></br>";
+                        } else { //stampo attraverso hashcode
+                            stringaDiv += "<div class='immaginiFoto'><a class='fancyboxMieFoto' rel='gallery2' href='" + GetBaseUrl() + "/file/" + "LARGE_" + MieStorieVisible[indice].mementoList[i].fileName + "' title='" + MieStorieVisible[indice].headline + "' > <img id='MieFotoMementoId" + MieStorieVisible[indice].mementoList[i].mementoId + "' style='max-width:225px;max-height:200px;' src='' alt='' /> </a></br></div>";
+                            GetSetImage(MieStorieVisible[indice].mementoList[i].mementoId, MieStorieVisible[indice].mementoList[i].fileHashcode, null, "MieFotoMementoId", false);
+                            //document.getElementById("carouselDivMieFotoDelTempo").innerHTML += "<div class='immaginiFoto'><a class='fancyboxMieStorie' rel='gallery2' href='" + GetBaseUrl() + "/file/" + "LARGE_" + MieStorieVisible[indice].mementoList[0].thumbnailUrl + "' title='" + MieStorieVisible[indice].headline + "' > <img style='max-width:215px;max-height:190px;' src='" + GetBaseUrl() + "/lifeapi/file/" + MieStorieVisible[indice].mementoList[0].fileHashcode + "/SMALL" + "' alt='' /> </a></br></div></br></br>";
+                        }
                     }
 
 
@@ -482,30 +496,52 @@ function stampaMieStorie(inizio, fine)
     							story.location.region + ", " + story.location.country :
     							story.location.region + "," + story.location.region + ", " + story.location.country;
 	    if (MieStorieVisible[indice].mementoList.length > 0) {	        
-
-	        if (MieStorieVisible[indice].mementoList[0] != null)
-	        {
-	            if (MieStorieVisible[indice].mementoList[0].fileHashcode == null)
-	            {
-	                stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
-	                stringaDiv += "<a class='fancyboxMieStorie linkStorie' rel='gallery4' href='" + story.mementoList[0].url + "' title='prova'>";
-	                stringaDiv += "<h4>" + h + "</h4>";
-	                stringaDiv += "<h5 style='float:left; margin-top:-5px; margin-left:3px;'>" + startDate + "</h5>";
-	                stringaDiv += "<h5 style='float: right; margin-top: -5px; margin-right:3px;'>" + startLocation + "</h5><br><br>";
-	                stringaDiv += "<p style='float:left; text-align:justify; padding:3px 3px 3px 3px;width:438px;'><img style='float:right;max-width:115px;max-height:115px; padding:3px 3px 3px 3px;' src='" + story.mementoList[0].url + "' alt='' />" + t.substring(0, 300) + "...</p>";
-	                stringaDiv += "</a></div>";
+	        var imageGet = GetImage(MieStorieVisible[indice].mementoList[0].mementoId);
+	        if (imageGet != null) {
+	            if (MieStorieVisible[indice].mementoList[0].fileHashcode == null) {
+	                    stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
+	                    stringaDiv += "<a class='fancyboxMieStorie linkStorie' rel='gallery4' href='" + story.mementoList[0].url + "' title='prova'>";
+	                    stringaDiv += "<h4>" + h + "</h4>";
+	                    stringaDiv += "<h5 style='float:left; margin-top:-5px; margin-left:3px;'>" + startDate + "</h5>";
+	                    stringaDiv += "<h5 style='float: right; margin-top: -5px; margin-right:3px;'>" + startLocation + "</h5><br><br>";
+	                    stringaDiv += "<p style='float:left; text-align:justify; padding:3px 3px 3px 3px;width:438px;'><img style='float:right;max-width:115px;max-height:115px; padding:3px 3px 3px 3px;' src='" + imageGet + "' alt='' />" + t.substring(0, 300) + "...</p>";
+	                    stringaDiv += "</a></div>";
 	            }
-	            else
-	            {
+	            else {
 	                stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
 	                stringaDiv += "<a class='fancyboxMieStorie linkStorie' rel='gallery4' href='" + GetBaseUrl() + "/file/" + "LARGE_" + story.mementoList[0].fileName + "' title='prova'>";
 	                stringaDiv += "<h4>" + h + "</h4>";
 	                stringaDiv += "<h5 style='float:left; margin-top:-5px; margin-left:3px;'>" + startDate + "</h5>";
 	                stringaDiv += "<h5 style='float: right; margin-top: -5px; margin-right:3px;'>" + startLocation + "</h5><br><br>";
-	                stringaDiv += "<p style='float:left; text-align:justify; padding:3px 3px 3px 3px;width:438px;'><img style='float:right;max-width:115px;max-height:115px; padding:3px 3px 3px 3px;' src='" + GetBaseUrl() + "/lifeapi/file/" + story.mementoList[0].fileHashcode + "/THUMBNAIL' alt='' />" + t.substring(0, 300) + "...</p>";
+	                stringaDiv += "<p style='float:left; text-align:justify; padding:3px 3px 3px 3px;width:438px;'><img style='float:right;max-width:115px;max-height:115px; padding:3px 3px 3px 3px;' src='" + imageGet + "' alt='' />" + t.substring(0, 300) + "...</p>";
 	                stringaDiv += "</a></div>";
 	            }
 	        }
+	        else { //non ho l'immagine in memoria!
+	            //if (MieStorieVisible[indice].mementoList[0] != null)
+	            //{
+	            if (MieStorieVisible[indice].mementoList[0].fileHashcode == null) {
+	                stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
+	                stringaDiv += "<a class='fancyboxMieStorie linkStorie' rel='gallery4' href='" + story.mementoList[0].url + "' title='prova'>";
+	                stringaDiv += "<h4>" + h + "</h4>";
+	                stringaDiv += "<h5 style='float:left; margin-top:-5px; margin-left:3px;'>" + startDate + "</h5>";
+	                stringaDiv += "<h5 style='float: right; margin-top: -5px; margin-right:3px;'>" + startLocation + "</h5><br><br>";
+	                stringaDiv += "<p style='float:left; text-align:justify; padding:3px 3px 3px 3px;width:438px;'><img id='MieStorieMementoId" + story.mementoList[0].mementoId + "' style='float:right;max-width:115px;max-height:115px; padding:3px 3px 3px 3px;' src='' alt='' />" + t.substring(0, 300) + "...</p>";
+	                stringaDiv += "</a></div>";
+	                GetSetImage(story.mementoList[0].mementoId, null, story.mementoList[0].url, "MieStorieMementoId");
+	            }
+	            else {
+	                stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
+	                stringaDiv += "<a class='fancyboxMieStorie linkStorie' rel='gallery4' href='" + GetBaseUrl() + "/file/" + "LARGE_" + story.mementoList[0].fileName + "' title='prova'>";
+	                stringaDiv += "<h4>" + h + "</h4>";
+	                stringaDiv += "<h5 style='float:left; margin-top:-5px; margin-left:3px;'>" + startDate + "</h5>";
+	                stringaDiv += "<h5 style='float: right; margin-top: -5px; margin-right:3px;'>" + startLocation + "</h5><br><br>";
+	                stringaDiv += "<p style='float:left; text-align:justify; padding:3px 3px 3px 3px;width:438px;'><img id='MieStorieMementoId" + story.mementoList[0].mementoId + "' style='float:right;max-width:115px;max-height:115px; padding:3px 3px 3px 3px;' src='' alt='' />" + t.substring(0, 300) + "...</p>";
+	                stringaDiv += "</a></div>";
+	                GetSetImage(story.mementoList[0].mementoId, story.mementoList[0].fileHashcode, null, "MieStorieMementoId");
+	            }
+	        }
+	        //}
 	    }
 	    else {
 	        stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";

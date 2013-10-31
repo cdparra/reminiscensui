@@ -37,9 +37,7 @@ function GestioneSchermate(clickdecade)
 			$("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
 			$("#TueStorieDelTempo").text("Le tue storie nel " + decade);
 			
-			if (isQuestion) {
-			    downloadQuestion(birthYear, decade);
-			}
+			
 			
 			if(!MiaDecadeIsEmpty())
 			{
@@ -75,6 +73,9 @@ function GestioneSchermate(clickdecade)
 				document.getElementById("Caricamento").style.display = "none";
 				$('.navbar li').removeClass('active');
 				$('#liFoto').addClass('active');
+				if (isQuestion) {
+				    downloadQuestion(birthYear, decade, 'QuestionNotEmpty');
+				}
 			}
 			else
 			{
@@ -87,6 +88,9 @@ function GestioneSchermate(clickdecade)
 			        document.getElementById("NoResults").style.display = "inherit";
 			        document.getElementById("Results").style.display = "none";
 			        document.getElementById("Caricamento").style.display = "none";
+			    }
+			    if (isQuestion) {
+			        downloadQuestion(birthYear, decade, 'QuestionEmpty');
 			    }
 			}
 			

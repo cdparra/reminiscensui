@@ -105,12 +105,12 @@ $(document).ready(function() {
     $("#box").css({
         "top": percentualeY + "%"
     });*/
-	var width = $("#box").width();
+	/*var width = $("#box").width();
 	var PosX = ($(window).width() - width) / 2;
     var percentualeX = PosX / $(window).width() * 100;
     $("#box").css({
         "left": percentualeX + "%"
-    });
+    });*/
     
     //alert
 	/*var height = $("#box").height() + 50;
@@ -119,9 +119,9 @@ $(document).ready(function() {
     $("#box").css({
         "top": percentualeY + "%"
     });*/
-	$("#box").css({
+	/*$("#box").css({
         "top": 25
-    });
+    });*/
 }
 
 function CentroCaricamento() {
@@ -196,6 +196,38 @@ function ApriOverlayModifica(index) {
 	idStoryModify = MieStorieVisible[index].lifeStoryId;
 	isModify = true;
 	indexModify = index;
+
+    //controllo se avevo risposto a una domanda
+	//alert(MieStorieVisible[index].questionId);
+	if (MieStorieVisible[index].questionId != null)
+	{
+	    $.ajax({
+	        type: "GET",
+	        async: false,
+	        beforeSend: function (request) {
+	            request.setRequestHeader("PLAY_SESSION", GetSessionKey());
+	        },
+	        url: GetBaseUrl() + "/lifeapi/question/" + MieStorieVisible[index].questionId,
+	        //url: "http://test.reminiscens.me/lifeapi/user/signup",
+
+	        //data: "{}",
+
+	        //dataType: "json",
+	        //contentType: "application/json",
+
+	        //        async: false,
+
+	        success: function (data) {
+	            //console.log("success");
+	            $("#titleBox").html(data.translations[0].question_text);
+	            //alert("hola");
+	        },
+	        error: function (data) {
+	            console.log("Errore nel recupero della domanda");
+	        }
+
+	    });
+	}
 	
 	parent.$.fancybox.close();  //chiudo la galleria
 	document.getElementById("titolo").value = MieStorieVisible[index].headline;
@@ -327,7 +359,7 @@ function eliminaImmagine(index, indexStoriaVisible)
                 //alert("hola");
             },
             error: function (data) {
-                alert("Errore nella cancellazione dell'immagine");
+                console.log("Errore nella cancellazione dell'immagine");
             }
 
         });

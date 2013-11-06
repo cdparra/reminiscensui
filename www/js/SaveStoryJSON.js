@@ -34,7 +34,7 @@ function salvaStoria(){
 
     //controllo se sono arrivato da una domanda e inserisco l'id della domanda in caso affermativo
 	if (cameToQuestion) {
-	    alert(idQuestion);
+	    //alert(idQuestion);
 	    newStory.questionId = idQuestion;
 	    isQuestion = false;  //azzero l'id della domanda
 	}

@@ -278,6 +278,7 @@ function Timeline()
 				newStory.startDate.month = storyList[i].startDate.month;
 				newStory.startDate.day = storyList[i].startDate.day;
 				newStory.text = storyList[i].text;
+				newStory.questionId = storyList[i].questionId;
 				var vettImm = [];
 				while(mementoList[j] != null)
 				{						

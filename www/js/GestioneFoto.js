@@ -40,7 +40,8 @@ function capturePhoto() {
                                         function (message) { alert('get picture failed'); },
                                         {
                                             quality: 50,
-                                            correctOrientation: true
+                                            correctOrientation: true,
+	                                    saveToPhotoAlbum : true,
                                             //destinationType: navigator.camera.DestinationType.FILE_URI,
                                             //sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
                                         }

@@ -24,6 +24,9 @@ function downloadQuestion(birthYear, decade, clicked_id)
 {	
 	$.ajax({
 	        type: "GET",
+			beforeSend: function (request) {
+                request.setRequestHeader("PLAY_SESSION", sessionKey);
+            },
 	        url: GetBaseUrl() + "/lifeapi/question/" + birthYear + "/" + decade + "/",
             processData: false,
             dataType: "json",

@@ -51,7 +51,10 @@ function Login() {
 							.split('-')[0] / 10) * 10);
 					SetPersonYearBirthDate(data.person.birthdateAsString
 							.split('-')[0]);
-
+					SetUserId(data.userId);
+					SetUserFullname(data.fullname);
+					SetPersonName(data.fullname);
+					
 				    //controllo che versione dell'app devo visualizzare salvando che opzione ha scelto l'utente
 					if (document.getElementById('version_1').checked) {
 					    SetAppVersion(1);
@@ -62,6 +65,7 @@ function Login() {
 					} else {
 					    SetAppVersion(4);
 					}
+					// TODO: aggiungere una versione dove il contesto e concentrato affianco alle storie e le foto
 
 					location.href = "main.html";
 

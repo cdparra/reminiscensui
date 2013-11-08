@@ -117,7 +117,6 @@ function ModifyStoryWithConnection(newStory, idStoryModify, indexModify)
         });
 }
 
-
 function StorySynchronize()
 {
     var storage = $.localStorage;

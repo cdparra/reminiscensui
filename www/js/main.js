@@ -176,8 +176,10 @@ function aggiungiEventoFancyBox() {
 									+ MieStorieVisible[vettIndexMieStorieVisible[this.index]].text
 									+ "</h5><br>  <button class='btn btn-primary' onClick='ApriOverlayModifica("
 									+ vettIndexMieStorieVisible[this.index]
-									+ ");'>Modifica</button></div>";
-							//this.title = "<div><h1>" + "hola" +"</h1> </div>";
+									+ ");'>Modifica</button>"
+									+ "<button class='btn btn-danger' onClick='DeleteStory("
+									+ this.index
+									+ ");'>Cancella la Storia</button></div>";
 						},
 						'helpers' : {
 							title : {
@@ -198,7 +200,10 @@ function aggiungiEventoFancyBox() {
 									+ MieStorieVisible[this.index].text
 									+ "</h5><br>  <button class='btn btn-primary' onClick='ApriOverlayModifica("
 									+ this.index
-									+ ");'>Modifica</button></div>";
+									+ ");'>Modifica</button>"
+									+ "<button class='btn btn-danger' onClick='DeleteStory("
+									+ this.index
+									+ ");'>Cancella la Storia</button></div>";
 							//this.title = "<div><h1>" + "hola" +"</h1> </div>";
 						},
 						'helpers' : {

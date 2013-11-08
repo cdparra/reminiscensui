@@ -27,7 +27,7 @@ function salvaStoria(){
 	var newStory = new Object;
 	
 	newStory.headline = titolo.value;
-	newStory.contributorId = personId;
+	newStory.contributorId = GetUserId();
 	newStory.locale = "it_IT";
 	var editor = $("#editor").data("kendoEditor");
 	newStory.text = editor.value();

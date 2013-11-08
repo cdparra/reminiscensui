@@ -77,29 +77,20 @@ function onFail(message) {
 
 
 function winFoto(r) {
-    //console.log("Code = " + r.responseCode);
-    //alert("Response = " + r.response);
-    //console.log("Sent = " + r.bytesSent);
     var data = JSON.parse(r.response);
-
-    //alert(data.filename);
-	
-    //document.getElementById("imgInput").innerHTML += "<img style='max-height:200px;max-width:220px;' src='" + GetBaseUrl() + "/files/SMALL_" + data.filename + "'/><br><br>";
     document.getElementById("imgInput").innerHTML += "<div id='" + "divImg" + imgStoriaUrl.length + "' style='float:left; margin:15px; position:relative; display:inline-block;'><a class='fancyboxRaccontaci' rel='gallery2' href='" + GetBaseUrl() + "/files/LARGE_" + data.filename + "' > <img style=' max-height:200px;max-width:200px;' src='" + GetBaseUrl() + "/files/SMALL_" + data.filename + "' /></a><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' onclick='eliminaImmagine(" + imgStoriaUrl.length + ")'/></div>";
     aggiungiEventoFancyBox();
-
-	/*imgStoriaUrl.push("");
-	imgStoriaHashcode.push(data.hashcode);
-	imgStoriaFilename.push(data.filename);*/
     imgStoriaHashcode.push(data.hashcode);
     imgStoriaFilename.push(data.filename);
     imgStoriaUrl.push(data.uri);
     imgStoriaUrlHtml.push(GetBaseUrl() + "/files/SMALL_" + data.filename);
     imgStoriaThumbnailUrl.push(data.thumbnailURI);
+    
+    $('#progress .bar').css('width',0+'%');
 }
 
 function failFoto(error) {
-    alert("An error has occurred: Code = " = error.code);
+    alert("An error has occurred: Code = " + error.code);
     console.log("upload error source " + error.source);
     console.log("upload error target " + error.target);
 }
@@ -115,11 +106,26 @@ function uploadPhoto(imageURI) {
     params.value1 = "test";
     params.value2 = "param";
 
-    var headers = { 'PLAY_SESSION': GetSessionKey() };
+    var headers = { 
+    		'PLAY_SESSION': GetSessionKey(),
+    };
 
     //options.params = params;
     options.headers = headers;
     //alert("ciao");
     var ft = new FileTransfer();
     ft.upload(imageURI, GetBaseUrl() + "/lifeapi/upload", winFoto, failFoto, options);
+    
+    ft.onprogress = function(progressEvent) {
+		if (progressEvent.lengthComputable) {
+			var progress = parseInt(Math.floor(progressEvent.loaded / progressEvent.total * 100),10);
+			$('#progress .bar').css(
+                'width',
+                progress + '%'
+            );
+		} else {
+			var progress = parseInt(Math.floor(50 / 100 * 100),10);
+			$('#progress .bar').css('width',progress + '%');
+		}
+	};
 }

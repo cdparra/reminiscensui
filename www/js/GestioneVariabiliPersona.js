@@ -60,12 +60,12 @@ function GetUserId()
 
 function GetPersonDeacadeBirthDate()
 {
-	return storage.get('deacadeBirthDate');	
+	return storage.get('decadeBirthDate');	
 }
 
 function SetPersonDeacadeBirthDate(decade)
 {
-	storage.set('deacadeBirthDate',decade);
+	storage.set('decadeBirthDate',decade);
 }
 
 function GetPersonYearBirthDate()
@@ -183,4 +183,25 @@ function GetSetImage(id, fileHashcode, url, ImgId, isPublic)
     }, false);
     // Send XHR
     xhr.send();
+}
+
+
+function GetUserFullname()
+{
+	return storage.get('userFullname');
+}
+
+function SetUserFullname(fullname)
+{
+	storage.set('userFullname',fullname);
+}
+
+function GetPersonName()
+{
+	return storage.get('personName');
+}
+
+function SetPersonName(fullname)
+{
+	storage.set('personName',fullname);
 }

@@ -87,22 +87,19 @@
 </head>
 <body>
     <div id="divRoot">
-        <!--<input class="timeline" id="1940" type="image" src="button/1940.jpg">
-<input class="timeline" id="1950" type="image" src="button/1950.jpg">
-<input class="timeline" id="1960" type="image" src="button/1960.jpg">
-<input class="timeline" id="1970" type="image" src="button/1970.jpg">
-<input class="timeline" id="1980" type="image" src="button/1980.jpg">
-<input class="timeline" id="1990" type="image" src="button/1990.jpg">-->
-        <div id="containerTimelineCarousel">
-            
-        </div>
 
-            <br />
-            <div id="centrale">
-                <div id="Caricamento" style="display: none;">
-                    <img src="img/caricamento.gif" style="margin-top:100px;" />
-                </div>
-                <div id="NoResults" style="display: none;">
+        <!-- The Timeline Bar -->
+        <div id="containerTimelineCarousel"></div>
+        <br/>      
+        <div id="centrale">
+       
+            <!-- Loading Gif displayed when the page is loading -->
+            <div id="Caricamento" style="display: none;">
+                <img src="img/caricamento.gif" style="margin-top:100px;" />
+            </div>
+          
+            <!-- View that is loaded when no story exists in the current focus decade -->  
+            <div id="NoResults" style="display: none;">
                     <div style="background-color: #FFF; padding-bottom: 30px; padding-top: 20px;">
                         <label id="lbldebug">Non ci sono ancora storie del 1950!</label>
                     </div>
@@ -123,7 +120,7 @@
                     <button style="margin-top:40px;" id="SecondPersonalQuestionEmpty" class="btn btn-primary" onClick="ApriOverlay(this.id);"></button>
                 </div>-->
 
-                    <div id="divFirstDecadeQuestionEmpty" style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: 150px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
+                    <!--<div id="divFirstDecadeQuestionEmpty" style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: 150px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
                         <span id="FirstDecadeQuestionEmpty"></span>
                         <br>
                         <button class="btn btn-primary" style="margin-top: 2px;" onclick="ApriOverlay('FirstDecadeQuestionEmpty');">Raccontaci!</button>
@@ -147,22 +144,36 @@
                         <br>
                         <button class="btn btn-primary" style="margin-top: 2px;" onclick="ApriOverlay('SecondPersonalQuestionEmpty');">Raccontaci!</button>
                         <button class="btn btn-primary" style="margin-top: 2px;" onclick="newQuestion();">Altra domanda</button>
+                    </div>-->
+                    <div id="divQuestionEmpty" style="background-color: #CCC;padding:2px; width: 998px; margin-left: 11px; margin-right: 11px; float: left; margin-top: 30px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
+                        <div style="font-size:large;" id="QuestionEmpty"></div>
+                        <!--<br>-->
+                        <button class="btn btn-primary" style="margin-top: 2px;" onclick="ApriOverlay('QuestionEmpty');">Raccontaci!</button>
+                        <button class="btn btn-primary" style="margin-top: 2px;" onclick="newQuestion('QuestionEmpty');">Altra domanda</button>
                     </div>
+
                     <button class="btn btn-primary" style="margin-top: 20px;" onclick="Logout();">Esci</button>
 
                 </div>
-                <div id="Results" style="display: none;">
-
-                    <div class="navbar">
-                        <div class="navbar-inner">
-                            <ul class="nav" id="ulMenu">
-                                <li class="active" id="liFoto"><a href="#">Foto</a> </li>
-                                <li id="liStorie"><a href="#">Storie</a></li>                                
-                            </ul>
-                        </div>
+           
+            <!-- View that is loaded when no story exists in the current focus decade -->
+            <div id="Results" style="display: none;">
+                <!-- MENU -->
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <ul class="nav" id="ulMenu" style="margin-left:60px;">
+                            <li class="active" id="liStorie"><a href="#">Storie</a></li>
+                            <li id="liFoto"><a href="#">Foto</a> </li>                                
+                        </ul>
+                        <ul class="nav pull-right" id="ulMenuRight" style="margin-right:60px;">
+                            <li id="liRaccontaci"><a href="#">Raccontaci</a></li>
+                            <li id="liRefresh"><a href="#">Aggiorna</a></li>
+                            <li id="liLogout"><a href="#">Esci</a></li>
+                        </ul>
                     </div>
+                </div>
 
-                    <div id="divDecadeQuestionNotEmpty" style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: -16px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
+                <!--<div id="divDecadeQuestionNotEmpty" style="background-color: #CCC; width: 486px; padding: 2px 2px 2px 2px; margin-left: 10px; margin-right: 10px; float: left; margin-top: -16px; height: 80px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px;">
                         <span id="DecadeQuestionNotEmpty"></span>
                         <br>
                         <button class="btn btn-primary" style="margin-top: 2px;" onclick="ApriOverlay('DecadeQuestionNotEmpty');">Raccontaci!</button>
@@ -173,164 +184,173 @@
                         <br>
                         <button class="btn btn-primary" style="margin-top: 2px;" onclick="ApriOverlay('PersonalQuestionNotEmpty');">Raccontaci!</button>
                         <button class="btn btn-primary" style="margin-top: 2px;" onclick="newQuestion();">Altra domanda</button>
+                </div>-->
+                
+                <!-- The question when the decade is not empty -->
+                <div id="divQuestionNotEmpty" class="row"
+                    style="background-color: #CCC;padding:2px; width: 998px; 
+                            margin-left: 11px; margin-right: 11px; float: left; 
+                            margin-top: -16px; height: 80px; 
+                            -moz-border-radius: 5px 5px 5px 5px; 
+                            -webkit-border-radius: 5px 5px 5px 5px; 
+                            border-radius: 5px 5px 5px 5px;">
+                    
+                    <div id="QuestionNotEmpty" class="span8" 
+                        style="font-size:large; float:left;  
+                        margin-top:5px;" >
                     </div>
-
-                    <div id="Foto">
-                        <div id="divRootFotoDelTempo" class="divFoto">
-                            <h3 id="FotoDelTempo">Foto pubbliche attorno al 1950</h3>
-                            <div id="containerCarouselFotoDelTempo">
-                            </div>
-                        </div>
-                        <div class="divFoto">
-                            <h3 id="TueFotoDelTempo">Le tue foto attorno al 1950</h3>
-
-                            <div id="containerCarouselMieFotoDelTempo">
-
-                            </div>
-                        </div>
+                    <!--<br>-->
+                    <div class="span2" style="float:right;">
+                        <button class="btn btn-primary" style="margin-top: 5px; height:60px;" onclick="ApriOverlay('QuestionNotEmpty');">Raccontaci!</button>
                     </div>
-                    <div id="Storie" style="display: none;">
-                        <div id="divRootStorieDelTempo" class="divFoto">
-                            <h3 id="StorieDelTempo">Che cosa succedeva nel 1950</h3>
-                            <div id="containerCarouselStorieDelTempo">
-
-                            </div>
-                        </div>
-                        <div class="divFoto">
-                            <h3 id="TueStorieDelTempo">Le tue storie nel 1950</h3>
-
-                            <div id="containerCarouselMieStorieDelTempo">
-
-                            </div>
-                        </div>
+                    <div class="span2" style="float:right;">
+                        <button class="btn btn-primary" style="margin-top: 5px; height:60px;" onclick="newQuestion('QuestionNotEmpty');">Altra domanda</button>
                     </div>
-                    <div id="Canzoni" style="display: none;">
-                        <div class="divCanzoni">
-
-                            <h3 id="CanzoniDelTempo">Le canzoni degli anni 1950</h3>
-                            <div id="containerCarouselCanzoniDelTempo">
-                            </div>
-                        </div>
-                    </div>
-                    <div id="Famosi" style="display: none;">
-                        <div class="divCanzoni">
-                            <h3 id="FamosiDelTempo">Chi era famoso/e' nato attorno al 1950</h3>
-
-                            <div id="containerCarouselFamosiDelTempo">
-
-                            </div>
-                        </div>
-                    </div>
-                    <div id="TvFilm" style="display: none;">
-                        <div class="divCanzoni">
-
-
-                            <h3 id="TVDelTempo">La TV e i film degli anni 1950</h3>
-                            <div id="containerCarouselTVDelTempo">
-
-
-
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-                <div class="overlay" id="overlay" style="display: none;"></div>
-                <!--contenuto overlay-->
-                <div id="box">
-                    <div style="background-color: #D5D5D5; padding-top: 10px;">
-                        <div style="background-color: #A05152; padding-bottom: 10px; padding-top: 10px; display: inline-block; width:100%;">
-                            <label id="titleBox">raccontaci la tua storia</label>
-                            <button id="salva" onclick="salvaStoria();" class="btn btn-primary">Salva</button>
-                            <br />
-                            <div id="raccontaci-switch" style="float:right; margin-right:10px; width:300px;" class="make-switch" data-on-label="Storia personale" data-off-label="Storia pubblica">
-                                <input type="checkbox" checked>
-                            </div>                            
-                        </div>
-                        <div id="divPrivateMemento" style="margin-top: 10px; color: #000; margin-left: 20px; margin-right: 20px; height: 570px;">
-                            <div>
+
+                <div id="Foto" style="display: none;">
+                    <div id="divRootFotoDelTempo" class="divFoto">
+                                <h3 id="FotoDelTempo">Foto pubbliche attorno al 1950</h3>
+                                <div id="containerCarouselFotoDelTempo">
+                                </div>
+                            </div>
+                    <div class="divFoto">
+                                <h3 id="TueFotoDelTempo">Le tue foto attorno al 1950</h3>
+
+                                <div id="containerCarouselMieFotoDelTempo">
+
+                                </div>
+                            </div>
+                </div>
+                <div id="Storie">
+                    <div id="divRootStorieDelTempo" class="divFoto">
+                                <h3 id="StorieDelTempo">Che cosa succedeva nel 1950</h3>
+
+                                <div id="containerCarouselStorieDelTempo">
+
+                                </div>
+                            </div>
+                    <div class="divFoto">
+                        <h3 id="TueStorieDelTempo">Le tue storie nel 1950</h3>
+                        <!--<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:28px; margin-right:28px; margin-bottom:5px; color:black;'>
+                        <a class='fancyboxFotoContext linkStorie' rel='gallery1' href='images/story-book.jpg' title='prova'>
+                            <h4>Titolo titolo titolo titolo</h4>
+
+                            <h5 style="float:left; margin-top:-5px; margin-left:3px;">1906-05-27</h5>
+                            <h5 style="float: right; margin-top: -5px; margin-right:3px;">Bavaria, Germany</h5>
+                            <p style="float:left; text-align:justify; padding:3px 3px 3px 3px;"><img style='float:right;max-width:115px;max-height:115px; padding:3px 3px 3px 3px;' src='images/story-book.jpg' alt='' />L'edizione 1905-06 della Verbandsliga vide la vittoria finale del VfB Lipsia. ' Capocannoniere del torneo fu Edgar Bloher,... Lher,...edizione 1905-06 della Verbandsliga vide la vittoria finale del VfB Lipsia.  1905-06 della Verbandsliga vide la vittoria finale del VfB Lipsia. ' Capocannoniere del torneo fu Edgar Bloher,... Lher,...edizione 1905-06 della Verbandsliga vide la vittoria finale del Capocannoniere del torneo fu Edgar Blo</p>
+                        </a>
+                        </div>-->
+                        <div id="containerCarouselMieStorieDelTempo"></div>
+                    </div>
+                </div>
+                <div id="Canzoni" style="display: none;">
+                    <div class="divCanzoni">
+                        <h3 id="CanzoniDelTempo">Le canzoni degli anni 1950</h3>
+                        <div id="containerCarouselCanzoniDelTempo"></div>
+                    </div>
+                </div>
+                <div id="Famosi" style="display: none;">
+                    <div class="divCanzoni">
+                        <h3 id="FamosiDelTempo">Chi era famoso/e' nato attorno al 1950</h3>
+                        <div id="containerCarouselFamosiDelTempo"></div>
+                    </div>
+                </div>
+                <div id="TvFilm" style="display: none;">
+                   <div class="divCanzoni">
+                      <h3 id="TVDelTempo">La TV e i film degli anni 1950</h3>
+                      <div id="containerCarouselTVDelTempo"></div>
+                   </div>
+                </div>
+            </div>
+         
+            <div class="overlay" id="overlay" style="display: none;"></div>
+            
+            <!--contenuto overlay-->
+            <div id="box">
+                <div style="background-color: #D5D5D5; padding-top: 10px;">
+                    <div style="background-color: #A05152; padding-top: 10px; display: inline-block; width:100%; padding-bottom:10px;">
+                        <label id="titleBox">Raccontaci la tua storia...</label>
+                        <button id="salva" onclick="salvaStoria();" class="btn btn-large btn-primary">Salva</button>
+                        <br/>                                                          
+                    </div>
+                    
+                    <!-- Private Story Form -->                        
+                    <div id="divPrivateMemento" style="margin-top: 10px; color: #000; margin-left: 10px; margin-right: 10px; height: 545px;">
+                        <div>
                             <form>
                                 <div>
-                                    <label for=" titolo" style="float: left; margin-top: 3px;">
-                                Titolo:</label>
-                                <input id="titolo" style="float: left; margin-left: 30px;" class="input-xxlarge" type="text" />
-                            </div>
+                                        <label for=" titolo" style="float: left; margin-top: 3px;">Titolo:</label>
+                                        <input id="titolo" style="float: left; margin-left: 5px; width:350px;" type="text" />
+                                        <label style="float: left; margin-top: 3px; margin-left:15px;">Quando:</label>
+                                        <select id="decade" size="1" style="width: 90px; height: 30px; float: left; margin-left: 5px;" onchange="VisualizzaYear();"></select>
+                                        <select id="year" size="1" style="width: 80px; height: 30px; float: left; margin-left: 5px;" onchange="VisualizzaMonth();"></select>
+                                        <select id="month" size="1" style="width: 120px; height: 30px; float: left; margin-left: 5px;" onchange="VisualizzaDay();"></select>
+                                        <select id="day" size="1" style="width: 80px; height: 30px; float: left; margin-left: 5px;"></select>
+                                </div>
                                 <br />
                                 <br />
                                 <div>
-                                    <label style="float: left; margin-top: 3px;">Dove:</label>
-                                    <!-- <input id="dove" style="float:left; margin-left:30px;" type="text" class="input-xlarge"/>-->
-                                    <!--<select id="country" size="1" style="width: 120px; float: left; margin-left: 5px;" onchange="VisualizzaCity();">
-                </select>-->
-                                    <input id="country" type="text" placeholder="Nazione" style="float: left; margin-left: 5px;" onblur="VisualizzaCity();" />
-                                    <!--<select id="city" size="1" style="width:180px;display:none;float:left;margin-left:5px;" onChange="VisualizzaPlaceName();">-->
-                                    <input id="city" type="text" placeholder="Citta" style="display: none; float: left; margin-left: 5px;" onblur="VisualizzaPlaceName();" />
-                                    <!--</select>-->
-                                    <input id="placeName" type="text" placeholder="Nome del posto" style="width: 200px; display: none; float: left; margin-left: 5px;" />
-                                    <br>
-                                    <br>
-                                    <label style="float: left; margin-top: 3px;">Quando:</label>
-                                    <!--<input id="dove" style="float:left; margin-left:3px;" type="text" class="input-xlarge"/>-->
-                                    <!--<div style="float:left; margin-left:15px;">
-                  <input id="quando" value="10/10/2011" />
-                </div>-->
-                                    <select id="decade" size="1" style="width: 90px; float: left; margin-left: 5px;" onchange="VisualizzaYear();"></select>
-                                    <!--<input id="year" value=""/>-->
-                                    <select id="year" size="1" style="width: 80px; display: none; float: left; margin-left: 5px;" onchange="VisualizzaMonth();"></select>
-                                    <select id="month" size="1" style="width: 120px; display: none; float: left; margin-left: 5px;" onchange="VisualizzaDay();"></select>
-                                    <select id="day" size="1" style="width: 80px; display: none; float: left; margin-left: 5px;"></select>
-                                    <br>
-                                </div>
+                                        <label style="float: left; margin-top: 3px;">Dove:</label>
+                                        <input id="country" type="text" placeholder="Nazione" style="width: 195px; float: left; margin-left: 5px;" />
+                                        <input id="region" type="text" placeholder="Regione" style=" width: 195px; float: left; margin-left: 5px;"/>
+                                        <input id="city" type="text" placeholder="Citta" style=" width: 195px; float: left; margin-left: 5px;" />
+                                        <input id="placeName" type="text" placeholder="Nome del posto" style="width: 195px; float: left; margin-left: 5px;" />
+                                    
+                                        <br>
+                                    </div>
                             </form>
                         </div>
-                        <div style="float: left; margin: 20px;">
+                        <div style="float: left; margin: 10px;" class="row-fluid">
                             <!--<button onClick="editor();">Editor</button>-->
-                            <input type="image" src="button/buttonFoto.jpg" onclick="capturePhoto();">
-                            <br /><br /><br /><br />
-                            <input id="record" type="image" style="margin-top: 10px;" src="button/buttonMicrofono.jpg" onclick="captureAudio();">
-                            <br /><br /><br /><br />
-                            <h3 style="color: #FF0;" id="time">0:00</h3>
-                            <input id="play" type="image" style="margin-top: 10px; visibility: hidden;" src="button/buttonPlay.png" onclick="play();">
-                            <input id="stop" type="image" style="margin-top: 10px; margin-left: 2px; visibility: hidden;" src="button/buttonStop.png" onclick="stop();">
-                        </div>
-                        <div style="float: left; margin-right: 20px; width: 300px; text-align: center;">
-                            <span class="btn btn-success fileinput-button">
-                                <i class="icon-plus icon-white"></i><span>Carica immagini...</span>
-                                <!-- The file input field used as target for the file upload widget -->
-                                <input id="fileupload" type="file" name="files[]" multiple>
-                            </span>
-                            <br>
-                            <br>
-                            <div id="progress" class="progress progress-success progress-striped">
-                                <div class="bar"></div>
-                            </div>
-                            <div id="imgInput" style="overflow: auto; height: 340px;">
-                                <!--<br /><br />-->
-                                <!--<div style="position: relative; display: inline-block;"><img style=' max-height:200px;max-width:220px;' src='img/comera2.jpg' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' /></div><br><br>
-                                <div style="position: relative; display: inline-block; "> <img style=' max-height:200px;max-width:220px;' src='img/comera1.jpg' /><img src='images/Ximm.png' style='position: absolute; right: -12.5px; top: -12.5px; cursor: pointer; ' /></div><br><br>-->
-                            </div>
-                        </div>
-                        <textarea id="editor" rows="10" cols="30" style="width: 450px; height: 430px; float: left;"></textarea>
-                        <!--<br />-->
-                        <!--<button id="switchPublicMemento" onclick="SwitchOverlay('divPublicMemento');" class="btn btn-primary" style="margin-bottom:5px;">Aggiungi un public memento</button>-->
-
-                    </div>             
-
-
-
-
-                    <!--<div  style="background-color: #D5D5D5; padding-top: 10px; display:none;">
-                        <div style="background-color: #A05152; padding-bottom: 10px; padding-top: 10px;">
-                            <label id="titleBoxPublic">raccontaci un public memento</label>
-                            <button id="salvaPublic" class="btn btn-primary" onclick="PostMemento();">Salva</button>
-                        </div>-->
-                        <div id="divPublicMemento" style="margin-top: 10px; color: #000; margin-left: 20px; margin-right: 20px; height: 560px; display: none;">
-                            <form id="formMemento">
-
-                                <div style="float:left; margin-right:8px;">
-                                    <label for="headline" style="margin-top: 3px;">Titolo/Nome</label>
-                                    <input id="headline" style="margin-left: 30px;" type="text" placeholder="titolo" class="form-control" />
+                            
+                            <div class="span7">
+                                <div class="row-fluid">
+                                    <input type="image" src="button/buttonFoto.jpg" onclick="capturePhoto();" style="float:left;">
+                                    <input id="record" type="image" style="float: left; margin-left:10px;" src="button/buttonMicrofono.jpg" onclick="captureAudio();">
+                                    <!--<h3 style="color: #FF0;" id="time">0:00</h3>-->
+                                    <!--<input id="play" type="image" style="margin-top: 10px; visibility: hidden;" src="button/buttonPlay.png" onclick="play();">
+                                    <input id="stop" type="image" style="margin-top: 10px; margin-left: 2px; visibility: hidden;" src="button/buttonStop.png" onclick="stop();">-->
+                                    <div style="float: left; margin-left: 10px; text-align: center;">
+                                        <span class="btn btn-success fileinput-button">
+                                        <i class="icon-plus icon-white"></i><span>Carica immagini...</span>
+                                        <!-- The file input field used as target for the file upload widget -->
+                                        <input id="fileupload" type="file" name="files[]" multiple>
+                                    </span>
+                                        <br>
+                                        <br>
+                                        <div id="progress" class="progress progress-success progress-striped">
+                                        <div class="bar"></div>
+                                    </div>
+                                    </div>
                                 </div>
+                                <div class="row-fluid">   
+                                    <!-- width:490px;-->
+                                    <div id="imgInput" style="overflow: auto; height: 330px;  float:left; margin:10px;">
+                                    <!--<br /><br />-->
+                                    <!--<div style="position: relative; display: inline-block;"><img style=' max-height:200px;max-width:220px;' src='img/comera2.jpg' /><img src='images/Ximm.png' style='position:absolute;right:-12.5px; top:-12.5px;  cursor:pointer;' /></div><br><br>
+                                    <div style="position: relative; display: inline-block; "> <img style=' max-height:200px;max-width:220px;' src='img/comera1.jpg' /><img src='images/Ximm.png' style='position: absolute; right: -12.5px; top: -12.5px; cursor: pointer; ' /></div><br><br>-->
+                                    </div> 
+                                </div>
+                            </div>
+                        <!--</div>-->
+                            <div class="span5">
+                                <textarea id="editor" rows="10" cols="30" style="height: 350px; margin:10px; float:left;"></textarea>
+                                <!--<br />-->
+                                <!--<button id="switchPublicMemento" onclick="SwitchOverlay('divPublicMemento');" class="btn btn-primary" style="margin-bottom:5px;">Aggiungi un public memento</button>-->
+                            </div>
+                        </div>
+                    </div>                        
+                    
+                    <!-- Public Memento Form -->               
+                    <!-- TODO: put the form in order using the grid system -->
+                    <div id="divPublicMemento" style="margin-top: 10px; color: #000; margin-left: 20px; margin-right: 20px; height: 535px; display: none;">
+                        <form id="formMemento">
+
+                            <div style="float:left; margin-right:8px;">
+                                <label for="headline" style="margin-top: 3px;">Titolo/Nome</label>
+                                <input id="headline" style="margin-left: 30px;" type="text" placeholder="titolo" class="form-control" />
+                            </div>
                                 <div style="float: left; margin-right: 8px;">
                                     <label for="text" style="margin-top: 3px;">Descrizione</label>
                                     <textarea id="text" name="text" rows="3" style="width:500px;" placeholder="Introduce una descrizione della risorsa" class="form-control"></textarea>
@@ -418,609 +438,30 @@
                                     <iframe width="650" id="iframeAnteprima" src=""></iframe>
                                 </div>
                             </form>
-
-                        </div>
-                        <!--<br /><br />-->
-                        <!--<button id="switchPublicMemento" onclick="SwitchOverlay('divPrivateMemento');" class="btn btn-primary" style="margin-bottom:5px;">Aggiungi una storia personale</button>-->
-                        
-                    </div>  
+                    </div>
                     
-                    <img src="images/X.png" class="chiudi" />
+                    <!--<br /><br />-->
+                    <!--<button id="switchPublicMemento" onclick="SwitchOverlay('divPrivateMemento');" class="btn btn-primary" style="margin-bottom:5px;">Aggiungi una storia personale</button>-->
+                    <div id="raccontaci-switch" style="margin-top: 3px; width: 300px; margin-bottom:10px;" class="make-switch" data-on-label="Storia personale" data-off-label="Storia pubblica">
+                        <input type="checkbox" checked>
+                    </div>
+                </div>  
+                <img src="images/X.png" class="chiudi" />
             </div>
         </div>
-            <!--fine box-->
-            <!--<button onClick="storage();">Storage</button>-->
-            <!--<label id="debug"></label>-->
-            <div class="overlay" id="overlayCaricamento" style="display: none;"></div>
-            <img src="images/caricamento.gif" id="caricamento" />
+
+        <!-- old debugging components -->           
+        <!--<button onClick="storage();">Storage</button>-->
+        <!--<label id="debug"></label>-->
+        
+        <!-- The Raccontaci Overlay Window -->
+        <div class="overlay" id="overlayCaricamento" style="display: none;"></div>
+        <img src="images/caricamento.gif" id="caricamento" />
     </div>
      
-    
-    <script>
-        function onLoad() {
-            document.addEventListener("deviceready", onDeviceReady, true);
-        }
-        function onDeviceReady() {
-            console.log("PhoneGap is working!!");
-            pictureSource = navigator.camera.PictureSourceType;
-            destinationType = navigator.camera.DestinationType;
-        }
-        function editor() {
-            var editor = $("#editor").data("kendoEditor");
-            //alert(editor.value());
-            $("#debug").text(editor.value());
-        }
-        /*function storage() {
-           /*var storage =$.localStorage;
-           //alert(storage.get('prova'));
-           //var obj = JSON.parse(storage.get('prova'));
-           alert(storage.get('prova').titolo);
-           //$("#debug").text(storage.get('prova'));*/
-
-
-        //EliminaIntestazioneDataImg();
-
-        //alert();
-        //}
-
-
-        var tokern;
-        var Context = new Object;
-        var MieStorie = new Object;
-        var NumeroPaginaMieStorie = 0;
-        var NumeroPaginaMieFoto = 0;
-        var decade;
-        var MieStorieVisible = [];
-        var ContextVisible = new Object;
-        var sessionKey;
-        var personId;
-        var imgStoriaUrl = [];
-        var imgStoriaUrlHtml = [];
-        var imgStoriaHashcode = [];
-        var imgStoriaFilename = [];
-        var imgStoriaThumbnailUrl = [];
-        var imgStoriaModifyId = [];
-        var imgStoriaModifyMementoId = [];
-        var firstDeacade;
-        var personalQuestion = [];
-        var decadeQuestion = [];
-        var decadeSelect = "";
-        var yearSelect = "";
-        var monthSelect = "";
-        var daySelect = "";
-        var countrySelect = "";
-        var placeNameSelect = "";
-        var citySelect = "";
-        var vettIndexMieStorieVisible = [];
-        var vettIndexFotoContextVisible = [];
-        var cities = [];
-        var isModify = false;
-        var idStoryModify = null;
-        var indexModify;
-        var idContextRaccontaci = null;
-        var birthYear;
-        var isFirstOpen = true;
-
-        //statistiche
-        var indexCarouselFoto = 0;
-        var indexCarouselStorie = 0;
-        var indexCarouselCanzoni = 0;
-        var indexCarouselTv = 0;
-        var indexCarouselFamosi = 0;
-        var views = {};
-        var detailViews = {}; 1
-
-        //"responsive"
-        var numFotoPerPag;
-        var isContext = true;
-        var isQuestion = true;
-
-        var titleBox;
-
-        function statisticheDETAILVIEWS(publicMementoId)
-        {
-            // instead of calling the service, let's just count in a hash table which we will later send in one post 
-            if (detailViews[publicMementoId+""]==null) {
-            	detailViews[publicMementoId+""]=1;
-            } else {
-            	detailViews[publicMementoId+""]++;
-            }            
-            ///log/DETAILVIEWS/context/{context_id}/memento/{public_memento_id}
-            $.ajax({
-                  type: "POST",
-                  beforeSend: function (request) {
-                      request.setRequestHeader("PLAY_SESSION", GetSessionKey());
-                  },
-                  url: GetBaseUrl() + "/lifeapi/log/DETAILVIEWS/context/" + GetContextId() + "/memento/" + publicMementoId,
-                  data: "{}",
-                  dataType: "json",
-                  contentType: "application/json",
-            //      async: false,
-                  success: function (data) {
-            //          alert("hola");
-                  },
-                  error: function (data) {
-                  alert("Errore nel passaggio di statistiche");
-              }
-            });
-        }
-
-        function aggiungiEventoFancyBox() {
-            $(".fancyboxFotoContext").fancybox({
-                'showCloseButton': false,
-                afterLoad: function (current, previous) {
-                    //alert(this.index);
-                    //alert(vettIndexFotoContextVisible[this.index]);
-                    this.title = "<div><h1>" + ContextVisible.picture[this.index].headline + "</h1><h5>" + ContextVisible.picture[this.index].text + "</h5> <span> Ti viene in mente qualcosa? </span> <button class='btn btn-primary' onClick='ApriOverlay(" + ContextVisible.picture[this.index].publicMementoId + ");'>Raccontaci!</button> </div>";
-                    statisticheDETAILVIEWS(ContextVisible.picture[this.index].publicMementoId);
-                },
-                'helpers': {
-                    title: { type: 'inside' }
-                } // helpers
-            });
-            $(".fancyboxMieStorie").fancybox({
-                'showCloseButton': false,
-                afterLoad: function () {
-                    this.title = "<div><h1>" + MieStorieVisible[vettIndexMieStorieVisible[this.index]].headline + "</h1><h5>" + MieStorieVisible[vettIndexMieStorieVisible[this.index]].text + "</h5><br>  <button class='btn btn-primary' onClick='ApriOverlayModifica(" + vettIndexMieStorieVisible[this.index] + ");'>Modifica</button></div>";
-                    //this.title = "<div><h1>" + "hola" +"</h1> </div>";
-                },
-                'helpers': {
-                    title: { type: 'inside' }
-                } // helpers
-            });
-        }
-
-        /*$(document).ready(function() {
-            var cities = [];
-            var idCities = [];
-            var tmp = $.getJSON('json/cities.json',function(tmp)
-            { //return timeline             
-                for (var i = 0; i < tmp.length; i++) {
-                    //alert(tmp[i].name);
-                    cities.push(tmp[i].name);
-                    idCities.push(tmp[i].cityId);
-                }
-                
-                $('#dove').autocomplete({
-                    source:cities,
-                    minLength: 3 
-                });     
-            
-            });
-            
-        });*/
-
-        function InizializzaValueLocationAndDate() {
-            document.getElementById("decade").innerHTML = "";
-            var j = 1;
-            document.getElementById("decade").innerHTML += "<option value='" + 0 + "'>" + "decade" + "</option>";
-            for (var i = 1900; i <= 2020; i = i + 10) {
-                document.getElementById("decade").innerHTML += "<option value='" + j + "'>" + i + "</option>";
-                j++;
-            }
-
-            document.getElementById("country").innerHTML = "";
-            document.getElementById("country").innerHTML += "<option value='" + 0 + "'>" + "nazione" + "</option>";
-            document.getElementById("country").innerHTML += "<option value='" + 1 + "'>" + "Italia" + "</option>";
-
-            //inizializzo le citta in raccontaci
-            /*var tmp = $.getJSON('json/cities.json', function (tmp) { //return timeline                
-                for (var i = 0; i < tmp.length; i++) {
-                    //alert(tmp[i].name);
-                    cities.push(tmp[i].name);
-                    //idCities.push(tmp[i].cityId);
-                }
-
-                $('#city').autocomplete({
-                    source: cities,
-                    minLength: 3,
-                    messages: {
-                        noResults: '',
-                        results: function () { }
-                    }
-                });
-
-            });*/
-
-            //inizializza lista mesi in raccontaci
-            document.getElementById("month").innerHTML = "";
-            document.getElementById("month").innerHTML += "<option value='" + 0 + "'>" + "mese" + "</option>";
-            /*var tmp = $.getJSON('json/month.json', function (tmp) { //return timeline               
-                for (var i = 1; i < tmp.length + 1; i++) {
-                    document.getElementById("month").innerHTML += "<option value='" + i + "'>" + tmp[i - 1].name + "</option>";
-                }
-            });*/
-            for(var i = 1;i<=12;i++)
-            {
-                document.getElementById("month").innerHTML += "<option value='" + i + "'>" + i + "</option>";
-            }
-        }
-
-
-
-        $(document).ready(function () {
-            //switch
-            $('#raccontaci-switch').on('switch-change', function (e, data) {
-                var $el = $(data.el)
-                  , value = data.value;
-                //console.log(value);
-                if(value) //storia personale
-                {
-                    document.getElementById("divPrivateMemento").style.display = "inherit";
-                    document.getElementById("divPublicMemento").style.display = "none";
-                    //$("#salva").click(salvaStoria());
-                    document.getElementById("salva").onclick = function () { salvaStoria(); };
-                    document.getElementById("titleBox").innerHTML = titleBox;
-                }
-                else  //storia pubblica
-                {
-                    document.getElementById("divPrivateMemento").style.display = "none";
-                    document.getElementById("divPublicMemento").style.display = "inherit";
-                    //$("#salva").click(PostMemento());
-                    document.getElementById("salva").onclick = function () { PostMemento() };
-                    document.getElementById("titleBox").innerHTML = "Raccontaci una storia pubblica";
-                }
-            });
-
-
-
-            //initializePublicMementoConnection();
-            InizializzaValueLocationAndDate();
-
-            //gestisco la visualizzazione a seconda della versione della App scelta dall'utente
-            if (GetAppVersion() == 1) {
-                //non faccio niente
-                numFotoPerPag = 4;
-            } else if (GetAppVersion() == 2) {
-                //nascondo le domande
-                document.getElementById("divFirstDecadeQuestionEmpty").style.display = "none";
-                document.getElementById("divSecondDecadeQuestionEmpty").style.display = "none";
-                document.getElementById("divFirstPersonalQuestionEmpty").style.display = "none";
-                document.getElementById("divSecondPersonalQuestionEmpty").style.display = "none";
-                document.getElementById("divDecadeQuestionNotEmpty").style.display = "none";
-                document.getElementById("idPersonalQuestionNotEmpty").style.display = "none";
-
-                //sistemo il css
-                $(".divFoto").css({
-                    "margin-top": 30 + "px"
-                
-                });
-                $(".divCanzoni").css({
-                    "margin-top": 30 + "px"
-
-                });
-
-                numFotoPerPag = 4;
-                isQuestion = false;
-            } else if (GetAppVersion() == 3) {
-                //nascondo il contesto
-                document.getElementById("divRootFotoDelTempo").style.display = "none";
-                document.getElementById("divRootStorieDelTempo").style.display = "none";
-                document.getElementById("Canzoni").style.display = "none";
-                document.getElementById("TvFilm").style.display = "none";
-                document.getElementById("Famosi").style.display = "none";
-
-                //sistemo il css
-                $(".divFoto").css({
-                    "width": 1000 + "px"
-                });
-
-                numFotoPerPag = 8;
-                isContext = false;
-            } else {
-                document.getElementById("divFirstDecadeQuestionEmpty").style.display = "none";
-                document.getElementById("divSecondDecadeQuestionEmpty").style.display = "none";
-                document.getElementById("divFirstPersonalQuestionEmpty").style.display = "none";
-                document.getElementById("divSecondPersonalQuestionEmpty").style.display = "none";
-                document.getElementById("divDecadeQuestionNotEmpty").style.display = "none";
-                document.getElementById("idPersonalQuestionNotEmpty").style.display = "none";
-
-                document.getElementById("divRootFotoDelTempo").style.display = "none";
-                document.getElementById("divRootStorieDelTempo").style.display = "none";
-                document.getElementById("Canzoni").style.display = "none";
-                document.getElementById("TvFilm").style.display = "none";
-                document.getElementById("Famosi").style.display = "none";
-
-                //sistemo il css
-                $(".divFoto").css({
-                    "margin-top": 30 + "px"
-
-                });
-                $(".divCanzoni").css({
-                    "margin-top": 30 + "px"
-
-                });
-                $(".divFoto").css({
-                    "width": 1000 + "px"
-                });
-
-                numFotoPerPag = 8;
-                isContext = false;
-                isQuestion = false;
-            }
-            //inserisco nel menù le voci canzoni, famosi, tv se visualizzo il contesto
-            //<li id="liCanzoni"><a href="#">Canzoni</a></li>
-            //                    <li id="liFamosi"><a href="#">Famosi</a></li>
-            //                    <li id="liTvFilm"><a href="#">TV/Film</a></li>
-            //<li id="liRaccontaci"><a href="#">Raccontaci</a></li>
-            //<li id="liLogout"><a href="#">Esci</a></li>
-            //<li id="liRefresh"><a href="#">Aggiorna</a></li>
-            if (isContext)
-            {
-                document.getElementById("ulMenu").innerHTML += "<li id='liCanzoni'><a href='#'>Canzoni</a></li>";
-                document.getElementById("ulMenu").innerHTML += "<li id='liFamosi'><a href='#'>Famosi</a></li>";
-                document.getElementById("ulMenu").innerHTML += "<li id='liTvFilm'><a href='#'>TV/Film</a></li>";
-                document.getElementById("ulMenu").innerHTML += "<li id='liRaccontaci'><a href='#'>Raccontaci</a></li>";
-                document.getElementById("ulMenu").innerHTML += "<li id='liLogout'><a href='#'>Esci</a></li>";
-                document.getElementById("ulMenu").innerHTML += "<li id='liRefresh'><a href='#'>Aggiorna</a></li>";
-            }
-            else
-            {
-                document.getElementById("ulMenu").innerHTML += "<li id='liRaccontaci'><a href='#'>Raccontaci</a></li>";
-                document.getElementById("ulMenu").innerHTML += "<li id='liLogout'><a href='#'>Esci</a></li>";
-                document.getElementById("ulMenu").innerHTML += "<li id='liRefresh'><a href='#'>Aggiorna</a></li>";
-            }
-
-
-            /*applica la classe active al menu nav bar di bootstrap quando viene cliccato*/
-            $('.navbar li').click(function (e) {
-                $('.navbar li').removeClass('active');
-                var $this = $(this);
-                if (!$this.hasClass('active')) {
-                    $this.addClass('active');
-                }
-                var tmp = $this.attr("id");
-                tmp = tmp.substring(2, tmp.length);
-                if (tmp == "Logout") {
-                    Logout();
-                }
-                else if (tmp == "Raccontaci") {
-                    ApriOverlay();
-                } else if (tmp == "Refresh") {
-                    ReloadReminiscens();
-                } else {
-                    nascondiDiv();
-                    document.getElementById(tmp).style.display = "inherit";
-                    //gestione statistiche
-                    if (isContext) {
-                        switch (tmp) {
-                            case "Foto":
-                                for (var i = indexCarouselFoto * 4; i < ((indexCarouselFoto * 4) + 4) ; i++) {
-                                    if (ContextVisible.picture[i] == null) {
-                                        //alert(indexCarouselFoto);
-                                        break;
-                                    }
-                                    else {
-                                        statisticaVIEWS(ContextVisible.picture[i].publicMementoId);
-                                    }
-                                }
-                                break;
-                            case "Storie":
-                                for (var i = indexCarouselStorie * 2; i < ((indexCarouselStorie * 2) + 2) ; i++) {
-                                    if (ContextVisible.story[i] == null) {
-                                        //alert(indexCarouselFoto);
-                                        break;
-                                    }
-                                    else {
-                                        statisticaVIEWS(ContextVisible.story[i].publicMementoId);
-                                    }
-                                }
-                                break;
-                            case "Canzoni":
-                                for (var i = indexCarouselCanzoni * 2; i < ((indexCarouselCanzoni * 2) + 2) ; i++) {
-                                    if (ContextVisible.song[i] == null) {
-                                        //alert(indexCarouselFoto);
-                                        break;
-                                    }
-                                    else {
-                                        statisticaVIEWS(ContextVisible.song[i].publicMementoId);
-                                    }
-                                }
-                                break;
-                            case "TvFilm":
-                                for (var i = indexCarouselTv * 2; i < ((indexCarouselTv * 2) + 2) ; i++) {
-                                    if (ContextVisible.tvFilm[i] == null) {
-                                        //alert(indexCarouselFoto);
-                                        break;
-                                    }
-                                    else {
-                                        statisticaVIEWS(ContextVisible.tvFilm[i].publicMementoId);
-                                    }
-                                }
-                                break;
-                            case "Famosi":
-                                for (var i = indexCarouselFamosi * 2; i < ((indexCarouselFamosi * 2) + 2) ; i++) {
-                                    if (ContextVisible.people[i] == null) {
-                                        //alert(indexCarouselFoto);
-                                        break;
-                                    }
-                                    else {
-                                        statisticaVIEWS(ContextVisible.people[i].publicMementoId);
-                                    }
-                                }
-                                break;
-                        }
-                    }
-                }
-
-                e.preventDefault();
-            });
-
-
-            //var storage =$.localStorage;
-            sessionKey = GetSessionKey();
-            personId = GetPersonId();
-            birthYear = GetPersonYearBirthDate();
-
-            $.ajaxSetup({
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("PLAY_SESSION", sessionKey);
-                }
-            });
-            //alert(birthYear);
-            //alert(personId);
-            //alert(sessionKey);        
-
-            //decade = 1940;
-            decade = GetPersonDeacadeBirthDate();
-            //alert(decade);
-            $("#lbldebug").text("Non ci sono ancora storie del " + decade + "!");
-            $("#FotoDelTempo").text("Foto pubbliche attorno al " + decade);
-            $("#TueFotoDelTempo").text("Le tue foto attorno al " + decade);
-            $("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
-            $("#TueStorieDelTempo").text("Le tue storie nel " + decade);
-
-
-
-                      
-
-            
-
-            //Login();
-            Timeline();
-
-            //if (isContext) {
-            ContextFunction();
-            //}
-
-            //firstDecade = GetFirstDecade(GetPersonDeacadeBirthDate()); //recupero la prima decade che compare nella timeline (guardo la prima che ha una storia raccontata)
-            //alert(firstDecade);
-
-            //CreaTimelineCarousel(firstDecade);
-            
-
-            //decade = firstDeacade;
-            //downloadQuestion(birthYear, decade);
-
-            //GestioneSchermate(firstDecade);
-        });
-
-
-
-
-
-        function YearToDecade(anno) {
-            var tmp = anno / 10;
-            //alert(parseInt(tmp));
-            return parseInt(tmp) * 10;
-        }
-
-        function VisualizzaYear() {
-            //alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
-            //alert(document.getElementById("decade").value);
-            if (document.getElementById("decade").value != 0) {
-                document.getElementById("year").innerHTML = "";
-                decadeSelect = parseInt(document.getElementById("decade").item(document.getElementById("decade").value).text);
-                var j = 1;
-                document.getElementById("year").innerHTML += "<option value='" + 0 + "'>" + "anno" + "</option>";
-                for (var i = decadeSelect; i <= decadeSelect + 9; i++) {
-                    document.getElementById("year").innerHTML += "<option value='" + j + "'>" + i + "</option>";
-                    j++;
-                }
-                $('#year').fadeIn('slow');
-            }
-        }
-
-        function VisualizzaMonth() {
-            //alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
-            if (document.getElementById("year").value != 0) {
-                yearSelect = parseInt(document.getElementById("year").item(document.getElementById("year").value).text);
-                $('#month').fadeIn('slow');
-            }
-        }
-
-        function VisualizzaDay() {
-            //alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
-            if (document.getElementById("month").value != 0) {
-                document.getElementById("day").innerHTML = "";
-                monthSelect = parseInt(document.getElementById("month").value);
-                var j = 1;
-                document.getElementById("day").innerHTML += "<option value='" + 0 + "'>" + "giorno" + "</option>";
-                /*for(var i = 1;i <= 31;i++)
-                {
-                    document.getElementById("day").innerHTML += "<option value='" + i +"'>" + i + "</option>";
-                    j++;
-                }*/
-                switch (monthSelect) {
-                    case 1:
-                    case 3:
-                    case 5:
-                    case 7:
-                    case 8:
-                    case 10:
-                    case 12:
-                        for (var i = 1; i <= 31; i++) {
-                            document.getElementById("day").innerHTML += "<option value='" + i + "'>" + i + "</option>";
-                            j++;
-                        }
-                        break;
-                    case 4:
-                    case 6:
-                    case 9:
-                    case 11:
-                        for (var i = 1; i <= 30; i++) {
-                            document.getElementById("day").innerHTML += "<option value='" + i + "'>" + i + "</option>";
-                            j++;
-                        }
-                        break;
-                    case 2:
-                        for (var i = 1; i <= 28; i++) {
-                            document.getElementById("day").innerHTML += "<option value='" + i + "'>" + i + "</option>";
-                            j++;
-                        }
-                        break;
-                }
-
-                $('#day').fadeIn('slow');
-            }
-        }
-
-        function VisualizzaCity() {
-            //if (document.getElementById("country").value != 0) {
-            //    //document.getElementById("city").innerHTML = "";
-            //    countrySelect = document.getElementById("country").item(document.getElementById("country").value).text;
-            //    /*document.getElementById("city").innerHTML += "<option value='" + 0 +"'>" + "citta + "</option>";
-            //    var cities = $.getJSON('json/cities.json',function(cities)
-            //    { //return timeline
-                        
-            //        //alert(tmp.length);    
-            //        for (var i = 1; i < 40+1; i++) {
-            //            document.getElementById("city").innerHTML += "<option value='" + i +"'>" + cities[i-1].name + "</option>";
-            //        }
-            //    });*/
-            //    $('#city').fadeIn('slow');
-            //}
-
-            countrySelect = $("#country").val();
-            $('#city').fadeIn('slow');
-        }
-
-        function ControllaEsistenzaCitta() {
-            for (var i = 0; i < cities.length; i++) {
-                if ($("#city").val() == cities[i])
-                    return true;
-            }
-            return false;
-        }
-
-        function VisualizzaPlaceName() {
-            //if (ControllaEsistenzaCitta()) {
-            //citySelect = document.getElementById("city").item(document.getElementById("city").value).text;
-            citySelect = $("#city").val();
-            $('#placeName').fadeIn('slow');
-            //}
-        }
-
-        function Prova() {
-            //$('#divMieFotoDelTempo').carousel(2);
-            //$('centrale').scrollLeft('5000px');
-            /*var myCont = document.getElementById ("divRoot");
-            myCont.scrollTop += 100;*/
-            //alert('ciao');
-            //$("#divMieFotoDelTempo").carousel('next');
-        }
-    </script>
+    <!-- Main App script -->
+    <script type="text/javascript" src="js/main.js"></script>
      
-     
+    <!--<img id="provaImgLocale" src=""/>-->
 </body>
 </html>

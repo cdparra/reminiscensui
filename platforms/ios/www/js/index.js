@@ -13,21 +13,29 @@ function Login() {
 	var sessionData = new Object;
 	sessionData.email = $("#email").val();
 	sessionData.password = $("#password").val();
-	
-	var localBaseUrl = GetBaseUrl();
-    console.log("Using this API URL: "+localBaseUrl);
-	if (localBaseUrl == null || localBaseUrl=="") {
-        if (window.location.hostname == "http://base.reminiscens.me") {
-            localBaseUrl = "http://base.reminiscens.me";
-        } else {
-            localBaseUrl = "http://test.reminiscens.me";
-        }
         
-		console.log("Setting API URL to: "+localBaseUrl);
-        SetBaseUrl(localBaseUrl);
+	var serverToUse = "http://base.reminiscens.me";
+
+        if (document.getElementById("testServer").checked) {
+            serverToUse = "http://test.reminiscens.me"; 
 	}
-	
-    console.log("Login with: "+localBaseUrl+Reminiscens.apiRes+Reminiscens.userRes+Reminiscens.loginRes)
+	console.log("Setting API URL to: "+serverToUse);
+        SetBaseUrl(serverToUse);
+
+        var localBaseUrl = serverToUse;
+        //console.log("Using this API URL: "+localBaseUrl);
+	//if (localBaseUrl == null || localBaseUrl=="") {
+        //if (window.location.hostname == "http://base.reminiscens.me") {
+        //    localBaseUrl = "http://base.reminiscens.me";
+        //} else {
+        //    localBaseUrl = "http://test.reminiscens.me";
+        //}
+        
+	//console.log("Setting API URL to: "+localBaseUrl);
+        //SetBaseUrl(localBaseUrl);
+	//}
+
+        console.log("Login with: "+localBaseUrl+Reminiscens.apiRes+Reminiscens.userRes+Reminiscens.loginRes)
 	$.ajax({
 				type : "POST",
 				//url: "http://test.reminiscens.me/lifeapi/user/login",
@@ -43,7 +51,10 @@ function Login() {
 							.split('-')[0] / 10) * 10);
 					SetPersonYearBirthDate(data.person.birthdateAsString
 							.split('-')[0]);
-
+					SetUserId(data.userId);
+					SetUserFullname(data.fullname);
+					SetPersonName(data.fullname);
+					
 				    //controllo che versione dell'app devo visualizzare salvando che opzione ha scelto l'utente
 					if (document.getElementById('version_1').checked) {
 					    SetAppVersion(1);
@@ -54,6 +65,7 @@ function Login() {
 					} else {
 					    SetAppVersion(4);
 					}
+					// TODO: aggiungere una versione dove il contesto e concentrato affianco alle storie e le foto
 
 					location.href = "main.html";
 

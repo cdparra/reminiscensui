@@ -1,8 +1,11 @@
 ﻿@charset "utf-8";
 /* CSS Document */
+.linkStorie{
+    color:black;
+}
 body {
 	background-color: #CCC;
-	background-repeat: repeat-y;	
+	background-repeat: repeat-y;
 }
 #divRoot {
 	width: 1024px;
@@ -43,7 +46,7 @@ label {
 }
 /*allinemanto orrizzontale menù bootstrap*/
 .navbar .nav, .navbar .nav > li {
-	float: none;
+	/*float: none;*/
 	display: inline-block;
  *display:inline; /* ie7 fix */
  *zoom:1; /* hasLayout ie7 trigger */
@@ -57,8 +60,8 @@ label {
 	width: 490px;
 	height: 490px;
 	min-height: 100%;
-	margin-left: 10px;
-	margin-right: 10px;
+	margin-left: 11px;
+	margin-right: 11px;
 	margin-top: 3px;
 	margin-bottom: 0px;
 	background-color: #CCC;

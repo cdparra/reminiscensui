@@ -8,6 +8,12 @@ function nascondiDiv()
 		    document.getElementById("Famosi").style.display = "none";
 		    document.getElementById("TvFilm").style.display = "none";
 		}
+		if(isContextv2)
+		{
+		    document.getElementById("divRootRandom").style.display = "inherit";
+		    document.getElementById("divRootFotoDelTempo").style.display = "none";
+		    document.getElementById("divRootStorieDelTempo").style.display = "none";
+		}
 	}
 
 function azzeraPagineStatistiche()
@@ -21,6 +27,7 @@ function azzeraPagineStatistiche()
 
 function GestioneSchermate(clickdecade)
 {
+    console.log("gestioneSchermate");
     azzeraPagineStatistiche();
 			nascondiDiv();
 			if(clickdecade != null) //per gestire il fatto che la prima volta non ho storie e quindi devo fare vedere
@@ -36,6 +43,8 @@ function GestioneSchermate(clickdecade)
 			$("#TueFotoDelTempo").text("Le tue foto attorno al " + decade);
 			$("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
 			$("#TueStorieDelTempo").text("Le tue storie nel " + decade);
+			$("#RandomDelTempo").text("Contesto del " + decade);
+			
 			
 			
 			
@@ -64,6 +73,11 @@ function GestioneSchermate(clickdecade)
 				    stampaCanzoniContext(0, ContextVisible.song.length);
 				    stampaFamosiContext(0, ContextVisible.people.length);
 				    stampaTvFilmContext(0, ContextVisible.tvFilm.length);
+				}
+				else if (isContextv2)
+				{
+				    //console.log(ContextVisible.picture.length);
+				    stampaContextRandom();
 				}
 				
 				aggiungiEventoFancyBox();

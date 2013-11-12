@@ -32,7 +32,7 @@ function downloadQuestion(birthYear, decade, clicked_id)
             dataType: "json",
         	error: function (data) {
 
-        	    alert("error");
+        	    console.log("errore nel recupero delle question");
 
         	},
 			success: function(questions) 

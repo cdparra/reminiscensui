@@ -62,8 +62,12 @@ function Login() {
 					    SetAppVersion(2);
 					} else if (document.getElementById('version_3').checked) {
 					    SetAppVersion(3);
-					} else {
+					} else if (document.getElementById('version_4').checked) {
 					    SetAppVersion(4);
+					} else if (document.getElementById('version_5').checked) {
+					    SetAppVersion(5);
+					} else if (document.getElementById('version_6').checked) {
+					    SetAppVersion(6);
 					}
 					// TODO: aggiungere una versione dove il contesto e concentrato affianco alle storie e le foto
 

@@ -43,26 +43,12 @@ function GestioneSchermate(clickdecade)
 			$("#TueFotoDelTempo").text("Le tue foto attorno al " + decade);
 			$("#StorieDelTempo").text("Che cosa succedeva nel " + decade);
 			$("#TueStorieDelTempo").text("Le tue storie nel " + decade);
-			$("#RandomDelTempo").text("Contesto del " + decade);
-			
-			
-			
+			$("#RandomDelTempo").text("Il contesto delle tue storie nel " + decade);
 			
 			if(!MiaDecadeIsEmpty())
 			{
 				MieStorieVisible = RecuperaMieStorieDecade();
 				ContextVisible = RecuperaContextDecade();
-				//alert(MieStorieVisible[0].headline);				
-				/*if(MieStorieVisible.length<2) //caso in cui ci sia da stampare solo una foto o nessuna
-				{
-					stampaMieFoto(0,MieStorieVisible.length);
-					stampaMieStorie(0,MieStorieVisible.length);
-				}
-				else //caso in cui ci siano almeno 2 foto quindi stampo le prime 2
-				{
-					stampaMieFoto(0,2);
-					stampaMieStorie(0,2);
-				}*/
 				stampaMieFoto(0,MieStorieVisible.length);
 				stampaMieStorie(0,MieStorieVisible.length);
 				

@@ -1,4 +1,4 @@
-// JavaScript Document
+﻿// JavaScript Document
 var storage = $.localStorage;
 function GetContextId() {
     return storage.get('contextId');
@@ -257,16 +257,21 @@ function EstraiCampiContext(contextList) {
             newContext.startLocation.city = contextList[i].publicMemento.startLocation.city;
             newContext.startLocation.region = contextList[i].publicMemento.startLocation.region;
             newContext.startLocation.country = contextList[i].publicMemento.startLocation.country;
-            newContext.source = contextList[i].publicMemento.source;
-            if (contextList[i].publicMemento.sourceUrl != null)
-                newContext.sourceUrl = contextList[i].publicMemento.sourceUrl.replace("'", "%27");
-            else
-                newContext.sourceUrl = contextList[i].publicMemento.sourceUrl;
-            if (contextList[i].publicMemento.resourceUrl != null)
-                newContext.resourceUrl = contextList[i].publicMemento.resourceUrl.replace("'", "%27");
-            else
-                newContext.resourceUrl = contextList[i].publicMemento.resourceUrl;
         }
+        newContext.source = contextList[i].publicMemento.source;
+        if (contextList[i].publicMemento.sourceUrl != null)
+            newContext.sourceUrl = contextList[i].publicMemento.sourceUrl.replace("'", "%27");
+        else
+            newContext.sourceUrl = contextList[i].publicMemento.sourceUrl;
+        if (contextList[i].publicMemento.resourceUrl != null) {
+            //console.log(newContext.headline);
+            newContext.resourceUrl = contextList[i].publicMemento.resourceUrl.replace("'", "%27");
+        }
+        else {
+            newContext.resourceUrl = contextList[i].publicMemento.resourceUrl;
+            //console.log("null");
+        }
+        
 
         AggiungiContextDecade(newContext, contextList[i].decade, contextList[i].category);
         i++;
@@ -278,24 +283,33 @@ function EstraiCampiContext(contextList) {
     storage.set('Context', Context);
 
 
-    ContextVisible = RecuperaContextDecade();
+    /*ContextVisible = RecuperaContextDecade();
 
-    stampaFotoContext(0, ContextVisible.picture.length);
-    stampaStorieContext(0, ContextVisible.story.length);
-    stampaCanzoniContext(0, ContextVisible.song.length);
-    stampaFamosiContext(0, ContextVisible.people.length);
-    stampaTvFilmContext(0, ContextVisible.tvFilm.length);
-    aggiungiEventoFancyBox();
+    if (isContext) {
+        stampaFotoContext(0, ContextVisible.picture.length);
+        stampaStorieContext(0, ContextVisible.story.length);
+        stampaCanzoniContext(0, ContextVisible.song.length);
+        stampaFamosiContext(0, ContextVisible.people.length);
+        stampaTvFilmContext(0, ContextVisible.tvFilm.length);
+        aggiungiEventoFancyBox();
+    }
+    else if (isContextv2)
+    {
+        console.log(ContextVisible.picture.length);
+        stampaContextRandom();
+    }*/
     /*stampaMieContext(0,MieContextVisible.length);
     
     //alert(msg.aboutPerson.personId);
 
     GestioneSchermate(); nn serve chiamare di nuovo gestione schermate in quanto sono gia posizionato 
                         nella schermata corretta*/
+    GestioneSchermate();
 }
 
 function ContextFunction()
 {
+    console.log("recupero context");
 	InizializzaContextDecade();
 	$.ajax({
 	    type: "GET",
@@ -310,7 +324,7 @@ function ContextFunction()
 			contentType:"application/json",
         	error: function (data) {
 
-        	    alert("errore caricamento context");
+        	    console.log("errore caricamento context");
 
         	},
 			success: function(data) 
@@ -320,7 +334,7 @@ function ContextFunction()
 				//alert("ciao");
 				//alert(timeline.aboutPerson.personId );
 			    
-			    if (isContext) {
+			    if (isContext || isContextv2) {
 			        var contextList = data.publicMementoList;
 			        EstraiCampiContext(contextList);
 			    }
@@ -395,11 +409,7 @@ function stampaFotoContext(inizio, fine)
                 stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img id='ContextFotoMementoId" + indice + "' style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>";
                 //GetSetImage(ContextVisible.picture[indice].publicMementoId, null, ContextVisible.picture[indice].resourceUrl, "ContextFotoMementoId", true);
             }
-            if(nPagina == 0)
-            {
-                //siccome faccio sempre vedere prima le foto quelle delle prima pagina posso metterle come statistica VIEWS
-                statisticaVIEWS(ContextVisible.picture[indice].publicMementoId);
-            }
+            
         }
         else {
         }
@@ -465,48 +475,6 @@ function stampaFotoContext(inizio, fine)
         }
         
     });
-
-    /*var image = document.getElementById("ContextFotoMementoId0");
-    if (image.addEventListener) {
-        image.addEventListener('load', function () {
-            var result = image.getAttribute('src');
-            try {
-                //localStorage.set(id, result);
-                var storage = $.localStorage;
-                var immaginiPubbliche = storage.get("immaginiPubbliche");
-                immaginiPubbliche[id] = result;
-                storage.set("immaginiPubbliche", immaginiPubbliche);
-            }
-            catch (e) {
-                console.log("Storage failed: " + e);
-            }
-        });
-    } else {
-        // it's IE!
-        image.attachEvent('onload', function () {
-        });
-    }*/
-
-    /*$("#ContextFotoMementoId0").load(function () {
-        //alert(e.target.result);
-        //alert($("#ContextFotoMementoId0").attr('src'));
-        /*var array = [];
-        array.push("http://www.elisabistocchi.org/wp-content/uploads/2010/07/wallpaper_gattone.jpg");
-        var blob = new Blob([array], { type: "image/png" });
-        var FR = new FileReader();
-        FR.onload = function(e)
-        {
-            //alert("ciao");
-            //alert(e.target.result);
-            var result = e.target.result;
-            var img = document.getElementById("provaImgLocale");
-            img.setAttribute('src', result);
-        }
-        FR.readAsDataURL(blob);
-        //FR.readAsText($("#ContextFotoMementoId0").attr('src'));
-
-        alert(getBase64Image(document.getElementById("ContextFotoMementoId0")));
-    });*/
 }
 
 /*function getBase64Image(img) {
@@ -587,6 +555,11 @@ function stampaStorieContext(inizio, fine)
             stringaDiv += "</a></div>";
         }
 
+        if (nPagina == 0) {
+            //siccome faccio sempre vedere prima le foto quelle delle prima pagina posso metterle come statistica VIEWS
+            statisticaVIEWS(story.publicMementoId);
+        }
+
         visualizzati++;
         if (visualizzati == 2) {
             visualizzati = 0;
@@ -651,6 +624,7 @@ var playersCanzoni = [];
 var videoCanzoni = [];
 function stampaCanzoniContext(inizio, fine)
 {
+    console.log("stampa canzoni context");
     document.getElementById("containerCarouselCanzoniDelTempo").innerHTML = "";
     var indice = 0;
     var nPagina = 0;
@@ -676,8 +650,8 @@ function stampaCanzoniContext(inizio, fine)
                     videoCanzoni.push(match[2]);
                 } else {
                 }
-                stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'><div id='songCarousel" + song.publicMementoId + "'></div>";
-                stringaDiv += "<h3>" + h + "</h3><h7 style='text-align:center;'>" + t + "</h7>";
+                stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;width:420px;z-index: -99;'><div id='songCarousel" + song.publicMementoId + "'></div>";
+                stringaDiv += "<h3>" + h + "</h3><h7 style='text-align:center;'>" + t.substring(0, 200) + "...</h7>";
                 stringaDiv += "</div>";
                 playersCanzoni.push(song.publicMementoId);
             }
@@ -687,10 +661,17 @@ function stampaCanzoniContext(inizio, fine)
                 {
                     stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
                     stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + song.resourceUrl;
-                    stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t + "</h7>";
+                    stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
                     stringaDiv += "</div>";
                 }
             }
+        }
+        else
+        {
+            stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+            stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + "images/nota.png";
+            stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
+            stringaDiv += "</div>";
         }
         
 
@@ -731,7 +712,7 @@ function stampaCanzoniContext(inizio, fine)
     for (var i = 0; i < videoCanzoni.length; i++) {
         var player = new YT.Player("songCarousel" + playersCanzoni[i], {
             height: '315',
-            width: '420',
+            width: '380',
             videoId: videoCanzoni[i],
             events: {
                 //'onReady': onPlayerReady,
@@ -803,12 +784,12 @@ function stampaFamosiContext(inizio, fine)
         {
             stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
             stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + ContextVisible.people[indice].resourceUrl;
-            stringaDiv +="' class='round'/><h5>" + h + "</h5><h7>" + t + "</h7>";
+            stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
             stringaDiv += "</div>";
         } else {
             stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
             stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + "images/profilo.png";
-            stringaDiv +="' class='round'/><h5>" + h + "</h5><h7>" + t + "</h7>";
+            stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
             stringaDiv += "</div>";
         	
         }
@@ -891,30 +872,6 @@ function stampaTvFilmContext(inizio, fine) {
 
     	if (tvFilm.resourceUrl != null)
         {
-    		//var url = "";
-    		//stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
-    		//if (tipo=="IMAGE") {
-    		//	url = tvFilm.resourceUrl;
-    		//	stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + url;
-    		//	stringaDiv +="' class='round'/><h4>" + h + "</h4><h6>" + t + "</h6>";
-    		//} else {
-    		//    //alert("ciao");
-    		//	/*url = tvFilm.resourceUrl.replace('watch?v=', 'embed/');
-    		//	stringaDiv += "<iframe width='420' height='315' src='" + url + "' frameborder='0' allowfullscreen style='margin-top:30px;'></iframe><h5>"; 
-    		//	stringaDiv += h + "</h5><h7 style='text-align:center;'>" + t + "</h7>";*/
-    		//    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
-    		//    var match = tvFilm.resourceUrl.match(regExp);
-    		//    if (match && match[2].length == 11) {
-    		//        //alert(match[2]);
-    		//        videoTv.push(match[2]);
-    		//    } else {
-    		//    }
-    		//    stringaDiv += "<div id='tvCarousel" + tvFilm.publicMementoId + "'></div>";
-    		//    stringaDiv += "<h3>" + h + "</h3><h7 style='text-align:center;'>" + t + "</h7>";
-    		//    playersTv.push(tvFilm.publicMementoId);
-    		//}
-    		//stringaDiv += "</div>";
-
     		if (tipo == "VIDEO") {
     		    //estraggo il video id di ogni filmato youtube e lo salvo in un vettore
     		    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
@@ -924,8 +881,8 @@ function stampaTvFilmContext(inizio, fine) {
     		        videoTv.push(match[2]);
     		    } else {
     		    }
-    		    stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;max-width:420px;'><div id='tvCarousel" + tvFilm.publicMementoId + "'></div>";
-    		    stringaDiv += "<h3>" + h + "</h3><h7 style='text-align:center;'>" + t + "</h7>";
+    		    stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;width:420px;z-index: -99;'><div id='tvCarousel" + tvFilm.publicMementoId + "'></div>";
+    		    stringaDiv += "<h3>" + h + "</h3><h7 style='text-align:center;'>" + t.substring(0, 200) + "...</h7>";
     		    stringaDiv += "</div>";
     		    playersTv.push(tvFilm.publicMementoId);
     		}
@@ -933,14 +890,20 @@ function stampaTvFilmContext(inizio, fine) {
     		    if (tipo == "IMAGE") {
     		        stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
     		        stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + tvFilm.resourceUrl;
-    		        stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t + "</h7>";
+    		        stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
+    		        stringaDiv += "</div>";
+    		    }
+    		    else if (tipo == "TEXT") {
+    		        stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+    		        stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + "images/profilo.png";
+    		        stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
     		        stringaDiv += "</div>";
     		    }
     		}
         } else {
             stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
             stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + "images/profilo.png";
-            stringaDiv +="' class='round'/><h5>" + h + "</h5><h7>" + t + "</h7>";
+            stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
             stringaDiv += "</div>";
         	
         }
@@ -983,7 +946,7 @@ function stampaTvFilmContext(inizio, fine) {
         //alert(playersTv[i]);
         var player = new YT.Player("tvCarousel" + playersTv[i], {
             height: '315',
-            width: '420',
+            width: '380',
             videoId: videoTv[i],
             events: {
                 //'onReady': onPlayerReady,
@@ -1098,47 +1061,436 @@ function AggiornaContext(country, city, region, locale, decade) {
 }
 
 
-function player_state_changed(state) {
-    /* This event is fired whenever the player's state changes.
-       Possible values are:
-       - unstarted (-1)
-       - ended (0)
-       - playing (1)
-       - paused (2) 
-       - buffering (3)
-       - video cued (5). 
-       When the SWF is first loaded it will broadcast an unstarted (-1) event.
-       When the video is cued and ready to play it will broadcast a video cued event (5).
-    */
+//function player_state_changed(state) {
+//    /* This event is fired whenever the player's state changes.
+//       Possible values are:
+//       - unstarted (-1)
+//       - ended (0)
+//       - playing (1)
+//       - paused (2) 
+//       - buffering (3)
+//       - video cued (5). 
+//       When the SWF is first loaded it will broadcast an unstarted (-1) event.
+//       When the video is cued and ready to play it will broadcast a video cued event (5).
+//    */
 
-    alert("ciao");
-    if (state == 1 || state == 2) {
-        alert('the "play" button *might* have been clicked');
+//    alert("ciao");
+//    if (state == 1 || state == 2) {
+//        alert('the "play" button *might* have been clicked');
+//    }
+
+//}
+
+function stampaContextRandom()
+{
+    /*
+    *foto
+    *canzoni
+    *storie
+    *TV/Film
+    *Famosi
+    */
+    console.log("stampo random");
+    var indiciContext = [];
+
+    //inizio da una categoria random
+    var categoria = Math.floor((Math.random() * 5) + 1);;
+
+    var prima = true;
+    var stringaDivCarousel = "<div id='divCarouselRandom' class='carousel slide'>";
+    var stringaDivEle = "<div class='carousel-inner'>";
+    var stringaDiv = "";
+    var nPagina = 0;
+
+    var vettPublicMementoId = [];
+
+    for (var i = 0; i < 5; i++) {
+        indiciContext[i] = 0;
     }
 
-}
+    //console.log("length:" + ContextVisible.song.length);
+    while (indiciContext[0] < ContextVisible.picture.length ||
+           indiciContext[1] < ContextVisible.song.length ||
+           indiciContext[2] < ContextVisible.story.length ||
+           indiciContext[3] < ContextVisible.tvFilm.length ||
+           indiciContext[4] < ContextVisible.people.length)
+    {
+        console.log("nuovo ciclo");
+        var tmp = [];
 
-/*$(document).ready(function() {	
-	/*$.ajax({
-            type:"GET",
-           	url: "http://test.reminiscens.me/lifeapi/context/person/"+GetPersonId(),
-			beforeSend: function (request)
+        if(categoria == 0)  //stampo foto
+        {
+            if (indiciContext[0] < ContextVisible.picture.length)
             {
-                request.setRequestHeader("PLAY_SESSION", GetSessionKey());
-            },
-            processData: false,
-            dataType: "json",
-			contentType:"application/json",
-        	error: function (data) {
+                vettPublicMementoId.push(tmp);            
 
-        	    //alert("error");
+                console.log("stampo foto");
+                var visualizzati = 0;
+                var indice = indiciContext[0];            
+                stringaDiv = "";
 
-        	},
-			success: function(timeline) 
-			{
-				alert("ciao");
+                while (ContextVisible.picture[indice] != null && visualizzati < 4) {
+                    if (ContextVisible.picture[indice].resourceUrl != null) {
+                        //alert(MieStorieVisible[i].mementoList.length);
+                        //alert(indice);
+                        //InserisciIndiceFotoContext(indice);
+                        var imageGet = GetImage(ContextVisible.picture[indice].publicMementoId, true);
+                        if (imageGet != null) {
+                            stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + imageGet + "' title='" + ContextVisible.picture[indice].headline + "' > <img style='max-width:225px;max-height:200px;' src='" + imageGet + "' alt='' /> </a></br></div>";
+                        }
+                        else {
+                            stringaDiv += "<div class='immaginiFoto'><a class='fancyboxFotoContext' rel='gallery1' href='" + ContextVisible.picture[indice].resourceUrl + "' title='" + ContextVisible.picture[indice].headline + "' > <img id='ContextFotoMementoId" + indice + "' style='max-width:225px;max-height:200px;' src='" + ContextVisible.picture[indice].resourceUrl + "' alt='' /> </a></br></div>";
+                            //GetSetImage(ContextVisible.picture[indice].publicMementoId, null, ContextVisible.picture[indice].resourceUrl, "ContextFotoMementoId", true);
+                        }
+                        if (prima) {
+                            statisticaVIEWS(ContextVisible.picture[indice].publicMementoId);
+                        }
+                    }
+                    else {
+                    }
+
+                    vettPublicMementoId[vettPublicMementoId.length - 1][visualizzati] = ContextVisible.picture[indice].publicMementoId;
+                    //console.log(vettPublicMementoId[vettPublicMementoId.length - 1][visualizzati]);
+
+                    visualizzati++;
+                    if (visualizzati == 4) {
+                        //visualizzati = 0;
+                        if (prima) {
+                            stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
+                            prima = false;
+                        }
+                        else {
+                            stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
+                        }
+
+                        //nPagina++;
+                        stringaDiv = "";
+                    }
+
+
+                    indice++;
+                }
+            
+                indiciContext[0] = indice;
+
+
+                if (stringaDiv != "") {
+                    if (prima) {
+                        stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
+                        prima = false;
+                    }
+                    else {
+                        stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
+                    }
+                }
             }
-        	
-   		});*/
-	
-//})
+        }
+        else if (categoria == 1) //stampo le canzoni
+        {
+            if (indiciContext[1] < ContextVisible.song.length) {
+                vettPublicMementoId.push(tmp);
+
+                console.log("stampo canzoni");
+                var indice = indiciContext[1];
+                stringaDiv = "";
+
+                if (ContextVisible.song[indice] != null) {
+                    var song = ContextVisible.song[indice];
+                    var h = song.headline == null ? "" : song.headline;
+                    var t = song.text == null ? "" : song.text;
+                    var tipo = song.resourceType;
+
+                    if (song.resourceUrl != null) {
+                        if (tipo == "VIDEO") {
+                            //estraggo il video id di ogni filmato youtube e lo salvo in un vettore
+                            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+                            var match = song.resourceUrl.match(regExp);
+                            if (match && match[2].length == 11) {
+                                //alert(match[2]);
+                                videoCanzoni.push(match[2]);
+                            } else {
+                                //console.log("errore");
+                            }
+                            //console.log("id: " + song.publicMementoId);
+                            stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;width:420px;z-index: -99;'><div class='songCarousel' id='songCarousel" + song.publicMementoId + "'></div>";
+                            stringaDiv += "<h3>" + h + "</h3><h7 style='text-align:center;'>" + t.substring(0, 200) + "...</h7>";
+                            stringaDiv += "</div>";
+                            playersCanzoni.push(song.publicMementoId);
+                        }
+                        else {
+                            if (tipo == "IMAGE") {
+                                stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+                                stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + song.resourceUrl;
+                                stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
+                                stringaDiv += "</div>";
+                            }
+                        }
+                    }
+                    else {
+                        //console.log("errore 2        " + h);
+                        stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+                        stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + "images/nota.png";
+                        stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
+                        stringaDiv += "</div>";
+                    }
+
+                    vettPublicMementoId[vettPublicMementoId.length - 1][0] = song.publicMementoId;
+
+                    if (prima) {
+                        stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
+                        statisticaVIEWS(song.publicMementoId);
+                        prima = false;
+                    }
+                    else {
+                        stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
+                    }
+                    indice++;
+                }
+
+                indiciContext[1] = indice;
+            }
+        }
+        else if (categoria == 2) //stampo le storie
+        {
+            if (indiciContext[2] < ContextVisible.story.length) {
+                vettPublicMementoId.push(tmp);
+
+                console.log("stampo storie");
+                var visualizzati = 0;
+                var indice = indiciContext[2];
+                stringaDiv = "";
+                var margin = 23;
+
+                while (ContextVisible.story[indice] != null && visualizzati < 2) {
+                    // these variables are added to avoid nulls from being printed
+                    var story = ContextVisible.story[indice];
+                    var h = story.headline == null ? "" : story.headline;
+                    var t = story.text == null ? "" : story.text;
+                    var tipo = story.resourceType;
+                    var startDate = story.startDate.exactDateAsString == null ? story.startDate.decade : story.startDate.exactDateAsString.replace("00:00:00", "");
+                    var startLocation = story.startLocation.country == null ?
+                            "" : story.startLocation.region == null ?
+                                    story.startLocation.country : story.startLocation.city == null ?
+                                            story.startLocation.region + ", " + story.startLocation.country :
+                                            story.startLocation.region + "," + story.startLocation.region + ", " + story.startLocation.country;
+
+                    if (story.resourceUrl != null) {
+                        stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
+                        stringaDiv += "<a class='fancyboxStorieContext linkStorie' rel='gallery3' href='" + story.resourceUrl + "' title='prova'>";
+                        stringaDiv += "<h4>" + h + "</h4>";
+                        stringaDiv += "<h5 style='float:left; margin-top:-5px; margin-left:3px;'>" + startDate + "</h5>";
+                        stringaDiv += "<h5 style='float: right; margin-top: -5px; margin-right:3px;'>" + startLocation + "</h5><br><br>";
+                        stringaDiv += "<p style='float:left; text-align:justify; padding:3px 3px 3px 3px;width:438px;'><img style='float:right;max-width:115px;max-height:115px; padding:3px 3px 3px 3px;' src='" + story.resourceUrl + "' alt='' />" + t.substring(0, 300) + "...</p>";
+                        stringaDiv += "</a></div>";
+                    }
+                    else {
+                        stringaDiv += "<div style='float:left;width:440px; border-style:solid;border-width:2px;border-color:#000; height:200px; margin-left:" + margin + "px; margin-right:" + margin + "px; margin-bottom:5px;'>";
+                        stringaDiv += "<a class='fancyboxStorieContext linkStorie' rel='gallery3' href='images/story-book.jpg' title='prova'>";
+                        stringaDiv += "<h4>" + h + "</h4>";
+                        stringaDiv += "<h5 style='float:left; margin-top:-5px; margin-left:3px;'>" + startDate + "</h5>";
+                        stringaDiv += "<h5 style='float: right; margin-top: -5px; margin-right:3px;'>" + startLocation + "</h5><br><br>";
+                        stringaDiv += "<p style='line-height: 1.5em;float:left; text-align:justify; padding:3px 3px 3px 3px;width:438px;'><img style='float:right;max-width:115px;max-height:115px; padding:3px 3px 3px 3px;' src='" + "images/story-book.jpg" + "' alt='' />" + t.substring(0, 300) + "...</p>";
+                        stringaDiv += "</a></div>";
+                    }
+
+                    vettPublicMementoId[vettPublicMementoId.length - 1][visualizzati] = story.publicMementoId;
+
+                    if (prima) {
+                        statisticaVIEWS(story.publicMementoId);
+                    }
+
+                    visualizzati++;
+                    if (visualizzati == 2) {
+                        if (prima) {
+                            stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
+                            prima = false;
+                        }
+                        else {
+                            stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
+                        }
+                        stringaDiv = "";
+                    }
+                    indice++;
+                }
+
+                indiciContext[2] = indice;
+
+                if (stringaDiv != "") {
+                    if (prima) {
+                        stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
+                        prima = false;
+                    }
+                    else {
+                        stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
+                    }
+                }
+            }
+        }
+        else if (categoria == 3) //stampo le Tv/Film
+        {
+            if (indiciContext[3] < ContextVisible.tvFilm.length) {
+                vettPublicMementoId.push(tmp);
+
+                console.log("stampo tv/film");
+                var indice = indiciContext[3];
+                stringaDiv = "";
+
+                if (ContextVisible.tvFilm[indice] != null) {
+                    var tvFilm = ContextVisible.tvFilm[indice];
+                    var h = tvFilm.headline == null ? "" : tvFilm.headline;
+                    var t = tvFilm.text == null ? "" : tvFilm.text;
+                    var tipo = tvFilm.resourceType;
+                    if (tvFilm.resourceUrl != null) {
+                        if (tipo == "VIDEO") {
+                            //estraggo il video id di ogni filmato youtube e lo salvo in un vettore
+                            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+                            var match = tvFilm.resourceUrl.match(regExp);
+                            if (match && match[2].length == 11) {
+                                //alert(match[2]);
+                                videoTv.push(match[2]);
+                            } else {
+                            }
+                            stringaDiv += "<div style='margin: 0px 40px 0px 40px;float:left;width:420px;z-index: -99;'><div id='tvCarousel" + tvFilm.publicMementoId + "'></div>";
+                            stringaDiv += "<h3>" + h + "</h3><h7 style='text-align:center;'>" + t.substring(0, 200) + "...</h7>";
+                            stringaDiv += "</div>";
+                            playersTv.push(tvFilm.publicMementoId);
+                        }
+                        else {
+                            if (tipo == "IMAGE") {
+                                stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+                                stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + tvFilm.resourceUrl;
+                                stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
+                                stringaDiv += "</div>";
+                            }
+                            else if (tipo == "TEXT") {
+                                stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+                                stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + "images/profilo.png";
+                                stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
+                                stringaDiv += "</div>";
+                            }
+                        }
+                    } else {
+                        stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+                        stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + "images/profilo.png";
+                        stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
+                        stringaDiv += "</div>";
+                    }
+
+                    vettPublicMementoId[vettPublicMementoId.length - 1][0] = tvFilm.publicMementoId;
+
+                    if (prima) {
+                        stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
+                        statisticaVIEWS(tvFilm.publicMementoId);
+                        prima = false;
+                    }
+                    else {
+                        stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
+                    }
+                    indice++;
+                }
+                indiciContext[3] = indice;
+            }
+        }
+        else if (categoria == 4)  //stampo i famosi
+        {
+            if (indiciContext[4] < ContextVisible.people.length) {
+                vettPublicMementoId.push(tmp);
+
+                console.log("stampo famosi");
+                var indice = indiciContext[4];
+                stringaDiv = "";
+                if (ContextVisible.people[indice] != null) {
+                    var h = ContextVisible.people[indice].headline == null ? "" : ContextVisible.people[indice].headline;
+                    var t = ContextVisible.people[indice].text == null ? "" : ContextVisible.people[indice].text;
+                    if (ContextVisible.people[indice].resourceUrl != null) {
+                        stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+                        stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + ContextVisible.people[indice].resourceUrl;
+                        stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
+                        stringaDiv += "</div>";
+                    } else {
+                        stringaDiv += "<div style='align: center; margin: 0px 40px 0px 40px;float:left;width:420px;'>";
+                        stringaDiv += "<img style='max-width:500px; max-height:300px;margin-top:30px;' src='" + "images/profilo.png";
+                        stringaDiv += "' class='round'/><h5>" + h + "</h5><h7>" + t.substring(0, 200) + "...</h7>";
+                        stringaDiv += "</div>";
+                    }
+
+                    vettPublicMementoId[vettPublicMementoId.length - 1][0] = ContextVisible.people[indice].publicMementoId;
+
+                    if (prima) {
+                        stringaDivEle += "<div class='item active'>" + stringaDiv + "</div>";
+                        statisticaVIEWS(ContextVisible.people[indice].publicMementoId);
+                        prima = false;
+                    }
+                    else {
+                        stringaDivEle += "<div class='item'>" + stringaDiv + "</div>";
+                    }
+                    indice++;
+                }
+                indiciContext[4] = indice;
+            }
+        }
+
+        categoria++;
+        if (categoria > 4)
+            categoria = 0;
+
+        nPagina++;
+        
+    }
+
+    
+
+    stringaDivEle += "</div>";
+
+    stringaDivCarousel += stringaDivEle;
+
+    stringaDivCarousel += "<a class='carousel-control left' href='#divCarouselRandom' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divCarouselRandom' data-slide='next'>&rsaquo;</a>";
+    stringaDivCarousel += "</div>";
+
+    document.getElementById("containerCarouselRandom").innerHTML = stringaDivCarousel;
+
+    //console.log("dim videoCanzoni: " + videoCanzoni.length);
+    for (var i = 0; i < videoCanzoni.length; i++) {
+        var player = new YT.Player("songCarousel" + playersCanzoni[i], {
+            height: '300',
+            width: '350',
+            videoId: videoCanzoni[i],
+            events: {
+                //'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChangeCanzoni
+            }
+        });
+    }
+
+    for (var i = 0; i < videoTv.length; i++) {
+        //alert(playersTv[i]);
+        var player = new YT.Player("tvCarousel" + playersTv[i], {
+            height: '300',
+            width: '350',
+            videoId: videoTv[i],
+            events: {
+                //'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChangeTv
+            }
+        });
+    }
+
+    //document.getElementById("divCarouselRandom").innerHTML += "<a class='carousel-control left' href='#divCarouselRandom' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divCarouselRandom' data-slide='next'>&rsaquo;</a>";
+
+    $('#divCarouselRandom').carousel({
+        interval: 5 * 60 * 1000
+    });
+
+    $("#divCarouselRandom").bind("slid", function () {
+        indexCarouselRandom++;
+
+        if (indexCarouselRandom > nPagina)
+            indexCarouselRandom = 0;
+
+        for (var i = 0;i<vettPublicMementoId[indexCarouselRandom].length;i++)
+        {
+            statisticaVIEWS(vettPublicMementoId[indexCarouselRandom][i]);
+        }
+    });
+    
+}

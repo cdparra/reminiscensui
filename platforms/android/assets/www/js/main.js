@@ -73,6 +73,7 @@ var indexCarouselStorie = 0;
 var indexCarouselCanzoni = 0;
 var indexCarouselTv = 0;
 var indexCarouselFamosi = 0;
+var indexCarouselRandom = 0;
 var views = {};
 var detailViews = {};
 1
@@ -81,6 +82,7 @@ var detailViews = {};
 var numFotoPerPag;
 var isContext = true;
 var isQuestion = true;
+var isContextv2 = false;
 
 var titleBox;
 
@@ -168,7 +170,7 @@ function aggiungiEventoFancyBox() {
 			.fancybox(
 					{
 						'showCloseButton' : false,
-						afterLoad : function() {
+						afterLoad: function () {
 							console.log(vettIndexMieStorieVisible[this.index]);
 							this.title = "<div><h1>"
 									+ MieStorieVisible[vettIndexMieStorieVisible[this.index]].headline
@@ -176,7 +178,7 @@ function aggiungiEventoFancyBox() {
 									+ MieStorieVisible[vettIndexMieStorieVisible[this.index]].text
 									+ "</h5><br>  <button class='btn btn-primary' onClick='ApriOverlayModifica("
 									+ vettIndexMieStorieVisible[this.index]
-									+ ");'>Modifica</button>"
+									+ ");'>Modifica</button>&nbsp;"
 									+ "<button class='btn btn-danger' onClick='DeleteStory("
 									+ this.index
 									+ ");'>Cancella la Storia</button></div>";
@@ -200,7 +202,7 @@ function aggiungiEventoFancyBox() {
 									+ MieStorieVisible[this.index].text
 									+ "</h5><br>  <button class='btn btn-primary' onClick='ApriOverlayModifica("
 									+ this.index
-									+ ");'>Modifica</button>"
+									+ ");'>Modifica</button>&nbsp;"
 									+ "<button class='btn btn-danger' onClick='DeleteStory("
 									+ this.index
 									+ ");'>Cancella la Storia</button></div>";
@@ -300,14 +302,12 @@ function InizializzaValueLocationAndDate() {
 			+ "giorno" + "</option>";
 }
 
-$(document)
-		.ready(
+$(document).ready(
 				function() {
 					//se e' la prima volta che entro nell'app devo creare l'oggetto immaginiLocali per salavare le immagini in locale
 					var localStorage = $.localStorage;
 					var immaginiPrivate = localStorage.get("immaginiPrivate");
-					var immaginiPubbliche = localStorage
-							.get("immaginiPubbliche");
+					var immaginiPubbliche = localStorage.get("immaginiPubbliche");
 					if (immaginiPrivate == null)
 						localStorage.set("immaginiPrivate", new Object());
 					if (immaginiPubbliche == null)
@@ -395,7 +395,7 @@ $(document)
 
 						numFotoPerPag = 8;
 						isContext = false;
-					} else {
+					} else if (GetAppVersion() == 4) {
 						/*document.getElementById("divFirstDecadeQuestionEmpty").style.display = "none";
 						document.getElementById("divSecondDecadeQuestionEmpty").style.display = "none";
 						document.getElementById("divFirstPersonalQuestionEmpty").style.display = "none";
@@ -427,7 +427,40 @@ $(document)
 						numFotoPerPag = 8;
 						isContext = false;
 						isQuestion = false;
+					} else if (GetAppVersion() == 5) { //versione con contesto random e mostro anche domande
+					    document.getElementById("Canzoni").style.display = "none";
+					    document.getElementById("TvFilm").style.display = "none";
+					    document.getElementById("Famosi").style.display = "none";
+
+					    numFotoPerPag = 4;
+					    isContextv2 = true;
+					    isContext = false;
+					    
+					} else if (GetAppVersion() == 6) {
+					    document.getElementById("divQuestionNotEmpty").style.display = "none";
+					    document.getElementById("divQuestionEmpty").style.display = "none";
+
+					    document.getElementById("Canzoni").style.display = "none";
+					    document.getElementById("TvFilm").style.display = "none";
+					    document.getElementById("Famosi").style.display = "none";
+
+					    numFotoPerPag = 4;
+					    isContextv2 = true;
+					    isContext = false;
+
+					    //sistemo il css
+					    $(".divFoto").css({
+					        "margin-top": 30 + "px"
+
+					    });
+					    $(".divCanzoni").css({
+					        "margin-top": 30 + "px"
+
+					    });
 					}
+
+
+
 					//inserisco nel menu' le voci canzoni, famosi, tv se visualizzo il contesto
 					//<li id="liCanzoni"><a href="#">Canzoni</a></li>
 					//                    <li id="liFamosi"><a href="#">Famosi</a></li>
@@ -560,9 +593,9 @@ $(document)
 					//Login();
 					Timeline();
 
-					//if (isContext) {
-					ContextFunction();
-					//}
+					if (isContext || isContextv2) {
+					    ContextFunction();
+					}
 
 					//firstDecade = GetFirstDecade(GetPersonDeacadeBirthDate()); //recupero la prima decade che compare nella timeline (guardo la prima che ha una storia raccontata)
 					//alert(firstDecade);
@@ -582,11 +615,12 @@ function YearToDecade(anno) {
 }
 
 function VisualizzaYear() {
+    //console.log("visualizzayear()");
 	//alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
 	//alert(document.getElementById("decade").value);
 	if (document.getElementById("decade").value != 0) {
 		document.getElementById("year").innerHTML = "";
-		//decadeSelect = parseInt(document.getElementById("decade").item(document.getElementById("decade").value).text);
+		var decadeSelect = parseInt(document.getElementById("decade").item(document.getElementById("decade").value).text);
 		var j = 1;
 		document.getElementById("year").innerHTML += "<option value='" + 0
 				+ "'>" + "anno" + "</option>";
@@ -611,7 +645,7 @@ function VisualizzaDay() {
 	//alert(document.getElementById("decade").item(document.getElementById("decade").value).text);
 	if (document.getElementById("month").value != 0) {
 		document.getElementById("day").innerHTML = "";
-		//monthSelect = parseInt(document.getElementById("month").value);
+		var monthSelect = parseInt(document.getElementById("month").value);
 		var j = 1;
 		document.getElementById("day").innerHTML += "<option value='" + 0
 				+ "'>" + "giorno" + "</option>";

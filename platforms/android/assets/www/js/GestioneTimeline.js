@@ -247,7 +247,7 @@ function Timeline()
 		contentType:"application/json",
        	error: function (data) {
 
-       	    alert("errore caricamento timeline");
+       	    console.log("errore caricamento timeline");
 
        	},
 		success: function(timeline) 
@@ -322,15 +322,17 @@ function Timeline()
 				stampaMieStorie(0,2);
 			}*/	
 				
-			stampaMieFoto(0,MieStorieVisible.length);
-			stampaMieStorie(0,MieStorieVisible.length);
-			aggiungiEventoFancyBox();
+			//stampaMieFoto(0,MieStorieVisible.length);
+			//stampaMieStorie(0,MieStorieVisible.length);
+			//aggiungiEventoFancyBox();
 	/*);
 }*/
 			//alert(msg.aboutPerson.personId);
 			isFirstOpen = false;
 			
-			GestioneSchermate();
+			if (!isContext && !isContextv2) {
+			    GestioneSchermate();
+			}
            }
         	
 	});

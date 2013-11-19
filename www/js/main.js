@@ -593,9 +593,9 @@ $(document).ready(
 					//Login();
 					Timeline();
 
-					if (isContext || isContextv2) {
+					//if (isContext || isContextv2) {
 					    ContextFunction();
-					}
+					//}
 
 					//firstDecade = GetFirstDecade(GetPersonDeacadeBirthDate()); //recupero la prima decade che compare nella timeline (guardo la prima che ha una storia raccontata)
 					//alert(firstDecade);

@@ -445,7 +445,18 @@ function stampaMieFoto(inizio, fine)
     }
     stringaDivEle += "</div>";
 
+    //stringaDivCarousel += "<ol class='carousel-indicator'>";
+    //stringaDivCarousel += "<li data-target='#divMieFotoDelTempo' data-slide-to='0' class='active'></li>";
+
+    //for (var i = 1; i < nPagina; i++) {
+    //    stringaDivCarousel += "<li data-target='#divMieFotoDelTempo' data-slide-to='" + i + "'></li>";
+    //}
+
+    //stringaDivCarousel += "</ol>";
+
     stringaDivCarousel += stringaDivEle;
+
+    
 
     stringaDivCarousel += "<a class='carousel-control left' href='#divMieFotoDelTempo' data-slide='prev'>&lsaquo;</a> <a class='carousel-control right' href='#divMieFotoDelTempo' data-slide='next'>&rsaquo;</a>";
     stringaDivCarousel += "</div>";
@@ -483,13 +494,23 @@ function stampaMieStorie(inizio, fine)
 	    //t = t.replace(/<p>/g, "");
 	    //t = t.replace(/</p>/g, "");
 
-	    var strReplace = "<p>";
+	    /*var strReplace = "<p[a-zA-Z]*>";
 	    var re = new RegExp(strReplace, 'g');
 	    t = t.replace(re, '');
 
 	    strReplace = "</p>";
 	    re = new RegExp(strReplace, 'g');
 	    t = t.replace(re, '');
+
+	    var strReplace = "<div[a-zA-Z]*>";
+	    var re = new RegExp(strReplace, 'g');
+	    t = t.replace(re, '');
+
+	    strReplace = "</div>";
+	    re = new RegExp(strReplace, 'g');
+	    t = t.replace(re, '');*/
+
+	    t = t.replace(/(<([^>]+)>)/ig, ""); //rimuovo tutti i tag html
 
 	    var tipo = story.resourceType;
 	    var startDate = story.startDate.exactDateAsString == null ? story.startDate.decade : story.startDate.exactDateAsString.replace("00:00:00", "");

@@ -45,7 +45,9 @@
     <script type="text/javascript" src="js/index.js"></script>
     <script>
         $(document).ready(function () {
-            //SetSessionKey("");        
+            //SetSessionKey("");
+
+
             var location = window.location.hostname;    
             if (location.indexOf("base.reminiscens.me") != -1) {
                 // we are on production server
@@ -62,9 +64,11 @@
 	        document.getElementById("productionServer").checked=true;
             }
             //SetBaseUrl("http://base.reminiscens.me");
+            
             if (GetSessionKey() != "" && GetSessionKey() != null) {
+                //alert(GetSessionKey());
                 statisticaOPEN();
-                location.href = "main.html";
+                //location.href = "main.html";
             }
 
 	    $('#productionServer').click(function () {

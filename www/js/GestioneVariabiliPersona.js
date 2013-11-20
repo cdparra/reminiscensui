@@ -116,7 +116,7 @@ function GetImage(id, isPublic)
     }
     else {
         var immaginiPrivate = storage.get("immaginiPrivate");
-        if (immaginiPrivate[id]) {
+        if (immaginiPrivate[id + "-" + GetPersonId()]) {
             console.log("immagine recuperata dallo storage");
             return immaginiPrivate[id];
         }
@@ -167,7 +167,7 @@ function GetSetImage(id, fileHashcode, url, ImgId, isPublic)
                     }
                     else {
                         var immaginiPrivate = storage.get("immaginiPrivate");
-                        immaginiPrivate[id] = result;
+                        immaginiPrivate[id + "-" + GetPersonId()] = result;
                         storage.set("immaginiPrivate", immaginiPrivate);
                     }
                 }

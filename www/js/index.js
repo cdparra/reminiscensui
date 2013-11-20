@@ -70,8 +70,8 @@ function Login() {
 					    SetAppVersion(6);
 					}
 					// TODO: aggiungere una versione dove il contesto e concentrato affianco alle storie e le foto
-
-					location.href = "main.html";
+					statisticaOPEN();
+					//location.href = "main.html";
 
 				},
 				error : function(data) {
@@ -136,7 +136,7 @@ function statisticaOPEN() {
 
         success: function (data) {
             //salert("hola");
-
+            location.href = "main.html";
         },
         error: function (data) {
             alert("Errore nel passaggio di statistiche OPEN");

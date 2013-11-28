@@ -1014,14 +1014,15 @@ function CreaContext() {
         dataType: "json",
         contentType: "application/json",
 
-//        async: false,
+        async: false,
 
         success: function (data) {
             //salert("hola");
 
         },
         error: function (data) {
-            alert("Errore nella creazione del context personale");
+            //alert("Errore nella creazione del context personale");
+            console.log("Errore nella creazione del context personale");
         }
     });
 }
